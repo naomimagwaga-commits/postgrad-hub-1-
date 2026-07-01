@@ -1,0 +1,11 @@
+# Handle line endings automatically
+* text=auto eol=lf
+
+# Force text for source
+*.js    text
+*.jsx   text
+*.json  text
+*.md    text
+*.html  text
+*.css   text
+*.sql   text
