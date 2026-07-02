@@ -120,7 +120,10 @@ export default function Register() {
               {busy ? 'Creating account…' : 'Create account'}
             </button>
             <p className="text-xs text-center text-slate-500">
-              By signing up you agree to our Terms and Privacy Policy.
+              By signing up you agree to our{' '}
+              <Link to="/terms" className="text-brand font-semibold hover:text-gold-600 underline">Terms</Link>
+              {' '}and{' '}
+              <Link to="/privacy" className="text-brand font-semibold hover:text-gold-600 underline">Privacy Policy</Link>.
             </p>
           </form>
 
