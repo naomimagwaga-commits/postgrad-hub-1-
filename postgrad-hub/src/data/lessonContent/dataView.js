@@ -1,6 +1,6 @@
 /**
  * SPSS Basics · Lesson 2 — Data View vs. Variable View
- * The single most-confused topic in beginner SPSS. Voice: Magwaga + reassurance.
+  * The single most-confused topic in beginner SPSS. Voice: beginner-friendly with reassurance.
  */
 
 export const DATA_VIEW_LESSON = {
