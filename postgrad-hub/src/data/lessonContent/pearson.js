@@ -1,6 +1,6 @@
 /**
  * Pearson Correlation — fully fleshed out at proper teaching depth.
- * Voice: N. K. Magwaga's tutor-by-your-side voice (scenes, analogies, slow
+ * Voice: a tutor-by-your-side voice (scenes, analogies, slow
  * "why before how", plain English then technical).
  * Coverage: everything a student needs to defend Pearson in a thesis viva.
  */
