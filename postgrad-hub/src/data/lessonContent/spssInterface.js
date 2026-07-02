@@ -1,6 +1,6 @@
 /**
  * SPSS Basics · Lesson 1 — The SPSS Interface
- * Written for an anxious true beginner. Magwaga voice with reassurance every few paragraphs.
+  * Written for an anxious true beginner. Reassuring beginner-friendly voice with reassurance every few paragraphs.
  * Pacing: very slow, every term defined the first time used, no jargon without explanation.
  */
 
