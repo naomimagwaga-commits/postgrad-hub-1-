@@ -1,4 +1,4 @@
-// Auto-generated from "The Complete SPSS Handbook for Beginners" by N. K. Magwaga (2026).
+// Auto-generated from "The Complete SPSS Handbook for Beginners" (2026).
 // Excerpts are placed per-lesson; full handbook content remains the property of the author.
 
 export const GUIDEBOOK_EXCERPTS = {
