@@ -504,7 +504,7 @@ function ResourcesSection({ lesson }) {
       {r.guidebookExcerpt && (
         <div className="p-5 rounded-2xl border border-slate-200 bg-white">
           <p className="text-xs uppercase tracking-wider font-bold text-gold-700 flex items-center gap-2">
-            <span>📖</span> From The Complete SPSS Handbook for Beginners — N. K. Magwaga (2026)
+            <span>📖</span> From The Complete SPSS Handbook for Beginners (2026)
           </p>
           <div className="mt-3 text-sm text-slate-700 whitespace-pre-wrap leading-relaxed max-h-[480px] overflow-y-auto pr-2 border-l-2 border-gold/30 pl-4">
             {r.guidebookExcerpt}

@@ -4,6 +4,7 @@ import Footer from '../components/Footer.jsx';
 import {
   IconForm, IconChart, IconBook, IconCalendar, IconCheck,
   IconArrow, IconSpark, IconShield,
+  IconMail, IconWhatsApp, IconPhone, IconLocation,
 } from '../components/Icons.jsx';
 
 /* ── HERO illustration: editorial geometric mark ── */
@@ -283,7 +284,7 @@ export default function Home() {
                     <div className="mt-10 flex items-center gap-4 pt-6 border-t border-white/10">
                       <div className="w-12 h-12 rounded-full bg-gold text-brand font-bold flex items-center justify-center">PG</div>
                       <div>
-                        <p className="font-semibold">The The Postgraduate Data Hub team</p>
+                        <p className="font-semibold">The Postgraduate Data Hub team</p>
                         <p className="text-xs text-brand-100/70">Nairobi, Kenya</p>
                       </div>
                     </div>
@@ -333,6 +334,79 @@ export default function Home() {
                 </Link>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────  CONTACT  ───────────────────────── */}
+      <section id="contact" className="py-20 lg:py-24 bg-parchment">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto">
+            <span className="eyebrow">— Contact us</span>
+            <h2 className="display text-4xl sm:text-5xl text-brand mt-4">
+              Have a question? Talk to us directly.
+            </h2>
+            <div className="gold-rule mx-auto mt-6"/>
+            <p className="mt-6 text-slate-600 leading-relaxed">
+              We respond to enquiries within a few hours during business days.
+              WhatsApp is fastest for urgent thesis deadlines.
+            </p>
+          </div>
+
+          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {/* Email card */}
+            <a href="mailto:postgraduatedatahub@gmail.com"
+               className="group card-elevated p-7 hover:border-gold/40 hover:-translate-y-1 transition-all text-left">
+              <div className="w-12 h-12 rounded-2xl bg-brand text-gold flex items-center justify-center group-hover:rotate-6 transition-transform">
+                <IconMail className="w-6 h-6"/>
+              </div>
+              <p className="mt-5 text-xs font-bold uppercase tracking-wider text-slate-500">Email us</p>
+              <p className="mt-2 font-display font-bold text-brand text-lg break-all">
+                postgraduatedatahub@gmail.com
+              </p>
+              <p className="mt-2 text-sm text-slate-500">Best for enquiries, quotes and paperwork.</p>
+            </a>
+
+            {/* WhatsApp card */}
+            <a href="https://wa.me/254779568272?text=Hello%20Postgraduate%20Data%20Hub%2C%20I%27d%20like%20to%20know%20more%20about%20your%20services."
+               target="_blank" rel="noopener noreferrer"
+               className="group card-elevated p-7 hover:border-gold/40 hover:-translate-y-1 transition-all text-left">
+              <div className="w-12 h-12 rounded-2xl bg-brand text-gold flex items-center justify-center group-hover:rotate-6 transition-transform">
+                <IconWhatsApp className="w-6 h-6"/>
+              </div>
+              <p className="mt-5 text-xs font-bold uppercase tracking-wider text-slate-500">WhatsApp us</p>
+              <p className="mt-2 font-display font-bold text-brand text-lg">
+                +254 779 568 272
+              </p>
+              <p className="mt-2 text-sm text-slate-500">Fastest response · Mon-Sat 8am-8pm EAT.</p>
+            </a>
+
+            {/* Location card */}
+            <div className="card-elevated p-7">
+              <div className="w-12 h-12 rounded-2xl bg-brand text-gold flex items-center justify-center">
+                <IconLocation className="w-6 h-6"/>
+              </div>
+              <p className="mt-5 text-xs font-bold uppercase tracking-wider text-slate-500">Based in</p>
+              <p className="mt-2 font-display font-bold text-brand text-lg">
+                Nairobi, Kenya
+              </p>
+              <p className="mt-2 text-sm text-slate-500">Serving postgraduate researchers across Kenya, remotely.</p>
+            </div>
+          </div>
+
+          {/* M-Pesa info strip */}
+          <div className="mt-10 rounded-2xl border border-gold/30 bg-gold/5 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-gold-700">M-Pesa payments</p>
+              <p className="text-sm text-slate-700 mt-1">
+                <strong>Paybill 4096483</strong> · Account <strong>7028M</strong> · The Postgraduate Data Hub Kenya
+              </p>
+            </div>
+            <a href="https://wa.me/254779568272?text=I%27m%20having%20trouble%20with%20a%20payment."
+               target="_blank" rel="noopener noreferrer"
+               className="btn-outline text-sm">
+              Payment issue? WhatsApp us
+            </a>
           </div>
         </div>
       </section>

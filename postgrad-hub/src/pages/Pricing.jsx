@@ -114,7 +114,7 @@ export default function Pricing() {
                 <Link to="/register" className="btn-primary">
                   Get started <IconArrow className="w-4 h-4"/>
                 </Link>
-                <a href="mailto:hello@postgraddatahub.co.ke" className="text-sm font-semibold text-brand hover:text-gold-600">
+                <a href="mailto:postgraduatedatahub@gmail.com" className="text-sm font-semibold text-brand hover:text-gold-600">
                   Enquire →
                 </a>
               </div>
@@ -127,7 +127,7 @@ export default function Pricing() {
           <p className="mt-2 text-slate-600">
             Tell us about your project and we'll point you to the right service.
           </p>
-          <a href="mailto:hello@postgraddatahub.co.ke?subject=Project enquiry"
+          <a href="mailto:postgraduatedatahub@gmail.com?subject=Project enquiry"
              className="btn-gold mt-6 inline-flex">
             Get a recommendation <IconArrow className="w-4 h-4"/>
           </a>
