@@ -1,6 +1,6 @@
 // SPSS Academy course catalog.
 // Each lesson supports a Notes pack (currently available) and Video walkthrough (coming soon).
-// Each lesson has a Resources tab populated from N. K. Magwaga's
+// Each lesson has a Resources tab populated from the platform team's
 // "The Complete SPSS Handbook for Beginners" + curated external references.
 
 import { GUIDEBOOK_EXCERPTS } from './guidebookExcerpts.js';
