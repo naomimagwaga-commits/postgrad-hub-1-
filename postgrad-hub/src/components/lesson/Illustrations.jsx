@@ -3862,7 +3862,7 @@ export function MasterDecisionTree() {
         <text x="48" y="82" fontSize="10" fill="#0A2E5D">Test (your destination — open the [lesson-id] for full walkthrough)</text>
         <text x="300" y="42" fontSize="10" fill="#64748B"><tspan fontStyle="italic">np: …</tspan> = non-parametric backup when assumptions fail</text>
         <text x="300" y="60" fontSize="10" fill="#64748B">forthcoming = lesson is on the curriculum roadmap</text>
-        <text x="300" y="78" fontSize="10" fill="#64748B">Master Decision Tree © N. K. Magwaga / Postgraduate Data Hub Kenya</text>
+        <text x="300" y="78" fontSize="10" fill="#64748B">Master Decision Tree © The Postgraduate Data Hub, Kenya</text>
       </g>
     </svg>
   );
