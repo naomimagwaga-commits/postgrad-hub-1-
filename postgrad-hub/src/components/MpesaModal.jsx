@@ -214,6 +214,14 @@ function SuccessPanel({ item }) {
           ? '🎉 Your notes pack is now available. The lesson opens automatically in a moment.'
           : 'We\'ve noted your payment. You\'ll see your unlock appear as soon as our team confirms it.'}
       </p>
+      <p className="text-xs text-slate-400 mt-6">
+        Payment issue?{' '}
+        <a href="https://wa.me/254779568272?text=I%27m%20having%20trouble%20with%20a%20payment."
+           target="_blank" rel="noopener noreferrer"
+           className="text-gold-700 font-semibold hover:underline">
+          WhatsApp us on +254 779 568 272
+        </a>
+      </p>
     </div>
   );
 }

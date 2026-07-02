@@ -1,6 +1,6 @@
 import Logo from './Logo.jsx';
 import { Link } from 'react-router-dom';
-import { IconMail, IconPhone } from './Icons.jsx';
+import { IconMail, IconPhone, IconWhatsApp, IconLocation } from './Icons.jsx';
 
 export default function Footer() {
   return (
@@ -45,13 +45,32 @@ export default function Footer() {
           <div className="md:col-span-3">
             <h4 className="text-gold text-xs font-bold uppercase tracking-[0.2em] mb-5">Get in touch</h4>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-2.5">
-                <IconMail className="w-4 h-4 text-gold/70"/> hello@postgraddatahub.co.ke
+              <li>
+                <a href="mailto:postgraduatedatahub@gmail.com"
+                   className="flex items-center gap-2.5 hover:text-gold transition">
+                  <IconMail className="w-4 h-4 text-gold/70"/>
+                  postgraduatedatahub@gmail.com
+                </a>
               </li>
-              <li className="flex items-center gap-2.5">
-                <IconPhone className="w-4 h-4 text-gold/70"/> +254 700 000 000
+              <li>
+                <a href="https://wa.me/254779568272"
+                   target="_blank" rel="noopener noreferrer"
+                   className="flex items-center gap-2.5 hover:text-gold transition">
+                  <IconWhatsApp className="w-4 h-4 text-gold/70"/>
+                  WhatsApp +254 779 568 272
+                </a>
               </li>
-              <li className="text-brand-100/70 pt-1">Nairobi, Kenya</li>
+              <li>
+                <a href="tel:+254779568272"
+                   className="flex items-center gap-2.5 hover:text-gold transition">
+                  <IconPhone className="w-4 h-4 text-gold/70"/>
+                  +254 779 568 272
+                </a>
+              </li>
+              <li className="flex items-center gap-2.5 text-brand-100/70 pt-1">
+                <IconLocation className="w-4 h-4 text-gold/70"/>
+                Nairobi, Kenya
+              </li>
             </ul>
           </div>
         </div>

@@ -20,6 +20,7 @@ export default function PublicNav() {
     { to: '/#features', label: 'Services' },
     { to: '/#about', label: 'About' },
     { to: '/pricing', label: 'Pricing' },
+    { to: '/#contact', label: 'Contact' },
   ];
 
   return (
