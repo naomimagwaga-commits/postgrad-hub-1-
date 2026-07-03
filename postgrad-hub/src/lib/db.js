@@ -13,6 +13,30 @@ const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 export const isSupabase = BACKEND === 'supabase' && SUPABASE_URL && SUPABASE_KEY;
 export const supabase = isSupabase ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
+/* ---------------- Single-active-session helpers ---------------- */
+const SESSION_TOKEN_KEY = 'pgh_session_token';
+const genSessionToken = () =>
+  'st_' + Math.random().toString(36).slice(2) + '_' + Date.now().toString(36);
+const getBrowserSessionToken = () => {
+  try { return localStorage.getItem(SESSION_TOKEN_KEY); } catch { return null; }
+};
+const setBrowserSessionToken = (t) => {
+  try { localStorage.setItem(SESSION_TOKEN_KEY, t); } catch {}
+};
+const clearBrowserSessionToken = () => {
+  try { localStorage.removeItem(SESSION_TOKEN_KEY); } catch {}
+};
+
+// Custom exception raised when the current browser's session was invalidated
+// by another login (another device logged in as this user).
+export class SessionInvalidatedError extends Error {
+  constructor() {
+    super('Your session was ended because your account was signed in on another device.');
+    this.name = 'SessionInvalidatedError';
+    this.code = 'SESSION_INVALIDATED';
+  }
+}
+
 /* ---------------- M-Pesa config ---------------- */
 export const MPESA = {
   paybill: '4096483',
@@ -67,11 +91,14 @@ export const auth = {
       });
       if (error) throw error;
       // Profile row is auto-created by the handle_new_user() trigger on auth.users.
-      // We UPDATE it here to add the phone + institution the trigger didn't have.
+      // We UPDATE it here to add the phone + institution the trigger didn't have,
+      // AND write a fresh session_token for this brand-new browser session.
       if (data.user) {
+        const token = genSessionToken();
         await supabase.from('profiles')
-          .update({ name, phone, institution })
+          .update({ name, phone, institution, session_token: token, last_login_at: new Date().toISOString() })
           .eq('id', data.user.id);
+        setBrowserSessionToken(token);
       }
       return data.user;
     }
@@ -79,13 +106,17 @@ export const auth = {
     if (d.users.find((u) => u.email.toLowerCase() === email.toLowerCase())) {
       throw new Error('An account with this email already exists.');
     }
+    const token = genSessionToken();
     const user = {
       id: uid(), name, email, phone, institution, password,
       role: email.toLowerCase().startsWith('admin@') ? 'admin' : 'student',
+      session_token: token,
+      last_login_at: new Date().toISOString(),
       createdAt: new Date().toISOString(),
     };
     d.users.push(user);
     d.sessions.current = user.id;
+    setBrowserSessionToken(token);
     write(d);
     activities.log('account', 'Created your account');
     return user;
@@ -95,11 +126,26 @@ export const auth = {
     if (isSupabase) {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
+      // Single-active-session: generate a new token, write to the profile,
+      // and save it in THIS browser. Any other device holding an OLD token
+      // will fail the check on next `current()` call and be forced to sign in again.
+      if (data.user) {
+        const token = genSessionToken();
+        await supabase.from('profiles')
+          .update({ session_token: token, last_login_at: new Date().toISOString() })
+          .eq('id', data.user.id);
+        setBrowserSessionToken(token);
+      }
       return data.user;
     }
     const d = read();
     const user = d.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
     if (!user || user.password !== password) throw new Error('Invalid email or password.');
+    // Same single-session logic for the local (non-Supabase) backend.
+    const token = genSessionToken();
+    user.session_token = token;
+    user.last_login_at = new Date().toISOString();
+    setBrowserSessionToken(token);
     d.sessions.current = user.id;
     write(d);
     activities.log('login', 'Signed in to your account');
@@ -107,6 +153,7 @@ export const auth = {
   },
 
   async logout() {
+    clearBrowserSessionToken();
     if (isSupabase) { await supabase.auth.signOut(); return; }
     const d = read();
     d.sessions.current = null;
@@ -118,11 +165,35 @@ export const auth = {
       const { data } = await supabase.auth.getUser();
       if (!data.user) return null;
       const { data: profile } = await supabase.from('profiles').select('*').eq('id', data.user.id).single();
+      // Single-active-session check: if the profile's session_token exists
+      // and does NOT match what this browser holds, another device has taken
+      // over. Force sign-out here and raise the special error so the UI
+      // can show the "signed out because another device signed in" message.
+      if (profile && profile.session_token) {
+        const browserToken = getBrowserSessionToken();
+        if (browserToken && browserToken !== profile.session_token) {
+          await supabase.auth.signOut();
+          clearBrowserSessionToken();
+          throw new SessionInvalidatedError();
+        }
+      }
       return profile || data.user;
     }
     const d = read();
     if (!d.sessions.current) return null;
-    return d.users.find((u) => u.id === d.sessions.current) || null;
+    const user = d.users.find((u) => u.id === d.sessions.current);
+    if (!user) return null;
+    // Same session-token check for the local backend.
+    if (user.session_token) {
+      const browserToken = getBrowserSessionToken();
+      if (browserToken && browserToken !== user.session_token) {
+        d.sessions.current = null;
+        clearBrowserSessionToken();
+        write(d);
+        throw new SessionInvalidatedError();
+      }
+    }
+    return user;
   },
 
   async resetPassword({ email, newPassword }) {
@@ -236,14 +307,9 @@ export const unlocks = {
     if (u) {
       u.paymentStatus = 'claimed';
       u.claimedAt = new Date().toISOString();
-      // 🚀 Notes-pack lessons unlock INSTANTLY upon claim. Admin still sees them
-      // in the dashboard for reconciliation but doesn't need to approve manually.
-      if (u.itemType === 'lesson' && u.format === 'notes') {
-        u.status = 'unlocked';
-        u.paymentStatus = 'confirmed';
-        u.approvedAt = new Date().toISOString();
-        u.autoApproved = true;
-      }
+      // 🔒 SECURITY: no auto-approve. ALL unlocks require admin verification
+      // against actual M-Pesa records before the student gains access.
+      // Admin approves via the Admin dashboard → Unlock requests tab.
       write(d);
     }
     return u;
