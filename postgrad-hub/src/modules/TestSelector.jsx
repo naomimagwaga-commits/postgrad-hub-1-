@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { recommend } from '../data/testEngine.js';
 import { activities, unlocks } from '../lib/db.js';
+import { TEST_SELECTOR_UNLOCK_PRICE } from '../data/prices.js';
 import MpesaModal from '../components/MpesaModal.jsx';
 import {
   IconChart, IconCheck, IconArrow, IconSpark, IconLock,
@@ -79,7 +80,7 @@ export default function TestSelector() {
             <h1 className="display text-4xl lg:text-5xl text-brand mt-2">Statistical Test Selector</h1>
             <p className="mt-3 text-slate-600 max-w-2xl leading-relaxed">
               Answer four guided questions and we'll recommend the right analysis for your study.
-              Each test is unlocked individually — pay only for the analyses you actually need.
+              Each test is unlocked individually at <strong>KES {TEST_SELECTOR_UNLOCK_PRICE.toLocaleString('en-KE')}</strong> — pay only for the analyses you actually need.
             </p>
           </div>
           <span className="badge-gold shrink-0">
@@ -146,6 +147,7 @@ export default function TestSelector() {
                       itemKey: testKey(r.key),
                       itemType: 'test',
                       itemName: r.name,
+                      priceKES: TEST_SELECTOR_UNLOCK_PRICE,
                     })}/>
                 );
               })}
@@ -220,7 +222,7 @@ function TestCard({ test, rank, isUnlocked, onUnlock }) {
               Assumptions checklist, full SPSS steps, sample output, and interpretation walkthrough.
             </p>
             <button onClick={onUnlock} className="btn-gold mt-5">
-              <IconLock className="w-4 h-4"/> Unlock with M-Pesa
+              <IconLock className="w-4 h-4"/> Unlock · KES {TEST_SELECTOR_UNLOCK_PRICE.toLocaleString('en-KE')}
             </button>
           </div>
         )}
