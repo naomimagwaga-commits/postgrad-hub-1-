@@ -25,6 +25,28 @@ const TABS = [
 export default function Admin() {
   const { user } = useAuth();
   const [tab, setTab] = useState('overview');
+  const [pendingCounts, setPendingCounts] = useState({ unlocks: 0, submissions: 0, analysis: 0, bookings: 0 });
+
+  // Poll pending counts every 30s so the badges stay fresh.
+  useEffect(() => {
+    if (!user || user.role !== 'admin') return;
+    const refreshCounts = async () => {
+      try {
+        const [u, s, a, b] = await Promise.all([
+          admin.unlocks(), admin.submissions(), admin.analysisOrders(), admin.bookings(),
+        ]);
+        setPendingCounts({
+          unlocks:     u.filter((x) => x.status === 'pending' && x.paymentStatus === 'claimed').length,
+          submissions: s.filter((x) => x.status === 'submitted').length,
+          analysis:    a.filter((x) => x.status === 'submitted').length,
+          bookings:    b.filter((x) => x.status === 'pending').length,
+        });
+      } catch { /* ignore */ }
+    };
+    refreshCounts();
+    const iv = setInterval(refreshCounts, 30000);
+    return () => clearInterval(iv);
+  }, [user]);
 
   if (!user) return <Navigate to="/login" replace />;
   if (user.role !== 'admin') {
@@ -54,14 +76,22 @@ export default function Admin() {
 
       {/* Tabs */}
       <div className="flex gap-1 overflow-x-auto border-b border-slate-200 -mx-4 sm:mx-0 px-4 sm:px-0">
-        {TABS.map(({ id, label, icon: Icon }) => (
-          <button key={id} onClick={() => setTab(id)}
-            className={`px-4 py-3 text-sm font-bold whitespace-nowrap flex items-center gap-2 border-b-2 -mb-px transition ${
-              tab === id ? 'border-gold text-brand' : 'border-transparent text-slate-400 hover:text-slate-600'
-            }`}>
-            <Icon className="w-4 h-4"/> {label}
-          </button>
-        ))}
+        {TABS.map(({ id, label, icon: Icon }) => {
+          const badge = pendingCounts[id];
+          return (
+            <button key={id} onClick={() => setTab(id)}
+              className={`px-4 py-3 text-sm font-bold whitespace-nowrap flex items-center gap-2 border-b-2 -mb-px transition ${
+                tab === id ? 'border-gold text-brand' : 'border-transparent text-slate-400 hover:text-slate-600'
+              }`}>
+              <Icon className="w-4 h-4"/> {label}
+              {badge > 0 && (
+                <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-[10px] font-bold bg-red-500 text-white animate-pulse">
+                  {badge}
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       <div className="reveal">
@@ -101,7 +131,7 @@ function Overview() {
     { label: 'Submissions in progress', value: m.submissionsPending, icon: IconForm, accent: 'gold' },
     { label: 'Submissions ready', value: m.submissionsReady, icon: IconCheck, accent: 'emerald' },
     { label: 'Pending unlocks', value: m.unlocksPending, icon: IconLock, accent: 'amber' },
-    { label: 'Payments claimed', value: m.unlocksClaimed, icon: IconCheck, accent: 'gold' },
+    { label: '🔔 Payments to verify', value: m.unlocksClaimed, icon: IconCheck, accent: m.unlocksClaimed > 0 ? 'red' : 'gold' },
     { label: 'Analysis orders open', value: m.analysisOrdersOpen, icon: IconSpark, accent: 'gold' },
     { label: 'Bookings pending', value: m.bookingsPending, icon: IconCalendar, accent: 'gold' },
     { label: 'Upcoming sessions', value: m.bookingsUpcoming, icon: IconClock, accent: 'brand' },
@@ -148,6 +178,7 @@ function KpiCard({ label, value, icon: Icon, accent }) {
     gold: 'bg-gold/15 text-gold-700',
     emerald: 'bg-emerald-100 text-emerald-700',
     amber: 'bg-amber-100 text-amber-700',
+    red: 'bg-red-100 text-red-700',
   };
   return (
     <div className="card-elevated p-5">
@@ -181,7 +212,23 @@ function RecentList({ title, items, render, empty }) {
 /* ─────────── USERS ─────────── */
 function Users() {
   const [list, setList] = useState([]);
-  useEffect(() => { admin.users().then(setList); }, []);
+  const [expandedId, setExpandedId] = useState(null);
+
+  const refresh = () => admin.users().then(setList);
+  useEffect(() => { refresh(); }, []);
+
+  const clearAllDevices = async (userId, userName) => {
+    if (!window.confirm(`Force-clear ALL devices from ${userName}'s account? They'll be signed out and their next login will register as device #1.`)) return;
+    await admin.clearUserDevices(userId);
+    await refresh();
+    alert(`✅ Cleared all devices for ${userName}.`);
+  };
+
+  const removeOneDevice = async (userId, deviceId, deviceName, userName) => {
+    if (!window.confirm(`Remove "${deviceName}" from ${userName}'s account? They'll be signed out from that device.`)) return;
+    await admin.removeUserDevice(userId, deviceId);
+    await refresh();
+  };
 
   return (
     <div className="card-elevated overflow-hidden">
@@ -198,30 +245,109 @@ function Users() {
               <tr className="text-xs uppercase tracking-wider text-slate-500">
                 <th className="px-6 py-3">Name</th>
                 <th className="px-6 py-3">Email</th>
-                <th className="px-6 py-3">Institution</th>
                 <th className="px-6 py-3">Phone</th>
+                <th className="px-6 py-3">Devices</th>
                 <th className="px-6 py-3">Joined</th>
+                <th className="px-6 py-3"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {list.map((u) => (
-                <tr key={u.id} className="hover:bg-slate-50">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-brand text-gold font-bold flex items-center justify-center text-sm">
-                        {u.name.charAt(0).toUpperCase()}
-                      </div>
-                      <span className="font-semibold text-brand">{u.name}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-slate-600">{u.email}</td>
-                  <td className="px-6 py-4 text-slate-600">{u.institution || '—'}</td>
-                  <td className="px-6 py-4 text-slate-600">{u.phone}</td>
-                  <td className="px-6 py-4 text-slate-500 text-xs">
-                    {new Date(u.createdAt).toLocaleDateString()}
-                  </td>
-                </tr>
-              ))}
+              {list.map((u) => {
+                const deviceCount = (u.devices || []).length;
+                const isExpanded = expandedId === u.id;
+                return [
+                    <tr key={u.id} className="hover:bg-slate-50">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-full bg-brand text-gold font-bold flex items-center justify-center text-sm">
+                            {(u.name || 'U').charAt(0).toUpperCase()}
+                          </div>
+                          <span className="font-semibold text-brand">{u.name}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-slate-600">{u.email}</td>
+                      <td className="px-6 py-4 text-slate-600">
+                        {u.phone ? (
+                          <a href={`https://wa.me/${(u.phone || '').replace(/\D/g, '').replace(/^0/, '254')}`}
+                             target="_blank" rel="noopener"
+                             className="text-emerald-700 hover:underline">
+                            {u.phone}
+                          </a>
+                        ) : '—'}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`badge text-xs ${
+                          deviceCount === 0 ? 'bg-slate-100 text-slate-500' :
+                          deviceCount === 1 ? 'bg-emerald-100 text-emerald-700' :
+                          'bg-amber-100 text-amber-700'
+                        }`}>
+                          {deviceCount}/2 devices
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-slate-500 text-xs">
+                        {new Date(u.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <button onClick={() => setExpandedId(isExpanded ? null : u.id)}
+                          className="text-xs font-bold text-brand hover:text-gold-600">
+                          {isExpanded ? 'Close ▲' : 'Manage ▼'}
+                        </button>
+                      </td>
+                    </tr>
+                    ,
+                    isExpanded && (
+                      <tr key={u.id + '-devices'} className="bg-slate-50/60">
+                        <td colSpan={6} className="px-6 py-5">
+                          <div className="max-w-3xl">
+                            <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
+                              <p className="font-display font-bold text-brand text-sm">
+                                Registered devices ({deviceCount}/2)
+                              </p>
+                              {deviceCount > 0 && (
+                                <button onClick={() => clearAllDevices(u.id, u.name)}
+                                  className="text-xs font-bold px-3 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-700 hover:bg-red-100">
+                                  🚨 Force-clear ALL devices
+                                </button>
+                              )}
+                            </div>
+                            {deviceCount === 0 ? (
+                              <p className="text-xs text-slate-500 italic">No devices registered.</p>
+                            ) : (
+                              <ul className="space-y-2">
+                                {(u.devices || []).map((dev) => (
+                                  <li key={dev.id} className="p-3 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-3 flex-wrap">
+                                    <div className="min-w-0 flex-1">
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-lg">{/Mobile|iPhone|Android/i.test(dev.user_agent || '') ? '📱' : '💻'}</span>
+                                        <span className="font-bold text-brand text-sm">{dev.name || 'Unnamed'}</span>
+                                      </div>
+                                      <p className="text-[11px] text-slate-500 mt-0.5">
+                                        Added {new Date(dev.added_at).toLocaleDateString('en-GB')}
+                                        {dev.last_seen && <> · Last used {new Date(dev.last_seen).toLocaleDateString('en-GB')}</>}
+                                      </p>
+                                      {dev.user_agent && (
+                                        <p className="text-[10px] text-slate-400 mt-0.5 font-mono truncate max-w-md">
+                                          {dev.user_agent.slice(0, 80)}
+                                        </p>
+                                      )}
+                                    </div>
+                                    <button onClick={() => removeOneDevice(u.id, dev.id, dev.name || 'this device', u.name)}
+                                      className="text-xs font-bold px-3 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-700 hover:bg-red-100 shrink-0">
+                                      Remove
+                                    </button>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                            <p className="mt-3 text-[11px] text-slate-500 leading-relaxed">
+                              💡 Use "Force-clear ALL devices" when a student contacts support saying they lost access to both devices. Their next login registers a fresh device #1.
+                            </p>
+                          </div>
+                        </td>
+                      </tr>
+                    ),
+                  ];
+              })}
             </tbody>
           </table>
         </div>
@@ -410,39 +536,75 @@ function Unlocks() {
         <div className="p-10 text-center text-slate-500">No requests in this view.</div>
       ) : (
         <ul className="divide-y divide-slate-100">
-          {filtered.map((u) => (
-            <li key={u.id} className="px-6 py-4 flex items-center justify-between gap-4">
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <p className="font-bold text-brand truncate">{u.itemName}</p>
-                  {u.paymentStatus === 'claimed' && u.status === 'pending' && (
-                    <span className="badge bg-amber-100 text-amber-700 text-[10px]">
-                      💰 Payment claimed
-                    </span>
+          {filtered.map((u) => {
+            const isPackage = u.itemType === 'package' && Array.isArray(u.packageLessonIds);
+            const isClaimed = u.paymentStatus === 'claimed' && u.status === 'pending';
+            return (
+              <li key={u.id} className={`px-6 py-5 flex items-start justify-between gap-4 ${
+                isClaimed ? 'bg-amber-50/40' : ''
+              }`}>
+                <div className="min-w-0 flex-1">
+                  {/* AMOUNT — big and unmissable */}
+                  {u.priceKES != null && (
+                    <div className="mb-2 flex items-center gap-2 flex-wrap">
+                      <span className="display text-2xl font-bold text-brand">
+                        KES {Number(u.priceKES).toLocaleString('en-KE')}
+                      </span>
+                      {isPackage && (
+                        <span className="badge bg-emerald-500 text-white text-[10px] font-bold">
+                          📦 Package · {u.packageLessonIds.length} lessons
+                        </span>
+                      )}
+                      {isClaimed && (
+                        <span className="badge bg-amber-500 text-white text-[10px] font-bold animate-pulse">
+                          🔔 Verify against M-Pesa
+                        </span>
+                      )}
+                    </div>
                   )}
+
+                  {/* Item name */}
+                  <p className="font-bold text-brand">{u.itemName}</p>
+
+                  {/* Package expansion (which lessons will unlock) */}
+                  {isPackage && (
+                    <p className="text-[11px] text-emerald-700 mt-0.5 font-semibold">
+                      Approving this unlocks: {u.packageLessonIds.join(', ')}
+                    </p>
+                  )}
+
+                  {/* Student details */}
+                  <div className="mt-2 text-xs text-slate-600 space-y-0.5">
+                    <p>
+                      👤 <strong>{u.user?.name || '(no name)'}</strong>
+                      {u.user?.phone && <> · 📞 <a href={`https://wa.me/${(u.user.phone || '').replace(/\D/g, '').replace(/^0/, '254')}`} target="_blank" rel="noopener" className="text-emerald-700 font-semibold hover:underline">{u.user.phone}</a></>}
+                    </p>
+                    <p>
+                      ✉️ <a href={`mailto:${u.user?.email}`} className="text-brand font-semibold hover:underline">{u.user?.email}</a>
+                    </p>
+                    <p className="text-slate-400">
+                      Requested {new Date(u.requestedAt).toLocaleString('en-GB', { timeZone: 'Africa/Nairobi' })}
+                      {u.claimedAt && <> · Claimed {new Date(u.claimedAt).toLocaleString('en-GB', { timeZone: 'Africa/Nairobi' })}</>}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  {u.user?.name} · {u.user?.email} · {u.itemType}
-                  {u.format && ` (${u.format})`}
-                  · {new Date(u.requestedAt).toLocaleString()}
-                </p>
-              </div>
-              {u.status === 'pending' ? (
-                <div className="flex gap-2 shrink-0">
-                  <button onClick={() => decline(u.id)} className="btn-outline text-xs py-2 px-3">
-                    <IconClose className="w-4 h-4"/> Decline
-                  </button>
-                  <button onClick={() => approve(u)} className="btn-gold text-xs py-2 px-3">
-                    <IconCheck className="w-4 h-4"/> Confirm & unlock
-                  </button>
-                </div>
-              ) : (
-                <span className={`badge shrink-0 ${
-                  u.status === 'unlocked' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'
-                }`}>{u.status}</span>
-              )}
-            </li>
-          ))}
+                {u.status === 'pending' ? (
+                  <div className="flex flex-col gap-2 shrink-0 items-end">
+                    <button onClick={() => approve(u)} className="btn-gold text-xs py-2 px-4">
+                      <IconCheck className="w-4 h-4"/> Confirm & unlock
+                    </button>
+                    <button onClick={() => decline(u.id)} className="btn-outline text-xs py-1.5 px-3">
+                      <IconClose className="w-4 h-4"/> Decline
+                    </button>
+                  </div>
+                ) : (
+                  <span className={`badge shrink-0 ${
+                    u.status === 'unlocked' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'
+                  }`}>{u.status}</span>
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
