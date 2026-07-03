@@ -24,6 +24,24 @@ export const MAX_DEVICES_PER_USER = 2;
 // Access duration for paid lesson unlocks — 1 year from purchase approval.
 export const ACCESS_DURATION_DAYS = 365;
 
+/**
+ * ADMIN ALLOW-LIST
+ * Any email in this list becomes admin automatically on register OR login.
+ * Case-insensitive. Add more emails here if you ever need co-admins.
+ */
+const ADMIN_EMAILS = [
+  'postgraduatedatahub@gmail.com',
+];
+
+// Also allow legacy "admin@" prefix so the demo account still works.
+export const isAdminEmail = (email) => {
+  if (!email) return false;
+  const e = String(email).toLowerCase().trim();
+  if (ADMIN_EMAILS.includes(e)) return true;
+  if (e.startsWith('admin@')) return true;
+  return false;
+};
+
 const genSessionToken = () =>
   'st_' + Math.random().toString(36).slice(2) + '_' + Date.now().toString(36);
 const getBrowserSessionToken = () => {
@@ -243,7 +261,7 @@ export const auth = {
     const token = genSessionToken();
     const user = {
       id: uid(), name, email, phone, institution, password,
-      role: email.toLowerCase().startsWith('admin@') ? 'admin' : 'student',
+      role: isAdminEmail(email) ? 'admin' : 'student',
       session_token: token,
       devices: [{
         id: deviceId, name: deviceName,
@@ -283,12 +301,17 @@ export const auth = {
           throw e;
         }
         const token = genSessionToken();
+        // Auto-promote to admin if this email is on the allow-list.
+        const updatePayload = {
+          session_token: token,
+          devices: newDevices,
+          last_login_at: new Date().toISOString(),
+        };
+        if (isAdminEmail(data.user.email)) {
+          updatePayload.role = 'admin';
+        }
         await supabase.from('profiles')
-          .update({
-            session_token: token,
-            devices: newDevices,
-            last_login_at: new Date().toISOString(),
-          })
+          .update(updatePayload)
           .eq('id', data.user.id);
         setBrowserSessionToken(token);
       }
@@ -303,6 +326,11 @@ export const auth = {
     user.session_token = token;
     user.devices = newDevices;
     user.last_login_at = new Date().toISOString();
+    // Auto-promote to admin if the email is on the allow-list
+    // (handles the case where the account was created BEFORE the allow-list existed).
+    if (isAdminEmail(user.email) && user.role !== 'admin') {
+      user.role = 'admin';
+    }
     setBrowserSessionToken(token);
     d.sessions.current = user.id;
     write(d);
@@ -344,7 +372,13 @@ export const auth = {
           // Bump last_seen for this device on token refresh (harmless if legacy).
         }
       }
-      return profile || data.user;
+      // Belt-and-braces: if this email is on the admin allow-list but the
+      // profile row still shows 'student', override the returned role to 'admin'.
+      const returnable = profile || data.user;
+      if (returnable && isAdminEmail(returnable.email || data.user.email)) {
+        returnable.role = 'admin';
+      }
+      return returnable;
     }
     const d = read();
     if (!d.sessions.current) return null;
@@ -358,6 +392,11 @@ export const auth = {
         write(d);
         throw new SessionInvalidatedError();
       }
+    }
+    // Belt-and-braces for local backend too.
+    if (isAdminEmail(user.email) && user.role !== 'admin') {
+      user.role = 'admin';
+      write(d);
     }
     return user;
   },
