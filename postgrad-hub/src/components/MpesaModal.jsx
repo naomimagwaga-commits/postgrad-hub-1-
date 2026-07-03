@@ -52,9 +52,19 @@ export default function MpesaModal({
           <div className="relative">
             <span className="eyebrow text-gold-300">— Pay with M-Pesa</span>
             <h3 className="display text-2xl mt-2">{item.itemName}</h3>
-            {item.format && (
-              <span className="badge bg-gold/15 text-gold-200 mt-2 capitalize">{item.format}</span>
-            )}
+            <div className="flex items-center gap-2 mt-2 flex-wrap">
+              {item.format && (
+                <span className="badge bg-gold/15 text-gold-200 capitalize">{item.format}</span>
+              )}
+              {item.priceKES != null && (
+                <span className="badge bg-gold text-brand font-bold">
+                  KES {item.priceKES.toLocaleString('en-KE')}
+                </span>
+              )}
+              {item.itemType === 'package' && (
+                <span className="badge bg-emerald-500/20 text-emerald-300">Package deal</span>
+              )}
+            </div>
           </div>
         </div>
 
@@ -64,6 +74,7 @@ export default function MpesaModal({
           ) : phase === 'requested' || phase === 'promptSent' ? (
             <PaymentInstructions
               promptSent={phase === 'promptSent'} phone={phone}
+              amount={item.priceKES}
               onMarkPaid={markAsPaid}
             />
           ) : (
@@ -147,7 +158,7 @@ function Row({ label, value }) {
   );
 }
 
-function PaymentInstructions({ promptSent, phone, onMarkPaid }) {
+function PaymentInstructions({ promptSent, phone, amount, onMarkPaid }) {
   return (
     <div className="space-y-5">
       {promptSent && (
@@ -190,7 +201,13 @@ function PaymentInstructions({ promptSent, phone, onMarkPaid }) {
           </li>
           <li className="flex gap-3">
             <span className="w-6 h-6 rounded-full bg-gold text-brand font-bold text-xs flex items-center justify-center shrink-0">5</span>
-            <span>Enter the amount we'll send to your phone / email, then your M-Pesa PIN</span>
+            <span>
+              Enter amount{' '}
+              {amount != null
+                ? <strong className="font-mono text-brand">KES {amount.toLocaleString('en-KE')}</strong>
+                : <span className="italic">(shown on the previous screen)</span>}
+              , then your M-Pesa PIN
+            </span>
           </li>
           <li className="flex gap-3">
             <span className="w-6 h-6 rounded-full bg-gold text-brand font-bold text-xs flex items-center justify-center shrink-0">6</span>
