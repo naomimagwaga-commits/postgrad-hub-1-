@@ -179,7 +179,7 @@ export default function SpssAcademy() {
             </p>
           </div>
           <span className="badge-gold shrink-0">
-            <IconBook className="w-3.5 h-3.5"/> Notes pack · Instant unlock with M-Pesa
+            <IconBook className="w-3.5 h-3.5"/> Notes pack · Pay via M-Pesa · Lifetime access
           </span>
         </div>
 
@@ -367,8 +367,8 @@ function FormatTile({ type, unlocked, reason, isFreeLesson, freeBadge, freeHint,
           <p className="text-xs text-slate-500 mt-0.5">
             {isNotes
               ? (isFreeLesson
-                  ? `Detailed notes · diagrams · worked examples · APA write-ups · quiz · ${badgeText ? 'included automatically' : 'instant unlock'}`
-                  : 'Detailed notes · diagrams · worked examples · APA write-ups · quiz · instant unlock')
+                  ? `Detailed notes · diagrams · worked examples · APA write-ups · quiz · ${badgeText ? 'included automatically' : 'lifetime access after payment'}`
+                  : 'Detailed notes · diagrams · worked examples · APA write-ups · quiz · lifetime access after payment')
               : 'Recorded video lessons — currently in production'}
           </p>
         </div>

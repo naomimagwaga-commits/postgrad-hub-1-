@@ -22,7 +22,7 @@ function EyeIcon({ open }) {
 }
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, sessionKicked, clearKicked } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const next = new URLSearchParams(location.search).get('next') || '/app/dashboard';
@@ -97,6 +97,17 @@ export default function Login() {
               className="w-4 h-4 rounded text-brand focus:ring-brand-200"/>
             Remember me on this device
           </label>
+
+          {sessionKicked && (
+            <div className="text-sm bg-amber-50 text-amber-800 border border-amber-200 p-3 rounded-xl">
+              <p className="font-bold">⚠️ You were signed out</p>
+              <p className="mt-1 text-xs">
+                Your account was signed in on another device. Only one active session is allowed per account. Sign in again to continue here — the other device will be signed out automatically.
+              </p>
+              <button type="button" onClick={clearKicked}
+                className="text-xs text-amber-700 underline mt-2">Dismiss</button>
+            </div>
+          )}
 
           {error && <p className="text-sm bg-red-50 text-red-700 p-3 rounded-xl">{error}</p>}
 
