@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { submissions, SUBMISSION_STATUSES } from '../lib/db.js';
+import { SERVICE_PRICES, formatKES } from '../data/prices.js';
 import {
   IconForm, IconCheck, IconArrow, IconClock, IconShield, IconPlus,
 } from '../components/Icons.jsx';
@@ -30,16 +31,24 @@ export default function QuestionnaireBuilder() {
             Submit your draft <strong>questionnaire</strong> or <strong>interview guide</strong>. Our research team aligns it to your objectives, polishes the wording, and delivers a ready-to-share <strong>digital data-collection link</strong> — far faster and cheaper than printing, distributing and re-entering paper forms. Responses are securely captured and exported to you ready for analysis.
           </p>
         </div>
-        {view === 'list' && (
-          <button onClick={() => setView('submit')} className="btn-gold shrink-0">
-            <IconPlus className="w-4 h-4"/> New submission
-          </button>
-        )}
-        {view !== 'list' && (
-          <button onClick={() => { setView('list'); refresh(); }} className="btn-outline shrink-0">
-            ← Back to submissions
-          </button>
-        )}
+        <div className="flex flex-col items-end gap-2 shrink-0">
+          {/* Price badge */}
+          <div className="text-right">
+            <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Refinement fee</p>
+            <p className="display text-3xl text-brand font-bold">{formatKES(SERVICE_PRICES.questionnaireRefinement)}</p>
+            <p className="text-[10px] text-slate-500 italic">per instrument</p>
+          </div>
+          {view === 'list' && (
+            <button onClick={() => setView('submit')} className="btn-gold">
+              <IconPlus className="w-4 h-4"/> New submission
+            </button>
+          )}
+          {view !== 'list' && (
+            <button onClick={() => { setView('list'); refresh(); }} className="btn-outline">
+              ← Back to submissions
+            </button>
+          )}
+        </div>
       </div>
 
       {view === 'list' && (
