@@ -41,7 +41,11 @@ export default function Pricing() {
                   <p className="text-xs text-slate-500 mt-0.5">{s.unit}</p>
                 </div>
               </div>
-              <p className="display text-3xl text-brand mt-5">{formatKES(s.price)}</p>
+              {s.price != null ? (
+                <p className="display text-3xl text-brand mt-5">{formatKES(s.price)}</p>
+              ) : (
+                <p className="display text-xl text-slate-500 mt-5 italic">Price on request</p>
+              )}
               <p className="text-sm text-slate-600 mt-3 leading-relaxed min-h-[3rem]">{s.blurb}</p>
               {s.note && (
                 <p className="text-xs text-emerald-700 mt-3 font-semibold bg-emerald-50 border border-emerald-100 rounded-lg p-2">
@@ -49,12 +53,20 @@ export default function Pricing() {
                 </p>
               )}
               <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
-                <Link to="/register" className="btn-primary text-sm">
-                  Get started <IconArrow className="w-4 h-4"/>
-                </Link>
-                <a href="mailto:postgraduatedatahub@gmail.com?subject=Service enquiry"
+                {s.price != null ? (
+                  <Link to="/register" className="btn-primary text-sm">
+                    Get started <IconArrow className="w-4 h-4"/>
+                  </Link>
+                ) : (
+                  <a href={`mailto:postgraduatedatahub@gmail.com?subject=${encodeURIComponent('Quote request — ' + s.name)}`}
+                     className="btn-gold text-sm">
+                    Request a quote <IconArrow className="w-4 h-4"/>
+                  </a>
+                )}
+                <a href={`https://wa.me/254779568272?text=${encodeURIComponent('Hi, I would like to know more about: ' + s.name)}`}
+                   target="_blank" rel="noopener"
                    className="text-sm font-semibold text-brand hover:text-gold-600">
-                  Enquire →
+                  WhatsApp →
                 </a>
               </div>
             </article>
