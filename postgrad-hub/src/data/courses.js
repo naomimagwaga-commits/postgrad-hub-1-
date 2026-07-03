@@ -94,10 +94,12 @@ const makeLesson = (id, name, intro, notes, screenshots, quiz, courseKey, extraR
   // automatically for any student who matches one of these eligibility rules:
   //   freeWithCourse: ['basics']  → unlocked once they own any lesson in those courses
   //   freeWithAnyPaid: true       → unlocked once they own ANY paid lesson on the site
-  // See SpssAcademy.jsx → accessReason().
+  //   freeWithPaidCount: 2        → unlocked once they own N or more paid lessons anywhere
+  // See SpssAcademy.jsx → accessReason() + src/data/prices.js → priceForLesson().
   free: extraResources.free === true,
   freeWithCourse: extraResources.freeWithCourse ?? null,
   freeWithAnyPaid: extraResources.freeWithAnyPaid === true,
+  freeWithPaidCount: extraResources.freeWithPaidCount ?? null,
   resources: {
     guidebookExcerpt: GUIDEBOOK_EXCERPTS[id] || null,
     notesPack: extraResources.notesPack ?? null,
@@ -179,7 +181,7 @@ export const COURSES = [
   {
     slug: 'master',
     name: 'Master Decision Tree',
-    desc: 'Pick the right statistical test in 60 seconds — the four-question logic behind every analysis. FREE for SPSS Basics students.',
+    desc: 'Pick the right statistical test in 60 seconds — the four-question logic behind every analysis. FREE after any 2 paid lessons.',
     lessons: [
       makeLesson('master-1', 'The Master Decision Tree — choose your test in 60 seconds',
         'The single most important lesson in the academy. 95% of postgrad analyses fit a dozen standard tests; choosing among them reduces to four diagnostic questions. This lesson teaches the questions, walks the tree, and links to the dedicated lesson for each test.',
@@ -188,18 +190,18 @@ export const COURSES = [
           'Walk the questions in order — outcome type FIRST, assumptions LAST.',
           'Every parametric test has a non-parametric backup (Mann-Whitney, Wilcoxon, Kruskal-Wallis, Friedman, Spearman).',
           'Use this lesson to UNDERSTAND the logic; use the built-in Test Selector module as a quick reference once you have.',
-          'This lesson is FREE for any student who has unlocked at least one SPSS Basics notes pack.',
+          'This lesson is FREE for any student who has paid for at least 2 lessons on the platform.',
         ], [],
         [{ q: 'When walking the Master Decision Tree, which question should you answer FIRST?',
            choices: ['Are my assumptions met?', 'What TYPE is my outcome variable?', 'How big is my sample?', 'Which test does my supervisor prefer?'], answer: 1 }],
-        'master', { free: true, freeWithCourse: ['basics'] }),
+        'master', { free: true, freeWithPaidCount: 2 }),
     ],
   },
 
   {
     slug: 'clean',
     name: 'Data Cleaning',
-    desc: 'The unglamorous toolkit that separates clean theses from chaotic ones — impossible values, missing data, duplicates, recoding (incl. reverse Likert), Compute Variable, Select Cases. FREE with any purchase.',
+    desc: 'The unglamorous toolkit that separates clean theses from chaotic ones. KES 500 (or KES 250 after 3+ paid lessons — loyalty discount).',
     lessons: [
       makeLesson('clean-1', 'Data Cleaning Basics — from messy export to analysis-ready file',
         'The 60% of analysis work that nobody teaches. Covers impossible-value detection, MCAR/MAR/MNAR missing data, duplicate handling, the eternal reverse-coding Likert problem, Compute Variable for composites, and Select Cases for sub-analyses — plus a 12-step workflow you run on every new dataset.',
@@ -210,11 +212,11 @@ export const COURSES = [
           'Reverse-code negatively-worded Likert items into NEW variables with `_r` suffix. Formula: new = (n + 1) − old.',
           'SUM is cautious (drops case if any item missing); MEAN is permissive (uses what\'s present).',
           'Select Cases for sub-analyses — and ALWAYS turn the filter off when done.',
-          'This lesson is FREE for any student who has unlocked ANY paid lesson on the site.',
+          'KES 500 for a single purchase — drops to KES 250 once you own 3+ paid lessons anywhere on the platform (loyalty discount).',
         ], [],
         [{ q: 'What is the FIRST thing you do when a new dataset arrives from your research assistants?',
            choices: ['Run analyses immediately', 'Save a backup copy of the raw file (labelled _RAW) and do all cleaning on a working copy', 'Delete missing values', 'Run Cronbach\'s alpha'], answer: 1 }],
-        'clean', { free: true, freeWithAnyPaid: true }),
+        'clean', {}),
     ],
   },
 
