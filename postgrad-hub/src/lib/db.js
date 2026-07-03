@@ -284,7 +284,7 @@ export const unlocks = {
     return d.unlocks.some((u) => u.userId === d.sessions.current
       && u.itemKey === itemKey && u.status === 'unlocked');
   },
-  async request({ itemKey, itemType, itemName, format = null }) {
+  async request({ itemKey, itemType, itemName, format = null, priceKES = null, packageInfo = null }) {
     const d = read();
     const existing = d.unlocks.find((u) => u.userId === d.sessions.current && u.itemKey === itemKey);
     if (existing) return existing;
@@ -292,13 +292,15 @@ export const unlocks = {
       id: uid(),
       userId: d.sessions.current,
       itemKey, itemType, itemName, format,
+      priceKES,                     // for admin's benefit: shows amount to verify against M-Pesa
+      packageLessonIds: packageInfo ? packageInfo.lessonIds : null,
       status: 'pending',
       paymentStatus: 'unpaid', // unpaid | claimed | confirmed
       requestedAt: new Date().toISOString(),
     };
     d.unlocks.push(u);
     write(d);
-    activities.log('unlock', `Requested unlock for ${itemName}${format ? ' ('+format+')' : ''}`);
+    activities.log('unlock', `Requested unlock for ${itemName}${format ? ' ('+format+')' : ''}${priceKES ? ' (KES '+priceKES+')' : ''}`);
     return u;
   },
   async claimPaid(id) {
@@ -317,7 +319,34 @@ export const unlocks = {
   async approve(id) {
     const d = read();
     const u = d.unlocks.find((x) => x.id === id);
-    if (u) { u.status = 'unlocked'; u.paymentStatus = 'confirmed'; u.approvedAt = new Date().toISOString(); write(d); }
+    if (u) {
+      u.status = 'unlocked';
+      u.paymentStatus = 'confirmed';
+      u.approvedAt = new Date().toISOString();
+      // If this was a package unlock, also create matching 'unlocked' rows for every lesson in the package.
+      // This makes SpssAcademy's per-lesson check see them as unlocked without special-case code.
+      if (u.itemType === 'package' && Array.isArray(u.packageLessonIds)) {
+        for (const lessonId of u.packageLessonIds) {
+          const perLessonKey = `lesson:${lessonId}:notes`;
+          const already = d.unlocks.find((x) => x.userId === u.userId && x.itemKey === perLessonKey);
+          if (!already) {
+            d.unlocks.push({
+              id: uid(),
+              userId: u.userId,
+              itemKey: perLessonKey,
+              itemType: 'lesson',
+              itemName: `${u.itemName} — ${lessonId}`,
+              format: 'notes',
+              status: 'unlocked',
+              paymentStatus: 'confirmed',
+              approvedAt: new Date().toISOString(),
+              includedInPackage: u.id,  // trace back to the package purchase
+            });
+          }
+        }
+      }
+      write(d);
+    }
     return u;
   },
   async decline(id) {
