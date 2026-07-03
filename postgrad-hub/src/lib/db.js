@@ -361,8 +361,8 @@ export const unlocks = {
 export const ANALYSIS_TIERS = [
   {
     id: 'tables',
-    name: 'Tables Only',
-    blurb: 'Pure SPSS output tables — descriptives, frequencies, and the inferential tables your study requires. Run by well-knowledgeable PhD researchers. No narrative — just clean, publication-ready tables.',
+    name: 'Analysis — Tables Only',
+    blurb: 'SPSS output tables (descriptives + inferential) — no narrative. Run by well-knowledgeable PhD researchers. Clean, publication-ready tables you can drop straight into your thesis.',
     deliverables: [
       'SPSS output (.spv) and .docx tables',
       'All requested analyses run end-to-end by experienced PhD researchers',
@@ -372,24 +372,24 @@ export const ANALYSIS_TIERS = [
   },
   {
     id: 'interpretation',
-    name: 'Interpretation Only',
-    blurb: 'Polished, citation-rich narrative built from tables you already have. Handled by well-knowledgeable PhD researchers experienced in thesis-level writing. Perfect for students who ran their own analyses but need professional write-up.',
+    name: 'Analysis — Interpretation Only (Chapter 4)',
+    blurb: 'Polished Chapter 4 write-up built from tables you already have. Citation-rich narrative aligned to your objectives, handled by PhD researchers experienced in thesis-level writing.',
     deliverables: [
-      'Findings chapter narrative aligned to your objectives',
+      'Chapter 4 (Findings) narrative aligned to your objectives',
       'APA-style in-text citations and reference list',
-      'Discussion section that links findings to prior literature',
+      'Discussion of results linked to prior literature',
       'Written by PhD researchers familiar with your discipline',
     ],
     requires: 'You must supply your SPSS output tables AND a clean Excel sheet that is objective, well organised, and contains no missing data. Disorganised or incomplete datasets cannot be processed.',
   },
   {
     id: 'full',
-    name: 'Analysis + Interpretation',
-    blurb: 'End-to-end: well-knowledgeable PhD researchers run your analyses AND deliver the polished findings + discussion chapter.',
+    name: 'Analysis + Interpretation — Full (Chapter 4 + 5)',
+    blurb: 'End-to-end: analysis + fully-written Chapter 4 (findings) AND Chapter 5 (discussion & recommendations). Handled throughout by well-knowledgeable PhD researchers.',
     deliverables: [
-      'Everything in Tables Only',
-      'Everything in Interpretation Only',
-      'Handled throughout by experienced PhD researchers',
+      'Everything in Analysis — Tables Only',
+      'Fully-written Chapter 4 (findings, aligned to objectives, APA citations)',
+      'Fully-written Chapter 5 (discussion, conclusions, recommendations)',
       'One round of revisions included',
     ],
     requires: 'You must supply a clean Excel sheet (.xlsx) that is objective, well organised, and contains no missing data.',
