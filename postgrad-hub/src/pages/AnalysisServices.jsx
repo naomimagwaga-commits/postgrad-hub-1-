@@ -1,8 +1,25 @@
 import { useEffect, useState } from 'react';
 import { analysisOrders, ANALYSIS_TIERS, ANALYSIS_STATUSES } from '../lib/db.js';
+import { SERVICE_PRICES, formatKES } from '../data/prices.js';
 import {
   IconChart, IconCheck, IconArrow, IconShield, IconClose, IconPlus, IconClock,
 } from '../components/Icons.jsx';
+
+/**
+ * Price mapping for the 3 Analysis & Interpretation tiers.
+ * Kept in sync with src/data/prices.js (single source of truth).
+ * Loyalty rate applies ONLY to the 'full' tier when the student used our
+ * platform for questionnaire refinement or online data collection.
+ */
+const TIER_PRICE_MAP = {
+  'tables':         { price: SERVICE_PRICES.analysisTablesOnly },           // 15,000
+  'interpretation': { price: SERVICE_PRICES.analysisInterpretationOnly },   // 12,000
+  'full': {
+    price: SERVICE_PRICES.analysisFull,                                     // 35,000
+    loyaltyPrice: SERVICE_PRICES.analysisFullLoyalty,                       // 30,000
+    loyaltyNote: `KES ${SERVICE_PRICES.analysisFullLoyalty.toLocaleString('en-KE')} loyalty rate if you collected data via our platform`,
+  },
+};
 
 export default function AnalysisServices() {
   const [view, setView] = useState('catalog'); // catalog | order | mine | detail
@@ -61,6 +78,7 @@ function Catalog({ onOrder }) {
       <div className="grid lg:grid-cols-3 gap-5">
         {ANALYSIS_TIERS.map((t, i) => {
           const isFull = t.id === 'full';
+          const pricing = TIER_PRICE_MAP[t.id];
           return (
             <div key={t.id}
               className={`relative card-elevated p-7 lg:p-8 reveal hover:-translate-y-1 transition-all ${
@@ -74,6 +92,19 @@ function Catalog({ onOrder }) {
               )}
               <div className="text-4xl">{i === 0 ? '📊' : i === 1 ? '✍️' : '🎯'}</div>
               <h3 className="display text-2xl text-brand mt-4">{t.name}</h3>
+
+              {/* Price — the big number */}
+              {pricing?.price != null && (
+                <div className="mt-3">
+                  <p className="display text-3xl text-brand font-bold">
+                    {formatKES(pricing.price)}
+                  </p>
+                  <p className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold mt-0.5">
+                    per project
+                  </p>
+                </div>
+              )}
+
               <p className="text-sm text-slate-600 mt-3 leading-relaxed min-h-[5rem]">{t.blurb}</p>
 
               <div className="mt-6 pt-6 border-t border-slate-100">
@@ -93,8 +124,16 @@ function Catalog({ onOrder }) {
                 </div>
               )}
 
-              <div className="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between gap-2">
-                <span className="text-xs text-gold-700 font-semibold uppercase tracking-wider">Priced separately</span>
+              {/* Loyalty banner — Full tier only */}
+              {pricing?.loyaltyNote && (
+                <div className="mt-4 p-2.5 rounded-lg bg-emerald-50 border border-emerald-100">
+                  <p className="text-[11px] text-emerald-800 font-semibold leading-snug">
+                    🎉 {pricing.loyaltyNote}
+                  </p>
+                </div>
+              )}
+
+              <div className="mt-6 pt-6 border-t border-slate-100 flex items-center justify-end">
                 <button onClick={() => onOrder(t)}
                   className={isFull ? 'btn-gold' : 'btn-primary'}>
                   Order this <IconArrow className="w-4 h-4"/>
@@ -154,12 +193,29 @@ function OrderForm({ tier, onDone, onCancel }) {
   const needsTables = tier.id === 'interpretation';
   const needsCleanExcel = tier.id === 'tables' || tier.id === 'full';
 
+  const tierPricing = TIER_PRICE_MAP[tier.id];
+
   return (
     <div className="card-elevated p-8 lg:p-10">
       <button onClick={onCancel} className="text-sm text-slate-500 hover:text-brand mb-6">← Back to services</button>
-      <span className="eyebrow">— Order</span>
-      <h2 className="display text-3xl text-brand mt-2">{tier.name}</h2>
-      <p className="text-sm text-slate-500 mt-1">{tier.blurb}</p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <span className="eyebrow">— Order</span>
+          <h2 className="display text-3xl text-brand mt-2">{tier.name}</h2>
+          <p className="text-sm text-slate-500 mt-1">{tier.blurb}</p>
+        </div>
+        {tierPricing?.price != null && (
+          <div className="text-right">
+            <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Project fee</p>
+            <p className="display text-3xl text-brand font-bold">{formatKES(tierPricing.price)}</p>
+            {tierPricing.loyaltyNote && (
+              <p className="text-[10px] text-emerald-700 font-semibold mt-1 max-w-[180px]">
+                🎉 {tierPricing.loyaltyNote}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
 
       <div className="mt-8 space-y-5">
         <div>
