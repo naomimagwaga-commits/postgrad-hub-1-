@@ -565,7 +565,29 @@ export const unlocks = {
   async request({ itemKey, itemType, itemName, format = null, priceKES = null, packageInfo = null }) {
     const d = read();
     const existing = d.unlocks.find((u) => u.userId === d.sessions.current && u.itemKey === itemKey);
-    if (existing) return existing;
+
+    // REUSE the existing row only if it's STILL ACTIVE (pending, or unlocked-and-not-expired).
+    // If it's expired (student is renewing), we RESET it back to a fresh pending state
+    // so admin sees a new claim to verify and the emails fire correctly.
+    if (existing) {
+      const isRenewal = existing.status === 'unlocked' && !isUnlockActive(existing);
+      if (!isRenewal) return existing;   // still active OR still pending — no re-request needed
+
+      // Renewal path — reset the existing row to a new pending claim.
+      existing.status = 'pending';
+      existing.paymentStatus = 'unpaid';
+      existing.priceKES = priceKES;
+      existing.requestedAt = new Date().toISOString();
+      existing.claimedAt = null;
+      existing.approvedAt = null;
+      existing.expires_at = null;
+      existing.expiresAt  = null;
+      existing.isRenewal  = true;   // tag so admin can see this is a renewal, not first-time
+      write(d);
+      activities.log('unlock', `Requested RENEWAL for ${itemName}${priceKES ? ' (KES '+priceKES+')' : ''}`);
+      return existing;
+    }
+
     const u = {
       id: uid(),
       userId: d.sessions.current,
