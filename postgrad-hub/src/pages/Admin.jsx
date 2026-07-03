@@ -5,6 +5,7 @@ import {
   admin, submissions as subApi, unlocks as unlockApi, bookings as bookApi,
   analysisOrders as orderApi, SUBMISSION_STATUSES, BOOKING_STATUSES, ANALYSIS_STATUSES,
 } from '../lib/db.js';
+import { sendUnlockApprovedEmail } from '../lib/emails.js';
 import {
   IconUser, IconForm, IconChart, IconBook, IconCalendar, IconCheck, IconClose,
   IconArrow, IconLock, IconPlus, IconTrash, IconClock, IconSpark,
@@ -374,7 +375,19 @@ function Unlocks() {
 
   const filtered = list.filter((u) => filter === 'all' || u.status === filter);
 
-  const approve = async (id) => { await unlockApi.approve(id); refresh(); };
+  const approve = async (unlockRow) => {
+    const updated = await unlockApi.approve(unlockRow.id);
+    // Fire-and-forget: notify the student their access is now live.
+    if (unlockRow.user?.email) {
+      sendUnlockApprovedEmail({
+        studentEmail: unlockRow.user.email,
+        studentName:  unlockRow.user.name,
+        itemName:     unlockRow.itemName,
+        expiresAt:    updated?.expires_at || updated?.expiresAt,
+      }).catch(() => {});
+    }
+    refresh();
+  };
   const decline = async (id) => { await unlockApi.decline(id); refresh(); };
 
   return (
@@ -419,7 +432,7 @@ function Unlocks() {
                   <button onClick={() => decline(u.id)} className="btn-outline text-xs py-2 px-3">
                     <IconClose className="w-4 h-4"/> Decline
                   </button>
-                  <button onClick={() => approve(u.id)} className="btn-gold text-xs py-2 px-3">
+                  <button onClick={() => approve(u)} className="btn-gold text-xs py-2 px-3">
                     <IconCheck className="w-4 h-4"/> Confirm & unlock
                   </button>
                 </div>
