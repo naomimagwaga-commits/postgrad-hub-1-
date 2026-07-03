@@ -232,11 +232,18 @@ export const PUBLIC_PRICING = {
       blurb: 'Submit your draft and receive a refined, methodologically sound version — plus a digital data-collection link.',
     },
     {
-      id: 'consultation',
-      name: 'Expert consultation',
-      price: SERVICE_PRICES.consultation,
+      id: 'thesis-review',
+      name: 'Thesis review',
+      price: 2000,
+      unit: 'per review',
+      blurb: 'Detailed structural + methodological review of your thesis with actionable feedback.',
+    },
+    {
+      id: 'research-consultation',
+      name: 'Research consultation',
+      price: null,   // Price on request
       unit: 'per session',
-      blurb: 'One-to-one session with a research specialist. Book a slot that suits you.',
+      blurb: 'One-to-one session with a research specialist. Scope varies with your project — reach out for a quote.',
     },
     {
       id: 'analysis-tables',
