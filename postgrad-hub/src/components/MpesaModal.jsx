@@ -171,7 +171,7 @@ function PaymentInstructions({ promptSent, phone, amount, onMarkPaid }) {
       <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-sm text-emerald-800 flex items-start gap-2">
         <span className="text-lg leading-none">♾️</span>
         <div>
-          <p className="font-bold">Lifetime access — pay once, keep forever</p>
+          <p className="font-bold">1 year access — from the day admin approves your payment</p>
           <p className="text-xs text-emerald-700 mt-0.5">
             Your access never expires. Log in from any device (one at a time).
           </p>
@@ -248,7 +248,7 @@ function SuccessPanel() {
         </ol>
       </div>
       <p className="text-xs text-emerald-700 mt-4 font-semibold">
-        ✓ Lifetime access — pay once, keep forever
+        ✓ 1 year access — from the day admin approves your payment
       </p>
       <p className="text-xs text-slate-400 mt-5">
         Payment issue or waiting more than 24 hours?{' '}
