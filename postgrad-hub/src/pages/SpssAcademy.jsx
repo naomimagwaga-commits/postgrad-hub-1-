@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { unlocks, lessons as lessonsApi } from '../lib/db.js';
 import { COURSES } from '../data/courses.js';
 import { RICH_LESSONS, isRichLesson } from '../data/richLessons.js';
+import { priceForLesson, formatKES, packageForLesson } from '../data/prices.js';
 import MpesaModal from '../components/MpesaModal.jsx';
 import RichLessonPlayer from '../components/lesson/LessonPlayer.jsx';
 import {
@@ -12,6 +13,7 @@ const lessonKey = (lessonId, format) => `lesson:${lessonId}:${format}`;
 
 export default function SpssAcademy() {
   const [unlockedKeys, setUnlockedKeys] = useState([]);
+  const [rawUnlocks, setRawUnlocks] = useState([]);   // used for conditional pricing
   const [progress, setProgress] = useState([]);
   const [activeCourse, setActiveCourse] = useState(null);
   const [activeLesson, setActiveLesson] = useState(null);
@@ -19,10 +21,15 @@ export default function SpssAcademy() {
 
   const refresh = async () => {
     const u = await unlocks.list();
+    setRawUnlocks(u);
     setUnlockedKeys(u.filter((x) => x.status === 'unlocked').map((x) => x.itemKey));
     setProgress(await lessonsApi.listProgress());
   };
   useEffect(() => { refresh(); }, []);
+
+  // Compute the display price for a lesson, given the student's current unlocks.
+  // Handles Master Tree free-after-2, Data Cleaning discount, Writing Up package, etc.
+  const pricingFor = (lessonId) => priceForLesson(lessonId, rawUnlocks);
 
   // Find the lesson metadata across all courses by id.
   const findLesson = (lessonId) => {
@@ -33,22 +40,23 @@ export default function SpssAcademy() {
     return null;
   };
 
-  // Per Naomi's rules: free-flagged lessons unlock automatically when the
-  // student matches the lesson's eligibility rule:
+  // Free-unlock eligibility rules:
   //   freeWithCourse: ['basics']  → must own any lesson in those courses
   //   freeWithAnyPaid: true       → must own ANY paid lesson on the site
+  //   freeWithPaidCount: 2        → must own N or more paid lessons
   const hasUnlockedAnyInCourse = (slug) => {
     const course = COURSES.find((c) => c.slug === slug);
     if (!course) return false;
     return course.lessons.some((l) => unlockedKeys.includes(lessonKey(l.id, 'notes')));
   };
 
-  const hasUnlockedAnythingPaid = () => {
-    // Any unlock with status 'unlocked' that isn't itself a free-included lesson.
-    // Simpler: any unlockedKeys entry counts, because free lessons never appear
-    // in unlockedKeys (they bypass the M-Pesa flow entirely).
-    return unlockedKeys.length > 0;
-  };
+  const hasUnlockedAnythingPaid = () => unlockedKeys.length > 0;
+
+  const paidLessonCount = () =>
+    rawUnlocks.filter((u) =>
+      u.itemType === 'lesson' && u.format === 'notes'
+      && u.status === 'unlocked' && u.paymentStatus === 'confirmed'
+    ).length;
 
   // Returns 'paid' | 'free' | null. 'free' means: included automatically by
   // one of the lesson's freeWith* rules; 'paid' means: the student bought it.
@@ -57,9 +65,12 @@ export default function SpssAcademy() {
     if (format !== 'notes') return null;
     const found = findLesson(lessonId);
     if (found && found.lesson.free) {
-      const { freeWithCourse, freeWithAnyPaid } = found.lesson;
+      const { freeWithCourse, freeWithAnyPaid, freeWithPaidCount } = found.lesson;
       let eligible = false;
       if (freeWithAnyPaid && hasUnlockedAnythingPaid()) eligible = true;
+      if (!eligible && typeof freeWithPaidCount === 'number' && paidLessonCount() >= freeWithPaidCount) {
+        eligible = true;
+      }
       if (!eligible && Array.isArray(freeWithCourse) && freeWithCourse.length > 0) {
         eligible = freeWithCourse.some((slug) => hasUnlockedAnyInCourse(slug));
       }
@@ -72,6 +83,9 @@ export default function SpssAcademy() {
   const freeWithLabel = (lesson) => {
     if (!lesson || !lesson.free) return null;
     if (lesson.freeWithAnyPaid) return 'FREE with any purchase';
+    if (typeof lesson.freeWithPaidCount === 'number') {
+      return `FREE after ${lesson.freeWithPaidCount} paid lessons`;
+    }
     if (Array.isArray(lesson.freeWithCourse) && lesson.freeWithCourse.length > 0) {
       const names = lesson.freeWithCourse
         .map((slug) => COURSES.find((c) => c.slug === slug)?.name)
@@ -85,6 +99,13 @@ export default function SpssAcademy() {
   const freeUnlockHint = (lesson) => {
     if (!lesson || !lesson.free) return null;
     if (lesson.freeWithAnyPaid) return 'Unlock any lesson on the site to access this for free';
+    if (typeof lesson.freeWithPaidCount === 'number') {
+      const currentCount = paidLessonCount();
+      const need = lesson.freeWithPaidCount - currentCount;
+      return need > 0
+        ? `Unlock ${need} more paid lesson${need > 1 ? 's' : ''} to access this free`
+        : 'Free to access';
+    }
     if (Array.isArray(lesson.freeWithCourse) && lesson.freeWithCourse.length > 0) {
       const names = lesson.freeWithCourse
         .map((slug) => COURSES.find((c) => c.slug === slug)?.name)
@@ -98,11 +119,18 @@ export default function SpssAcademy() {
   const isCompleted = (lessonId) => progress.some((p) => p.lessonId === lessonId && p.completed);
 
   const openPayment = (lesson, format) => {
+    const pricing = pricingFor(lesson.id);
+    // If this lesson is part of a package (e.g. Writing Up), always buy the package
+    const pkg = pricing.packageInfo;
     setPayItem({
-      itemKey: lessonKey(lesson.id, format),
-      itemType: 'lesson',
-      itemName: `${lesson.name} — ${format === 'notes' ? 'Notes pack' : 'Video walkthrough'}`,
+      itemKey: pkg ? `package:${pkg.id}` : lessonKey(lesson.id, format),
+      itemType: pkg ? 'package' : 'lesson',
+      itemName: pkg
+        ? `${pkg.name} (package — both lessons)`
+        : `${lesson.name} — ${format === 'notes' ? 'Notes pack' : 'Video walkthrough'}`,
       format,
+      priceKES: pricing.priceKES,
+      packageInfo: pkg,   // MpesaModal / db can use this to unlock ALL lessons in the package on approval
     });
   };
 
@@ -155,6 +183,7 @@ export default function SpssAcademy() {
           accessReason={accessReason}
           freeWithLabel={freeWithLabel}
           freeUnlockHint={freeUnlockHint}
+          pricingFor={pricingFor}
           isCompleted={isCompleted}
           onBack={() => setActiveCourse(null)}
           onOpen={(lesson) => setActiveLesson(lesson)}
@@ -236,7 +265,7 @@ export default function SpssAcademy() {
 }
 
 /* ─────────── Course detail ─────────── */
-function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlockHint, isCompleted, onBack, onOpen, onBuy }) {
+function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlockHint, pricingFor, isCompleted, onBack, onOpen, onBuy }) {
   const completed = course.lessons.filter((l) => isCompleted(l.id)).length;
   const allDone = completed === course.lessons.length;
 
@@ -271,6 +300,7 @@ function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlo
           const isFree = reason === 'free';
           const done = isCompleted(l.id);
           const rich = isRichLesson(l.id);
+          const pricing = pricingFor ? pricingFor(l.id) : null;
           const freeBadge = freeWithLabel ? freeWithLabel(l) : (l.free ? 'FREE with SPSS Basics' : null);
           const freeHint = freeUnlockHint ? freeUnlockHint(l) : (l.free ? 'Unlock any SPSS Basics lesson to access this for free' : null);
 
@@ -320,6 +350,7 @@ function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlo
                   isFreeLesson={l.free}
                   freeBadge={freeBadge}
                   freeHint={freeHint}
+                  pricing={pricing}
                   onBuy={() => onBuy(l, 'notes')}
                   onOpen={() => onOpen(l)}
                 />
@@ -333,12 +364,21 @@ function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlo
   );
 }
 
-function FormatTile({ type, unlocked, reason, isFreeLesson, freeBadge, freeHint, onBuy, onOpen }) {
+function FormatTile({ type, unlocked, reason, isFreeLesson, freeBadge, freeHint, pricing, onBuy, onOpen }) {
   const isNotes = type === 'notes';
   const videoComingSoon = !isNotes;
   const isFreeAccess = reason === 'free';
   const badgeText = freeBadge || (isFreeLesson ? 'FREE with SPSS Basics' : null);
   const hintText  = freeHint  || (isFreeLesson ? 'Unlock any SPSS Basics lesson to access free' : null);
+
+  // Compute the price label to show on the CTA button (when applicable)
+  const priceLabel = pricing
+    ? (pricing.isFree ? 'FREE'
+      : pricing.priceKES == null ? null   // "unlock 2 lessons first" case — no button price
+      : `KES ${pricing.priceKES.toLocaleString('en-KE')}`)
+    : null;
+  const isPackage = pricing?.isPackage;
+  const hasDiscount = pricing?.discountApplied;
 
   return (
     <div className={`relative p-4 rounded-xl border-2 ${
@@ -392,10 +432,28 @@ function FormatTile({ type, unlocked, reason, isFreeLesson, freeBadge, freeHint,
             <span className="truncate">{hintText}</span>
           </button>
         ) : (
-          <button onClick={onBuy}
-            className="w-full text-sm py-2 px-3 rounded-lg bg-gold text-brand font-bold hover:bg-gold-300 flex items-center justify-center gap-1">
-            <IconLock className="w-3.5 h-3.5"/> Unlock with M-Pesa
-          </button>
+          <>
+            <button onClick={onBuy}
+              className="w-full text-sm py-2 px-3 rounded-lg bg-gold text-brand font-bold hover:bg-gold-300 flex flex-col items-center justify-center gap-0.5">
+              <span className="flex items-center gap-1">
+                <IconLock className="w-3.5 h-3.5"/>
+                Unlock {isPackage ? 'package' : 'notes'} · {priceLabel || 'M-Pesa'}
+              </span>
+              {isPackage && (
+                <span className="text-[10px] font-normal opacity-80">both lessons included</span>
+              )}
+            </button>
+            {hasDiscount && pricing?.reason && (
+              <p className="text-[10px] text-emerald-700 text-center mt-1.5 font-semibold">
+                🎉 {pricing.reason}
+              </p>
+            )}
+            {!hasDiscount && pricing?.reason && (
+              <p className="text-[10px] text-slate-500 text-center mt-1.5 italic">
+                {pricing.reason}
+              </p>
+            )}
+          </>
         )}
       </div>
     </div>
