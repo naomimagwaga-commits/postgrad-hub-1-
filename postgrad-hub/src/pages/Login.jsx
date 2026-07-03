@@ -30,6 +30,7 @@ export default function Login() {
   const [form, setForm] = useState({ email: '', password: '', remember: true });
   const [showPwd, setShowPwd] = useState(false);
   const [error, setError] = useState(null);
+  const [deviceLimitDevices, setDeviceLimitDevices] = useState(null);   // list of devices when limit hit
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -39,13 +40,21 @@ export default function Login() {
 
   const submit = async (e) => {
     e.preventDefault();
-    setError(null); setBusy(true);
+    setError(null); setDeviceLimitDevices(null); setBusy(true);
     try {
       await login({ email: form.email, password: form.password });
       if (form.remember) localStorage.setItem(LAST_EMAIL_KEY, form.email);
       else localStorage.removeItem(LAST_EMAIL_KEY);
       navigate(next);
-    } catch (err) { setError(err.message); } finally { setBusy(false); }
+    } catch (err) {
+      if (err && err.code === 'DEVICE_LIMIT') {
+        // Store the list so we can show it in the error banner.
+        setDeviceLimitDevices(err.existingDevices || []);
+        setError(err.message);
+      } else {
+        setError(err.message);
+      }
+    } finally { setBusy(false); }
   };
 
   return (
@@ -97,19 +106,53 @@ export default function Login() {
               className="w-4 h-4 rounded text-brand focus:ring-brand-200"/>
             Remember me on this device
           </label>
+          <p className="text-[11px] text-slate-500 -mt-1 pl-6 leading-relaxed">
+            🔒 Your account supports <strong>up to 2 devices</strong> (e.g. one phone + one laptop). Manage them in Profile → My Devices.
+          </p>
 
           {sessionKicked && (
             <div className="text-sm bg-amber-50 text-amber-800 border border-amber-200 p-3 rounded-xl">
               <p className="font-bold">⚠️ You were signed out</p>
               <p className="mt-1 text-xs">
-                Your account was signed in on another device. Only one active session is allowed per account. Sign in again to continue here — the other device will be signed out automatically.
+                This device was removed from your account (either by you from Profile → My Devices, or automatically). Sign in again to re-register this device — as long as your account still has an open slot (max 2 devices).
               </p>
               <button type="button" onClick={clearKicked}
                 className="text-xs text-amber-700 underline mt-2">Dismiss</button>
             </div>
           )}
 
-          {error && <p className="text-sm bg-red-50 text-red-700 p-3 rounded-xl">{error}</p>}
+          {deviceLimitDevices ? (
+            <div className="text-sm bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl">
+              <p className="font-bold">🚫 Device limit reached</p>
+              <p className="mt-1 text-xs leading-relaxed">
+                Your account is already registered on <strong>2 devices</strong>. That's the maximum allowed
+                (one phone + one laptop, or two of either).
+              </p>
+              {deviceLimitDevices.length > 0 && (
+                <ul className="mt-2 text-xs space-y-1">
+                  {deviceLimitDevices.map((d) => (
+                    <li key={d.id} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 inline-block"/>
+                      <span className="font-mono">{d.name || 'Unnamed device'}</span>
+                      <span className="text-red-500 text-[10px]">
+                        (added {new Date(d.added_at).toLocaleDateString('en-GB')})
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <div className="mt-3 pt-3 border-t border-red-200 text-xs space-y-1.5">
+                <p className="font-semibold">To sign in here, do ONE of these:</p>
+                <p>• On one of your existing devices → open <strong>Profile → My Devices → Remove</strong></p>
+                <p>• Lost access to both devices? WhatsApp us on{' '}
+                  <a href={`https://wa.me/254779568272?text=${encodeURIComponent('Hi, I need help removing devices from my Postgraduate Data Hub account. Email: ' + form.email)}`}
+                     target="_blank" rel="noopener" className="font-bold underline">+254 779 568 272</a>
+                </p>
+              </div>
+            </div>
+          ) : error ? (
+            <p className="text-sm bg-red-50 text-red-700 p-3 rounded-xl">{error}</p>
+          ) : null}
 
           <button disabled={busy} className="btn-primary w-full py-3.5">
             {busy ? 'Signing in…' : 'Sign in'}

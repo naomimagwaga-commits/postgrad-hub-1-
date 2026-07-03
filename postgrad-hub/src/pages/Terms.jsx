@@ -26,12 +26,32 @@ export default function Terms() {
           </div>
 
           <div>
-            <h2 className="display text-2xl text-brand mb-3">2. Accounts</h2>
+            <h2 className="display text-2xl text-brand mb-3">2. Accounts &amp; device limits</h2>
             <p>
               You must register with a valid personal email address and a secure password. You are responsible for
               maintaining the confidentiality of your credentials and for all activity that occurs on your account.
+            </p>
+            <p className="mt-3">
+              To protect the value of our paid content, each account is limited to a maximum of{' '}
+              <strong>two (2) registered devices</strong> (for example, one phone plus one laptop). Attempting to sign in
+              on a third device will be blocked until you remove an existing device from{' '}
+              <em>Profile → My Devices</em>. If you lose access to both devices, contact our support team by
+              WhatsApp (+254 779 568 272) or email (postgraduatedatahub@gmail.com) for manual assistance.
+            </p>
+            <p className="mt-3">
               Account sharing is prohibited — each account is for one individual only. We reserve the right to suspend
               or terminate accounts found to be shared, resold, or used to redistribute our content.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="display text-2xl text-brand mb-3">2a. Access duration</h2>
+            <p>
+              Unless otherwise stated, all paid lesson unlocks and package purchases grant{' '}
+              <strong>twelve (12) months of access</strong> from the date on which our team approves your payment.
+              At the end of this period, access to that specific lesson or package will expire and you will be
+              given the option to renew. Services such as Analysis &amp; Interpretation, Questionnaire Refinement,
+              and Consultations are one-off deliverables and are not subject to access-duration limits.
             </p>
           </div>
 

@@ -116,6 +116,16 @@ export default function Register() {
 
             {error && <p className="text-sm bg-red-50 text-red-700 p-3 rounded-xl">{error}</p>}
 
+            <div className="text-xs bg-brand/5 border border-brand/10 rounded-xl p-3 text-slate-700 leading-relaxed">
+              <p className="font-bold text-brand">🔒 Account is device-locked</p>
+              <p className="mt-1">
+                To protect our lifetime-value content, each account can be used on <strong>up to 2 devices</strong> (e.g. one phone + one laptop). Sharing your login won't work beyond that.
+              </p>
+              <p className="mt-1">
+                All purchased notes come with <strong>1 year of access</strong> from the day of approval.
+              </p>
+            </div>
+
             <button disabled={busy} className="btn-primary w-full py-3.5 text-base">
               {busy ? 'Creating account…' : 'Create account'}
             </button>

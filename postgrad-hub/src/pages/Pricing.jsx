@@ -21,7 +21,7 @@ export default function Pricing() {
         </p>
         <div className="mt-4 flex items-center justify-center gap-2 text-xs">
           <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-full font-semibold">
-            ♾️ Lifetime access on all lesson unlocks
+            🗓️ 1 year access on all lesson unlocks
           </span>
           <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-gold/10 text-gold-700 rounded-full font-semibold">
             💰 M-Pesa Paybill 4096483 · Account 7028M
@@ -98,7 +98,7 @@ export default function Pricing() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h2 className="display text-2xl text-brand mb-2">SPSS Academy — lesson prices</h2>
         <p className="text-sm text-slate-500 mb-6">
-          Notes packs unlock via M-Pesa. Lifetime access — pay once, keep forever. Some lessons are grouped by course; some come with loyalty discounts.
+          Notes packs unlock via M-Pesa. Each unlock gives you <strong>1 full year of access</strong> from the day admin approves your payment. Some lessons are grouped by course; some come with loyalty discounts.
         </p>
         <div className="card-elevated overflow-hidden">
           <div className="overflow-x-auto">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { unlocks, lessons as lessonsApi } from '../lib/db.js';
+import { unlocks, lessons as lessonsApi, daysUntilExpiry } from '../lib/db.js';
 import { COURSES } from '../data/courses.js';
 import { RICH_LESSONS, isRichLesson } from '../data/richLessons.js';
 import { priceForLesson, formatKES, packageForLesson } from '../data/prices.js';
@@ -30,6 +30,15 @@ export default function SpssAcademy() {
   // Compute the display price for a lesson, given the student's current unlocks.
   // Handles Master Tree free-after-2, Data Cleaning discount, Writing Up package, etc.
   const pricingFor = (lessonId) => priceForLesson(lessonId, rawUnlocks);
+
+  // Look up the expiry (days remaining) for a specific unlocked lesson.
+  // Returns null if no expiry set (free/legacy) or lesson not unlocked.
+  const expiryFor = (lessonId) => {
+    const u = rawUnlocks.find((x) =>
+      x.itemType === 'lesson' && x.itemKey === `lesson:${lessonId}:notes` && x.status === 'unlocked'
+    );
+    return u ? daysUntilExpiry(u) : null;
+  };
 
   // Find the lesson metadata across all courses by id.
   const findLesson = (lessonId) => {
@@ -184,6 +193,7 @@ export default function SpssAcademy() {
           freeWithLabel={freeWithLabel}
           freeUnlockHint={freeUnlockHint}
           pricingFor={pricingFor}
+          expiryFor={expiryFor}
           isCompleted={isCompleted}
           onBack={() => setActiveCourse(null)}
           onOpen={(lesson) => setActiveLesson(lesson)}
@@ -208,7 +218,7 @@ export default function SpssAcademy() {
             </p>
           </div>
           <span className="badge-gold shrink-0">
-            <IconBook className="w-3.5 h-3.5"/> Notes pack · Pay via M-Pesa · Lifetime access
+            <IconBook className="w-3.5 h-3.5"/> Notes pack · Pay via M-Pesa · 1 year access
           </span>
         </div>
 
@@ -265,7 +275,7 @@ export default function SpssAcademy() {
 }
 
 /* ─────────── Course detail ─────────── */
-function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlockHint, pricingFor, isCompleted, onBack, onOpen, onBuy }) {
+function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlockHint, pricingFor, expiryFor, isCompleted, onBack, onOpen, onBuy }) {
   const completed = course.lessons.filter((l) => isCompleted(l.id)).length;
   const allDone = completed === course.lessons.length;
 
@@ -301,6 +311,8 @@ function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlo
           const done = isCompleted(l.id);
           const rich = isRichLesson(l.id);
           const pricing = pricingFor ? pricingFor(l.id) : null;
+          const daysLeft = has && !isFree && expiryFor ? expiryFor(l.id) : null;
+          const expiringSoon = daysLeft !== null && daysLeft <= 30;
           const freeBadge = freeWithLabel ? freeWithLabel(l) : (l.free ? 'FREE with SPSS Basics' : null);
           const freeHint = freeUnlockHint ? freeUnlockHint(l) : (l.free ? 'Unlock any SPSS Basics lesson to access this for free' : null);
 
@@ -335,6 +347,13 @@ function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlo
                      l.free && freeHint ? freeHint :
                      'Locked'}
                   </p>
+                  {daysLeft !== null && (
+                    <p className={`text-[11px] mt-1 font-semibold ${
+                      expiringSoon ? 'text-amber-700' : 'text-slate-500'
+                    }`}>
+                      {expiringSoon ? '⏰' : '🗓️'} Access expires in {daysLeft} day{daysLeft === 1 ? '' : 's'}
+                    </p>
+                  )}
                 </div>
                 {has && (
                   <button onClick={() => onOpen(l)} className="btn-primary text-sm shrink-0">
@@ -407,8 +426,8 @@ function FormatTile({ type, unlocked, reason, isFreeLesson, freeBadge, freeHint,
           <p className="text-xs text-slate-500 mt-0.5">
             {isNotes
               ? (isFreeLesson
-                  ? `Detailed notes · diagrams · worked examples · APA write-ups · quiz · ${badgeText ? 'included automatically' : 'lifetime access after payment'}`
-                  : 'Detailed notes · diagrams · worked examples · APA write-ups · quiz · lifetime access after payment')
+                  ? `Detailed notes · diagrams · worked examples · APA write-ups · quiz · ${badgeText ? 'included automatically' : '1 year access after payment'}`
+                  : 'Detailed notes · diagrams · worked examples · APA write-ups · quiz · 1 year access after payment')
               : 'Recorded video lessons — currently in production'}
           </p>
         </div>
