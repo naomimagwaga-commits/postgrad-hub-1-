@@ -119,7 +119,7 @@ export default function Register() {
             <div className="text-xs bg-brand/5 border border-brand/10 rounded-xl p-3 text-slate-700 leading-relaxed">
               <p className="font-bold text-brand">🔒 Account is device-locked</p>
               <p className="mt-1">
-                To protect our lifetime-value content, each account can be used on <strong>up to 2 devices</strong> (e.g. one phone + one laptop). Sharing your login won't work beyond that.
+                To protect our paid content, each account can be used on <strong>up to 2 devices</strong> (e.g. one phone + one laptop). Sharing your login won't work beyond that.
               </p>
               <p className="mt-1">
                 All purchased notes come with <strong>1 year of access</strong> from the day of approval.

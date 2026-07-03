@@ -146,7 +146,7 @@ export default function Profile() {
             <span className="eyebrow">— Security</span>
             <h2 className="display text-2xl text-brand mt-3">My Devices</h2>
             <p className="text-sm text-slate-500 mt-2 max-w-xl leading-relaxed">
-              Your account is limited to <strong>{MAX_DEVICES_PER_USER} devices</strong> (e.g. one phone + one laptop). This protects your lifetime-access content from being shared. Remove any device you don't recognise or no longer use.
+              Your account is limited to <strong>{MAX_DEVICES_PER_USER} devices</strong> (e.g. one phone + one laptop). This protects your paid content from being shared. Remove any device you don't recognise or no longer use.
             </p>
           </div>
           <div className="text-right shrink-0">
