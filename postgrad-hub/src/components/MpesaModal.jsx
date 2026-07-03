@@ -157,6 +157,16 @@ function PaymentInstructions({ promptSent, phone, onMarkPaid }) {
         </div>
       )}
 
+      <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-sm text-emerald-800 flex items-start gap-2">
+        <span className="text-lg leading-none">♾️</span>
+        <div>
+          <p className="font-bold">Lifetime access — pay once, keep forever</p>
+          <p className="text-xs text-emerald-700 mt-0.5">
+            Your access never expires. Log in from any device (one at a time).
+          </p>
+        </div>
+      </div>
+
       <PaybillCard />
 
       <div>
@@ -199,23 +209,32 @@ function PaymentInstructions({ promptSent, phone, onMarkPaid }) {
   );
 }
 
-function SuccessPanel({ item }) {
-  const isInstant = item?.itemType === 'lesson' && item?.format === 'notes';
+function SuccessPanel() {
   return (
     <div className="text-center py-6">
       <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center">
         <IconCheck className="w-8 h-8"/>
       </div>
       <p className="display text-2xl text-brand mt-5">
-        {isInstant ? 'Unlocked!' : 'Thank you!'}
+        Payment received — thank you!
       </p>
-      <p className="text-sm text-slate-500 mt-2 max-w-xs mx-auto">
-        {isInstant
-          ? '🎉 Your notes pack is now available. The lesson opens automatically in a moment.'
-          : 'We\'ve noted your payment. You\'ll see your unlock appear as soon as our team confirms it.'}
+      <p className="text-sm text-slate-600 mt-3 max-w-sm mx-auto leading-relaxed">
+        We've been notified of your payment. Our team will verify it against our M-Pesa records and unlock your access — usually within a few minutes to a few hours.
       </p>
-      <p className="text-xs text-slate-400 mt-6">
-        Payment issue?{' '}
+      <div className="mt-5 p-4 rounded-xl bg-gold/5 border border-gold/30 text-left max-w-sm mx-auto">
+        <p className="text-xs font-bold uppercase tracking-wider text-gold-700 mb-2">What happens next</p>
+        <ol className="text-xs text-slate-600 space-y-1.5 list-decimal pl-4">
+          <li>You'll receive a confirmation email shortly.</li>
+          <li>Our admin verifies your M-Pesa payment.</li>
+          <li>You'll get another email once your access is live.</li>
+          <li>Reload your dashboard — the unlock appears immediately.</li>
+        </ol>
+      </div>
+      <p className="text-xs text-emerald-700 mt-4 font-semibold">
+        ✓ Lifetime access — pay once, keep forever
+      </p>
+      <p className="text-xs text-slate-400 mt-5">
+        Payment issue or waiting more than 24 hours?{' '}
         <a href="https://wa.me/254779568272?text=I%27m%20having%20trouble%20with%20a%20payment."
            target="_blank" rel="noopener noreferrer"
            className="text-gold-700 font-semibold hover:underline">
