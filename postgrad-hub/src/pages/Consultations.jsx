@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { admin, bookings, BOOKING_STATUSES } from '../lib/db.js';
+import { SERVICE_PRICES, formatKES } from '../data/prices.js';
 import {
   IconCalendar, IconArrow, IconCheck, IconClose,
 } from '../components/Icons.jsx';
@@ -14,6 +15,43 @@ const SERVICE_DESCS = {
 const SERVICE_ICONS = {
   'srv-quest': '📋', 'srv-anal': '📊', 'srv-int': '🔍', 'srv-thes': '📚', 'srv-cons': '🎓',
 };
+
+// Map each dashboard service to its price (kept in sync with src/data/prices.js).
+// { price, priceLabel, fromPrice (if there's a range), loyaltyNote }
+const SERVICE_PRICE_MAP = {
+  'srv-quest': {
+    price: SERVICE_PRICES.questionnaireRefinement,   // 3,500
+  },
+  'srv-anal': {
+    // Data Analysis comes in 3 tiers — Tables Only (15k), Full Ch4+5 (35k), Loyalty (30k)
+    fromPrice: SERVICE_PRICES.analysisTablesOnly,    // "from KES 15,000"
+    priceLabel: `From ${formatKES(SERVICE_PRICES.analysisTablesOnly)}`,
+    loyaltyNote: `Loyalty rate ${formatKES(SERVICE_PRICES.analysisFullLoyalty)} for full analysis if you collected data via our platform`,
+    tiers: [
+      { name: 'Tables Only', price: SERVICE_PRICES.analysisTablesOnly },
+      { name: 'Interpretation Only (Ch 4)', price: SERVICE_PRICES.analysisInterpretationOnly },
+      { name: 'Full (Ch 4 + Ch 5)', price: SERVICE_PRICES.analysisFull },
+    ],
+  },
+  'srv-int': {
+    price: SERVICE_PRICES.analysisInterpretationOnly,  // 12,000
+  },
+  'srv-thes': {
+    price: 2000,   // Thesis Review — KES 2,000
+  },
+  'srv-cons': {
+    price: null,   // Research Consultation — Price on request
+  },
+};
+
+// Helper: renders the price label the way it should appear on a service card.
+function priceForService(serviceId) {
+  const entry = SERVICE_PRICE_MAP[serviceId];
+  if (!entry) return { label: 'Price on request', isRequest: true };
+  if (entry.priceLabel) return { label: entry.priceLabel, isRequest: false, loyaltyNote: entry.loyaltyNote };
+  if (entry.price != null) return { label: formatKES(entry.price), isRequest: false, loyaltyNote: entry.loyaltyNote };
+  return { label: 'Price on request', isRequest: true };
+}
 
 export default function Consultations() {
   const [view, setView] = useState('catalog');
@@ -68,23 +106,42 @@ export default function Consultations() {
 function Catalog({ services, onBook }) {
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {services.map((s, i) => (
-        <div key={s.id}
-          className="card-elevated p-7 hover:border-gold/40 hover:-translate-y-1 transition-all reveal"
-          style={{ animationDelay: `${i * 0.06}s` }}>
-          <div className="text-4xl">{SERVICE_ICONS[s.id] || '🎓'}</div>
-          <h3 className="display text-xl text-brand mt-4">{s.name}</h3>
-          <p className="text-sm text-slate-500 mt-2 leading-relaxed min-h-[3rem]">
-            {SERVICE_DESCS[s.id] || 'Tailored research support.'}
-          </p>
-          <div className="mt-5 pt-5 border-t border-slate-100 flex items-center justify-between gap-2">
-            <span className="text-xs text-gold-700 font-semibold uppercase tracking-wider">Price on request</span>
-            <button onClick={() => onBook(s)} className="btn-gold text-sm">
-              Book <IconArrow className="w-4 h-4"/>
-            </button>
+      {services.map((s, i) => {
+        const p = priceForService(s.id);
+        return (
+          <div key={s.id}
+            className="card-elevated p-7 hover:border-gold/40 hover:-translate-y-1 transition-all reveal"
+            style={{ animationDelay: `${i * 0.06}s` }}>
+            <div className="text-4xl">{SERVICE_ICONS[s.id] || '🎓'}</div>
+            <h3 className="display text-xl text-brand mt-4">{s.name}</h3>
+            <p className="text-sm text-slate-500 mt-2 leading-relaxed min-h-[3rem]">
+              {SERVICE_DESCS[s.id] || 'Tailored research support.'}
+            </p>
+
+            {/* Loyalty banner (Data Analysis only) */}
+            {p.loyaltyNote && (
+              <p className="mt-3 text-[11px] text-emerald-700 font-semibold bg-emerald-50 border border-emerald-100 rounded-lg px-2 py-1.5">
+                🎉 {p.loyaltyNote}
+              </p>
+            )}
+
+            <div className="mt-5 pt-5 border-t border-slate-100 flex items-center justify-between gap-2">
+              {p.isRequest ? (
+                <span className="text-xs text-gold-700 font-semibold uppercase tracking-wider">
+                  Price on request
+                </span>
+              ) : (
+                <span className="display text-xl text-brand font-bold">
+                  {p.label}
+                </span>
+              )}
+              <button onClick={() => onBook(s)} className="btn-gold text-sm">
+                Book <IconArrow className="w-4 h-4"/>
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -141,17 +198,55 @@ function BookingFlow({ service, onDone, onCancel }) {
     );
   }
 
+  const priceInfo = priceForService(service.id);
+  const serviceEntry = SERVICE_PRICE_MAP[service.id] || {};
+
   return (
     <div className="card-elevated p-8 lg:p-10">
       <button onClick={onCancel} className="text-sm text-slate-500 hover:text-brand mb-6">← Back to services</button>
-      <div className="flex items-start gap-4">
-        <div className="text-4xl">{SERVICE_ICONS[service.id] || '🎓'}</div>
-        <div>
-          <span className="eyebrow">— Booking</span>
-          <h2 className="display text-3xl text-brand mt-2">{service.name}</h2>
-          <p className="text-sm text-slate-500 mt-1">Online or in person · Length tailored to your needs</p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div className="flex items-start gap-4">
+          <div className="text-4xl">{SERVICE_ICONS[service.id] || '🎓'}</div>
+          <div>
+            <span className="eyebrow">— Booking</span>
+            <h2 className="display text-3xl text-brand mt-2">{service.name}</h2>
+            <p className="text-sm text-slate-500 mt-1">Online or in person · Length tailored to your needs</p>
+          </div>
+        </div>
+        {/* Price badge in the top-right of the booking header */}
+        <div className="text-right">
+          {priceInfo.isRequest ? (
+            <span className="badge bg-gold/15 text-gold-700 text-xs font-semibold uppercase tracking-wider">
+              Price on request
+            </span>
+          ) : (
+            <>
+              <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Fee</p>
+              <p className="display text-2xl text-brand font-bold">{priceInfo.label}</p>
+            </>
+          )}
         </div>
       </div>
+
+      {/* Analysis-tier breakdown — only for srv-anal */}
+      {serviceEntry.tiers && (
+        <div className="mt-6 p-4 rounded-xl bg-brand/5 border border-brand/10">
+          <p className="text-xs font-bold uppercase tracking-wider text-brand">Choose your analysis tier at consultation</p>
+          <ul className="mt-3 space-y-1.5 text-sm text-slate-700">
+            {serviceEntry.tiers.map((t) => (
+              <li key={t.name} className="flex items-center justify-between">
+                <span>{t.name}</span>
+                <span className="font-mono font-bold text-brand">{formatKES(t.price)}</span>
+              </li>
+            ))}
+          </ul>
+          {serviceEntry.loyaltyNote && (
+            <p className="mt-3 text-[11px] text-emerald-700 font-semibold bg-emerald-50 border border-emerald-100 rounded-lg px-2 py-1.5">
+              🎉 {serviceEntry.loyaltyNote}
+            </p>
+          )}
+        </div>
+      )}
 
       <div className="mt-10 grid lg:grid-cols-2 gap-8">
         <div className="space-y-5">
