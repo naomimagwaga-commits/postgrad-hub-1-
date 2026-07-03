@@ -809,6 +809,47 @@ export const admin = {
     d.settings.services = services;
     write(d);
   },
+
+  /**
+   * Admin can force-clear a user's device list.
+   * Used when a student contacts support saying "I lost my phone AND laptop".
+   * The user will be able to sign in on any device next time and it'll be
+   * registered fresh as device #1.
+   */
+  async clearUserDevices(userId) {
+    if (isSupabase) {
+      const { error } = await supabase.from('profiles').update({ devices: [] }).eq('id', userId);
+      if (error) throw error;
+      return true;
+    }
+    const d = read();
+    const u = d.users.find((x) => x.id === userId);
+    if (u) { u.devices = []; write(d); }
+    return true;
+  },
+
+  /**
+   * Admin can also remove a SINGLE device from a user's account
+   * (useful when the user says "I want to keep my phone but remove the laptop").
+   */
+  async removeUserDevice(userId, deviceId) {
+    if (isSupabase) {
+      const { data: profile } = await supabase.from('profiles').select('devices').eq('id', userId).single();
+      const remaining = (profile?.devices || []).filter((d) => d.id !== deviceId);
+      const { error } = await supabase.from('profiles').update({ devices: remaining }).eq('id', userId);
+      if (error) throw error;
+      return remaining;
+    }
+    const d = read();
+    const u = d.users.find((x) => x.id === userId);
+    if (u) {
+      u.devices = (u.devices || []).filter((dev) => dev.id !== deviceId);
+      write(d);
+      return u.devices;
+    }
+    return [];
+  },
+
   async metrics() {
     const d = read();
     return {
