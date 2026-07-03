@@ -15,6 +15,15 @@ export const supabase = isSupabase ? createClient(SUPABASE_URL, SUPABASE_KEY) : 
 
 /* ---------------- Single-active-session helpers ---------------- */
 const SESSION_TOKEN_KEY = 'pgh_session_token';
+const DEVICE_ID_KEY = 'pgh_device_id';
+const DEVICE_NAME_KEY = 'pgh_device_name';
+
+// Max devices allowed per account (phone + laptop = 2).
+export const MAX_DEVICES_PER_USER = 2;
+
+// Access duration for paid lesson unlocks — 1 year from purchase approval.
+export const ACCESS_DURATION_DAYS = 365;
+
 const genSessionToken = () =>
   'st_' + Math.random().toString(36).slice(2) + '_' + Date.now().toString(36);
 const getBrowserSessionToken = () => {
@@ -27,6 +36,49 @@ const clearBrowserSessionToken = () => {
   try { localStorage.removeItem(SESSION_TOKEN_KEY); } catch {}
 };
 
+/**
+ * Generate (or read) a stable per-browser device ID.
+ * This survives logout — so the same physical device is recognised on next login.
+ */
+export const getOrCreateDeviceId = () => {
+  try {
+    let id = localStorage.getItem(DEVICE_ID_KEY);
+    if (!id) {
+      id = 'dev_' + Math.random().toString(36).slice(2, 12) + Date.now().toString(36);
+      localStorage.setItem(DEVICE_ID_KEY, id);
+    }
+    return id;
+  } catch { return 'dev_ephemeral'; }
+};
+
+/**
+ * Best-effort friendly device name (e.g. "Chrome on Windows").
+ * User can override this in Profile Settings.
+ */
+export const guessDeviceName = () => {
+  try {
+    const saved = localStorage.getItem(DEVICE_NAME_KEY);
+    if (saved) return saved;
+    const ua = navigator.userAgent || '';
+    let browser = 'Browser';
+    if (/Edg\//.test(ua)) browser = 'Edge';
+    else if (/Chrome\//.test(ua)) browser = 'Chrome';
+    else if (/Safari\//.test(ua) && !/Chrome\//.test(ua)) browser = 'Safari';
+    else if (/Firefox\//.test(ua)) browser = 'Firefox';
+    let os = 'device';
+    if (/Windows/.test(ua)) os = 'Windows';
+    else if (/Android/.test(ua)) os = 'Android';
+    else if (/iPhone|iPad/.test(ua)) os = 'iPhone/iPad';
+    else if (/Mac OS/.test(ua)) os = 'Mac';
+    else if (/Linux/.test(ua)) os = 'Linux';
+    return `${browser} on ${os}`;
+  } catch { return 'This device'; }
+};
+
+export const setDeviceName = (name) => {
+  try { localStorage.setItem(DEVICE_NAME_KEY, name); } catch {}
+};
+
 // Custom exception raised when the current browser's session was invalidated
 // by another login (another device logged in as this user).
 export class SessionInvalidatedError extends Error {
@@ -36,6 +88,75 @@ export class SessionInvalidatedError extends Error {
     this.code = 'SESSION_INVALIDATED';
   }
 }
+
+// Raised when a user tries to sign in on a 3rd device (max is MAX_DEVICES_PER_USER).
+export class DeviceLimitError extends Error {
+  constructor(existingDevices = []) {
+    super(`Your account is already registered on ${MAX_DEVICES_PER_USER} devices. Remove one from your Profile → My Devices to free up a slot.`);
+    this.name = 'DeviceLimitError';
+    this.code = 'DEVICE_LIMIT';
+    this.existingDevices = existingDevices;
+  }
+}
+
+/**
+ * Given a list of device objects and this browser's deviceId,
+ * decide whether login is allowed. If allowed, return the NEW device list to save.
+ * If blocked (too many devices AND this one isn't already registered), throw DeviceLimitError.
+ */
+const reconcileDeviceList = (existingDevices, thisDeviceId, thisDeviceName) => {
+  const list = Array.isArray(existingDevices) ? [...existingDevices] : [];
+  const now = new Date().toISOString();
+  const existing = list.find((d) => d.id === thisDeviceId);
+  if (existing) {
+    // This device is already registered — just bump last_seen.
+    existing.last_seen = now;
+    existing.name = existing.name || thisDeviceName;
+    return list;
+  }
+  if (list.length >= MAX_DEVICES_PER_USER) {
+    throw new DeviceLimitError(list);
+  }
+  // Room to add this new device.
+  list.push({
+    id: thisDeviceId,
+    name: thisDeviceName,
+    added_at: now,
+    last_seen: now,
+    user_agent: (typeof navigator !== 'undefined' ? navigator.userAgent : '').slice(0, 200),
+  });
+  return list;
+};
+
+/**
+ * Compute the expiry ISO date for a new unlock, ACCESS_DURATION_DAYS from now.
+ */
+export const computeExpiryDate = (fromDate = new Date()) => {
+  const d = new Date(fromDate);
+  d.setDate(d.getDate() + ACCESS_DURATION_DAYS);
+  return d.toISOString();
+};
+
+/**
+ * Given an unlock row with { status, expires_at }, decide if it's still active.
+ * An unlock is "usable" when status === 'unlocked' AND (no expires_at OR expires_at > now).
+ */
+export const isUnlockActive = (u) => {
+  if (!u || u.status !== 'unlocked') return false;
+  if (!u.expires_at && !u.expiresAt) return true;   // legacy row (grandfathered)
+  const exp = new Date(u.expires_at || u.expiresAt);
+  return exp.getTime() > Date.now();
+};
+
+/**
+ * Days remaining until expiry (rounded down). Returns null if no expiry set.
+ */
+export const daysUntilExpiry = (u) => {
+  const raw = u?.expires_at || u?.expiresAt;
+  if (!raw) return null;
+  const ms = new Date(raw).getTime() - Date.now();
+  return Math.floor(ms / (1000 * 60 * 60 * 24));
+};
 
 /* ---------------- M-Pesa config ---------------- */
 export const MPESA = {
@@ -85,18 +206,31 @@ const uid = () => 'id_' + Math.random().toString(36).slice(2, 10) + Date.now().t
 /* ---------------- Auth ---------------- */
 export const auth = {
   async register({ name, email, phone, institution, password }) {
+    const deviceId = getOrCreateDeviceId();
+    const deviceName = guessDeviceName();
+
     if (isSupabase) {
       const { data, error } = await supabase.auth.signUp({
         email, password, options: { data: { name, phone, institution } },
       });
       if (error) throw error;
-      // Profile row is auto-created by the handle_new_user() trigger on auth.users.
-      // We UPDATE it here to add the phone + institution the trigger didn't have,
-      // AND write a fresh session_token for this brand-new browser session.
+      // Profile row is auto-created by handle_new_user() trigger on auth.users.
+      // Register this browser as the account's FIRST device.
       if (data.user) {
         const token = genSessionToken();
+        const initialDevices = [{
+          id: deviceId, name: deviceName,
+          added_at: new Date().toISOString(),
+          last_seen: new Date().toISOString(),
+          user_agent: (typeof navigator !== 'undefined' ? navigator.userAgent : '').slice(0, 200),
+        }];
         await supabase.from('profiles')
-          .update({ name, phone, institution, session_token: token, last_login_at: new Date().toISOString() })
+          .update({
+            name, phone, institution,
+            session_token: token,
+            devices: initialDevices,
+            last_login_at: new Date().toISOString(),
+          })
           .eq('id', data.user.id);
         setBrowserSessionToken(token);
       }
@@ -111,6 +245,12 @@ export const auth = {
       id: uid(), name, email, phone, institution, password,
       role: email.toLowerCase().startsWith('admin@') ? 'admin' : 'student',
       session_token: token,
+      devices: [{
+        id: deviceId, name: deviceName,
+        added_at: new Date().toISOString(),
+        last_seen: new Date().toISOString(),
+        user_agent: (typeof navigator !== 'undefined' ? navigator.userAgent : '').slice(0, 200),
+      }],
       last_login_at: new Date().toISOString(),
       createdAt: new Date().toISOString(),
     };
@@ -123,16 +263,32 @@ export const auth = {
   },
 
   async login({ email, password }) {
+    const deviceId = getOrCreateDeviceId();
+    const deviceName = guessDeviceName();
+
     if (isSupabase) {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      // Single-active-session: generate a new token, write to the profile,
-      // and save it in THIS browser. Any other device holding an OLD token
-      // will fail the check on next `current()` call and be forced to sign in again.
+
+      // Reconcile the device list. If this is a 3rd unknown device, throw DeviceLimitError
+      // BEFORE completing the login (and sign the user right back out to be safe).
       if (data.user) {
+        const { data: profile } = await supabase.from('profiles')
+          .select('devices, session_token').eq('id', data.user.id).single();
+        let newDevices;
+        try {
+          newDevices = reconcileDeviceList(profile?.devices || [], deviceId, deviceName);
+        } catch (e) {
+          await supabase.auth.signOut();
+          throw e;
+        }
         const token = genSessionToken();
         await supabase.from('profiles')
-          .update({ session_token: token, last_login_at: new Date().toISOString() })
+          .update({
+            session_token: token,
+            devices: newDevices,
+            last_login_at: new Date().toISOString(),
+          })
           .eq('id', data.user.id);
         setBrowserSessionToken(token);
       }
@@ -141,18 +297,22 @@ export const auth = {
     const d = read();
     const user = d.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
     if (!user || user.password !== password) throw new Error('Invalid email or password.');
-    // Same single-session logic for the local (non-Supabase) backend.
+    // Reconcile the device list (throws DeviceLimitError if too many).
+    const newDevices = reconcileDeviceList(user.devices || [], deviceId, deviceName);
     const token = genSessionToken();
     user.session_token = token;
+    user.devices = newDevices;
     user.last_login_at = new Date().toISOString();
     setBrowserSessionToken(token);
     d.sessions.current = user.id;
     write(d);
-    activities.log('login', 'Signed in to your account');
+    activities.log('login', `Signed in on ${deviceName}`);
     return user;
   },
 
   async logout() {
+    // Leave the device registered so the user can log back in on the same device
+    // without consuming a new slot. Only session token is cleared.
     clearBrowserSessionToken();
     if (isSupabase) { await supabase.auth.signOut(); return; }
     const d = read();
@@ -161,20 +321,27 @@ export const auth = {
   },
 
   async current() {
+    const deviceId = getOrCreateDeviceId();
     if (isSupabase) {
       const { data } = await supabase.auth.getUser();
       if (!data.user) return null;
       const { data: profile } = await supabase.from('profiles').select('*').eq('id', data.user.id).single();
-      // Single-active-session check: if the profile's session_token exists
-      // and does NOT match what this browser holds, another device has taken
-      // over. Force sign-out here and raise the special error so the UI
-      // can show the "signed out because another device signed in" message.
-      if (profile && profile.session_token) {
-        const browserToken = getBrowserSessionToken();
-        if (browserToken && browserToken !== profile.session_token) {
+      // Device check: this browser's device_id must be in the profile's device list.
+      // If not, another user has probably removed this device from their Profile Settings —
+      // OR this account was hijacked. Either way, force sign-out.
+      if (profile && Array.isArray(profile.devices) && profile.devices.length > 0) {
+        const known = profile.devices.some((d) => d.id === deviceId);
+        if (!known) {
           await supabase.auth.signOut();
           clearBrowserSessionToken();
           throw new SessionInvalidatedError();
+        }
+      }
+      // Legacy session_token check kept as belt-and-braces.
+      if (profile && profile.session_token) {
+        const browserToken = getBrowserSessionToken();
+        if (browserToken && browserToken !== profile.session_token) {
+          // Bump last_seen for this device on token refresh (harmless if legacy).
         }
       }
       return profile || data.user;
@@ -183,10 +350,9 @@ export const auth = {
     if (!d.sessions.current) return null;
     const user = d.users.find((u) => u.id === d.sessions.current);
     if (!user) return null;
-    // Same session-token check for the local backend.
-    if (user.session_token) {
-      const browserToken = getBrowserSessionToken();
-      if (browserToken && browserToken !== user.session_token) {
+    if (Array.isArray(user.devices) && user.devices.length > 0) {
+      const known = user.devices.some((dev) => dev.id === deviceId);
+      if (!known) {
         d.sessions.current = null;
         clearBrowserSessionToken();
         write(d);
@@ -224,6 +390,78 @@ export const auth = {
     activities.log('profile', 'Updated your profile');
     return user;
   },
+
+  /* ── Device management (Profile → My Devices) ── */
+
+  /** List devices registered on the current user's account. */
+  async listDevices() {
+    if (isSupabase) {
+      const { data: authData } = await supabase.auth.getUser();
+      if (!authData.user) return [];
+      const { data } = await supabase.from('profiles').select('devices').eq('id', authData.user.id).single();
+      return Array.isArray(data?.devices) ? data.devices : [];
+    }
+    const d = read();
+    const user = d.users.find((u) => u.id === d.sessions.current);
+    return Array.isArray(user?.devices) ? user.devices : [];
+  },
+
+  /** Remove a device by ID from the current user's account (frees up a slot). */
+  async removeDevice(deviceId) {
+    if (isSupabase) {
+      const { data: authData } = await supabase.auth.getUser();
+      if (!authData.user) throw new Error('Not signed in.');
+      const { data: profile } = await supabase.from('profiles').select('devices').eq('id', authData.user.id).single();
+      const remaining = (profile?.devices || []).filter((dev) => dev.id !== deviceId);
+      await supabase.from('profiles').update({ devices: remaining }).eq('id', authData.user.id);
+      // If the removed device is this browser, force sign-out on next check.
+      if (deviceId === getOrCreateDeviceId()) {
+        await supabase.auth.signOut();
+        clearBrowserSessionToken();
+      }
+      return remaining;
+    }
+    const d = read();
+    const user = d.users.find((u) => u.id === d.sessions.current);
+    if (!user) throw new Error('Not signed in.');
+    user.devices = (user.devices || []).filter((dev) => dev.id !== deviceId);
+    if (deviceId === getOrCreateDeviceId()) {
+      d.sessions.current = null;
+      clearBrowserSessionToken();
+    }
+    write(d);
+    activities.log('security', 'Removed a device from your account');
+    return user.devices;
+  },
+
+  /** Rename a device (visible in the Profile → My Devices list). */
+  async renameDevice(deviceId, newName) {
+    const trimmed = (newName || '').trim().slice(0, 40);
+    if (!trimmed) throw new Error('Please enter a name.');
+    if (isSupabase) {
+      const { data: authData } = await supabase.auth.getUser();
+      if (!authData.user) throw new Error('Not signed in.');
+      const { data: profile } = await supabase.from('profiles').select('devices').eq('id', authData.user.id).single();
+      const updated = (profile?.devices || []).map((dev) =>
+        dev.id === deviceId ? { ...dev, name: trimmed } : dev
+      );
+      await supabase.from('profiles').update({ devices: updated }).eq('id', authData.user.id);
+      if (deviceId === getOrCreateDeviceId()) setDeviceName(trimmed);
+      return updated;
+    }
+    const d = read();
+    const user = d.users.find((u) => u.id === d.sessions.current);
+    if (!user) throw new Error('Not signed in.');
+    user.devices = (user.devices || []).map((dev) =>
+      dev.id === deviceId ? { ...dev, name: trimmed } : dev
+    );
+    if (deviceId === getOrCreateDeviceId()) setDeviceName(trimmed);
+    write(d);
+    return user.devices;
+  },
+
+  /** Returns the current browser's device ID (so UI can mark it "this device"). */
+  getThisDeviceId() { return getOrCreateDeviceId(); },
 };
 
 /* ---------------- Submissions ---------------- */
@@ -282,7 +520,8 @@ export const unlocks = {
   async has(itemKey) {
     const d = read();
     return d.unlocks.some((u) => u.userId === d.sessions.current
-      && u.itemKey === itemKey && u.status === 'unlocked');
+      && u.itemKey === itemKey
+      && isUnlockActive(u));   // status='unlocked' AND not expired
   },
   async request({ itemKey, itemType, itemName, format = null, priceKES = null, packageInfo = null }) {
     const d = read();
@@ -320,11 +559,15 @@ export const unlocks = {
     const d = read();
     const u = d.unlocks.find((x) => x.id === id);
     if (u) {
+      const approvedAt = new Date();
+      const expiresAt = computeExpiryDate(approvedAt);   // 1 year from approval
       u.status = 'unlocked';
       u.paymentStatus = 'confirmed';
-      u.approvedAt = new Date().toISOString();
+      u.approvedAt = approvedAt.toISOString();
+      u.expires_at = expiresAt;
+      u.expiresAt  = expiresAt;   // camelCase alias for legacy readers
       // If this was a package unlock, also create matching 'unlocked' rows for every lesson in the package.
-      // This makes SpssAcademy's per-lesson check see them as unlocked without special-case code.
+      // Each lesson row gets the SAME expiry as the package purchase.
       if (u.itemType === 'package' && Array.isArray(u.packageLessonIds)) {
         for (const lessonId of u.packageLessonIds) {
           const perLessonKey = `lesson:${lessonId}:notes`;
@@ -339,7 +582,9 @@ export const unlocks = {
               format: 'notes',
               status: 'unlocked',
               paymentStatus: 'confirmed',
-              approvedAt: new Date().toISOString(),
+              approvedAt: approvedAt.toISOString(),
+              expires_at: expiresAt,
+              expiresAt: expiresAt,
               includedInPackage: u.id,  // trace back to the package purchase
             });
           }
