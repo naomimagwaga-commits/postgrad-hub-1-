@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { MPESA, unlocks } from '../lib/db.js';
+import { sendPaymentClaimEmails } from '../lib/emails.js';
+import { useAuth } from '../context/AuthContext.jsx';
 import { IconCheck, IconClose, IconArrow, IconPhone } from './Icons.jsx';
 
 /**
@@ -9,8 +11,9 @@ import { IconCheck, IconClose, IconArrow, IconPhone } from './Icons.jsx';
  *     formatted as an SMS-style prompt (real STK push requires Daraja API)
  */
 export default function MpesaModal({
-  open, onClose, item, onClaimed, // item = { itemKey, itemType, itemName, format }
+  open, onClose, item, onClaimed, // item = { itemKey, itemType, itemName, format, priceKES?, packageInfo? }
 }) {
+  const { user } = useAuth();
   const [tab, setTab] = useState('paybill'); // paybill | prompt
   const [phone, setPhone] = useState('');
   const [phase, setPhase] = useState('idle'); // idle | requested | promptSent | claimed
@@ -37,6 +40,16 @@ export default function MpesaModal({
 
   const markAsPaid = async () => {
     if (requestId) await unlocks.claimPaid(requestId);
+    // Fire-and-forget: send the receipt to the student AND alert to admin.
+    // Never awaited — even if the email service is down, the payment claim still succeeds.
+    sendPaymentClaimEmails({
+      studentEmail: user?.email,
+      studentName:  user?.name,
+      studentPhone: user?.phone,
+      itemName:     item.itemName,
+      priceKES:     item.priceKES,
+      claimedAt:    new Date().toISOString(),
+    }).catch(() => { /* logged inside helper */ });
     setPhase('claimed');
     setTimeout(() => { onClaimed?.(); onClose(); }, 1800);
   };
