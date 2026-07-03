@@ -60,7 +60,7 @@ export default function Admin() {
           This area is restricted to administrators. If you need access, contact the platform team.
         </p>
         <p className="text-xs text-slate-400 mt-6">
-          Demo tip: register with an email starting with <code className="bg-slate-100 px-1.5 py-0.5 rounded">admin@</code> to get admin access.
+          If you should have admin access but don't, contact the platform owner to be added to the admin allow-list.
         </p>
       </div>
     );
@@ -553,6 +553,11 @@ function Unlocks() {
                       {isPackage && (
                         <span className="badge bg-emerald-500 text-white text-[10px] font-bold">
                           📦 Package · {u.packageLessonIds.length} lessons
+                        </span>
+                      )}
+                      {u.isRenewal && (
+                        <span className="badge bg-purple-500 text-white text-[10px] font-bold">
+                          🔄 Renewal
                         </span>
                       )}
                       {isClaimed && (

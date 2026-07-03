@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { unlocks, lessons as lessonsApi, daysUntilExpiry } from '../lib/db.js';
+import { unlocks, lessons as lessonsApi, daysUntilExpiry, isUnlockActive } from '../lib/db.js';
 import { COURSES } from '../data/courses.js';
 import { RICH_LESSONS, isRichLesson } from '../data/richLessons.js';
 import { priceForLesson, formatKES, packageForLesson } from '../data/prices.js';
@@ -22,7 +22,9 @@ export default function SpssAcademy() {
   const refresh = async () => {
     const u = await unlocks.list();
     setRawUnlocks(u);
-    setUnlockedKeys(u.filter((x) => x.status === 'unlocked').map((x) => x.itemKey));
+    // Only include ACTIVE unlocks (status='unlocked' AND not expired).
+    // Expired rows drop off automatically, so the UI shows them as locked/renewable.
+    setUnlockedKeys(u.filter(isUnlockActive).map((x) => x.itemKey));
     setProgress(await lessonsApi.listProgress());
   };
   useEffect(() => { refresh(); }, []);
@@ -38,6 +40,16 @@ export default function SpssAcademy() {
       x.itemType === 'lesson' && x.itemKey === `lesson:${lessonId}:notes` && x.status === 'unlocked'
     );
     return u ? daysUntilExpiry(u) : null;
+  };
+
+  // Returns true if the student's access to this lesson has EXPIRED
+  // (previously paid & approved, but the 1-year window has passed).
+  // Used to change the CTA from "Unlock" to "Renew".
+  const isExpired = (lessonId) => {
+    const u = rawUnlocks.find((x) =>
+      x.itemType === 'lesson' && x.itemKey === `lesson:${lessonId}:notes` && x.status === 'unlocked'
+    );
+    return u ? !isUnlockActive(u) : false;
   };
 
   // Find the lesson metadata across all courses by id.
@@ -194,6 +206,7 @@ export default function SpssAcademy() {
           freeUnlockHint={freeUnlockHint}
           pricingFor={pricingFor}
           expiryFor={expiryFor}
+          isExpired={isExpired}
           isCompleted={isCompleted}
           onBack={() => setActiveCourse(null)}
           onOpen={(lesson) => setActiveLesson(lesson)}
@@ -275,7 +288,7 @@ export default function SpssAcademy() {
 }
 
 /* ─────────── Course detail ─────────── */
-function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlockHint, pricingFor, expiryFor, isCompleted, onBack, onOpen, onBuy }) {
+function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlockHint, pricingFor, expiryFor, isExpired, isCompleted, onBack, onOpen, onBuy }) {
   const completed = course.lessons.filter((l) => isCompleted(l.id)).length;
   const allDone = completed === course.lessons.length;
 
@@ -313,6 +326,7 @@ function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlo
           const pricing = pricingFor ? pricingFor(l.id) : null;
           const daysLeft = has && !isFree && expiryFor ? expiryFor(l.id) : null;
           const expiringSoon = daysLeft !== null && daysLeft <= 30;
+          const expired = isExpired ? isExpired(l.id) : false;
           const freeBadge = freeWithLabel ? freeWithLabel(l) : (l.free ? 'FREE with SPSS Basics' : null);
           const freeHint = freeUnlockHint ? freeUnlockHint(l) : (l.free ? 'Unlock any SPSS Basics lesson to access this for free' : null);
 
@@ -340,14 +354,15 @@ function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlo
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className={`text-xs mt-0.5 ${expired ? 'text-red-600 font-semibold' : 'text-slate-500'}`}>
                     {done ? 'Completed' :
+                     expired ? '⚠️ Access expired — renew to continue' :
                      isFree ? 'Included free with your existing access' :
                      has ? 'Notes unlocked' :
                      l.free && freeHint ? freeHint :
                      'Locked'}
                   </p>
-                  {daysLeft !== null && (
+                  {daysLeft !== null && daysLeft > 0 && (
                     <p className={`text-[11px] mt-1 font-semibold ${
                       expiringSoon ? 'text-amber-700' : 'text-slate-500'
                     }`}>
@@ -370,6 +385,8 @@ function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlo
                   freeBadge={freeBadge}
                   freeHint={freeHint}
                   pricing={pricing}
+                  expired={expired}
+                  daysLeft={daysLeft}
                   onBuy={() => onBuy(l, 'notes')}
                   onOpen={() => onOpen(l)}
                 />
@@ -383,7 +400,7 @@ function CourseDetail({ course, hasFormat, accessReason, freeWithLabel, freeUnlo
   );
 }
 
-function FormatTile({ type, unlocked, reason, isFreeLesson, freeBadge, freeHint, pricing, onBuy, onOpen }) {
+function FormatTile({ type, unlocked, reason, isFreeLesson, freeBadge, freeHint, pricing, expired, daysLeft, onBuy, onOpen }) {
   const isNotes = type === 'notes';
   const videoComingSoon = !isNotes;
   const isFreeAccess = reason === 'free';
@@ -399,14 +416,23 @@ function FormatTile({ type, unlocked, reason, isFreeLesson, freeBadge, freeHint,
   const isPackage = pricing?.isPackage;
   const hasDiscount = pricing?.discountApplied;
 
+  // "Expiring soon" — active but ≤30 days left → subtle amber "Renew early" secondary button
+  const expiringSoon = daysLeft !== null && daysLeft !== undefined && daysLeft > 0 && daysLeft <= 30;
+
   return (
     <div className={`relative p-4 rounded-xl border-2 ${
       videoComingSoon ? 'border-slate-200 bg-slate-50/70 opacity-75' :
+      expired ? 'border-red-300 bg-red-50/60' :
       isFreeAccess ? 'border-emerald-300 bg-emerald-50/60' :
       unlocked ? 'border-emerald-200 bg-emerald-50/40' :
       isFreeLesson ? 'border-emerald-300 bg-emerald-50/40' :
       'border-gold/40 bg-gold/5'
     }`}>
+      {expired && isNotes && (
+        <span className="absolute top-2 right-2 badge bg-red-500 text-white text-[10px] font-bold">
+          ⚠️ EXPIRED
+        </span>
+      )}
       {videoComingSoon && (
         <span className="absolute top-2 right-2 badge bg-slate-200 text-slate-600 text-[10px]">
           Coming soon
@@ -438,12 +464,34 @@ function FormatTile({ type, unlocked, reason, isFreeLesson, freeBadge, freeHint,
           <button disabled className="w-full text-sm py-2 px-3 rounded-lg bg-slate-200 text-slate-500 font-semibold cursor-not-allowed">
             Coming soon
           </button>
+        ) : expired && isNotes ? (
+          /* EXPIRED — offer renewal at the same price */
+          <>
+            <button onClick={onBuy}
+              className="w-full text-sm py-2 px-3 rounded-lg bg-red-600 text-white font-bold hover:bg-red-700 flex flex-col items-center justify-center gap-0.5">
+              <span className="flex items-center gap-1">
+                🔄 Renew access{priceLabel ? ` · ${priceLabel}` : ''}
+              </span>
+              <span className="text-[10px] font-normal opacity-90">1 more year of access</span>
+            </button>
+            <p className="text-[10px] text-red-600 text-center mt-1.5 italic">
+              Your 1-year access ended. Renew to keep reading.
+            </p>
+          </>
         ) : unlocked ? (
-          <button onClick={onOpen}
-            className="w-full text-sm py-2 px-3 rounded-lg bg-white border border-emerald-300 text-emerald-700 font-semibold hover:bg-emerald-50 flex items-center justify-center gap-1">
-            {isFreeAccess && <span className="text-[11px]">★</span>}
-            Open notes
-          </button>
+          <>
+            <button onClick={onOpen}
+              className="w-full text-sm py-2 px-3 rounded-lg bg-white border border-emerald-300 text-emerald-700 font-semibold hover:bg-emerald-50 flex items-center justify-center gap-1">
+              {isFreeAccess && <span className="text-[11px]">★</span>}
+              Open notes
+            </button>
+            {expiringSoon && !isFreeAccess && (
+              <button onClick={onBuy}
+                className="w-full mt-2 text-xs py-1.5 px-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 font-semibold hover:bg-amber-100 flex items-center justify-center gap-1">
+                🔄 Renew early{priceLabel ? ` · ${priceLabel}` : ''}
+              </button>
+            )}
+          </>
         ) : isFreeLesson ? (
           <button disabled
             className="w-full text-sm py-2 px-3 rounded-lg bg-emerald-100 text-emerald-700 font-semibold cursor-not-allowed text-left px-3 flex items-center gap-1.5">
