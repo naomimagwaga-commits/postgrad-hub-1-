@@ -1,0 +1,11 @@
+# The Postgraduate Data Hub, Kenya — robots.txt
+# https://postgrad-hub-1.vercel.app
+
+User-agent: *
+Allow: /
+Disallow: /app/
+Disallow: /admin
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://postgrad-hub-1.vercel.app/sitemap.xml
