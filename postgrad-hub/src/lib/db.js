@@ -263,6 +263,7 @@ const seedIfEmpty = () => {
       unlocks: [],
       bookings: [],
       lessonProgress: [],
+      analysisChecklist: [],   // per-user ticked items in the Analysis Checklist page
       analysisOrders: [],
       activities: [],
       payments: [],
@@ -923,6 +924,25 @@ export const lessons = {
     const d = read();
     return d.lessonProgress.filter((p) => p.userId === d.sessions.current);
   },
+  /**
+   * Called when a student opens a lesson (whether they complete it or not).
+   * Used to power "Continue where you left off" on the dashboard.
+   */
+  async markOpened(lessonId) {
+    const d = read();
+    let p = d.lessonProgress.find(
+      (x) => x.userId === d.sessions.current && x.lessonId === lessonId
+    );
+    const now = new Date().toISOString();
+    if (!p) {
+      p = { id: uid(), userId: d.sessions.current, lessonId, completed: false, quizScore: null, at: now, openedAt: now };
+      d.lessonProgress.push(p);
+    } else {
+      p.openedAt = now;
+    }
+    write(d);
+    return p;
+  },
   async markComplete(lessonId, quizScore = null) {
     const d = read();
     let p = d.lessonProgress.find(
@@ -937,6 +957,65 @@ export const lessons = {
     write(d);
     activities.log('lesson', `Completed lesson`);
     return p;
+  },
+  /**
+   * Streak = number of consecutive days (up to today) with at least one
+   * completed lesson or opened lesson. Motivates daily return visits.
+   */
+  async currentStreak() {
+    const d = read();
+    const dates = new Set();
+    d.lessonProgress
+      .filter((p) => p.userId === d.sessions.current)
+      .forEach((p) => {
+        [p.at, p.openedAt].filter(Boolean).forEach((ts) => {
+          dates.add(new Date(ts).toISOString().slice(0, 10));
+        });
+      });
+    let streak = 0;
+    const cur = new Date();
+    while (true) {
+      const key = cur.toISOString().slice(0, 10);
+      if (dates.has(key)) {
+        streak++;
+        cur.setDate(cur.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+    return streak;
+  },
+};
+
+/* ═════════════════════════════════════════════════════════════════════
+ *  ANALYSIS CHECKLIST — 9-stage step-by-step workflow
+ *  Each user has an array of "ticked item IDs" they've completed.
+ * ═════════════════════════════════════════════════════════════════════ */
+export const analysisChecklist = {
+  async list() {
+    const d = read();
+    const row = d.analysisChecklist.find((x) => x.userId === d.sessions.current);
+    return row?.ticked || [];
+  },
+  async toggle(itemId) {
+    const d = read();
+    let row = d.analysisChecklist.find((x) => x.userId === d.sessions.current);
+    if (!row) {
+      row = { userId: d.sessions.current, ticked: [], updatedAt: new Date().toISOString() };
+      d.analysisChecklist.push(row);
+    }
+    const idx = row.ticked.indexOf(itemId);
+    if (idx >= 0) row.ticked.splice(idx, 1);
+    else row.ticked.push(itemId);
+    row.updatedAt = new Date().toISOString();
+    write(d);
+    return row.ticked;
+  },
+  async reset() {
+    const d = read();
+    const row = d.analysisChecklist.find((x) => x.userId === d.sessions.current);
+    if (row) { row.ticked = []; row.updatedAt = new Date().toISOString(); write(d); }
+    return [];
   },
 };
 
