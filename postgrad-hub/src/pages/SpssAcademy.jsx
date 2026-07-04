@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { unlocks, lessons as lessonsApi, daysUntilExpiry, isUnlockActive } from '../lib/db.js';
 import { COURSES } from '../data/courses.js';
 import { RICH_LESSONS, isRichLesson } from '../data/richLessons.js';
@@ -12,12 +13,25 @@ import {
 const lessonKey = (lessonId, format) => `lesson:${lessonId}:${format}`;
 
 export default function SpssAcademy() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [unlockedKeys, setUnlockedKeys] = useState([]);
   const [rawUnlocks, setRawUnlocks] = useState([]);   // used for conditional pricing
   const [progress, setProgress] = useState([]);
   const [activeCourse, setActiveCourse] = useState(null);
   const [activeLesson, setActiveLesson] = useState(null);
   const [payItem, setPayItem] = useState(null);
+
+  // If the URL contains ?course=<slug> (e.g. from the sidebar dropdown),
+  // jump straight into that course. Whenever the user manually goes "back",
+  // we clear the ?course= param so the URL stays in sync with the UI.
+  useEffect(() => {
+    const slug = searchParams.get('course');
+    if (slug) {
+      const c = COURSES.find((x) => x.slug === slug);
+      if (c) { setActiveCourse(c); setActiveLesson(null); }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const refresh = async () => {
     const u = await unlocks.list();
@@ -208,8 +222,8 @@ export default function SpssAcademy() {
           expiryFor={expiryFor}
           isExpired={isExpired}
           isCompleted={isCompleted}
-          onBack={() => setActiveCourse(null)}
-          onOpen={(lesson) => setActiveLesson(lesson)}
+          onBack={() => { setActiveCourse(null); if (searchParams.get('course')) setSearchParams({}); }}
+          onOpen={(lesson) => { setActiveLesson(lesson); lessonsApi.markOpened(lesson.id); }}
           onBuy={openPayment}
         />
         <MpesaModal open={!!payItem} item={payItem}

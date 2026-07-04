@@ -4,7 +4,7 @@ import { auth, MAX_DEVICES_PER_USER, REFERRAL_REWARD_KES, REFERRAL_TRIGGER_PRICE
 
 export default function Profile() {
   const { user, updateProfile, logout } = useAuth();
-  const [form, setForm] = useState({ name: '', email: '', phone: '', institution: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', institution: '', thesis_deadline: '' });
   const [pwd, setPwd] = useState({ current: '', next: '' });
   const [msg, setMsg] = useState(null);
 
@@ -22,7 +22,13 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    if (user) setForm({ name: user.name, email: user.email, phone: user.phone || '', institution: user.institution || '' });
+    if (user) setForm({
+      name: user.name,
+      email: user.email,
+      phone: user.phone || '',
+      institution: user.institution || '',
+      thesis_deadline: user.thesis_deadline || user.thesisDeadline || '',
+    });
     refreshDevices();
   }, [user]);
 
@@ -132,6 +138,17 @@ export default function Profile() {
               onChange={(e) => setForm({ ...form, institution: e.target.value })}
               placeholder="e.g. University of Nairobi"/>
             <p className="text-xs text-slate-500 mt-1.5">Add this if you'd like our team to tailor outputs to your institution's thesis format.</p>
+          </div>
+          <div>
+            <label className="label">Thesis deadline (optional)</label>
+            <input
+              type="date"
+              className="input"
+              value={form.thesis_deadline || ''}
+              onChange={(e) => setForm({ ...form, thesis_deadline: e.target.value })}
+              min={new Date().toISOString().slice(0, 10)}
+            />
+            <p className="text-xs text-slate-500 mt-1.5">Set this and your dashboard will show a countdown so you never lose track of the deadline.</p>
           </div>
           <div className="sm:col-span-2 flex justify-end">
             <button className="btn-primary">Save changes</button>
