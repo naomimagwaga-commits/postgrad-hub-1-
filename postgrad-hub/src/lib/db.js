@@ -42,6 +42,59 @@ export const isAdminEmail = (email) => {
   return false;
 };
 
+/* ═════════════════════════════════════════════════════════════════════
+ *  REFERRAL SYSTEM
+ *  Rewards trigger only for premium (KES 1,750) lesson purchases.
+ *  Each successful referral awards KES 100 to BOTH sides.
+ *  Credits auto-apply as a discount on the next purchase.
+ * ═════════════════════════════════════════════════════════════════════ */
+
+// Minimum purchase price that triggers a referral reward.
+export const REFERRAL_TRIGGER_PRICE_KES = 1750;
+// Amount credited to referrer AND referred student per successful referral.
+export const REFERRAL_REWARD_KES = 100;
+
+/**
+ * Generate a memorable referral code from the user's name.
+ * Format: "FIRSTNAME-XXXX" (e.g. "NAOMI-K3R7", "MARY-9P2L").
+ * The random 4-char suffix ensures uniqueness even if names collide.
+ */
+export const generateReferralCode = (name) => {
+  const cleanName = String(name || 'friend')
+    .trim()
+    .split(/\s+/)[0]                    // first word only
+    .toUpperCase()
+    .replace(/[^A-Z]/g, '')             // strip anything non-alpha
+    .slice(0, 8) || 'FRIEND';
+  // Random 4-char suffix — letters + digits, no lookalikes (0/O/1/I).
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let suffix = '';
+  for (let i = 0; i < 4; i++) {
+    suffix += alphabet[Math.floor(Math.random() * alphabet.length)];
+  }
+  return `${cleanName}-${suffix}`;
+};
+
+/**
+ * Validate a referral code the student typed at signup.
+ * Returns { ok: true, ownerId } if the code exists, { ok: false } if not.
+ * Case-insensitive comparison.
+ */
+export const validateReferralCode = async (code) => {
+  const normalized = String(code || '').trim().toUpperCase();
+  if (!normalized) return { ok: false, reason: 'empty' };
+  if (isSupabase) {
+    const { data } = await supabase.from('profiles')
+      .select('id, name, referral_code').ilike('referral_code', normalized).maybeSingle();
+    if (data) return { ok: true, ownerId: data.id, ownerName: data.name };
+    return { ok: false, reason: 'not_found' };
+  }
+  const d = read();
+  const owner = d.users.find((u) => (u.referral_code || '').toUpperCase() === normalized);
+  if (owner) return { ok: true, ownerId: owner.id, ownerName: owner.name };
+  return { ok: false, reason: 'not_found' };
+};
+
 const genSessionToken = () =>
   'st_' + Math.random().toString(36).slice(2) + '_' + Date.now().toString(36);
 const getBrowserSessionToken = () => {
@@ -223,9 +276,14 @@ const uid = () => 'id_' + Math.random().toString(36).slice(2, 10) + Date.now().t
 
 /* ---------------- Auth ---------------- */
 export const auth = {
-  async register({ name, email, phone, institution, password }) {
+  async register({ name, email, phone, institution, password, referralCode }) {
     const deviceId = getOrCreateDeviceId();
     const deviceName = guessDeviceName();
+
+    // Generate this new user's OWN unique referral code (so they can refer others).
+    const myReferralCode = generateReferralCode(name);
+    // Normalise the incoming code (from "referred by" field), if any.
+    const cleanReferredBy = String(referralCode || '').trim().toUpperCase() || null;
 
     if (isSupabase) {
       const { data, error } = await supabase.auth.signUp({
@@ -247,6 +305,8 @@ export const auth = {
             name, phone, institution,
             session_token: token,
             devices: initialDevices,
+            referral_code: myReferralCode,
+            referred_by: cleanReferredBy,
             last_login_at: new Date().toISOString(),
           })
           .eq('id', data.user.id);
@@ -269,6 +329,9 @@ export const auth = {
         last_seen: new Date().toISOString(),
         user_agent: (typeof navigator !== 'undefined' ? navigator.userAgent : '').slice(0, 200),
       }],
+      referral_code: myReferralCode,
+      referred_by: cleanReferredBy,
+      credits_kes: 0,
       last_login_at: new Date().toISOString(),
       createdAt: new Date().toISOString(),
     };
@@ -276,7 +339,7 @@ export const auth = {
     d.sessions.current = user.id;
     setBrowserSessionToken(token);
     write(d);
-    activities.log('account', 'Created your account');
+    activities.log('account', `Created your account${cleanReferredBy ? ' (referred by ' + cleanReferredBy + ')' : ''}`);
     return user;
   },
 
@@ -292,7 +355,7 @@ export const auth = {
       // BEFORE completing the login (and sign the user right back out to be safe).
       if (data.user) {
         const { data: profile } = await supabase.from('profiles')
-          .select('devices, session_token').eq('id', data.user.id).single();
+          .select('devices, session_token, name, referral_code').eq('id', data.user.id).single();
         let newDevices;
         try {
           newDevices = reconcileDeviceList(profile?.devices || [], deviceId, deviceName);
@@ -309,6 +372,10 @@ export const auth = {
         };
         if (isAdminEmail(data.user.email)) {
           updatePayload.role = 'admin';
+        }
+        // Backfill referral_code for accounts created BEFORE the referral feature.
+        if (!profile?.referral_code) {
+          updatePayload.referral_code = generateReferralCode(profile?.name || data.user.email);
         }
         await supabase.from('profiles')
           .update(updatePayload)
@@ -331,6 +398,11 @@ export const auth = {
     if (isAdminEmail(user.email) && user.role !== 'admin') {
       user.role = 'admin';
     }
+    // Backfill referral_code for accounts created BEFORE the referral feature existed.
+    if (!user.referral_code) {
+      user.referral_code = generateReferralCode(user.name);
+    }
+    if (user.credits_kes == null) user.credits_kes = 0;
     setBrowserSessionToken(token);
     d.sessions.current = user.id;
     write(d);
@@ -565,6 +637,14 @@ export const unlocks = {
   async request({ itemKey, itemType, itemName, format = null, priceKES = null, packageInfo = null }) {
     const d = read();
     const existing = d.unlocks.find((u) => u.userId === d.sessions.current && u.itemKey === itemKey);
+    const buyer = d.users.find((x) => x.id === d.sessions.current);
+
+    // Auto-apply available referral credits to reduce the M-Pesa amount.
+    // (Never below KES 0. Credits are consumed permanently once used on a request.)
+    const availableCredit = buyer?.credits_kes || 0;
+    const originalPrice = priceKES ?? 0;
+    const creditApplied = Math.min(availableCredit, originalPrice);
+    const finalPrice = Math.max(0, originalPrice - creditApplied);
 
     // REUSE the existing row only if it's STILL ACTIVE (pending, or unlocked-and-not-expired).
     // If it's expired (student is renewing), we RESET it back to a fresh pending state
@@ -576,15 +656,19 @@ export const unlocks = {
       // Renewal path — reset the existing row to a new pending claim.
       existing.status = 'pending';
       existing.paymentStatus = 'unpaid';
-      existing.priceKES = priceKES;
+      existing.priceKES = finalPrice;
+      existing.priceBeforeCredit = originalPrice;
+      existing.creditApplied = creditApplied;
       existing.requestedAt = new Date().toISOString();
       existing.claimedAt = null;
       existing.approvedAt = null;
       existing.expires_at = null;
       existing.expiresAt  = null;
-      existing.isRenewal  = true;   // tag so admin can see this is a renewal, not first-time
+      existing.isRenewal  = true;
+      // Consume credits (they're locked in the moment the request is made).
+      if (buyer && creditApplied > 0) buyer.credits_kes = availableCredit - creditApplied;
       write(d);
-      activities.log('unlock', `Requested RENEWAL for ${itemName}${priceKES ? ' (KES '+priceKES+')' : ''}`);
+      activities.log('unlock', `Requested RENEWAL for ${itemName} (KES ${finalPrice}${creditApplied ? `, ${creditApplied} credit applied` : ''})`);
       return existing;
     }
 
@@ -592,15 +676,20 @@ export const unlocks = {
       id: uid(),
       userId: d.sessions.current,
       itemKey, itemType, itemName, format,
-      priceKES,                     // for admin's benefit: shows amount to verify against M-Pesa
+      priceKES: finalPrice,             // amount admin needs to see on M-Pesa
+      priceBeforeCredit: originalPrice, // original price (for referral trigger check)
+      creditApplied,                    // KES credit used on this purchase
       packageLessonIds: packageInfo ? packageInfo.lessonIds : null,
       status: 'pending',
-      paymentStatus: 'unpaid', // unpaid | claimed | confirmed
+      paymentStatus: 'unpaid',
       requestedAt: new Date().toISOString(),
     };
     d.unlocks.push(u);
+    if (buyer && creditApplied > 0) buyer.credits_kes = availableCredit - creditApplied;
     write(d);
-    activities.log('unlock', `Requested unlock for ${itemName}${format ? ' ('+format+')' : ''}${priceKES ? ' (KES '+priceKES+')' : ''}`);
+    activities.log('unlock',
+      `Requested unlock for ${itemName}${format ? ' ('+format+')' : ''} (KES ${finalPrice}${creditApplied ? `, ${creditApplied} credit applied` : ''})`
+    );
     return u;
   },
   async claimPaid(id) {
@@ -651,6 +740,32 @@ export const unlocks = {
           }
         }
       }
+
+      // 🎁 REFERRAL REWARD
+      // Trigger conditions:
+      //   1. This unlock's price (before any credit) was ≥ KES 1,750
+      //   2. The buyer has a `referred_by` code pointing to another user
+      //   3. This is the FIRST triggering purchase (award only once per referee)
+      //   4. Not a renewal (renewals don't earn fresh referral rewards)
+      const originalPrice = u.priceBeforeCredit ?? u.priceKES ?? 0;
+      const eligibleAmount = originalPrice >= REFERRAL_TRIGGER_PRICE_KES;
+      if (eligibleAmount && !u.isRenewal) {
+        const buyer = d.users.find((x) => x.id === u.userId);
+        if (buyer && buyer.referred_by && !buyer.referral_reward_paid) {
+          const referrer = d.users.find((x) =>
+            (x.referral_code || '').toUpperCase() === (buyer.referred_by || '').toUpperCase()
+          );
+          if (referrer) {
+            referrer.credits_kes = (referrer.credits_kes || 0) + REFERRAL_REWARD_KES;
+            buyer.credits_kes    = (buyer.credits_kes    || 0) + REFERRAL_REWARD_KES;
+            buyer.referral_reward_paid = true;   // mark so we don't reward again
+            activities.log('referral',
+              `Referral reward: +KES ${REFERRAL_REWARD_KES} each to ${referrer.name} (referrer) and ${buyer.name} (referred)`
+            );
+          }
+        }
+      }
+
       write(d);
     }
     return u;
