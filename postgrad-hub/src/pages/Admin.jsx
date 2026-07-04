@@ -550,6 +550,11 @@ function Unlocks() {
                       <span className="display text-2xl font-bold text-brand">
                         KES {Number(u.priceKES).toLocaleString('en-KE')}
                       </span>
+                      {u.creditApplied > 0 && (
+                        <span className="badge bg-emerald-500 text-white text-[10px] font-bold">
+                          🎁 KES {u.creditApplied} referral credit applied
+                        </span>
+                      )}
                       {isPackage && (
                         <span className="badge bg-emerald-500 text-white text-[10px] font-bold">
                           📦 Package · {u.packageLessonIds.length} lessons
@@ -566,6 +571,11 @@ function Unlocks() {
                         </span>
                       )}
                     </div>
+                  )}
+                  {u.creditApplied > 0 && u.priceBeforeCredit && (
+                    <p className="text-[11px] text-slate-500 -mt-1 mb-1">
+                      Original: KES {u.priceBeforeCredit.toLocaleString('en-KE')} · Verify M-Pesa payment of <strong>KES {u.priceKES.toLocaleString('en-KE')}</strong>
+                    </p>
                   )}
 
                   {/* Item name */}

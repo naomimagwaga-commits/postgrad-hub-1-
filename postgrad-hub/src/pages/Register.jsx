@@ -22,8 +22,17 @@ export default function Register() {
   usePageTitle('Create account');
   const { register } = useAuth();
   const navigate = useNavigate();
+
+  // Prefill referral code if URL is /register?ref=NAOMI-K3R7 (from a shared link).
+  const initialRef = (() => {
+    try {
+      const p = new URLSearchParams(window.location.search).get('ref');
+      return p ? p.toUpperCase().slice(0, 20) : '';
+    } catch { return ''; }
+  })();
+
   const [form, setForm] = useState({
-    name: '', email: '', phone: '', password: '',
+    name: '', email: '', phone: '', password: '', referralCode: initialRef,
   });
   const [showPwd, setShowPwd] = useState(false);
   const [error, setError] = useState(null);
@@ -110,6 +119,28 @@ export default function Register() {
                   <EyeIcon open={showPwd}/>
                 </button>
               </div>
+            </div>
+
+            {/* Optional referral code — auto-filled from ?ref=… URL param */}
+            <div>
+              <label className="label flex items-center justify-between">
+                <span>Referral code <span className="text-slate-400 font-normal normal-case tracking-normal">(optional)</span></span>
+                {form.referralCode && (
+                  <span className="text-[10px] text-emerald-600 font-bold normal-case tracking-normal">
+                    🎁 KES 100 credit will be added
+                  </span>
+                )}
+              </label>
+              <input
+                type="text"
+                value={form.referralCode}
+                onChange={(e) => setForm({ ...form, referralCode: e.target.value.toUpperCase().slice(0, 20) })}
+                placeholder="e.g. FRIEND-K3R7"
+                className="input font-mono uppercase tracking-wider"
+              />
+              <p className="text-[11px] text-slate-500 mt-1 pl-1">
+                Got a code from a friend? Enter it here — you BOTH get KES 100 off your next KES 1,750 lesson.
+              </p>
             </div>
 
             <p className="text-xs text-slate-500 -mt-1 pl-1">

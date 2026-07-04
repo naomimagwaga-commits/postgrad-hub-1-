@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
-import { auth, MAX_DEVICES_PER_USER } from '../lib/db.js';
+import { auth, MAX_DEVICES_PER_USER, REFERRAL_REWARD_KES, REFERRAL_TRIGGER_PRICE_KES } from '../lib/db.js';
 
 export default function Profile() {
   const { user, updateProfile, logout } = useAuth();
@@ -242,6 +242,9 @@ export default function Profile() {
         )}
       </div>
 
+      {/* ═════════ My Referrals ═════════ */}
+      <MyReferralsCard user={user} />
+
       {/* ═════════ Change password ═════════ */}
       <div className="card-elevated p-7 lg:p-9">
         <span className="eyebrow">— Security</span>
@@ -262,6 +265,82 @@ export default function Profile() {
           </div>
         </form>
       </div>
+    </div>
+  );
+}
+
+/* ═════════ My Referrals card ═════════ */
+function MyReferralsCard({ user }) {
+  const [copied, setCopied] = useState(false);
+  const code = user?.referral_code || '—';
+  const credits = user?.credits_kes || 0;
+  const shareUrl = `${window.location.origin}/register?ref=${encodeURIComponent(code)}`;
+  const shareText = `Join me on The Postgraduate Data Hub, Kenya — SPSS lessons, statistical test selector, and expert analysis for postgrad students. Use my code ${code} and we BOTH get KES ${REFERRAL_REWARD_KES} off. ${shareUrl}`;
+
+  const copy = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch { /* fallback */ }
+  };
+
+  return (
+    <div className="card-elevated p-7 lg:p-9 bg-gradient-to-br from-gold/5 to-brand/5">
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <span className="eyebrow">— Rewards</span>
+          <h2 className="display text-2xl text-brand mt-3">Refer a friend, save together</h2>
+          <p className="text-sm text-slate-600 mt-2 max-w-xl leading-relaxed">
+            Every time someone joins with your code AND buys a KES {REFERRAL_TRIGGER_PRICE_KES.toLocaleString('en-KE')} lesson, you BOTH get <strong>KES {REFERRAL_REWARD_KES} credit</strong>. Credit auto-applies on your next purchase.
+          </p>
+        </div>
+        <div className="text-right shrink-0">
+          <p className="display text-4xl text-brand font-bold">KES {credits.toLocaleString('en-KE')}</p>
+          <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Available credit</p>
+          {credits > 0 && (
+            <p className="text-[11px] text-emerald-600 font-semibold mt-1">🎉 Applied automatically on your next purchase</p>
+          )}
+        </div>
+      </div>
+
+      {/* Referral code display + copy */}
+      <div className="mt-6 p-5 rounded-2xl bg-white border-2 border-dashed border-gold/40">
+        <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Your referral code</p>
+        <div className="mt-2 flex items-center justify-between gap-3 flex-wrap">
+          <p className="display text-3xl text-brand font-bold font-mono tracking-widest">{code}</p>
+          <button onClick={() => copy(code)} className="btn-outline text-sm">
+            {copied ? '✓ Copied!' : '📋 Copy code'}
+          </button>
+        </div>
+      </div>
+
+      {/* Share buttons */}
+      <div className="mt-4 grid sm:grid-cols-3 gap-3">
+        <a
+          href={`https://wa.me/?text=${encodeURIComponent(shareText)}`}
+          target="_blank" rel="noopener"
+          className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-500 text-white font-semibold hover:bg-emerald-600 text-sm"
+        >
+          💬 Share on WhatsApp
+        </a>
+        <button
+          onClick={() => copy(shareUrl)}
+          className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-brand text-white font-semibold hover:bg-brand-700 text-sm"
+        >
+          🔗 Copy share link
+        </button>
+        <a
+          href={`mailto:?subject=${encodeURIComponent('Join me on The Postgraduate Data Hub, Kenya')}&body=${encodeURIComponent(shareText)}`}
+          className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white border border-slate-200 text-brand font-semibold hover:bg-slate-50 text-sm"
+        >
+          ✉️ Email a friend
+        </a>
+      </div>
+
+      <p className="mt-4 text-[11px] text-slate-500 italic leading-relaxed">
+        Tip: the reward triggers ONLY when your friend buys a KES {REFERRAL_TRIGGER_PRICE_KES.toLocaleString('en-KE')} lesson (Correlation, Regression, ANOVA, etc.) and admin approves the payment. Credits never expire.
+      </p>
     </div>
   );
 }
