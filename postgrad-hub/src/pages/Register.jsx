@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import Logo from '../components/Logo.jsx';
 import { IconUser, IconMail, IconPhone, IconLock, IconCheck } from '../components/Icons.jsx';
+import { usePageTitle } from '../lib/usePageTitle.js';
 
 function EyeIcon({ open }) {
   return open ? (
@@ -18,6 +19,7 @@ function EyeIcon({ open }) {
 }
 
 export default function Register() {
+  usePageTitle('Create account');
   const { register } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({

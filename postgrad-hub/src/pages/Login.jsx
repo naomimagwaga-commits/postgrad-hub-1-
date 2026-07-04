@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import Logo from '../components/Logo.jsx';
 import { IconMail, IconLock } from '../components/Icons.jsx';
+import { usePageTitle } from '../lib/usePageTitle.js';
 
 const LAST_EMAIL_KEY = 'pgh_last_email';
 
@@ -22,6 +23,7 @@ function EyeIcon({ open }) {
 }
 
 export default function Login() {
+  usePageTitle('Sign in');
   const { login, sessionKicked, clearKicked } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();

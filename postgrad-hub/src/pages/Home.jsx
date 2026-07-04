@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import PublicNav from '../components/PublicNav.jsx';
 import Footer from '../components/Footer.jsx';
+import { usePageTitle } from '../lib/usePageTitle.js';
 import {
   IconForm, IconChart, IconBook, IconCalendar, IconCheck,
   IconArrow, IconSpark, IconShield,
@@ -104,6 +105,7 @@ const steps = [
 ];
 
 export default function Home() {
+  usePageTitle();   // default full site title
   return (
     <div className="min-h-screen flex flex-col bg-parchment">
       <PublicNav />

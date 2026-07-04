@@ -1,8 +1,10 @@
 import PublicNav from '../components/PublicNav.jsx';
 import Footer from '../components/Footer.jsx';
 import { Link } from 'react-router-dom';
+import { usePageTitle } from '../lib/usePageTitle.js';
 
 export default function Privacy() {
+  usePageTitle('Privacy Policy');
   return (
     <div className="min-h-screen bg-parchment">
       <PublicNav />

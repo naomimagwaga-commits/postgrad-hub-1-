@@ -3,8 +3,10 @@ import PublicNav from '../components/PublicNav.jsx';
 import Footer from '../components/Footer.jsx';
 import { IconArrow, IconCheck, IconSpark } from '../components/Icons.jsx';
 import { PUBLIC_PRICING, formatKES } from '../data/prices.js';
+import { usePageTitle } from '../lib/usePageTitle.js';
 
 export default function Pricing() {
+  usePageTitle('Pricing');
   return (
     <div className="min-h-screen bg-parchment">
       <PublicNav />
