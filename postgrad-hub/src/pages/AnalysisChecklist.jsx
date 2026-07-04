@@ -186,8 +186,15 @@ export default function AnalysisChecklist() {
   const [loading, setLoading] = useState(true);
 
   const refresh = async () => {
-    setTicked(await analysisChecklist.list());
-    setLoading(false);
+    try {
+      const list = await analysisChecklist.list();
+      setTicked(Array.isArray(list) ? list : []);
+    } catch (e) {
+      console.warn('[Checklist] failed to load, showing empty state', e);
+      setTicked([]);
+    } finally {
+      setLoading(false);   // ALWAYS clear the loading spinner
+    }
   };
   useEffect(() => { refresh(); }, []);
 
