@@ -18,8 +18,16 @@ export default function MpesaModal({
   const [phone, setPhone] = useState('');
   const [phase, setPhase] = useState('idle'); // idle | requested | promptSent | claimed
   const [requestId, setRequestId] = useState(null);
+  // Actual (post-credit) amount + credit applied on this specific request.
+  // Populated the moment the unlock row is created via unlocks.request().
+  const [effectivePrice, setEffectivePrice] = useState(null);
+  const [creditApplied, setCreditApplied] = useState(0);
 
   if (!open || !item) return null;
+
+  // Display price: the effective (discounted) amount once request is created,
+  // otherwise the original item.priceKES from the caller.
+  const displayPrice = effectivePrice != null ? effectivePrice : item.priceKES;
 
   const sendPromptToPhone = async () => {
     if (!phone.match(/^(?:\+?254|0)?7\d{8}$/)) {
@@ -27,14 +35,16 @@ export default function MpesaModal({
     }
     const u = await unlocks.request(item);
     setRequestId(u.id);
+    setEffectivePrice(u.priceKES);
+    setCreditApplied(u.creditApplied || 0);
     setPhase('promptSent');
-    // In production, this is where you'd trigger an STK push via Safaricom Daraja API.
-    // For now, we simulate that the student has received clear instructions.
   };
 
   const startManual = async () => {
     const u = await unlocks.request(item);
     setRequestId(u.id);
+    setEffectivePrice(u.priceKES);
+    setCreditApplied(u.creditApplied || 0);
     setPhase('requested');
   };
 
@@ -47,7 +57,7 @@ export default function MpesaModal({
       studentName:  user?.name,
       studentPhone: user?.phone,
       itemName:     item.itemName,
-      priceKES:     item.priceKES,
+      priceKES:     displayPrice,   // effective (post-credit) amount for the email
       claimedAt:    new Date().toISOString(),
     }).catch(() => { /* logged inside helper */ });
     setPhase('claimed');
@@ -69,15 +79,25 @@ export default function MpesaModal({
               {item.format && (
                 <span className="badge bg-gold/15 text-gold-200 capitalize">{item.format}</span>
               )}
-              {item.priceKES != null && (
+              {displayPrice != null && (
                 <span className="badge bg-gold text-brand font-bold">
-                  KES {item.priceKES.toLocaleString('en-KE')}
+                  KES {displayPrice.toLocaleString('en-KE')}
+                </span>
+              )}
+              {creditApplied > 0 && (
+                <span className="badge bg-emerald-500 text-white font-bold text-[10px]">
+                  🎁 KES {creditApplied} credit applied
                 </span>
               )}
               {item.itemType === 'package' && (
                 <span className="badge bg-emerald-500/20 text-emerald-300">Package deal</span>
               )}
             </div>
+            {creditApplied > 0 && (
+              <p className="text-[11px] text-gold-300 mt-2">
+                Was KES {item.priceKES.toLocaleString('en-KE')} — you save KES {creditApplied} thanks to your referral credit.
+              </p>
+            )}
           </div>
         </div>
 
@@ -87,7 +107,7 @@ export default function MpesaModal({
           ) : phase === 'requested' || phase === 'promptSent' ? (
             <PaymentInstructions
               promptSent={phase === 'promptSent'} phone={phone}
-              amount={item.priceKES}
+              amount={displayPrice}
               onMarkPaid={markAsPaid}
             />
           ) : (
