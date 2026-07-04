@@ -17,6 +17,7 @@ import TestSelector from './modules/TestSelector.jsx';
 import SpssAcademy from './pages/SpssAcademy.jsx';
 import Consultations from './pages/Consultations.jsx';
 import AnalysisServices from './pages/AnalysisServices.jsx';
+import AnalysisChecklist from './pages/AnalysisChecklist.jsx';
 import Admin from './pages/Admin.jsx';
 
 export default function App() {
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="tests" element={<TestSelector />} />
           <Route path="spss" element={<SpssAcademy />} />
           <Route path="analysis" element={<AnalysisServices />} />
+          <Route path="checklist" element={<AnalysisChecklist />} />
           <Route path="consultations" element={<Consultations />} />
           <Route path="profile" element={<Profile />} />
           <Route path="admin" element={<Admin />} />
