@@ -989,15 +989,48 @@ export const lessons = {
 
 /* ═════════════════════════════════════════════════════════════════════
  *  ANALYSIS CHECKLIST — 9-stage step-by-step workflow
- *  Each user has an array of "ticked item IDs" they've completed.
+ *  Storage:
+ *    • Supabase → profiles.checklist_ticks (JSONB array of item IDs)
+ *    • Local    → d.analysisChecklist[{ userId, ticked[] }]
  * ═════════════════════════════════════════════════════════════════════ */
 export const analysisChecklist = {
   async list() {
+    if (isSupabase) {
+      try {
+        const { data: authData } = await supabase.auth.getUser();
+        if (!authData?.user) return [];
+        const { data } = await supabase.from('profiles')
+          .select('checklist_ticks').eq('id', authData.user.id).maybeSingle();
+        return Array.isArray(data?.checklist_ticks) ? data.checklist_ticks : [];
+      } catch (e) {
+        console.warn('[analysisChecklist.list] supabase read failed', e);
+        return [];
+      }
+    }
     const d = read();
     const row = d.analysisChecklist.find((x) => x.userId === d.sessions.current);
     return row?.ticked || [];
   },
+
   async toggle(itemId) {
+    if (isSupabase) {
+      try {
+        const { data: authData } = await supabase.auth.getUser();
+        if (!authData?.user) return [];
+        const { data } = await supabase.from('profiles')
+          .select('checklist_ticks').eq('id', authData.user.id).maybeSingle();
+        const current = Array.isArray(data?.checklist_ticks) ? [...data.checklist_ticks] : [];
+        const idx = current.indexOf(itemId);
+        if (idx >= 0) current.splice(idx, 1);
+        else current.push(itemId);
+        await supabase.from('profiles')
+          .update({ checklist_ticks: current }).eq('id', authData.user.id);
+        return current;
+      } catch (e) {
+        console.warn('[analysisChecklist.toggle] supabase write failed', e);
+        return [];
+      }
+    }
     const d = read();
     let row = d.analysisChecklist.find((x) => x.userId === d.sessions.current);
     if (!row) {
@@ -1011,7 +1044,20 @@ export const analysisChecklist = {
     write(d);
     return row.ticked;
   },
+
   async reset() {
+    if (isSupabase) {
+      try {
+        const { data: authData } = await supabase.auth.getUser();
+        if (!authData?.user) return [];
+        await supabase.from('profiles')
+          .update({ checklist_ticks: [] }).eq('id', authData.user.id);
+        return [];
+      } catch (e) {
+        console.warn('[analysisChecklist.reset] supabase failed', e);
+        return [];
+      }
+    }
     const d = read();
     const row = d.analysisChecklist.find((x) => x.userId === d.sessions.current);
     if (row) { row.ticked = []; row.updatedAt = new Date().toISOString(); write(d); }
