@@ -164,26 +164,101 @@ export const FREQUENCIES_LESSON = {
     /* ════════════════════ 3.7 THE MACHAKOS PROCEDURE (WALK-THROUGH) ════════════════════ */
     {
       id: 'machakos-walkthrough',
-      title: 'The Machakos procedure — every click, every output',
+      title: 'The Machakos procedure — every click, every screenshot',
       blocks: [
         { type: 'heading', level: 2, text: 'Step-by-step with the case-study data' },
 
         { type: 'paragraph', text:
-          'Now let\'s run frequencies on ALL four demographic variables in the Machakos dataset — `Gender`, `Category`, `Form`, and `HighestQual` — in ONE go. This is the workflow every real Kenyan Master\'s student uses: one procedure → four tables → four Chapter-4 paragraphs.' },
+          'Now let\'s run frequencies on ALL four demographic variables in the Machakos dataset — `Category`, `Gender`, `Form`, and `HighestQual` — in ONE go. This is the workflow every real Kenyan Master\'s student uses: one procedure → four tables → four Chapter-4 paragraphs. **We\'ll show every click with a real SPSS screenshot** so you never have to guess what your screen should look like.' },
 
-        { type: 'steps', steps: [
-          { title: 'Open the Frequencies dialog',
-            body: 'Menu path: **Analyze → Descriptive Statistics → Frequencies…** — the dialog opens with all your variables listed on the left.' },
-          { title: 'Move the four demographic variables into the box',
-            body: [
-              'Click `Category`, then Ctrl-click `Gender`, `Form`, and `HighestQual` to select all four. Click the blue **▶** arrow to move them into the **Variable(s)** box on the right.',
-              'The Variable(s) box should now show all 4 variables stacked vertically.',
-            ]},
-          { title: 'Add bar charts',
-            body: 'Click **Charts…** → tick **Bar charts** → under Chart Values pick **Percentages** → click **Continue**.' },
-          { title: 'Click OK',
-            body: 'The Output Viewer opens with 4 separate frequency tables and 4 bar charts — one set per variable.' },
-        ]},
+        /* ─────── STEP 1 ─────── */
+        { type: 'heading', level: 3, text: 'STEP 1 — Open the Frequencies dialog' },
+
+        { type: 'paragraph', text:
+          'From the SPSS main menu at the top of the Data Editor window, click:' },
+
+        { type: 'callout', tone: 'brand', title: 'Click path',
+          body: '**Analyze → Descriptive Statistics → Frequencies…**' },
+
+        { type: 'paragraph', text:
+          'The Frequencies dialog box opens. Every variable in your dataset appears in the list on the left. You\'re about to move 4 of them to the right-hand box.' },
+
+        /* ─────── STEP 2 (with screenshot) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 2 — Select all four demographic variables at once' },
+
+        { type: 'paragraph', text:
+          'In the left-hand list, click on `Category` first. Then, **holding down the `Ctrl` key on your keyboard**, click each of the other three: `Gender`, `Form`, `HighestQual`. All four should now be highlighted in blue (see the screenshot below — the highlighted rows are the ones we\'ve selected).' },
+
+        { type: 'paragraph', text:
+          'Now click the **blue ▶ arrow button** in the middle. All four variables jump into the **Variable(s):** box on the right. Your dialog should look exactly like this:' },
+
+        { type: 'illustration', component: 'MachakosFreqDialog',
+          caption: 'Figure 1. The Frequencies dialog after selecting Category, Gender, Form, and HighestQual (highlighted in blue on the left) and clicking the blue ▶ arrow to move them into the Variable(s) box on the right. The "Display frequency tables" checkbox is ticked by default — leave it that way.' },
+
+        { type: 'callout', tone: 'info', title: 'Tip — the tiny icons next to each variable name tell you the measurement type',
+          body: [
+            '🔴 **Small circle icon** = Nominal (categorical, no order — e.g. Gender, Category)',
+            '📊 **Small bar chart icon** = Ordinal (categorical WITH order — e.g. Form 2 → 3 → 4)',
+            '📏 **Small ruler icon** = Scale (continuous numeric — e.g. Age, Math_KCSE_Mean)',
+            'SPSS uses these icons to remind you what kind of variable you\'re working with. Never analyse a nominal variable with methods meant for scale variables.',
+          ]},
+
+        /* ─────── STEP 3 (with screenshot) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 3 — Add bar charts (recommended)' },
+
+        { type: 'paragraph', text:
+          'Frequency tables are essential — but a bar chart alongside makes your Chapter 4 much more readable. To add them, click the **`Charts…`** button (bottom-right area of the Frequencies dialog).' },
+
+        { type: 'paragraph', text:
+          'A smaller sub-dialog opens called **"Frequencies: Charts"**. Do the following:' },
+
+        { type: 'illustration', component: 'MachakosFreqCharts',
+          caption: 'Figure 2. The Charts sub-dialog. Under "Chart Type" click the radio button next to Bar charts. Leave "Chart Values" on Frequencies (the default). Click Continue.' },
+
+        { type: 'callout', tone: 'gold', title: 'Why Bar charts (not Pie charts)?',
+          body: 'Bar charts let readers compare heights easily. Pie charts get confusing when 3+ slices are similar sizes. For thesis work, always default to Bar charts unless you have a strong reason otherwise.' },
+
+        /* ─────── STEP 4 (with screenshot) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 4 — Click OK' },
+
+        { type: 'paragraph', text:
+          'You\'re back at the main Frequencies dialog. **Click the blue OK button** (bottom-left of the dialog).' },
+
+        { type: 'paragraph', text:
+          'A new window opens — the **SPSS Output Viewer**. This is where all your results appear. It has a navigation tree on the left (so you can jump to any part of your output) and the actual tables + charts on the right. Here\'s what you should see:' },
+
+        { type: 'illustration', component: 'MachakosFreqOutput',
+          caption: 'Figure 3. The SPSS Output Viewer immediately after running Frequencies. Left panel: navigation tree showing the sub-items (Statistics, Frequency Table with 4 sub-tables per variable, and the Bar Chart). Right panel: the actual output starting with a "Statistics" summary showing N Valid and Missing for each variable, followed by the individual Category frequency table.' },
+
+        { type: 'callout', tone: 'info', title: 'The Statistics table at the top is your MISSING-VALUES check',
+          body: 'Look at the Statistics summary at the very top. For `Category` and `Gender` we see Valid = 274 and Missing = 0 — everyone answered. For `Form` we see Valid = 212 and Missing = 62 — the 62 non-students (8 principals + 54 teachers) don\'t have a Form value. For `HighestQual` it\'s reversed. This is normal — SPSS is just telling you the truth about your data.' },
+
+        /* ─────── STEP 5 — deeper reading of one output ─────── */
+        { type: 'heading', level: 3, text: 'STEP 5 — Read the Category table column by column' },
+
+        { type: 'paragraph', text:
+          'Scroll down in the Output Viewer to find the **Category** table. It has 4 columns of numbers. Each column answers a DIFFERENT question. Below, the same table is shown with color-coded callouts pointing to each column — study this image carefully:' },
+
+        { type: 'illustration', component: 'MachakosFreqAnnotated',
+          caption: 'Figure 4. The Category frequency table with color-coded annotations. Gold = Frequency (raw count, always report). Blue = Percent (% of ALL cases including missing — use only when no missing values). Green = Valid Percent (% of NON-MISSING cases — use whenever there\'s any missing data). Grey = Cumulative Percent (running total, only useful for ordinal variables).' },
+
+        { type: 'callout', tone: 'gold', title: 'The one-sentence rule',
+          body: 'For your Chapter 4 tables, always report **Frequency + Valid Percent**. Skip the other two columns unless you have a specific reason to include them.' },
+
+        /* ─────── STEP 6 — bar chart output ─────── */
+        { type: 'heading', level: 3, text: 'STEP 6 — Look at the bar chart' },
+
+        { type: 'paragraph', text:
+          'Below the frequency tables in the Output Viewer, you\'ll find the bar charts SPSS generated. Here\'s the one for `Category`:' },
+
+        { type: 'illustration', component: 'MachakosFreqBarChart',
+          caption: 'Figure 5. Bar chart showing the frequency distribution of respondents by Category. Each bar represents one category; the height shows the count. Students (n = 212) dominate the sample, followed by teachers (n = 54), with principals (n = 8) forming the smallest group. Right-click any chart in SPSS → Copy → paste directly into your thesis Word document.' },
+
+        /* ─────── STEP 7 — the other 3 output tables (with real numbers) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 7 — Read the OTHER 3 tables SPSS produced' },
+
+        { type: 'paragraph', text:
+          'Scroll further in the Output Viewer to see the tables for the other 3 variables. Here\'s what they contain (I\'ve transcribed them below for reference):' },
 
         { type: 'heading', level: 3, text: 'Output Table 1 — Category (respondent group)' },
 
