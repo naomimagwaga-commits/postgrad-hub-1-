@@ -6662,6 +6662,33 @@ export function MachakosFreqMenuPath() {
     alt="SPSS main menu showing the click path: Analyze menu open (boxed), Descriptive Statistics highlighted in blue with cascading submenu, Frequencies highlighted in blue as the item to click, with a gold arrow and CLICK HERE label pointing to Frequencies"/>;
 }
 
+/* ─── Machakos Central Tendency (Descriptives procedure) ─── */
+export function MachakosCTMenuPath() {
+  return <ScreenshotFrame
+    src="/lesson-images/central-tendency/00-menu-path.jpg"
+    alt="SPSS main menu showing click path Analyze → Descriptive Statistics → Descriptives (not Frequencies). Descriptives is highlighted in blue with a gold CLICK HERE arrow"/>;
+}
+export function MachakosCTDialog() {
+  return <ScreenshotFrame
+    src="/lesson-images/central-tendency/01-dialog.jpg"
+    alt="SPSS Descriptives dialog with 5 continuous variables (Digital_Devices, Teacher_Competency, Internet_Connectivity, InvestmentPerStudent, Math_KCSE_Mean) already moved into the Variable(s) box on the right"/>;
+}
+export function MachakosCTOptions() {
+  return <ScreenshotFrame
+    src="/lesson-images/central-tendency/02-options.jpg"
+    alt="SPSS Descriptives: Options sub-dialog with Mean, Std. deviation, Variance, Range, Minimum, Maximum, Kurtosis, and Skewness all checked. Variable list radio button selected under Display Order"/>;
+}
+export function MachakosCTOutput() {
+  return <ScreenshotFrame
+    src="/lesson-images/central-tendency/03-output.jpg"
+    alt="SPSS Output Viewer showing the Descriptive Statistics table with 5 rows (Digital_Devices, Teacher_Competency, Internet_Connectivity, InvestmentPerStudent, Math_KCSE_Mean) and columns for N, Range, Min, Max, Mean, Std Deviation, Variance, Skewness and Kurtosis (with their Statistic and Std Error sub-columns). N=274 for all rows"/>;
+}
+export function MachakosCTAnnotated() {
+  return <ScreenshotFrame
+    src="/lesson-images/central-tendency/04-annotated.jpg"
+    alt="Annotated single row of a Descriptives output table for Digital_Devices variable, with six color-coded callouts explaining N (gold), Mean (blue), Std Deviation (green), Min/Max (grey), Skewness (purple) and Kurtosis (orange)"/>;
+}
+
 export function MachakosFreqDialog() {
   return <ScreenshotFrame
     src="/lesson-images/frequencies/01-dialog-with-vars.jpg"
@@ -6696,6 +6723,8 @@ export const ILLUSTRATIONS = {
   /* Machakos Frequencies screenshots */
   MachakosFreqMenuPath, MachakosFreqDialog, MachakosFreqCharts, MachakosFreqOutput,
   MachakosFreqAnnotated, MachakosFreqBarChart,
+  /* Machakos Central Tendency screenshots (Descriptives procedure) */
+  MachakosCTMenuPath, MachakosCTDialog, MachakosCTOptions, MachakosCTOutput, MachakosCTAnnotated,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
