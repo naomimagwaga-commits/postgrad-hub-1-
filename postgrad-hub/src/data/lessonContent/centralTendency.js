@@ -153,6 +153,45 @@ export const CENTRAL_TENDENCY_LESSON = {
       ],
     },
 
+    /* ════════════════════ 4.5 THE MACHAKOS CASE STUDY ════════════════════ */
+    {
+      id: 'case-machakos',
+      title: 'The Machakos Study — the continuous variables we\'ll describe',
+      blocks: [
+        { type: 'callout', tone: 'brand', title: 'Same running case study as the previous lesson',
+          body: [
+            'Same fictional study, same 274 respondents from 8 Machakos public secondary schools. In the previous lesson we described the **categorical** variables (Gender, Category, Form, HighestQual) with Frequencies.',
+            'In THIS lesson, we\'ll describe the **continuous** variables — the ones where computing a mean, median, and standard deviation actually makes sense.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'The 5 continuous variables in the Machakos dataset' },
+
+        { type: 'paragraph', text:
+          'A quick reminder: **continuous variables** are numeric variables where the numbers have real quantitative meaning (unlike Gender where "1" and "2" are just labels). For continuous variables we can meaningfully compute a mean, standard deviation, minimum, maximum, and so on. Here are the 5 continuous variables in the Machakos dataset:' },
+
+        { type: 'comparison',
+          headers: ['Variable name in SPSS', 'What it measures', 'Scale / range', 'Role in the study'],
+          rows: [
+            ['**Digital_Devices**',        'Composite: mean of 5 Likert items on digital device availability (Dev_1 to Dev_5)', '1.00 – 5.00', 'Independent variable 1'],
+            ['**Teacher_Competency**',     'Composite: mean of 5 Likert items on teacher digital competency (Comp_1 to Comp_5)', '1.00 – 5.00', 'Independent variable 2'],
+            ['**Internet_Connectivity**',  'Composite: mean of 5 Likert items on internet reliability (Net_1 to Net_5)', '1.00 – 5.00', 'Independent variable 3'],
+            ['**InvestmentPerStudent**',   'KES invested in digital infrastructure per student per term', '≥ 0 (typically KES 2,000 – 8,000)', 'Independent variable 4'],
+            ['**Math_KCSE_Mean**',         'School\'s Mathematics KCSE mean grade points', '1 – 12', 'DEPENDENT variable (outcome)'],
+          ],
+        },
+
+        { type: 'callout', tone: 'info', title: 'Why we use COMPOSITE scores for the first 3',
+          body: [
+            'Each of the first 3 variables is built from 5 individual Likert items. For example, `Digital_Devices` is the mean of `Dev_1` through `Dev_5` (5 items each rated 1-5).',
+            'Combining items this way turns 5 ORDINAL (Likert) variables into 1 approximately-CONTINUOUS composite — which is why we can now meaningfully compute mean, SD, etc.',
+            'You\'ll learn how to CREATE composites in the Data Cleaning lesson (Transform → Compute Variable). For now, just accept that our dataset already has them.',
+          ]},
+
+        { type: 'paragraph', text:
+          'The full frequency-and-percent breakdown of the DEMOGRAPHIC variables lived in the previous lesson. Now we describe the CONTINUOUS ones — Mean, Standard Deviation, Range, Skewness, Kurtosis — in ONE go using the SPSS Descriptives procedure.' },
+      ],
+    },
+
     /* ════════════════════ 5. RUNNING IT IN SPSS ════════════════════ */
     {
       id: 'spss-steps',
@@ -207,6 +246,116 @@ export const CENTRAL_TENDENCY_LESSON = {
             '**For a few Likert items or categorical variables:** use **Frequencies with Statistics** — you get the central tendencies AND the frequency tables in one run.',
             '**For many continuous variables at once:** use **Descriptives** — compact, fast, one summary row per variable.',
             '**For thesis-quality reporting:** use **Explore** — gives you mean, median, skewness, normality tests in one output.',
+          ]},
+      ],
+    },
+
+    /* ════════════════════ 5.5 THE MACHAKOS PROCEDURE (WALK-THROUGH) ════════════════════ */
+    {
+      id: 'machakos-walkthrough',
+      title: 'The Machakos procedure — every click, every screenshot',
+      blocks: [
+        { type: 'heading', level: 2, text: 'Step-by-step: describing all 5 continuous variables at once' },
+
+        { type: 'paragraph', text:
+          'We\'ll now run **Descriptives** on all 5 continuous variables in the Machakos dataset — `Digital_Devices`, `Teacher_Competency`, `Internet_Connectivity`, `InvestmentPerStudent`, and `Math_KCSE_Mean` — in ONE go. This produces the "Descriptive Statistics of Study Variables" table that every quantitative Chapter 4 needs.' },
+
+        /* ─────── STEP 1 (menu path) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 1 — Open the Descriptives dialog' },
+
+        { type: 'paragraph', text:
+          'From the SPSS main menu bar at the top of your Data Editor window, click:' },
+
+        { type: 'callout', tone: 'brand', title: 'The click path',
+          body: '**Analyze → Descriptive Statistics → Descriptives…**' },
+
+        { type: 'callout', tone: 'info', title: '⚠️ Watch out — Descriptives is NOT Frequencies',
+          body: [
+            'Both live under the same "Descriptive Statistics" menu. But they do different things:',
+            '**Frequencies** = for CATEGORICAL variables (Gender, Category) — counts of each category',
+            '**Descriptives** = for CONTINUOUS variables (Mean, SD, Min, Max) — one summary row per variable',
+            'A common beginner mistake is picking the wrong one. If your variable has more than about 10 distinct numeric values, you want Descriptives.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosCTMenuPath',
+          caption: 'Figure 1. The SPSS menu path for opening the Descriptives dialog. (1) Click "Analyze" — it becomes highlighted. (2) Hover "Descriptive Statistics" (turns blue). (3) The submenu flies out — click "Descriptives…" (NOT Frequencies).' },
+
+        /* ─────── STEP 2 (main dialog) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 2 — Move the 5 continuous variables into the box' },
+
+        { type: 'paragraph', text:
+          'In the left-hand variable list, find your 5 continuous variables. Click the first one, then hold **Ctrl** and click each of the others: `Digital_Devices`, `Teacher_Competency`, `Internet_Connectivity`, `InvestmentPerStudent`, and `Math_KCSE_Mean`. Then click the blue **▶** arrow to move them into the **Variable(s)** box on the right.' },
+
+        { type: 'illustration', component: 'MachakosCTDialog',
+          caption: 'Figure 2. The Descriptives dialog after selecting the 5 continuous variables (3 highlighted in blue on the left, all 5 moved into the Variable(s) box on the right). The 3 composite scores at the bottom of the left list (Digital_Devices, Teacher_Competency, Internet_Connectivity) have a "ruler" icon indicating they are Scale variables.' },
+
+        { type: 'callout', tone: 'info', title: 'Reading the variable icons',
+          body: [
+            '📏 **Yellow ruler** = Scale/Continuous variable (Age, InvestmentPerStudent, composites) — safe for Descriptives',
+            '📊 **Small bar chart** = Ordinal variable (Form 2/3/4) — technically we should use Frequencies for this',
+            '🔴 **Red circle** = Nominal/String variable (Gender, Category, HighestQual) — never use Descriptives on these',
+            'Only move variables with the yellow ruler icon into a Descriptives dialog.',
+          ]},
+
+        /* ─────── STEP 3 (options sub-dialog) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 3 — Click Options… and tick the statistics you want' },
+
+        { type: 'paragraph', text:
+          'By default, Descriptives only produces Mean, Standard Deviation, Minimum, and Maximum. To get everything a thesis examiner expects — including Variance, Range, Skewness, and Kurtosis — click the **Options…** button in the main dialog.' },
+
+        { type: 'paragraph', text:
+          'The Options sub-dialog opens. Tick these 8 boxes:' },
+
+        { type: 'illustration', component: 'MachakosCTOptions',
+          caption: 'Figure 3. The Descriptives: Options sub-dialog. Under "Statistics", tick: Mean, Std. deviation, Variance, Range, Minimum, Maximum. Under "Distribution", tick: Kurtosis, Skewness. Under "Display Order", leave "Variable list" selected. Click Continue.' },
+
+        { type: 'callout', tone: 'gold', title: 'Why we tick Skewness and Kurtosis',
+          body: 'Almost every inferential test you\'ll run next (Pearson correlation, t-tests, regression, ANOVA) ASSUMES your variables are approximately normally distributed. Skewness and Kurtosis are the two quickest checks for that. Their VALUES between -2 and +2 (some sources say ±1) indicate approximate normality — meaning you\'re cleared to use parametric tests. Always report them.' },
+
+        /* ─────── STEP 4 (output) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 4 — Click OK and read the output' },
+
+        { type: 'paragraph', text:
+          'You\'re back at the main Descriptives dialog. **Click OK.** The Output Viewer opens with your Descriptive Statistics table — a single compact table with one row per variable and one column per statistic:' },
+
+        { type: 'illustration', component: 'MachakosCTOutput',
+          caption: 'Figure 4. The complete Descriptive Statistics table for the 5 continuous variables in the Machakos dataset. Each row is one variable; each column is one statistic. N = 274 for every variable (nobody missing). The bottom "Valid N (listwise)" row confirms 274 cases have complete data across ALL 5 variables — important for later inferential analyses.' },
+
+        { type: 'heading', level: 3, text: 'Interpretation — the 3 composite scores' },
+
+        { type: 'comparison',
+          headers: ['Variable', 'Mean', 'SD', 'Interpretation'],
+          rows: [
+            ['**Teacher_Competency**',  '3.72', '.78', 'HIGHEST mean → respondents leaned "Agree" — teachers are generally competent with digital tools'],
+            ['**Digital_Devices**',     '3.51', '.82', 'Between Neutral and Agree — devices are moderately available'],
+            ['**Internet_Connectivity**','3.38','.79', 'LOWEST mean — closer to Neutral, suggesting internet reliability is the weakest institutional dynamic'],
+          ],
+        },
+
+        { type: 'heading', level: 3, text: 'Interpretation — the 2 continuous variables' },
+
+        { type: 'comparison',
+          headers: ['Variable', 'Mean', 'Min – Max', 'Interpretation'],
+          rows: [
+            ['**InvestmentPerStudent**', 'KES 4,820', 'KES 2,200 – 7,800', 'Wide variation across schools — some invest 3.5× more per student than others'],
+            ['**Math_KCSE_Mean**',       '5.92',      '4.80 – 7.10',      'On the 12-point KCSE scale (C+ average) — the outcome variable we\'ll model later'],
+          ],
+        },
+
+        /* ─────── STEP 5 (annotated) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 5 — Read ONE row column-by-column' },
+
+        { type: 'paragraph', text:
+          'The table above has 5 rows × 11 columns = 55 numbers. To not feel overwhelmed, learn to read ONE row first. Below is the row for `Digital_Devices` with color-coded callouts pointing to each key statistic — study this image and you\'ll be able to read any Descriptives table for the rest of your career:' },
+
+        { type: 'illustration', component: 'MachakosCTAnnotated',
+          caption: 'Figure 5. The Digital_Devices row with 6 color-coded annotations. Gold = N (report always). Blue = Mean (average score). Green = SD (spread around the mean, report as M = 3.51, SD = 0.82). Grey = Min/Max (range used). Purple = Skewness (normal if between ±2). Orange = Kurtosis (normal if between ±2).' },
+
+        { type: 'callout', tone: 'gold', title: 'The one-sentence Chapter 4 template',
+          body: [
+            'Once you know how to read one row, every descriptive result becomes ONE sentence:',
+            '_"Digital_Devices had a mean of 3.51 (SD = 0.82, N = 274), ranging from 1.00 to 5.00. Skewness (-0.21) and kurtosis (-0.15) were within the acceptable range of ±2, indicating an approximately normal distribution."_',
+            'Repeat this template for every variable. Your entire "Descriptive Statistics of Study Variables" section writes itself.',
           ]},
       ],
     },
