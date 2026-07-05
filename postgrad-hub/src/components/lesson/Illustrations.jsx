@@ -6656,6 +6656,12 @@ function ScreenshotFrame({ src, alt }) {
   );
 }
 
+export function MachakosFreqMenuPath() {
+  return <ScreenshotFrame
+    src="/lesson-images/frequencies/00-menu-path.jpg"
+    alt="SPSS main menu showing the click path: Analyze menu open (boxed), Descriptive Statistics highlighted in blue with cascading submenu, Frequencies highlighted in blue as the item to click, with a gold arrow and CLICK HERE label pointing to Frequencies"/>;
+}
+
 export function MachakosFreqDialog() {
   return <ScreenshotFrame
     src="/lesson-images/frequencies/01-dialog-with-vars.jpg"
@@ -6688,7 +6694,7 @@ export function MachakosFreqBarChart() {
 
 export const ILLUSTRATIONS = {
   /* Machakos Frequencies screenshots */
-  MachakosFreqDialog, MachakosFreqCharts, MachakosFreqOutput,
+  MachakosFreqMenuPath, MachakosFreqDialog, MachakosFreqCharts, MachakosFreqOutput,
   MachakosFreqAnnotated, MachakosFreqBarChart,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
