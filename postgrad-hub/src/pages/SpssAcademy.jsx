@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { unlocks, lessons as lessonsApi, daysUntilExpiry, isUnlockActive } from '../lib/db.js';
+import { unlocks, lessons as lessonsApi, daysUntilExpiry, isUnlockActive, isSuperAdminEmail } from '../lib/db.js';
+import { useAuth } from '../context/AuthContext.jsx';
 import { COURSES } from '../data/courses.js';
 import { RICH_LESSONS, isRichLesson } from '../data/richLessons.js';
 import { priceForLesson, formatKES, packageForLesson } from '../data/prices.js';
@@ -13,6 +14,8 @@ import {
 const lessonKey = (lessonId, format) => `lesson:${lessonId}:${format}`;
 
 export default function SpssAcademy() {
+  const { user } = useAuth();
+  const isSuperAdmin = isSuperAdminEmail(user?.email);
   const [searchParams, setSearchParams] = useSearchParams();
   const [unlockedKeys, setUnlockedKeys] = useState([]);
   const [rawUnlocks, setRawUnlocks] = useState([]);   // used for conditional pricing
@@ -244,9 +247,15 @@ export default function SpssAcademy() {
               <strong> detailed, example-rich and worked end-to-end</strong> — every lesson includes annotated SPSS diagrams, real-data worked examples, APA-style write-ups, and a knowledge check. <em>Video walkthroughs are coming soon.</em>
             </p>
           </div>
-          <span className="badge-gold shrink-0">
-            <IconBook className="w-3.5 h-3.5"/> Notes pack · Pay via M-Pesa · 1 year access
-          </span>
+          {isSuperAdmin ? (
+            <span className="badge shrink-0 bg-emerald-500 text-white font-bold">
+              👑 Admin — all lessons unlocked
+            </span>
+          ) : (
+            <span className="badge-gold shrink-0">
+              <IconBook className="w-3.5 h-3.5"/> Notes pack · Pay via M-Pesa · 1 year access
+            </span>
+          )}
         </div>
 
         {/* 🎁 IBM SPSS 14-day free trial card — no more "I don't have SPSS installed" barrier */}
