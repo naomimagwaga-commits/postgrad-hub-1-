@@ -6662,6 +6662,33 @@ export function MachakosFreqMenuPath() {
     alt="SPSS main menu showing the click path: Analyze menu open (boxed), Descriptive Statistics highlighted in blue with cascading submenu, Frequencies highlighted in blue as the item to click, with a gold arrow and CLICK HERE label pointing to Frequencies"/>;
 }
 
+/* ─── Machakos Graphs & Charts (Chart Builder walkthrough) ─── */
+export function MachakosGraphsMenuPath() {
+  return <ScreenshotFrame
+    src="/lesson-images/graphs/00-menu-path.jpg"
+    alt="SPSS main menu showing click path Graphs → Chart Builder. The Graphs menu is boxed in red, Chart Builder is highlighted in blue, with a gold arrow and CLICK HERE label"/>;
+}
+export function MachakosGraphsChartBuilder() {
+  return <ScreenshotFrame
+    src="/lesson-images/graphs/01-chart-builder.jpg"
+    alt="SPSS Chart Builder dialog. Top-left: variables list with Category highlighted. Top-right: chart preview area. Bottom-left: Gallery tab with 8 chart types (Bar selected). Bottom-middle: chart variations panel. Bottom-right: Element Properties panel"/>;
+}
+export function MachakosGraphsHistogram() {
+  return <ScreenshotFrame
+    src="/lesson-images/graphs/02-histogram.jpg"
+    alt="SPSS Output Viewer showing a histogram of Math_KCSE_Mean. Bell-curve shape peaking around 5.5-6.0. Overlay text shows Mean = 5.92, Std. Dev = .82, N = 274. Dashed normal-distribution overlay confirms approximate normality"/>;
+}
+export function MachakosGraphsBoxplot() {
+  return <ScreenshotFrame
+    src="/lesson-images/graphs/03-boxplot-annotated.jpg"
+    alt="Annotated boxplot diagram showing 3 boxplots (Principal, Teacher, Student) with 5 color-coded callouts on the Student boxplot: Q3 (gold), Median (navy), Q1 (green), Whiskers (grey), and Outlier (red)"/>;
+}
+export function MachakosGraphsClusteredBar() {
+  return <ScreenshotFrame
+    src="/lesson-images/graphs/04-clustered-bar.jpg"
+    alt="Publication-ready clustered bar chart showing respondent counts by Category and Gender. Male bars (blue) and Female bars (gold) side-by-side within each of 3 categories: Principal (5M/3F), Teacher (38M/16F), Student (85M/127F)"/>;
+}
+
 /* ─── Machakos Standard Deviation & Variance (per-item Likert breakdown) ─── */
 export function MachakosSDMenuPath() {
   return <ScreenshotFrame
@@ -6754,6 +6781,9 @@ export const ILLUSTRATIONS = {
   MachakosCTMenuPath, MachakosCTDialog, MachakosCTOptions, MachakosCTOutput, MachakosCTAnnotated,
   /* Machakos Standard Deviation screenshots (per-item Likert breakdown) */
   MachakosSDMenuPath, MachakosSDDialog, MachakosSDStatistics, MachakosSDOutput, MachakosSDThesisTable,
+  /* Machakos Graphs & Charts screenshots (Chart Builder walkthrough) */
+  MachakosGraphsMenuPath, MachakosGraphsChartBuilder, MachakosGraphsHistogram,
+  MachakosGraphsBoxplot, MachakosGraphsClusteredBar,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
