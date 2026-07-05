@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { COURSES } from '../data/courses.js';
 import {
   IconDashboard, IconForm, IconChart, IconBook, IconCalendar,
-  IconUser, IconLogout, IconMenu, IconClose, IconShield, IconSpark, IconCheck,
+  IconUser, IconLogout, IconMenu, IconClose, IconShield, IconSpark, IconCheck, IconStar,
 } from './Icons.jsx';
 
 /**
@@ -25,6 +25,7 @@ const nav = [
   },
   { to: '/app/analysis',       label: 'Analysis & Interpretation', icon: IconSpark },
   { to: '/app/checklist',      label: 'Analysis Checklist',        icon: IconCheck },
+  { to: '/app/publishing',     label: 'Publishing Guide',          icon: IconStar },
   { to: '/app/consultations',  label: 'Consultation Booking',      icon: IconCalendar },
   { to: '/app/profile',        label: 'Profile Settings',          icon: IconUser },
 ];
