@@ -1,0 +1,1 @@
+# Standard Deviation lesson screenshots
