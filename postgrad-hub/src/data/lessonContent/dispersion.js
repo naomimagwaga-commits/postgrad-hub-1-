@@ -254,6 +254,157 @@ export const DISPERSION_LESSON = {
       ],
     },
 
+    /* ════════════════════ 8.5 THE MACHAKOS PROCEDURE (PER-ITEM LIKERT) ════════════════════ */
+    {
+      id: 'machakos-walkthrough',
+      title: 'The Machakos procedure — per-item Likert breakdown for Chapter 4',
+      blocks: [
+        { type: 'callout', tone: 'brand', title: 'The THIRD essential table for your Chapter 4',
+          body: [
+            'By this lesson you\'ve already learned to build TWO of the three tables every Kenyan quantitative Chapter 4 needs:',
+            '**Table 1 — Demographics** (from the Frequencies lesson) — Gender, Category, Form, HighestQual',
+            '**Table 2 — Composite Descriptives** (from the Central Tendency lesson) — Mean, SD, Skew, Kurt for each construct as a whole',
+            '**Table 3 — Per-item Likert breakdown** ← the table THIS lesson teaches you to build. One table per objective, showing HOW respondents answered EACH individual Likert item within that construct.',
+            'A polished Chapter 4 has all three. This lesson delivers the third.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'What we\'re building — a Kenyan Master\'s Chapter 4 standard table' },
+
+        { type: 'paragraph', text:
+          'Here\'s what the final table looks like in a real thesis. This is the STANDARD format used in Kenyan Master\'s and PhD papers — 5 Likert items shown as rows, response counts + percentages in columns, mean + SD on the right, and the composite score in the footer. We\'ll show you how to produce every number in this table using SPSS.' },
+
+        { type: 'illustration', component: 'MachakosSDThesisTable',
+          caption: 'Figure 1. The Chapter-4-ready descriptive statistics table for the Digital Devices construct (Objective 1). Each row is one of the 5 Likert items measured on a 1-5 scale (SD=Strongly Disagree to SA=Strongly Agree). Each cell shows the raw count with the percentage in parentheses. The Mean and Std. Dev columns come from SPSS. The gold Composite Score row summarises the entire construct.' },
+
+        { type: 'callout', tone: 'gold', title: 'Why this table is more useful than just a composite mean',
+          body: [
+            'A composite mean tells you "on average, respondents Agreed that digital devices are available (M = 3.51)". Fine — but it hides WHICH aspect is strongest and WHICH is weakest.',
+            'The per-item table reveals detail: **projectors** are the best-provided (M = 3.71, 65% Agree+SA), while **devices for all Maths lessons** are weakest (M = 3.29, only 51% Agree+SA). This kind of nuance is what earns high marks in a defence.',
+            'Every institutional-dynamics / questionnaire-based Master\'s thesis in Kenya needs one of these tables PER objective.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'Step-by-step: how to build one of these tables in SPSS' },
+
+        /* ─────── STEP 1 (menu path) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 1 — Open the Frequencies dialog' },
+
+        { type: 'paragraph', text:
+          'From the SPSS main menu bar at the top of your Data Editor window, click:' },
+
+        { type: 'callout', tone: 'brand', title: 'The click path',
+          body: '**Analyze → Descriptive Statistics → Frequencies…**' },
+
+        { type: 'callout', tone: 'info', title: 'Why Frequencies (not Descriptives) for per-item Likert tables',
+          body: [
+            'Both procedures live under "Descriptive Statistics" but they show you different things:',
+            '**Descriptives** gives you ONE row per variable (just Mean, SD, Min, Max) — good for composites',
+            '**Frequencies** gives you FULL response breakdown (how many people picked SD/D/N/A/SA) — good for individual Likert items',
+            'For the per-item Chapter 4 table, we NEED Frequencies to get the SD/D/N/A/SA counts and percentages. Then we\'ll turn on Statistics inside Frequencies to also get the mean and SD.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosSDMenuPath',
+          caption: 'Figure 2. The SPSS menu path for opening the Frequencies dialog. Analyze → Descriptive Statistics → Frequencies…' },
+
+        /* ─────── STEP 2 (main dialog) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 2 — Move the 5 Digital Devices items into the Variable(s) box' },
+
+        { type: 'paragraph', text:
+          'In the left-hand variable list, find the 5 items that make up the Digital Devices construct: `Dev_1`, `Dev_2`, `Dev_3`, `Dev_4`, `Dev_5`. Click `Dev_1`, then hold **Ctrl** and click the other four. Click the blue **▶** arrow to move all 5 into the **Variable(s)** box on the right.' },
+
+        { type: 'paragraph', text:
+          'Then look at the buttons in the bottom-right area of the dialog. We\'re about to click **Statistics…** to add the Mean and Standard Deviation to our output. But first, notice the arrow pointing us there:' },
+
+        { type: 'illustration', component: 'MachakosSDDialog',
+          caption: 'Figure 3. The Frequencies dialog after moving all 5 Dev items into the Variable(s) box. The gold arrow points to the "Statistics…" button — that\'s the NEXT thing to click. Also confirm the "Display frequency tables" checkbox is ticked (it should be by default).' },
+
+        /* ─────── STEP 3 (Statistics sub-dialog) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 3 — Click Statistics… and tick Mean + Std. deviation' },
+
+        { type: 'paragraph', text:
+          'The Statistics sub-dialog opens. Here\'s what to tick:' },
+
+        { type: 'comparison',
+          headers: ['Section', 'What to tick'],
+          rows: [
+            ['**Central Tendency**', '☑ Mean'],
+            ['**Dispersion**', '☑ Std. deviation, ☑ Variance, ☑ Range, ☑ Minimum, ☑ Maximum'],
+            ['**Distribution**', 'Leave blank for now (we already covered skewness/kurtosis in the Central Tendency lesson for composite scores).'],
+          ]},
+
+        { type: 'illustration', component: 'MachakosSDStatistics',
+          caption: 'Figure 4. The Frequencies: Statistics sub-dialog. Under Central Tendency, tick Mean. Under Dispersion, tick Std. deviation, Variance, Range, Minimum, Maximum. Leave the Percentile Values and Distribution sections empty. Click Continue.' },
+
+        { type: 'callout', tone: 'info', title: 'Why we tick Mean AND Std. deviation for Likert items',
+          body: 'The Chapter-4 table has TWO right-most columns: Mean and Std. Dev. Both come from this Statistics sub-dialog. Without ticking these, you get frequency tables but no per-item mean or SD — meaning you\'d have to compute them by hand or run a second procedure. Tick them here and save yourself the trouble.' },
+
+        /* ─────── STEP 4 (output) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 4 — Click Continue → OK → read the output' },
+
+        { type: 'paragraph', text:
+          'You\'re back at the main Frequencies dialog. Click **OK**. The Output Viewer opens with TWO sections that together give you everything you need:' },
+
+        { type: 'illustration', component: 'MachakosSDOutput',
+          caption: 'Figure 5. The SPSS output has two parts. TOP: a compact "Statistics" summary table showing N, Mean, Std. Deviation, Variance, Range, Min, Max across all 5 Dev items — this is where you get the mean and SD for the Chapter-4 table. BOTTOM: the full "Frequency Table" — one detailed table per item, with the SD/D/N/A/SA counts and percentages you\'ll paste into the SD, D, N, A, SA columns.' },
+
+        { type: 'heading', level: 3, text: 'What each part of the output gives you' },
+
+        { type: 'comparison',
+          headers: ['SPSS output section', 'Which Chapter-4 columns it fills in'],
+          rows: [
+            ['**Statistics summary table** (top)',       'The "Mean" and "Std. Dev" columns of your Chapter-4 table (right-most 2 columns).'],
+            ['**Frequency Table → Dev_1** (below)',      'Row 1 of the Chapter-4 table: SD/D/N/A/SA counts and % for "Each student has access to a laptop/tablet".'],
+            ['**Frequency Table → Dev_2** (further below)', 'Row 2 of the Chapter-4 table: SD/D/N/A/SA counts and % for "The school has a functional computer lab".'],
+            ['**Frequency Table → Dev_3, Dev_4, Dev_5**', 'Rows 3, 4, 5 of the Chapter-4 table — one per Likert item.'],
+          ]},
+
+        /* ─────── STEP 5 (assembling the thesis table) ─────── */
+        { type: 'heading', level: 3, text: 'STEP 5 — Assemble the Chapter-4 table in Word' },
+
+        { type: 'paragraph', text:
+          'SPSS doesn\'t give you the final Chapter-4 table pre-built — you have to combine bits of the SPSS output into a single clean table in Word. Here\'s exactly how to do that:' },
+
+        { type: 'steps', steps: [
+          { title: 'Create a blank 8-column × 7-row table in Word',
+            body: 'Columns: Item · SD · D · N · A · SA · Mean · Std. Dev. Rows: 1 header + 5 items + 1 composite footer.' },
+          { title: 'Fill in the Item column',
+            body: 'Copy each Likert item WORDING (from your questionnaire) into the leftmost column. Not "Dev_1" — use the actual sentence students read ("Each student has access to a laptop/tablet").' },
+          { title: 'Fill in the SD/D/N/A/SA columns from SPSS Frequency Tables',
+            body: 'For each Dev_X frequency table in SPSS, copy the Frequency count and Valid Percent, format as "22 (8.0%)", paste into the correct cell.' },
+          { title: 'Fill in the Mean and Std. Dev columns from the SPSS Statistics summary',
+            body: 'Copy from the top summary table — one number per item per column. Round to 2 decimal places for Mean, 3 decimal places for SD (standard convention).' },
+          { title: 'Add the Composite Score footer',
+            body: 'This mean and SD come from a SEPARATE run — the Descriptives procedure on your Digital_Devices composite variable (which you learned in the previous lesson). Highlight this row in gold or bold to draw the eye to the overall summary.' },
+          { title: 'Add a table title and legend',
+            body: 'Title: "Table X: Descriptive Statistics for [Construct Name] (N = 274)". Legend below title: "SD=Strongly Disagree, D=Disagree, N=Neutral, A=Agree, SA=Strongly Agree. Cells show count (%)."' },
+        ]},
+
+        { type: 'callout', tone: 'gold', title: 'Now repeat for Objectives 2 and 3',
+          body: [
+            'You\'ve just built ONE per-item table for Objective 1 (Digital Devices). Repeat the EXACT same procedure for:',
+            '**Objective 2 — Teacher Digital Competency**: move `Comp_1` to `Comp_5` into the Frequencies dialog. Produces "Table 13: Descriptive Statistics for Teacher Digital Competency".',
+            '**Objective 3 — Internet Connectivity Reliability**: move `Net_1` to `Net_5`. Produces "Table 14: Descriptive Statistics for Internet Connectivity Reliability".',
+            'Same procedure, different items. Three per-item tables total → one per objective → complete descriptive analysis for your Chapter 4.',
+          ]},
+
+        { type: 'heading', level: 3, text: '🎉 Your Chapter 4 descriptive section is now complete' },
+
+        { type: 'paragraph', text:
+          'By the end of this lesson, you have all THREE essential tables for the "Descriptive Statistics" section of your Chapter 4:' },
+
+        { type: 'comparison',
+          headers: ['Table', 'What it shows', 'Which lesson taught it'],
+          rows: [
+            ['**Table 1: Response Rate**',                    'How many questionnaires you administered vs how many were returned',                              'Bonus — write it up as part of Frequencies'],
+            ['**Table 2-4: Demographics tables**',            'Frequencies of Gender, Category, Form, HighestQual',                                             'Frequencies & Percentages lesson'],
+            ['**Table 5-7: Composite Descriptives**',         'Mean, SD, Min, Max, Skew, Kurt for each construct (Digital_Devices, Teacher_Competency, Internet_Connectivity)', 'Central Tendency lesson (Mean, Median, Mode)'],
+            ['**Table 8-10: Per-Item Likert Breakdowns**',    'One table per objective showing HOW respondents answered EACH Likert item within that construct',  'THIS lesson (Standard Deviation & Variance)'],
+          ]},
+
+        { type: 'paragraph', text:
+          'With these tables built and correctly formatted, your "Descriptive Statistics" section is defensible, complete, and matches the style of published Kenyan Master\'s / PhD theses. Next stop: inferential analysis (Correlation, Chi-square, Regression) — which we\'ll cover in the upcoming lessons.' },
+      ],
+    },
+
     /* ════════════════════ 9. WRITING IT UP ════════════════════ */
     {
       id: 'writing',
