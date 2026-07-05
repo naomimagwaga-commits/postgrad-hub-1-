@@ -734,14 +734,18 @@ export const unlocks = {
   async list() {
     const d = read();
     const real = d.unlocks.filter((u) => u.userId === d.sessions.current);
-    // Super-admin bypass: append virtual "all unlocked" rows for every lesson & test.
+    // Super-admin bypass: virtual "unlocked" rows for every lesson & test.
+    // These OVERRIDE any real rows with the same itemKey — so even if the admin
+    // has a leftover pending/declined row from earlier testing, virtual takes precedence.
     if (await _currentUserIsSuperAdmin()) {
       const currentUserId = d.sessions.current;
       const virtualRows = _buildSuperAdminUnlocks(currentUserId);
-      // Filter out virtuals that already exist as real rows (avoid duplicates).
-      const realKeys = new Set(real.map((r) => r.itemKey));
-      const filtered = virtualRows.filter((v) => !realKeys.has(v.itemKey));
-      return [...real, ...filtered];
+      const virtualKeys = new Set(virtualRows.map((v) => v.itemKey));
+      // Keep only real rows whose itemKey is NOT covered by a virtual row.
+      // (There shouldn't be any — virtuals cover every lesson + every test.
+      // But this preserves e.g. package unlocks and any future item types.)
+      const nonOverriddenReal = real.filter((r) => !virtualKeys.has(r.itemKey));
+      return [...nonOverriddenReal, ...virtualRows];
     }
     return real;
   },
