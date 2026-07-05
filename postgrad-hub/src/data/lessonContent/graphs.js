@@ -226,6 +226,168 @@ export const GRAPHS_LESSON = {
       ],
     },
 
+    /* ════════════════════ 7.5 THE MACHAKOS PROCEDURE (Chart Builder) ════════════════════ */
+    {
+      id: 'machakos-walkthrough',
+      title: 'The Machakos procedure — every chart, every screenshot',
+      blocks: [
+        { type: 'callout', tone: 'brand', title: 'The 4th and final lesson in the Descriptives course',
+          body: [
+            'By now you have built THREE essential Chapter-4 tables using the Machakos study:',
+            '**Table 1** — Demographics frequencies (Frequencies lesson)',
+            '**Table 2** — Composite descriptives (Central Tendency lesson)',
+            '**Table 3** — Per-item Likert breakdowns (Standard Deviation lesson)',
+            'This lesson adds the **visual layer** — the charts that go alongside those tables and make your findings easy to grasp at a glance.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'The 4 chart types every Kenyan Master\'s Chapter 4 uses' },
+
+        { type: 'comparison',
+          headers: ['Chart type', 'When to use', 'Which Machakos variable'],
+          rows: [
+            ['**Bar chart**',           'Compare counts across categorical categories',       'Category (Principal / Teacher / Student)'],
+            ['**Histogram**',           'Show the distribution of a CONTINUOUS variable',      'Math_KCSE_Mean (bell curve check)'],
+            ['**Boxplot**',             'Compare medians + spot outliers across groups',       'Math_KCSE_Mean split by Category'],
+            ['**Clustered bar chart**', 'Compare counts across TWO categorical variables at once', 'Category × Gender (male/female within each group)'],
+          ]},
+
+        { type: 'paragraph', text:
+          'You could build all these with the classic Frequencies dialog\'s Charts button (that\'s what we did in the Frequencies lesson). But for anything more sophisticated than a plain bar chart, you need the **Chart Builder**. Let\'s walk through it.' },
+
+        /* ─────── STEP 1 — Menu path ─────── */
+        { type: 'heading', level: 3, text: 'STEP 1 — Open the Chart Builder' },
+
+        { type: 'paragraph', text:
+          'This is a DIFFERENT menu from everything we\'ve done so far. Charts live under the **Graphs** menu (not Analyze). Click:' },
+
+        { type: 'callout', tone: 'brand', title: 'The click path',
+          body: '**Graphs → Chart Builder…**' },
+
+        { type: 'illustration', component: 'MachakosGraphsMenuPath',
+          caption: 'Figure 1. The SPSS menu path for opening the Chart Builder. Notice this is under the Graphs menu — NOT Analyze. Ignore "Legacy Dialogs" — that\'s the older, harder-to-use way of building charts.' },
+
+        { type: 'callout', tone: 'info', title: 'The first time you open Chart Builder',
+          body: 'SPSS may pop up a warning saying "Before you use this dialog, measurement level should be set properly for each variable". If you followed the Data View lesson, your measurement levels are already correct — just click OK to dismiss the warning. If not, cancel, fix your measurement levels (Variable View → Measure column), then reopen Chart Builder.' },
+
+        /* ─────── STEP 2 — Chart Builder interface ─────── */
+        { type: 'heading', level: 3, text: 'STEP 2 — Understand the Chart Builder interface' },
+
+        { type: 'paragraph', text:
+          'The Chart Builder dialog is more complex than the ones you\'ve seen before. It has FOUR main areas — take a moment to identify each in the screenshot below:' },
+
+        { type: 'illustration', component: 'MachakosGraphsChartBuilder',
+          caption: 'Figure 2. The Chart Builder dialog has four main panels. TOP-LEFT: your Variables list (drag a variable to the axis). TOP-RIGHT: the chart preview area (drag chart types here). BOTTOM-LEFT: Gallery of chart types (Bar, Line, Area, Pie, Scatter, Histogram, Boxplot, etc.). BOTTOM-MIDDLE: sub-types for the chosen gallery item. BOTTOM-RIGHT: Element Properties (fine-tune what\'s on each axis).' },
+
+        { type: 'comparison',
+          headers: ['Chart Builder panel', 'What you do here'],
+          rows: [
+            ['**Variables list** (top-left)',      'Find your variable, then DRAG it onto the chart preview or an axis label.'],
+            ['**Chart preview** (top-right)',      'The empty canvas where your chart takes shape. Drag chart types and variables here.'],
+            ['**Gallery** (bottom-left)',          'Choose your chart TYPE — Bar, Histogram, Boxplot, etc. Then drag the sub-type from the middle panel to the preview.'],
+            ['**Sub-types** (bottom-middle)',      'Once you pick a chart type, this panel shows variations — simple bar, clustered bar, stacked bar. DRAG one to the preview.'],
+            ['**Element Properties** (bottom-right)', 'Configure what statistic to display (Count, Mean, Median), edit axis labels, change colors.'],
+          ]},
+
+        /* ─────── STEP 3 — Bar chart for Category ─────── */
+        { type: 'heading', level: 3, text: 'STEP 3 — Build a simple bar chart for Category' },
+
+        { type: 'paragraph', text:
+          'The workflow is drag-and-drop. To build a bar chart of Category counts:' },
+
+        { type: 'steps', steps: [
+          { title: 'Click "Bar" in the Gallery panel', body: 'The Gallery is the bottom-left panel. Bar becomes highlighted with a blue border.' },
+          { title: 'Drag the SIMPLE bar sub-type (top-left of the sub-types panel) onto the chart preview area', body: 'The preview area shows an empty template with "X-Axis?" and "Y-Axis?" labels.' },
+          { title: 'Drag "Category" from the Variables list onto the X-Axis label in the preview', body: 'The preview updates immediately — you now see 3 bars for Principal, Teacher, Student. This is called "drag-and-drop" chart building.' },
+          { title: 'Element Properties defaults to Statistic = "Count"', body: 'That\'s what we want — count of respondents in each category. If you wanted mean instead, you\'d change this dropdown.' },
+          { title: 'Click OK', body: 'The bar chart appears in the Output Viewer. You already saw this chart in the Frequencies lesson (Figure 6 there).' },
+        ]},
+
+        /* ─────── STEP 4 — Histogram ─────── */
+        { type: 'heading', level: 3, text: 'STEP 4 — Build a histogram for Math_KCSE_Mean' },
+
+        { type: 'paragraph', text:
+          'Histograms show the **distribution** of a continuous variable — the shape of the data. This is CRUCIAL to check before running Pearson correlation, t-tests, or regression, because those tests assume roughly normal (bell-shaped) distributions.' },
+
+        { type: 'paragraph', text:
+          'Open Chart Builder again (Graphs → Chart Builder). Then:' },
+
+        { type: 'steps', steps: [
+          { title: 'Click "Histogram" in the Gallery', body: 'Down the gallery list, click Histogram.' },
+          { title: 'Drag the FIRST histogram sub-type onto the preview', body: 'The simple histogram — no bells and whistles.' },
+          { title: 'Drag "Math_KCSE_Mean" onto the X-Axis label', body: 'The preview updates. Y-axis auto-fills with Frequency.' },
+          { title: 'In the Element Properties panel (right), tick "Display normal curve"', body: 'This overlays a bell-shaped dashed line — makes it easy to see if your data is approximately normal.' },
+          { title: 'Click OK', body: 'The histogram appears in the Output Viewer, showing the distribution of school Math KCSE means across all 274 respondents.' },
+        ]},
+
+        { type: 'illustration', component: 'MachakosGraphsHistogram',
+          caption: 'Figure 3. Histogram of Math_KCSE_Mean for the Machakos study. The bars form a rough bell curve peaking around 5.5-6.0 KCSE points. The dashed normal-distribution overlay confirms the distribution is approximately normal (Mean = 5.92, SD = 0.82, N = 274). This tells you it\'s safe to use Pearson correlation, t-tests, and regression on this variable — no need for non-parametric alternatives.' },
+
+        { type: 'callout', tone: 'gold', title: 'The 30-second normality check',
+          body: [
+            'The histogram is the fastest normality check you can do. Look for:',
+            '**Roughly bell-shaped** = safe for parametric tests (Pearson, t-test, ANOVA, regression) ✅',
+            '**Skewed to one side (long tail left or right)** = consider log-transformation or non-parametric alternatives (Spearman, Mann-Whitney) ⚠️',
+            '**Multiple peaks** = you may have subgroups mixed in your data — split by group and analyse separately',
+            '**Extreme peak/very flat** = check for data-entry errors (are you sure the values are correct?)',
+          ]},
+
+        /* ─────── STEP 5 — Boxplot ─────── */
+        { type: 'heading', level: 3, text: 'STEP 5 — Build a boxplot to compare groups' },
+
+        { type: 'paragraph', text:
+          'A boxplot compares the median + spread of a continuous variable across categorical groups. In the Machakos study, we\'d use it to see: **Do Principals, Teachers, and Students rate the school\'s Math KCSE mean similarly?** (In principle they should be reporting the SAME school\'s actual KCSE mean — but real answers vary.)' },
+
+        { type: 'paragraph', text:
+          'In Chart Builder: Gallery → **Boxplot** → drag the "Simple Boxplot" sub-type to preview → drag **Category** to X-Axis → drag **Math_KCSE_Mean** to Y-Axis → click OK.' },
+
+        { type: 'paragraph', text:
+          'Boxplots pack a lot of information into a small space. Here\'s the anatomy — study this image and you\'ll be able to read any boxplot for the rest of your research career:' },
+
+        { type: 'illustration', component: 'MachakosGraphsBoxplot',
+          caption: 'Figure 4. Boxplot of Math_KCSE_Mean by Category, with the STUDENT boxplot annotated. Gold = Q3 (75th percentile). Navy = Median. Green = Q1 (25th percentile). Grey = Whiskers (highest/lowest non-outlier values). Red = Outlier (value more than 1.5× IQR beyond the box).' },
+
+        { type: 'callout', tone: 'info', title: 'Why boxplots earn marks in a defence',
+          body: 'Examiners LOVE boxplots because they show medians (not just means), spread, AND outliers all in one image. If you present a boxplot alongside your Chapter-4 mean/SD table, you demonstrate that you actually LOOKED at your data — not just ran automated stats. This is worth points.' },
+
+        /* ─────── STEP 6 — Clustered bar for X-tabs ─────── */
+        { type: 'heading', level: 3, text: 'STEP 6 — Build a clustered bar chart (Category × Gender)' },
+
+        { type: 'paragraph', text:
+          'Sometimes you want to show TWO categorical variables at once — for example, how gender distribution differs within each respondent category. That\'s where clustered bar charts shine.' },
+
+        { type: 'paragraph', text:
+          'In Chart Builder: Gallery → **Bar** → drag the "**Clustered bar**" sub-type to preview → drag **Category** to X-Axis → drag **Gender** onto the "Cluster on X: set color" drop zone (near the top of the preview) → click OK.' },
+
+        { type: 'illustration', component: 'MachakosGraphsClusteredBar',
+          caption: 'Figure 5. Clustered bar chart showing respondent distribution by Category and Gender in the Machakos study. Two clear stories emerge: (1) male teachers outnumber female teachers roughly 2:1 (38 vs 16), and (2) female students slightly outnumber male students (127 vs 85). Principal representation is balanced (5M/3F). This kind of nuance is invisible in a simple frequency table.' },
+
+        { type: 'callout', tone: 'gold', title: 'The one-figure secret',
+          body: 'Notice how ONE clustered bar chart replaced what would have been a 2-way table with 6 cells. Chapter-4 examiners consistently prefer well-labelled charts over text-heavy tables — as long as the chart is clearly captioned and the numbers are readable.' },
+
+        /* ─────── Wrap-up ─────── */
+        { type: 'heading', level: 3, text: '🎉 Your Descriptive Statistics section is now VISUALLY complete' },
+
+        { type: 'paragraph', text:
+          'You\'ve now built the FULL descriptive package for your Chapter 4 — tables AND charts. Here\'s the complete inventory you should have ready to paste into your thesis after finishing all 4 Descriptives lessons:' },
+
+        { type: 'comparison',
+          headers: ['Chapter-4 element', 'Which lesson taught you to build it'],
+          rows: [
+            ['Response Rate table',                                'Frequencies lesson (bonus)'],
+            ['Demographics tables (Gender, Category, Form, Qual)', 'Frequencies lesson'],
+            ['Bar chart of Category',                              'Frequencies + Producing Graphs (this) lessons'],
+            ['Composite Descriptives table (Mean, SD, Skew, Kurt)', 'Central Tendency lesson'],
+            ['Per-item Likert breakdown tables (1 per objective)', 'Standard Deviation lesson'],
+            ['Histogram of the dependent variable',                'THIS lesson (Producing Graphs)'],
+            ['Boxplots for group comparisons',                     'THIS lesson (Producing Graphs)'],
+            ['Clustered bar chart of cross-tab',                   'THIS lesson (Producing Graphs)'],
+          ]},
+
+        { type: 'paragraph', text:
+          'With all of these built, your Chapter 4 "Descriptive Statistics" section is complete, defensible, and matches the style of published Kenyan Master\'s and PhD theses. **Next: Inferential Statistics** — we\'ll use the SAME Machakos dataset to run Correlation, Chi-square, and Regression in the upcoming lessons.' },
+      ],
+    },
+
     /* ════════════════════ 8. POLISHING CHARTS ════════════════════ */
     {
       id: 'polishing',
