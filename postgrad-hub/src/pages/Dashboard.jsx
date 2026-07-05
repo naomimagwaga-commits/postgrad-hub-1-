@@ -3,11 +3,16 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import {
   submissions, activities, unlocks, lessons as lessonsApi,
+  analysisChecklist,
   auth, daysUntilExpiry, isUnlockActive,
   SUBMISSION_STATUSES, REFERRAL_REWARD_KES,
 } from '../lib/db.js';
 import { COURSES } from '../data/courses.js';
 import { priceForLesson } from '../data/prices.js';
+import {
+  STAGES as CHECKLIST_STAGES, TOTAL_ITEMS as CHECKLIST_TOTAL,
+  computeStageStats, computeOverallProgress,
+} from '../data/analysisStages.js';
 import {
   IconForm, IconChart, IconBook, IconCalendar, IconCheck, IconArrow,
   IconClock, IconSpark,
@@ -20,6 +25,7 @@ export default function Dashboard() {
   const [rawUnlocks, setRawUnlocks] = useState([]);
   const [progress, setProgress] = useState([]);
   const [streak, setStreak] = useState(0);
+  const [checklistTicks, setChecklistTicks] = useState([]);
   const [savingDeadline, setSavingDeadline] = useState(false);
 
   useEffect(() => {
@@ -29,6 +35,7 @@ export default function Dashboard() {
       setRawUnlocks(await unlocks.list());
       setProgress(await lessonsApi.listProgress());
       setStreak(await lessonsApi.currentStreak());
+      try { setChecklistTicks(await analysisChecklist.list()); } catch { setChecklistTicks([]); }
     })();
   }, []);
 
@@ -41,18 +48,14 @@ export default function Dashboard() {
 
   /* ─── DERIVED DATA ─── */
 
-  // Milestones (kept from original — good foundation)
   const activeUnlocks = rawUnlocks.filter(isUnlockActive);
-  const milestones = [
-    { key: 'topic', label: 'Topic defined', done: true },
-    { key: 'proposal', label: 'Proposal drafted', done: true },
-    { key: 'instrument', label: 'Instrument refined', done: subs.some((s) => s.status === 'ready') },
-    { key: 'collection', label: 'Data collected', done: false },
-    { key: 'analysis', label: 'Data analysed', done: activeUnlocks.some((u) => u.itemType === 'test') },
-    { key: 'thesis', label: 'Thesis submitted', done: false },
-  ];
-  const overallProgress = Math.round((milestones.filter((m) => m.done).length / milestones.length) * 100);
-  const nextMilestone = milestones.find((m) => !m.done);
+
+  // Analysis Journey progress — pulled from the shared checklist stages.
+  // This IS the student's progress, in the chronological order they'll do it.
+  const journeyOverall = computeOverallProgress(checklistTicks);
+  const journeyStages = computeStageStats(checklistTicks);
+  const overallProgress = journeyOverall.percent;
+  const nextStage = journeyOverall.nextStage;
 
   // Lessons stats
   const lessonsCompleted = progress.filter((p) => p.completed).length;
@@ -134,9 +137,9 @@ export default function Dashboard() {
               Welcome back, <span className="italic font-light text-gold">{user?.name?.split(' ')[0]}</span>
             </h1>
             <p className="mt-4 text-brand-100/80 max-w-xl">
-              {nextMilestone
-                ? <>Your next milestone is <span className="text-gold font-semibold">{nextMilestone.label}</span>.</>
-                : 'All milestones complete — congratulations!'}
+              {nextStage
+                ? <>Next up in your analysis journey: <span className="text-gold font-semibold">{nextStage.title}</span>.</>
+                : '🎉 All 9 analysis stages complete — you\'re ready to write.'}
             </p>
             {daysToDeadline !== null && (
               <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 bg-gold/20 border border-gold/40 text-gold-100 rounded-full text-sm font-semibold">
@@ -214,7 +217,8 @@ export default function Dashboard() {
 
       {/* ═════════ KPI strip (upgraded) ═════════ */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Kpi label="Research progress" value={`${overallProgress}%`} icon={IconSpark} bar={overallProgress}/>
+        <Kpi label="Analysis progress" value={`${overallProgress}%`} icon={IconSpark} bar={overallProgress}
+          hint={nextStage ? `Next: ${nextStage.title.slice(0, 24)}${nextStage.title.length > 24 ? '…' : ''}` : 'All stages complete'}/>
         <Kpi label="Lessons completed" value={lessonsCompleted} icon={IconBook}
           hint={avgQuiz !== null ? `Quiz avg ${avgQuiz}%` : null}/>
         <Kpi label="Quizzes aced (≥80%)" value={quizzesAced} icon={IconCheck}/>
@@ -222,30 +226,91 @@ export default function Dashboard() {
           hint={streak > 0 ? '🔥 Keep it going!' : 'Open a lesson to start your streak'}/>
       </div>
 
-      {/* ═════════ Milestones + Activity ═════════ */}
+      {/* ═════════ Analysis Journey + Activity ═════════ */}
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="card-elevated p-7 lg:col-span-2">
-          <Header title="Research Progress Tracker" sub="Your end-to-end thesis journey"/>
-          <ol className="mt-7 space-y-4">
-            {milestones.map((m, i) => (
-              <li key={m.key} className="flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition ${
-                  m.done ? 'bg-gold text-brand shadow-gold' : 'bg-slate-100 text-slate-400'
-                }`}>
-                  {m.done ? <IconCheck className="w-5 h-5"/> : i + 1}
-                </div>
-                <div className="flex-1">
-                  <p className={`text-sm font-display font-bold ${m.done ? 'text-brand' : 'text-slate-500'}`}>
-                    {m.label}
-                  </p>
-                  <div className="h-1.5 bg-slate-100 rounded-full mt-2 overflow-hidden">
-                    <div className={`h-full transition-all duration-700 ${m.done ? 'bg-gradient-to-r from-gold-300 to-gold' : ''}`}
-                         style={{ width: m.done ? '100%' : '0%' }}/>
-                  </div>
-                </div>
-              </li>
-            ))}
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div>
+              <span className="eyebrow">— Analysis Journey</span>
+              <h3 className="display text-2xl text-brand mt-2">Your data analysis, step-by-step</h3>
+              <p className="text-xs text-slate-500 mt-1">The chronological workflow — click any stage to jump into it.</p>
+            </div>
+            <div className="text-right shrink-0">
+              <p className="display text-2xl text-brand font-bold">{journeyOverall.done}<span className="text-slate-400 text-base">/{journeyOverall.total}</span></p>
+              <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Items done</p>
+            </div>
+          </div>
+
+          {/* Overall progress bar */}
+          <div className="h-2 bg-slate-100 rounded-full mt-5 overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-gold-300 to-gold transition-all duration-700"
+                 style={{ width: `${overallProgress}%` }}/>
+          </div>
+
+          {/* Compact stage list — chronological */}
+          <ol className="mt-6 space-y-2">
+            {CHECKLIST_STAGES.map((stage) => {
+              const s = journeyStages.find((x) => x.id === stage.id);
+              const isNext = nextStage && nextStage.id === stage.id;
+              return (
+                <li key={stage.id}>
+                  <Link
+                    to={`/app/checklist#stage-${stage.id}`}
+                    className={`flex items-center gap-3 p-3 rounded-xl transition group border ${
+                      s.complete ? 'bg-emerald-50/50 border-emerald-200 hover:bg-emerald-50' :
+                      isNext ? 'bg-gold/10 border-gold/40 hover:bg-gold/15' :
+                      s.inProgress ? 'bg-slate-50 border-slate-200 hover:bg-slate-100' :
+                      'bg-white border-slate-100 hover:border-slate-300'
+                    }`}
+                  >
+                    {/* Stage number circle */}
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm shrink-0 ${
+                      s.complete ? 'bg-emerald-500 text-white' :
+                      isNext ? 'bg-gold text-brand shadow-gold' :
+                      s.inProgress ? 'bg-gold/30 text-brand' :
+                      'bg-slate-100 text-slate-400'
+                    }`}>
+                      {s.complete ? '✓' : stage.id}
+                    </div>
+
+                    {/* Title + item count */}
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm font-display font-bold truncate ${
+                        s.complete ? 'text-emerald-700' :
+                        isNext ? 'text-brand' :
+                        s.inProgress ? 'text-brand' :
+                        'text-slate-500'
+                      }`}>
+                        {stage.title}
+                      </p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        {s.done} of {s.total} items
+                        {isNext && !s.complete && <span className="ml-2 font-bold text-gold-700">← next up</span>}
+                      </p>
+                    </div>
+
+                    {/* Right-side status label + arrow */}
+                    <span className="text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0">
+                      Open →
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
           </ol>
+
+          <div className="mt-5 pt-5 border-t border-slate-100 flex items-center justify-between gap-3">
+            <p className="text-xs text-slate-500 italic">
+              {overallProgress === 100
+                ? '🎉 All 9 stages complete. You are ready to write Chapter 4 & 5.'
+                : overallProgress === 0
+                  ? 'Not started yet. Open the full checklist to begin ticking items.'
+                  : `${overallProgress}% of your analysis journey complete.`}
+            </p>
+            <Link to="/app/checklist" className="btn-primary text-sm shrink-0">
+              Open full checklist <IconArrow className="w-4 h-4"/>
+            </Link>
+          </div>
         </div>
 
         <div className="card-elevated p-7">

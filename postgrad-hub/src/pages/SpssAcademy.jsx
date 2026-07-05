@@ -249,6 +249,32 @@ export default function SpssAcademy() {
           </span>
         </div>
 
+        {/* 🎁 IBM SPSS 14-day free trial card — no more "I don't have SPSS installed" barrier */}
+        <div className="card-elevated p-6 lg:p-7 bg-gradient-to-br from-brand/5 to-gold/5 border-l-4 border-l-gold">
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div className="min-w-0 flex-1">
+              <span className="eyebrow">— Don't have SPSS installed?</span>
+              <h3 className="display text-xl lg:text-2xl text-brand mt-2">
+                🎁 Get IBM SPSS free for 14 days
+              </h3>
+              <p className="text-sm text-slate-600 mt-2 leading-relaxed max-w-2xl">
+                IBM offers a full-featured <strong>14-day free trial</strong> of SPSS Statistics. Perfect for working through the lessons below. <strong>Tip:</strong> only install it the day you're ready to start cleaning your data — the timer starts on install.
+              </p>
+              <p className="text-[11px] text-slate-500 mt-3 italic">
+                Need longer? Many Kenyan universities (UoN, KU, Strathmore, JKUAT) offer SPSS in their computer labs or via student licences — check with your IT office or library.
+              </p>
+            </div>
+            <a
+              href="https://www.ibm.com/products/spss-statistics/trials"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-gold shrink-0"
+            >
+              Get the trial <IconArrow className="w-4 h-4"/>
+            </a>
+          </div>
+        </div>
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {COURSES.map((c, i) => {
             const totalFormats = c.lessons.length;
