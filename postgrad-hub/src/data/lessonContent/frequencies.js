@@ -78,7 +78,54 @@ export const FREQUENCIES_LESSON = {
       ],
     },
 
-    /* ════════════════════ 3. RUNNING FREQUENCIES IN SPSS ════════════════════ */
+    /* ════════════════════ 3. THE MACHAKOS CASE STUDY ════════════════════ */
+    {
+      id: 'case-machakos',
+      title: 'The Machakos Study — meet the sample we\'ll describe together',
+      blocks: [
+        { type: 'callout', tone: 'brand', title: 'Running case study — used across the SPSS Academy',
+          body: [
+            'From this lesson onwards, most examples come from ONE fictional but realistic Kenyan study. This is deliberate — you build familiarity with a single dataset instead of learning new variables in every lesson.',
+            '**📚 Study title:** *Influence of Digital Learning Resources on Students\' Mathematics Performance in Public Secondary Schools in Machakos County, Kenya*',
+            '**👥 Sample:** 274 respondents from 8 public secondary schools — 8 principals, 54 teachers, and 212 students (Form 2, 3, and 4).',
+            '**🎯 The four research objectives look at:** (1) availability of digital devices, (2) teacher digital competency, (3) internet connectivity reliability, and (4) school digital-infrastructure investment — each as a possible influence on the school\'s Mathematics KCSE mean grade.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'What the dataset looks like in SPSS Data View' },
+
+        { type: 'paragraph', text:
+          'Here are the first 10 rows of the dataset — this is what you would see the moment you open the .sav file in SPSS. Notice how some cells are blank: `Form` is only meaningful for students, and `HighestQual` is only meaningful for staff. SPSS treats those as **system-missing** — perfectly normal.' },
+
+        { type: 'comparison',
+          headers: ['RespID', 'SchoolID', 'Category', 'Gender', 'Age', 'Form', 'HighestQual', 'Math_KCSE'],
+          rows: [
+            ['P01',  'SCH01', 'Principal', 'Male',   '—',  '—', 'M.Ed',    '6.4'],
+            ['P02',  'SCH02', 'Principal', 'Female', '—',  '—', 'B.Ed',    '5.1'],
+            ['T01',  'SCH01', 'Teacher',   'Male',   '42', '—', 'M.Ed',    '6.4'],
+            ['T02',  'SCH01', 'Teacher',   'Female', '31', '—', 'B.Ed',    '6.4'],
+            ['T03',  'SCH02', 'Teacher',   'Male',   '38', '—', 'Diploma', '5.1'],
+            ['S001', 'SCH01', 'Student',   'Female', '17', '3', '—',       '6.4'],
+            ['S002', 'SCH01', 'Student',   'Male',   '18', '4', '—',       '6.4'],
+            ['S003', 'SCH02', 'Student',   'Female', '16', '2', '—',       '5.1'],
+            ['S004', 'SCH03', 'Student',   'Male',   '17', '3', '—',       '7.2'],
+            ['S005', 'SCH04', 'Student',   'Male',   '16', '2', '—',       '5.8'],
+          ],
+        },
+
+        { type: 'paragraph', text:
+          'The full dataset has **274 rows** (one per respondent) and **30+ columns** — the demographics you see above, plus 15 Likert items (5 each for devices, teacher competency, internet), the KES investment per student, and the composite scores we\'ll compute later. In this lesson we\'ll use only the demographic variables.' },
+
+        { type: 'callout', tone: 'gold', title: 'What we\'ll describe with frequencies in this lesson',
+          body: [
+            '**`Gender`** — Male / Female — the classic demographic frequency',
+            '**`Category`** — Principal / Teacher / Student — the respondent group',
+            '**`Form`** — 2 / 3 / 4 — only meaningful for students (watch how Missing plays out)',
+            '**`HighestQual`** — Diploma / B.Ed / PGDE / M.Ed — only meaningful for staff',
+          ]},
+      ],
+    },
+
+    /* ════════════════════ 3.5 RUNNING FREQUENCIES IN SPSS ════════════════════ */
     {
       id: 'running',
       title: 'Running Frequencies in SPSS',
@@ -111,6 +158,114 @@ export const FREQUENCIES_LESSON = {
 
         { type: 'callout', tone: 'info', title: 'Tip — run all categorical variables together',
           body: 'For Chapter 4 it is far faster to move ALL your categorical demographic variables (gender, age bracket, county, education, marital status, employment) into the Variables box at once and produce all the frequency tables in a single run. You get a consistent set of outputs that you can copy straight into your thesis.' },
+      ],
+    },
+
+    /* ════════════════════ 3.7 THE MACHAKOS PROCEDURE (WALK-THROUGH) ════════════════════ */
+    {
+      id: 'machakos-walkthrough',
+      title: 'The Machakos procedure — every click, every output',
+      blocks: [
+        { type: 'heading', level: 2, text: 'Step-by-step with the case-study data' },
+
+        { type: 'paragraph', text:
+          'Now let\'s run frequencies on ALL four demographic variables in the Machakos dataset — `Gender`, `Category`, `Form`, and `HighestQual` — in ONE go. This is the workflow every real Kenyan Master\'s student uses: one procedure → four tables → four Chapter-4 paragraphs.' },
+
+        { type: 'steps', steps: [
+          { title: 'Open the Frequencies dialog',
+            body: 'Menu path: **Analyze → Descriptive Statistics → Frequencies…** — the dialog opens with all your variables listed on the left.' },
+          { title: 'Move the four demographic variables into the box',
+            body: [
+              'Click `Category`, then Ctrl-click `Gender`, `Form`, and `HighestQual` to select all four. Click the blue **▶** arrow to move them into the **Variable(s)** box on the right.',
+              'The Variable(s) box should now show all 4 variables stacked vertically.',
+            ]},
+          { title: 'Add bar charts',
+            body: 'Click **Charts…** → tick **Bar charts** → under Chart Values pick **Percentages** → click **Continue**.' },
+          { title: 'Click OK',
+            body: 'The Output Viewer opens with 4 separate frequency tables and 4 bar charts — one set per variable.' },
+        ]},
+
+        { type: 'heading', level: 3, text: 'Output Table 1 — Category (respondent group)' },
+
+        { type: 'comparison',
+          headers: ['', 'Frequency', 'Percent', 'Valid Percent', 'Cumulative Percent'],
+          rows: [
+            ['Principal', '8',   '2.9',   '2.9',   '2.9'],
+            ['Teacher',   '54',  '19.7',  '19.7',  '22.6'],
+            ['Student',   '212', '77.4',  '77.4',  '100.0'],
+            ['**Total**', '**274**', '**100.0**', '**100.0**', ''],
+          ],
+        },
+
+        { type: 'paragraph', text:
+          'Straightforward — 274 respondents split into 8 principals (2.9%), 54 teachers (19.7%), and 212 students (77.4%). No missing values (`Percent` = `Valid Percent`) because every respondent has a Category.' },
+
+        { type: 'heading', level: 3, text: 'Output Table 2 — Gender' },
+
+        { type: 'comparison',
+          headers: ['', 'Frequency', 'Percent', 'Valid Percent', 'Cumulative Percent'],
+          rows: [
+            ['Male',      '128', '46.7',  '46.7',  '46.7'],
+            ['Female',    '146', '53.3',  '53.3',  '100.0'],
+            ['**Total**', '**274**', '**100.0**', '**100.0**', ''],
+          ],
+        },
+
+        { type: 'paragraph', text:
+          'Also complete — 128 males (46.7%) and 146 females (53.3%). Fairly balanced. Again, no missing values.' },
+
+        { type: 'heading', level: 3, text: 'Output Table 3 — Form (⚠️ watch the Missing!)' },
+
+        { type: 'comparison',
+          headers: ['', 'Frequency', 'Percent', 'Valid Percent', 'Cumulative Percent'],
+          rows: [
+            ['Missing (System)', '62', '22.6', '—', '—'],
+            ['Form 2',   '71',  '25.9',  '33.5',  '33.5'],
+            ['Form 3',   '74',  '27.0',  '34.9',  '68.4'],
+            ['Form 4',   '67',  '24.5',  '31.6',  '100.0'],
+            ['**Total**', '**274**', '**100.0**', '**100.0**', ''],
+          ],
+        },
+
+        { type: 'callout', tone: 'gold', title: 'This is where Valid Percent matters',
+          body: [
+            '62 respondents (the 8 principals + 54 teachers) have **no Form value** — they\'re not students. SPSS labels these "Missing (System)".',
+            '**If you report `Percent`** — Form 2 = 25.9% of ALL 274 respondents. Confusing, because non-students shouldn\'t be counted.',
+            '**If you report `Valid Percent`** — Form 2 = 33.5% of the 212 students who DO have a Form. This is the "true" distribution of students across forms — the number your examiner wants.',
+            'Rule of thumb: **Valid Percent** is almost always the right column to put in your Chapter 4.',
+          ]},
+
+        { type: 'heading', level: 3, text: 'Output Table 4 — HighestQualification' },
+
+        { type: 'comparison',
+          headers: ['', 'Frequency', 'Percent', 'Valid Percent', 'Cumulative Percent'],
+          rows: [
+            ['Missing (System)', '212', '77.4', '—', '—'],
+            ['Diploma', '12', '4.4',  '19.4',  '19.4'],
+            ['B.Ed',    '34', '12.4', '54.8',  '74.2'],
+            ['PGDE',    '8',  '2.9',  '12.9',  '87.1'],
+            ['M.Ed',    '8',  '2.9',  '12.9',  '100.0'],
+            ['**Total**', '**274**', '**100.0**', '**100.0**', ''],
+          ],
+        },
+
+        { type: 'paragraph', text:
+          'Same pattern in reverse: only the 62 staff members (principals + teachers) have a qualification, so 212 students show as Missing. Among the 62 staff, most (54.8%) hold a B.Ed. **Valid Percent** is the column to report in Chapter 4.' },
+
+        { type: 'heading', level: 3, text: 'Which column goes in your Chapter 4?' },
+
+        { type: 'comparison',
+          headers: ['SPSS Column', 'When to use in your thesis'],
+          rows: [
+            ['**Frequency**',           'ALWAYS report — the raw count.'],
+            ['**Percent**',             'Use only when there are ZERO missing values (e.g. Gender, Category above).'],
+            ['**Valid Percent**',       'Use whenever there ARE missing values (e.g. Form, HighestQual above). This is the "true" % of respondents who answered.'],
+            ['**Cumulative Percent**',  'Skip in tables. Only mention in text when order matters (e.g. "68.4% of students were in Form 3 or below").'],
+          ],
+        },
+
+        { type: 'callout', tone: 'info', title: 'Practical rule for Chapter 4 tables',
+          body: 'Always show **Frequency + Percent (or Valid Percent)** as your two data columns. Skip Cumulative Percent unless the variable is ordinal AND cumulative meaning matters. Keep it clean — examiners appreciate readability.' },
       ],
     },
 
