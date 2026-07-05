@@ -6662,6 +6662,33 @@ export function MachakosFreqMenuPath() {
     alt="SPSS main menu showing the click path: Analyze menu open (boxed), Descriptive Statistics highlighted in blue with cascading submenu, Frequencies highlighted in blue as the item to click, with a gold arrow and CLICK HERE label pointing to Frequencies"/>;
 }
 
+/* ─── Machakos Standard Deviation & Variance (per-item Likert breakdown) ─── */
+export function MachakosSDMenuPath() {
+  return <ScreenshotFrame
+    src="/lesson-images/standard-deviation/00-menu-path.jpg"
+    alt="SPSS main menu showing click path Analyze → Descriptive Statistics → Frequencies (with a gold CLICK HERE arrow — for per-item Likert breakdown)"/>;
+}
+export function MachakosSDDialog() {
+  return <ScreenshotFrame
+    src="/lesson-images/standard-deviation/01-dialog.jpg"
+    alt="SPSS Frequencies dialog with the 5 Dev_1 through Dev_5 items highlighted in blue and moved into the Variable(s) box. A gold callout arrow points to the Statistics button — the next click"/>;
+}
+export function MachakosSDStatistics() {
+  return <ScreenshotFrame
+    src="/lesson-images/standard-deviation/02-statistics.jpg"
+    alt="SPSS Frequencies: Statistics sub-dialog. Under Central Tendency, Mean is checked. Under Dispersion, Std. deviation, Variance, Range, Minimum, and Maximum are all checked. Skewness and Kurtosis remain unchecked"/>;
+}
+export function MachakosSDOutput() {
+  return <ScreenshotFrame
+    src="/lesson-images/standard-deviation/03-output.jpg"
+    alt="SPSS Output Viewer showing (1) a Statistics summary table with Mean, Std Deviation, Variance, Range, Min, Max for all 5 Dev items and (2) the beginning of the per-item Frequency Table for Dev_1 with SD/D/N/A/SA counts and percentages"/>;
+}
+export function MachakosSDThesisTable() {
+  return <ScreenshotFrame
+    src="/lesson-images/standard-deviation/04-thesis-table.jpg"
+    alt="Chapter-4-ready APA table: Descriptive Statistics for Digital Devices Availability (N = 274). Rows: 5 Likert items. Columns: SD, D, N, A, SA counts with percentages, Mean, Std Dev. Bottom row shows the composite score (Mean = 3.51, SD = 0.824) highlighted in gold"/>;
+}
+
 /* ─── Machakos Central Tendency (Descriptives procedure) ─── */
 export function MachakosCTMenuPath() {
   return <ScreenshotFrame
@@ -6725,6 +6752,8 @@ export const ILLUSTRATIONS = {
   MachakosFreqAnnotated, MachakosFreqBarChart,
   /* Machakos Central Tendency screenshots (Descriptives procedure) */
   MachakosCTMenuPath, MachakosCTDialog, MachakosCTOptions, MachakosCTOutput, MachakosCTAnnotated,
+  /* Machakos Standard Deviation screenshots (per-item Likert breakdown) */
+  MachakosSDMenuPath, MachakosSDDialog, MachakosSDStatistics, MachakosSDOutput, MachakosSDThesisTable,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
