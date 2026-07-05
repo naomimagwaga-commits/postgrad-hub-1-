@@ -6662,6 +6662,38 @@ export function MachakosFreqMenuPath() {
     alt="SPSS main menu showing the click path: Analyze menu open (boxed), Descriptive Statistics highlighted in blue with cascading submenu, Frequencies highlighted in blue as the item to click, with a gold arrow and CLICK HERE label pointing to Frequencies"/>;
 }
 
+/* ─── Machakos Pearson Correlation (Bivariate Correlations walkthrough) ─── */
+export function MachakosPearsonMenuPath() {
+  return <ScreenshotFrame
+    src="/lesson-images/pearson/00-menu-path.jpg"
+    alt="SPSS main menu showing click path Analyze → Correlate → Bivariate. Correlate highlighted blue with cascading submenu showing Bivariate highlighted, gold arrow and CLICK HERE label for Pearson & Spearman correlations"/>;
+}
+export function MachakosPearsonDialog() {
+  return <ScreenshotFrame
+    src="/lesson-images/pearson/01-dialog.jpg"
+    alt="SPSS Bivariate Correlations dialog with 5 continuous variables (Digital_Devices, Teacher_Competency, Internet_Connectivity, InvestmentPerStudent, Math_KCSE_Mean) moved to the Variables box on the right. Pearson checkbox ticked, Kendall and Spearman unticked, Two-tailed radio selected, Flag significant correlations ticked"/>;
+}
+export function MachakosPearsonOptions() {
+  return <ScreenshotFrame
+    src="/lesson-images/pearson/02-options.jpg"
+    alt="SPSS Bivariate Correlations: Options sub-dialog. Means and standard deviations checkbox ticked under Statistics. Exclude cases pairwise radio selected under Missing Values"/>;
+}
+export function MachakosPearsonOutput() {
+  return <ScreenshotFrame
+    src="/lesson-images/pearson/03-output.jpg"
+    alt="SPSS Output Viewer showing (1) a Descriptive Statistics table with Mean, SD, N for all 5 variables and (2) a full 5x5 Pearson Correlation matrix with correlation coefficients, Sig 2-tailed p-values, and N counts in each cell. All correlations flagged as significant at 0.01 level with red asterisks"/>;
+}
+export function MachakosPearsonAnnotated() {
+  return <ScreenshotFrame
+    src="/lesson-images/pearson/04-annotated.jpg"
+    alt="Annotated single cell of a Pearson Correlation matrix (Digital_Devices × Math_KCSE_Mean) with four color-coded callouts: r = 0.478 explained with Cohens benchmarks (gold), significance asterisks explained (red), Sig 2-tailed p-value explained (navy), N sample size explained (green). Bottom shows Chapter 4 write-up template"/>;
+}
+export function MachakosPearsonScatter() {
+  return <ScreenshotFrame
+    src="/lesson-images/pearson/05-scatter.jpg"
+    alt="Scatter plot showing the positive linear relationship between Digital_Devices (X-axis) and Math_KCSE_Mean (Y-axis) across 274 Machakos respondents. Clear upward trend with gold regression line, Pearson r = .478, R squared = 0.229"/>;
+}
+
 /* ─── Machakos Graphs & Charts (Chart Builder walkthrough) ─── */
 export function MachakosGraphsMenuPath() {
   return <ScreenshotFrame
@@ -6784,6 +6816,9 @@ export const ILLUSTRATIONS = {
   /* Machakos Graphs & Charts screenshots (Chart Builder walkthrough) */
   MachakosGraphsMenuPath, MachakosGraphsChartBuilder, MachakosGraphsHistogram,
   MachakosGraphsBoxplot, MachakosGraphsClusteredBar,
+  /* Machakos Pearson Correlation screenshots (Bivariate walkthrough) */
+  MachakosPearsonMenuPath, MachakosPearsonDialog, MachakosPearsonOptions,
+  MachakosPearsonOutput, MachakosPearsonAnnotated, MachakosPearsonScatter,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
