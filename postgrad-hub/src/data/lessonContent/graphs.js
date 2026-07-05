@@ -229,7 +229,7 @@ export const GRAPHS_LESSON = {
     /* ════════════════════ 7.5 THE MACHAKOS PROCEDURE (Chart Builder) ════════════════════ */
     {
       id: 'machakos-walkthrough',
-      title: 'The Machakos procedure — every chart, every screenshot',
+      title: 'The Machakos procedure',
       blocks: [
         { type: 'callout', tone: 'brand', title: 'The 4th and final lesson in the Descriptives course',
           body: [
@@ -240,7 +240,7 @@ export const GRAPHS_LESSON = {
             'This lesson adds the **visual layer** — the charts that go alongside those tables and make your findings easy to grasp at a glance.',
           ]},
 
-        { type: 'heading', level: 2, text: 'The 4 chart types every Kenyan Master\'s Chapter 4 uses' },
+        { type: 'heading', level: 2, text: 'The 4 chart types every Kenyan postgraduate\'s Chapter 4 uses' },
 
         { type: 'comparison',
           headers: ['Chart type', 'When to use', 'Which Machakos variable'],

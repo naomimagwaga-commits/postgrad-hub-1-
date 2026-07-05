@@ -164,7 +164,7 @@ export const FREQUENCIES_LESSON = {
     /* ════════════════════ 3.7 THE MACHAKOS PROCEDURE (WALK-THROUGH) ════════════════════ */
     {
       id: 'machakos-walkthrough',
-      title: 'The Machakos procedure — every click, every screenshot',
+      title: 'The Machakos procedure',
       blocks: [
         { type: 'heading', level: 2, text: 'Step-by-step with the case-study data' },
 

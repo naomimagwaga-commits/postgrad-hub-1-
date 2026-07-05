@@ -257,7 +257,7 @@ export const DISPERSION_LESSON = {
     /* ════════════════════ 8.5 THE MACHAKOS PROCEDURE (PER-ITEM LIKERT) ════════════════════ */
     {
       id: 'machakos-walkthrough',
-      title: 'The Machakos procedure — per-item Likert breakdown for Chapter 4',
+      title: 'The Machakos procedure',
       blocks: [
         { type: 'callout', tone: 'brand', title: 'The THIRD essential table for your Chapter 4',
           body: [

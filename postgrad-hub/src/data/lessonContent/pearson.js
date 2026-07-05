@@ -245,6 +245,289 @@ export const PEARSON_LESSON = {
       ],
     },
 
+    /* ════════════════════ 6.4 UNDERSTAND YOUR VARIABLES FIRST ════════════════════ */
+    {
+      id: 'variables-first',
+      title: 'Before you click ANYTHING — understand your variables',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'The single most common mistake in postgraduate SPSS work is running the RIGHT procedure with the WRONG variables — or the WRONG procedure with the right variables. Both give you a beautiful-looking output that your examiner will destroy.',
+            'Before you touch any dialog box, you need to KNOW:',
+            '**1.** What type is each variable? (continuous / ordinal / nominal)',
+            '**2.** Which is your independent variable (IV)? Which is your dependent variable (DV)?',
+            '**3.** Does this test even fit these variable types?',
+            'This section teaches you to answer those 3 questions in 60 seconds — every single time, forever.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'Step 1 — Look at your dataset. Physically look at it.' },
+
+        { type: 'paragraph', text:
+          'Open your .sav file in SPSS. Look at the top 10 rows in Data View. Here are the variables we\'re about to use from the Machakos dataset:' },
+
+        { type: 'comparison',
+          headers: ['Variable name', 'What real data looks like', 'What SPSS says (Variable View)'],
+          rows: [
+            ['**Digital_Devices**',      '3.2, 4.0, 2.8, 3.6, 4.4, 2.0 …',    '📏 ruler icon · Type = Numeric · Measure = **Scale**'],
+            ['**Teacher_Competency**',   '3.8, 4.2, 3.4, 4.0, 3.6, 2.8 …',   '📏 ruler icon · Type = Numeric · Measure = **Scale**'],
+            ['**Internet_Connectivity**', '3.0, 3.4, 2.6, 3.8, 3.2, 2.4 …',  '📏 ruler icon · Type = Numeric · Measure = **Scale**'],
+            ['**InvestmentPerStudent**', '4200, 5800, 3400, 6100, 4900, 2200 …', '📏 ruler icon · Type = Numeric · Measure = **Scale**'],
+            ['**Math_KCSE_Mean**',       '6.4, 5.1, 7.2, 5.8, 6.4, 5.1 …',    '📏 ruler icon · Type = Numeric · Measure = **Scale**'],
+            ['**Category**',             'Principal / Teacher / Student',       '🔴 red circle · Type = String · Measure = **Nominal**'],
+            ['**Gender**',               'Male / Female',                       '🔴 red circle · Type = String · Measure = **Nominal**'],
+            ['**Form**',                 '2, 3, or 4',                           '📊 bar chart · Type = Numeric · Measure = **Ordinal**'],
+          ]},
+
+        { type: 'callout', tone: 'info', title: 'The 3 SPSS icons tell you EVERYTHING',
+          body: [
+            '**📏 Yellow ruler = Scale (continuous)** — a real number where averages make sense. Age, income, KCSE mean, composite scores.',
+            '**📊 Small coloured bar chart = Ordinal** — a number WITH ORDER but where the gaps between values aren\'t necessarily equal. Form 2, 3, 4 · Likert 1-5 · low/medium/high.',
+            '**🔴 Red circle = Nominal (categorical)** — labels with no natural order. Male/Female · Principal/Teacher/Student · County names.',
+            'These icons appear in EVERY SPSS dialog\'s variable list. Once you can read them at a glance, you always know which variable belongs in which analysis.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'Step 2 — Identify your IV and DV for THIS study' },
+
+        { type: 'paragraph', text:
+          'The Machakos study\'s research objectives told us EXACTLY what the IV(s) and DV are — we don\'t have to guess. Re-read the objectives and the variables sort themselves:' },
+
+        { type: 'comparison',
+          headers: ['Objective', 'Which is IV?', 'Which is DV?'],
+          rows: [
+            ['To investigate the influence of **digital devices availability** on students\' **Math performance**',            '**Digital_Devices** (predictor)',        '**Math_KCSE_Mean** (outcome)'],
+            ['To determine the influence of **teacher digital competency** on students\' **Math performance**',                '**Teacher_Competency** (predictor)',     '**Math_KCSE_Mean** (outcome)'],
+            ['To determine the influence of **internet connectivity** on students\' **Math performance**',                    '**Internet_Connectivity** (predictor)',  '**Math_KCSE_Mean** (outcome)'],
+            ['To investigate the influence of **school digital investment** on students\' **Math performance**',              '**InvestmentPerStudent** (predictor)',   '**Math_KCSE_Mean** (outcome)'],
+          ]},
+
+        { type: 'callout', tone: 'gold', title: 'The simple IV/DV test',
+          body: [
+            'Whenever an objective says "**influence of X on Y**" or "**effect of X on Y**" or "**relationship between X and Y**", the IV is X and the DV is Y.',
+            'IV = the thing you think CAUSES or PREDICTS something',
+            'DV = the thing that gets CAUSED or PREDICTED (the "outcome")',
+            'In the Machakos study, the same DV (Math_KCSE_Mean) appears in ALL 4 objectives. Only the IV changes.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'Step 3 — Does Pearson correlation FIT these variables?' },
+
+        { type: 'paragraph', text:
+          'Pearson correlation has 4 rules. If ALL 4 are true, use Pearson. If ANY fails, use a different test. Let\'s check each rule against our Machakos variables:' },
+
+        { type: 'comparison',
+          headers: ['Pearson requires…', 'Do the Machakos variables meet this rule?', '✅/❌'],
+          rows: [
+            ['**Rule 1** — Both variables must be CONTINUOUS (Scale)',
+             'YES — all 4 IVs (Digital_Devices, Teacher_Competency, Internet_Connectivity, InvestmentPerStudent) and the DV (Math_KCSE_Mean) all have 📏 ruler icons in Variable View.',
+             '✅'],
+            ['**Rule 2** — The relationship must be roughly LINEAR (a straight-line pattern, not curved)',
+             'YES — the scatter plot in Step 6 later confirms a clear linear pattern.',
+             '✅'],
+            ['**Rule 3** — Both variables should be roughly NORMALLY distributed (bell-shaped)',
+             'YES — you already ran Descriptives in the Central Tendency lesson and found skewness/kurtosis all within ±2, confirming approximate normality.',
+             '✅'],
+            ['**Rule 4** — Sample size N ≥ 30 (as a rule of thumb)',
+             'YES — N = 274 is far above the minimum.',
+             '✅'],
+          ]},
+
+        { type: 'callout', tone: 'gold', title: 'All 4 rules met → Pearson is the correct test',
+          body: [
+            'If any rule had failed, we\'d switch to a different test:',
+            '**IV or DV is ordinal (Likert 1-5, Form 2/3/4)** → use **Spearman correlation** (next lesson)',
+            '**IV or DV is nominal (Gender, Category)** → use **Chi-square** or **t-test / ANOVA** depending on the DV',
+            '**Relationship is curved** → transform your data or use non-linear regression',
+            '**Distribution is badly skewed** → use Spearman or transform the variable (log transformation)',
+            'Since ALL 4 Pearson rules are met here, we proceed with Pearson. This is the reasoning your supervisor will want to see in your Methodology chapter.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'Step 4 — Where do these variables GO in the dialog?' },
+
+        { type: 'paragraph', text:
+          'For Pearson correlation, there\'s only ONE box to fill: the **Variables:** box on the right side of the Bivariate Correlations dialog. Both the IV and DV go into the SAME box (Pearson doesn\'t distinguish between IV and DV — it just measures the relationship between whichever variables you put in).' },
+
+        { type: 'comparison',
+          headers: ['Machakos variable', 'Where does it go?', 'Why?'],
+          rows: [
+            ['**Digital_Devices** (IV 1)',           'Variables: box (right)', 'It\'s continuous → passes Pearson\'s rule → belongs in the analysis'],
+            ['**Teacher_Competency** (IV 2)',        'Variables: box (right)', 'Continuous → include it'],
+            ['**Internet_Connectivity** (IV 3)',     'Variables: box (right)', 'Continuous → include it'],
+            ['**InvestmentPerStudent** (IV 4)',      'Variables: box (right)', 'Continuous → include it'],
+            ['**Math_KCSE_Mean** (DV)',              'Variables: box (right)', 'Continuous → include it. SPSS will correlate it with each IV in the output matrix.'],
+            ['**Category** (Principal/Teacher/Student)', '🚫 DO NOT include',     'Nominal → Pearson would produce meaningless numbers. If we needed to compare Math_KCSE across categories, we\'d use ANOVA (later lesson).'],
+            ['**Gender** (Male/Female)',                 '🚫 DO NOT include',     'Nominal → same reason as Category.'],
+            ['**Form** (2/3/4)',                         '⚠️ Technically ordinal — best to use Spearman if you want to correlate Form with Math_KCSE_Mean',  'Ordinal violates Pearson\'s Rule 1 (though many researchers do it anyway if the ordinal has 5+ levels — treating it as approximately continuous).'],
+          ]},
+
+        { type: 'callout', tone: 'brand', title: 'Locked in — the 5 variables we\'ll drag into the dialog',
+          body: [
+            'Digital_Devices · Teacher_Competency · Internet_Connectivity · InvestmentPerStudent · Math_KCSE_Mean',
+            'That\'s it. Now we\'re ready to click.',
+          ]},
+      ],
+    },
+
+    /* ════════════════════ 6.5 THE MACHAKOS PROCEDURE (WALK-THROUGH) ════════════════════ */
+    {
+      id: 'machakos-walkthrough',
+      title: 'The Machakos procedure',
+      blocks: [
+        { type: 'callout', tone: 'brand', title: 'Same running case study — now with inferential analysis',
+          body: [
+            'Throughout the Descriptive Statistics course you described the Machakos data. Now we start ANSWERING the research question: **do the 4 independent variables actually correlate with Math_KCSE_Mean?**',
+            '**📚 Study reminder:** Influence of Digital Learning Resources on Students\' Mathematics Performance in Public Secondary Schools in Machakos County, Kenya. N = 274 respondents (8 principals + 54 teachers + 212 students) across 8 schools.',
+            '**🎯 The 4 correlations we\'ll test in this ONE run:**',
+            '**Objective 1** — Digital_Devices ↔ Math_KCSE_Mean',
+            '**Objective 2** — Teacher_Competency ↔ Math_KCSE_Mean',
+            '**Objective 3** — Internet_Connectivity ↔ Math_KCSE_Mean',
+            '**Objective 4** — InvestmentPerStudent ↔ Math_KCSE_Mean',
+          ]},
+
+        { type: 'heading', level: 2, text: 'Step-by-step: one procedure produces all 4 correlations at once' },
+
+        { type: 'paragraph', text:
+          'You could run Pearson correlation FOUR separate times — one per objective. But SPSS lets you produce the entire correlation matrix in ONE run, showing all pairwise correlations among 5 variables (4 IVs + 1 DV) simultaneously. This is the workflow every real Kenyan Master\'s student uses.' },
+
+        /* ─────── STEP 1 — menu path ─────── */
+        { type: 'heading', level: 3, text: 'STEP 1 — Open the Bivariate Correlations dialog' },
+
+        { type: 'paragraph', text: 'From the SPSS main menu at the top of your Data Editor window, click:' },
+
+        { type: 'callout', tone: 'brand', title: 'The click path',
+          body: '**Analyze → Correlate → Bivariate…**' },
+
+        { type: 'callout', tone: 'info', title: 'Wait — Bivariate? What about Partial?',
+          body: [
+            'The Correlate submenu has multiple options. Here\'s the difference:',
+            '**Bivariate** = the STANDARD Pearson (or Spearman) correlation between pairs of variables — what you almost always want',
+            '**Partial** = correlation between 2 vars WHILE CONTROLLING for a 3rd variable (covered in the Partial Correlation lesson)',
+            '**Distances** = a different concept entirely (measures similarity/dissimilarity between cases) — you rarely need this',
+            'For a standard Kenyan Master\'s Pearson correlation, always use **Bivariate**.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosPearsonMenuPath',
+          caption: 'Figure 1. The SPSS menu path for opening the Bivariate Correlations dialog. (1) Click Analyze. (2) Hover Correlate — it turns blue. (3) Click Bivariate.' },
+
+        /* ─────── STEP 2 — main dialog ─────── */
+        { type: 'heading', level: 3, text: 'STEP 2 — Move all 5 continuous variables into the Variables box' },
+
+        { type: 'paragraph', text:
+          'In the left-hand variable list, find your 5 continuous variables: `Digital_Devices`, `Teacher_Competency`, `Internet_Connectivity`, `InvestmentPerStudent`, and `Math_KCSE_Mean`. Click the first one, then Ctrl-click each of the others to select all 5. Click the blue **▶** arrow to move them into the **Variables** box on the right.' },
+
+        { type: 'paragraph', text:
+          'Then confirm your settings BELOW the boxes:' },
+
+        { type: 'comparison',
+          headers: ['Setting', 'What to select', 'Why'],
+          rows: [
+            ['**Correlation Coefficients**', '☑ Pearson (leave others unticked)', 'Pearson is the standard test for two CONTINUOUS variables. Use Spearman only if your variables are ordinal or badly non-normal.'],
+            ['**Test of Significance**',     '⚫ Two-tailed',                     'Two-tailed = you\'re testing for ANY difference from zero (positive OR negative). Almost always the right choice unless you have a very specific one-directional hypothesis.'],
+            ['**Flag significant correlations**', '☑ (leave ticked)',              'This adds red asterisks (* p<.05, ** p<.01) in the output so you can spot significant correlations at a glance.'],
+          ]},
+
+        { type: 'illustration', component: 'MachakosPearsonDialog',
+          caption: 'Figure 2. The Bivariate Correlations dialog after moving all 5 continuous variables into the Variables box on the right. Pearson is ticked, Two-tailed radio selected, and "Flag significant correlations" is left ticked.' },
+
+        /* ─────── STEP 3 — options sub-dialog ─────── */
+        { type: 'heading', level: 3, text: 'STEP 3 — Click Options… and configure Statistics + Missing Values' },
+
+        { type: 'paragraph', text:
+          'Click the **Options…** button (bottom-right area of the main dialog). The Options sub-dialog opens. Tick these settings:' },
+
+        { type: 'illustration', component: 'MachakosPearsonOptions',
+          caption: 'Figure 3. The Bivariate Correlations: Options sub-dialog. Tick "Means and standard deviations" under Statistics — this adds a helpful descriptive table to your output. Under Missing Values, ⚫ Exclude cases pairwise (NOT listwise — see the callout below). Click Continue.' },
+
+        { type: 'callout', tone: 'gold', title: 'CRITICAL — always choose "Exclude cases pairwise"',
+          body: [
+            '**Listwise (WRONG for most cases):** If ONE variable has a missing value for a respondent, that respondent is dropped from ALL correlations in the matrix. In our Machakos dataset, this could shrink our sample from 274 to (say) 200 unnecessarily.',
+            '**Pairwise (RIGHT):** Each correlation uses only the pairs of respondents who have BOTH values. Different correlations may use slightly different sample sizes. You\'ll see N vary slightly across cells — that\'s a feature, not a bug.',
+            'Since our Machakos dataset has no missing values (N=274 across every variable), both choices give the same result here. But make Pairwise your default habit.',
+          ]},
+
+        /* ─────── STEP 4 — output ─────── */
+        { type: 'heading', level: 3, text: 'STEP 4 — Click Continue → OK → read the output' },
+
+        { type: 'paragraph', text:
+          'You\'re back at the main Bivariate Correlations dialog. Click **OK**. The Output Viewer opens with TWO tables:' },
+
+        { type: 'illustration', component: 'MachakosPearsonOutput',
+          caption: 'Figure 4. The full Pearson correlation output for the 4 Machakos objectives. TOP: Descriptive Statistics table (Mean, SD, N for each variable). BOTTOM: the 5×5 Correlation matrix — every possible pair of the 5 variables. Each cell has THREE rows: Pearson Correlation (r), Sig. (2-tailed) (p-value), and N (sample size). Red ** flags all correlations significant at the 0.01 level.' },
+
+        { type: 'callout', tone: 'info', title: 'Reading the correlation matrix — orientation tips',
+          body: [
+            '**Diagonal cells** (top-left to bottom-right) show r = 1 — that\'s each variable correlated with ITSELF (always perfectly correlated with itself). Ignore the diagonal.',
+            '**The matrix is symmetric** — the correlation between Digital_Devices and Math_KCSE_Mean (upper triangle) is EXACTLY the same as Math_KCSE_Mean and Digital_Devices (lower triangle). You only need to read ONE triangle.',
+            '**For your 4 objectives, look at the LAST column** (Math_KCSE_Mean) — every correlation there shows how one IV relates to the DV.',
+          ]},
+
+        /* ─────── STEP 5 — annotated cell ─────── */
+        { type: 'heading', level: 3, text: 'STEP 5 — Read ONE cell perfectly (then apply to the other 3)' },
+
+        { type: 'paragraph', text:
+          'The matrix has 25 cells, but you only really need to read ONE cell perfectly and the rest follow the same pattern. Let\'s zoom in on the cell that answers **Objective 1 — Digital_Devices vs Math_KCSE_Mean**:' },
+
+        { type: 'illustration', component: 'MachakosPearsonAnnotated',
+          caption: 'Figure 5. The Digital_Devices × Math_KCSE_Mean cell with four color-coded annotations. Gold = the correlation coefficient r (with Cohen\'s benchmarks for interpretation). Red = the significance asterisks. Navy = the exact p-value. Green = the sample size N. Bottom: the exact APA-formatted sentence to paste into Chapter 4.' },
+
+        { type: 'heading', level: 3, text: 'The 4 Machakos objectives — read from the matrix' },
+
+        { type: 'comparison',
+          headers: ['Objective', 'Correlation (r)', 'p-value', 'Interpretation'],
+          rows: [
+            ['**Obj 1** — Digital_Devices ↔ Math_KCSE_Mean',       '**.478**', 'p < .001', 'MODERATE positive correlation — significant. As device availability goes up, KCSE scores go up.'],
+            ['**Obj 2** — Teacher_Competency ↔ Math_KCSE_Mean',    '**.524**', 'p < .001', 'LARGE positive correlation — the STRONGEST relationship. Teacher digital competency is the best predictor.'],
+            ['**Obj 3** — Internet_Connectivity ↔ Math_KCSE_Mean', '**.389**', 'p < .001', 'MODERATE positive correlation — significant but the WEAKEST of the four.'],
+            ['**Obj 4** — InvestmentPerStudent ↔ Math_KCSE_Mean',  '**.456**', 'p < .001', 'MODERATE positive correlation — significant. Higher per-student investment associated with better KCSE.'],
+          ]},
+
+        { type: 'callout', tone: 'gold', title: 'The big picture — all 4 hypotheses supported',
+          body: [
+            'Every one of the 4 correlations is **statistically significant** (p < .001) and **positive** (all r values > 0). This means every hypothesis derived from your 4 research objectives is SUPPORTED.',
+            'BUT — significance does NOT equal importance. The strongest relationship is Teacher_Competency (r = .524) and the weakest is Internet_Connectivity (r = .389). Report ALL relationships but emphasize the strongest ones in your discussion.',
+            '**Next lesson (Regression)** will tell you which of these variables matters MOST when they\'re all considered TOGETHER. Correlation shows relationships one pair at a time; regression shows unique contributions.',
+          ]},
+
+        /* ─────── STEP 6 — scatter plot ─────── */
+        { type: 'heading', level: 3, text: 'STEP 6 — Confirm with a scatter plot (visual check)' },
+
+        { type: 'paragraph', text:
+          'The correlation coefficient r = .478 tells us there IS a relationship — but is it truly LINEAR (Pearson\'s assumption)? Or is it curved? Or driven by outliers? A quick scatter plot answers all these questions in 30 seconds.' },
+
+        { type: 'paragraph', text:
+          'Menu path: **Graphs → Chart Builder → Scatter/Dot → Simple Scatter**. Drag `Digital_Devices` to X-Axis and `Math_KCSE_Mean` to Y-Axis. Click OK.' },
+
+        { type: 'illustration', component: 'MachakosPearsonScatter',
+          caption: 'Figure 6. Scatter plot of Digital_Devices vs Math_KCSE_Mean across all 274 Machakos respondents. Each dot represents one respondent. The clear upward diagonal pattern confirms the relationship IS linear — Pearson correlation was the correct choice. The gold trend line is the best-fit regression line (previewing the next lesson). Pearson r = .478, R² = 0.229 (meaning 22.9% of the variation in Math_KCSE_Mean can be explained by Digital_Devices alone).' },
+
+        { type: 'callout', tone: 'gold', title: 'What R² tells you (bonus insight)',
+          body: [
+            '**R² = r × r** — so if r = 0.478, then R² = 0.229 (rounded).',
+            'R² is the **proportion of variance in Y explained by X**. Here, 22.9% of the differences in Math_KCSE_Mean between schools can be explained by differences in Digital_Devices availability.',
+            'The other 77.1% is explained by OTHER factors (teacher competency, internet, investment, school culture, student aptitude, etc.). This is why we need MULTIPLE regression next — to see the combined effect.',
+          ]},
+
+        /* ─────── STEP 7 — write-up ─────── */
+        { type: 'heading', level: 3, text: 'STEP 7 — Write up the results for Chapter 4' },
+
+        { type: 'paragraph', text:
+          'Every Pearson correlation gets written up the same way. Copy this template and swap in your numbers for each of the 4 objectives:' },
+
+        { type: 'callout', tone: 'brand', title: 'APA Chapter-4 template — one sentence per correlation',
+          body: [
+            '_"A Pearson product-moment correlation was computed to assess the relationship between [IV name] and [DV name]. There was a [strength: small / moderate / large] [direction: positive / negative] correlation between the two variables, r(N-2) = [r value to 2 dp], p [< .001 or exact value]."_',
+            '',
+            '**Example for Objective 1:** _"A Pearson product-moment correlation was computed to assess the relationship between Digital Devices availability and Mathematics KCSE performance. There was a **moderate positive** correlation between the two variables, r(272) = .48, p < .001."_',
+            '',
+            '**Where does the 272 come from?** It\'s the degrees of freedom = N - 2 = 274 - 2 = 272. APA convention writes r(df) not r(N).',
+          ]},
+
+        { type: 'callout', tone: 'info', title: 'Now repeat for Objectives 2, 3, and 4',
+          body: [
+            'Same template, different numbers. Your Chapter 4 will have 4 similar sentences — one per objective. That\'s the complete Pearson correlation section for your thesis. Total time to write once you have the SPSS output: about 15 minutes.',
+            'Next up: **Regression** — where we ask "when ALL four IVs are considered together, which ones still matter?"',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 7. WORKED EXAMPLE — EDUCATION ════════════════════ */
     {
       id: 'worked-example-1',

@@ -253,7 +253,7 @@ export const CENTRAL_TENDENCY_LESSON = {
     /* ════════════════════ 5.5 THE MACHAKOS PROCEDURE (WALK-THROUGH) ════════════════════ */
     {
       id: 'machakos-walkthrough',
-      title: 'The Machakos procedure — every click, every screenshot',
+      title: 'The Machakos procedure',
       blocks: [
         { type: 'heading', level: 2, text: 'Step-by-step: describing all 5 continuous variables at once' },
 
