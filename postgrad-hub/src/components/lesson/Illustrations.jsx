@@ -6627,7 +6627,69 @@ export function ApaTableExample() {
   );
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+ *  MACHAKOS CASE STUDY — Frequencies lesson photo-real screenshots
+ *  These are AI-generated PNG mockups compressed to JPG (~50-100 KB each).
+ *  All images live in /public/lesson-images/frequencies/ and are served
+ *  as static assets by Vercel.
+ *
+ *  Pattern for future case-study screenshots:
+ *    • Store the .jpg in /public/lesson-images/<lesson-slug>/
+ *    • Register a component below that renders it via <ScreenshotFrame>
+ *    • Reference in lesson JSON: { type: 'illustration', component: 'MachakosFreqDialog', caption: '...' }
+ * ═══════════════════════════════════════════════════════════════════ */
+
+// Consistent wrapper for all screenshot images — adds subtle border, keeps
+// them responsive (max-w-full), and lets the user click to zoom in a new tab.
+function ScreenshotFrame({ src, alt }) {
+  return (
+    <a href={src} target="_blank" rel="noopener noreferrer"
+       className="block relative group"
+       title="Click to open the full-size screenshot in a new tab">
+      <img src={src} alt={alt}
+        className="w-full h-auto rounded-lg border border-slate-200 shadow-sm group-hover:shadow-md transition"
+        loading="lazy"/>
+      <span className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition text-[10px] font-semibold bg-black/70 text-white px-2 py-1 rounded-full">
+        🔍 Click to zoom
+      </span>
+    </a>
+  );
+}
+
+export function MachakosFreqDialog() {
+  return <ScreenshotFrame
+    src="/lesson-images/frequencies/01-dialog-with-vars.jpg"
+    alt="SPSS Frequencies dialog with Category, Gender, Form, and HighestQual variables selected on the left and already moved to the Variable(s) box on the right"/>;
+}
+
+export function MachakosFreqCharts() {
+  return <ScreenshotFrame
+    src="/lesson-images/frequencies/02-charts-subdialog.jpg"
+    alt="SPSS Frequencies: Charts sub-dialog with Bar charts selected under Chart Type and Frequencies selected under Chart Values"/>;
+}
+
+export function MachakosFreqOutput() {
+  return <ScreenshotFrame
+    src="/lesson-images/frequencies/03-output-viewer.jpg"
+    alt="SPSS Output Viewer showing the left navigation tree with Frequencies expanded, the Statistics table with N Valid and Missing counts for all four variables, and the beginning of the Category frequency table"/>;
+}
+
+export function MachakosFreqAnnotated() {
+  return <ScreenshotFrame
+    src="/lesson-images/frequencies/04-annotated-columns.jpg"
+    alt="Annotated Category frequency table with color-coded callouts explaining each column: Frequency (gold), Percent (blue), Valid Percent (green), and Cumulative Percent (grey)"/>;
+}
+
+export function MachakosFreqBarChart() {
+  return <ScreenshotFrame
+    src="/lesson-images/frequencies/05-bar-chart.jpg"
+    alt="SPSS-generated bar chart showing frequency counts for Category variable: Principal (8), Teacher (54), Student (212)"/>;
+}
+
 export const ILLUSTRATIONS = {
+  /* Machakos Frequencies screenshots */
+  MachakosFreqDialog, MachakosFreqCharts, MachakosFreqOutput,
+  MachakosFreqAnnotated, MachakosFreqBarChart,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
