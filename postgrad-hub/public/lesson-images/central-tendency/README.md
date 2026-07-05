@@ -1,0 +1,1 @@
+# Central Tendency lesson screenshots
