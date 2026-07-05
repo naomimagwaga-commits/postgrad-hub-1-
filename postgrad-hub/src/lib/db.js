@@ -5,6 +5,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
+import { COURSES } from '../data/courses.js';
 
 const BACKEND = import.meta.env.VITE_BACKEND || 'local';
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -40,6 +41,27 @@ export const isAdminEmail = (email) => {
   if (ADMIN_EMAILS.includes(e)) return true;
   if (e.startsWith('admin@')) return true;
   return false;
+};
+
+/**
+ * SUPER-ADMIN allow-list (subset of ADMIN_EMAILS).
+ * These users get ALL paid content unlocked for FREE — no payment,
+ * no admin approval, no expiry. Meant for the platform OWNER only,
+ * NOT for co-admins or demo admin accounts.
+ *
+ * Keep this list VERY small (typically just 1 email — yours).
+ * Co-admins added later (e.g. a research assistant helping verify
+ * payments) will get admin dashboard access but STILL pay for lessons —
+ * this prevents accidental credential leaks giving the whole catalogue away.
+ */
+const SUPER_ADMIN_EMAILS = [
+  'postgraduatedatahub@gmail.com',
+];
+
+export const isSuperAdminEmail = (email) => {
+  if (!email) return false;
+  const e = String(email).toLowerCase().trim();
+  return SUPER_ADMIN_EMAILS.includes(e);
 };
 
 /* ═════════════════════════════════════════════════════════════════════
@@ -623,13 +645,110 @@ export const submissions = {
 
 /* ---------------- Unlocks (with dual formats: notes / video) ---------------- */
 // itemKey examples: "lesson:basics-1:notes", "lesson:basics-1:video", "test:pearson"
+
+/**
+ * SUPER-ADMIN VIRTUAL UNLOCKS
+ * Rather than creating real DB rows for every lesson (which would pollute
+ * admin analytics + email flows), we generate "virtual" unlocked rows on-the-fly
+ * whenever a super-admin fetches their unlocks list. These are:
+ *   • marked with source: 'admin_grant' so UI can distinguish if needed
+ *   • never expire (expires_at null → treated as active)
+ *   • don't create fake payment claims
+ *   • cover every lesson (notes format) + every test in the selector
+ */
+// Known Statistical Test Selector keys — hardcoded to avoid importing
+// a React component file into the data layer. Keep in sync with the
+// keys defined in src/modules/TestSelector.jsx.
+const KNOWN_TEST_KEYS = [
+  'pearson', 'spearman', 'partial-correlation',
+  'independent-t', 'paired-t', 'one-sample-t',
+  'one-way-anova', 'two-way-anova', 'repeated-anova', 'ancova', 'manova',
+  'mann-whitney', 'wilcoxon', 'kruskal-wallis', 'friedman',
+  'chi-square', 'fisher-exact',
+  'simple-regression', 'multiple-regression', 'logistic-regression', 'hierarchical-regression',
+  'cronbach-alpha',
+];
+
+const _buildSuperAdminUnlocks = (userId) => {
+  const now = new Date().toISOString();
+  const virtualRows = [];
+
+  // One virtual "unlocked" row per lesson (notes format).
+  COURSES.forEach((c) => {
+    (c.lessons || []).forEach((l) => {
+      virtualRows.push({
+        id: `admin_grant_lesson_${l.id}`,
+        userId,
+        itemKey: `lesson:${l.id}:notes`,
+        itemType: 'lesson',
+        itemName: l.name,
+        format: 'notes',
+        status: 'unlocked',
+        paymentStatus: 'confirmed',
+        source: 'admin_grant',       // UI can detect this if it wants to show a "Free — admin" badge
+        approvedAt: now,
+        expires_at: null,             // never expires
+        expiresAt: null,
+      });
+    });
+  });
+
+  // One virtual unlock per known Statistical Test Selector test.
+  KNOWN_TEST_KEYS.forEach((key) => {
+    virtualRows.push({
+      id: `admin_grant_test_${key}`,
+      userId,
+      itemKey: `test:${key}`,
+      itemType: 'test',
+      itemName: `Test: ${key}`,
+      status: 'unlocked',
+      paymentStatus: 'confirmed',
+      source: 'admin_grant',
+      approvedAt: now,
+      expires_at: null,
+      expiresAt: null,
+    });
+  });
+
+  return virtualRows;
+};
+
+/**
+ * Detect if the currently-signed-in user is a super-admin.
+ * Works for BOTH backends (Supabase + local) — reads from auth.current()
+ * indirectly by checking the current session's user email.
+ */
+const _currentUserIsSuperAdmin = async () => {
+  try {
+    if (isSupabase) {
+      const { data } = await supabase.auth.getUser();
+      return isSuperAdminEmail(data?.user?.email);
+    }
+    const d = read();
+    const u = d.users.find((x) => x.id === d.sessions.current);
+    return isSuperAdminEmail(u?.email);
+  } catch { return false; }
+};
+
 export const unlocks = {
   async list() {
     const d = read();
-    return d.unlocks.filter((u) => u.userId === d.sessions.current);
+    const real = d.unlocks.filter((u) => u.userId === d.sessions.current);
+    // Super-admin bypass: append virtual "all unlocked" rows for every lesson & test.
+    if (await _currentUserIsSuperAdmin()) {
+      const currentUserId = d.sessions.current;
+      const virtualRows = _buildSuperAdminUnlocks(currentUserId);
+      // Filter out virtuals that already exist as real rows (avoid duplicates).
+      const realKeys = new Set(real.map((r) => r.itemKey));
+      const filtered = virtualRows.filter((v) => !realKeys.has(v.itemKey));
+      return [...real, ...filtered];
+    }
+    return real;
   },
   async listAll() { return read().unlocks; },
   async has(itemKey) {
+    // Super-admin has every itemKey by definition.
+    if (await _currentUserIsSuperAdmin()) return true;
     const d = read();
     return d.unlocks.some((u) => u.userId === d.sessions.current
       && u.itemKey === itemKey
