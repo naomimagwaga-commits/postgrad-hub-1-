@@ -6684,6 +6684,48 @@ export function MachakosSpearmanScatter() {
     alt="Scatter plot of Form vs Math_KCSE_Mean showing 3 vertical stacks of dots at Form 2, 3, and 4 across 212 students. Gold trend line shows the positive monotonic relationship. Spearmans rho = .284"/>;
 }
 
+/* ─── Data Cleaning · Recoding + Reverse-coding ─── */
+export function MachakosCleanRecodeMain() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/04-recode-main.jpg"
+    alt="SPSS Recode into Different Variables dialog with Machakos Dev_3 highlighted in the left list and moved to the right box as Dev_3_r. Output Variable Name and Label filled in. Old and New Values button highlighted with a gold callout pointing to it as the next click"/>;
+}
+export function MachakosCleanOldNewValues() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/05-old-new-values.jpg"
+    alt="SPSS Recode Old and New Values sub-dialog showing the full 1-to-5 Likert reversal rule already typed. Old Value 1 mapped to New Value 5, and the Old-to-New list showing 1 to 5, 2 to 4, 3 to 3, 4 to 2, 5 to 1, plus MISSING to SYSMIS"/>;
+}
+export function MachakosCleanReverseBeforeAfter() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/06-reverse-before-after.jpg"
+    alt="Two-panel infographic showing a Machakos teacher answering two device questions. Left red panel WITHOUT reverse-coding sums to 10 out of 10 which is WRONG. Right green panel WITH reverse-coding sums to 6 out of 10 which correctly reflects mixed device availability"/>;
+}
+export function MachakosCleanComputeDialog() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/07-compute-dialog.jpg"
+    alt="SPSS Compute Variable dialog set up to build the Machakos Digital_Devices composite. Target Variable Digital_Devices. Numeric Expression MEAN of Dev_1, Dev_2, Dev_3_r, Dev_4, Dev_5. Left variables list, calculator pad, functions list with MEAN highlighted"/>;
+}
+export function MachakosCleanThreeComposites() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/08-three-composites.jpg"
+    alt="Three-card infographic showing all 3 Machakos composite variables with their formulas. Digital_Devices card gold, Teacher_Competency card green, Internet_Connectivity card navy. Each shows the MEAN formula, the Machakos mean and standard deviation, and notes on which items were reverse-coded"/>;
+}
+export function MachakosCleanCompositeVerification() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/09-composite-verification.jpg"
+    alt="SPSS Data View showing the Machakos dataset with the newly computed Digital_Devices column highlighted gold on the right. Floating verification card in the top right shows Descriptives output confirming N=269, Min=1.00, Max=5.00, Mean=3.51, SD=0.82, with three green ticks"/>;
+}
+export function MachakosCleanSelectCases() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/10-select-cases-dialog.jpg"
+    alt="SPSS Select Cases dialog set to filter Machakos students only. If condition is satisfied radio selected with Category = 3 typed as the condition. Filter out unselected cases option selected. Current Status shows 212 of 274 cases will be selected"/>;
+}
+export function MachakosCleanSubsetsWorkflow() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/11-subsets-workflow.jpg"
+    alt="Three-card infographic showing the 3 Machakos sub-populations that need Select Cases. Students N=212 with Category=3, Teachers N=54 with Category=2, Principals N=8 with Category=1. Navy banner reminds users to turn the filter OFF when done"/>;
+}
+
 /* ─── Data Cleaning · Impossible Values + Duplicates ─── */
 export function MachakosCleanImpossibleFreq() {
   return <ScreenshotFrame
@@ -7045,6 +7087,12 @@ export const ILLUSTRATIONS = {
   MachakosMissingMcarMarMnar, MachakosMissingMvaMenu, MachakosMissingMvaOutput, MachakosMissingPairwiseListwise, MachakosMissingDecisionTree,
   /* Data Cleaning · Impossible Values + Duplicates — 4 workflow images */
   MachakosCleanImpossibleFreq, MachakosCleanDescriptivesRange, MachakosCleanIdentifyDuplicates, MachakosCleanWorkflow,
+  /* Data Cleaning · Recoding + Reverse-coding — 3 images */
+  MachakosCleanRecodeMain, MachakosCleanOldNewValues, MachakosCleanReverseBeforeAfter,
+  /* Data Cleaning · Compute Variable — 3 images */
+  MachakosCleanComputeDialog, MachakosCleanThreeComposites, MachakosCleanCompositeVerification,
+  /* Data Cleaning · Select Cases — 2 images */
+  MachakosCleanSelectCases, MachakosCleanSubsetsWorkflow,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
