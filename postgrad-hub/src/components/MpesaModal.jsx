@@ -172,7 +172,19 @@ function PaybillCard() {
       <div className="space-y-3">
         <Row label="Business / Paybill no." value={MPESA.paybill}/>
         <Row label="Account number" value={MPESA.accountNumber}/>
-        <Row label="Payee" value={MPESA.businessName}/>
+        <Row label="Payee (on your M-Pesa SMS)" value={MPESA.payeeLegalName}/>
+      </div>
+
+      {/* Reassurance strip — this is the KEY message that prevents confusion */}
+      <div className="mt-4 p-3 rounded-xl bg-amber-50 border border-amber-200 flex gap-2.5 text-xs">
+        <span className="text-base leading-none shrink-0">ℹ️</span>
+        <div className="text-amber-900 leading-relaxed">
+          <p className="font-bold">Don't worry if your M-Pesa SMS says <span className="font-mono">{MPESA.payeeLegalName}</span></p>
+          <p className="mt-1 text-amber-800">
+            That's the legal business entity that operates <strong>{MPESA.businessName}</strong>. Your payment
+            is arriving at the correct place — same paybill, same account, same team.
+          </p>
+        </div>
       </div>
     </div>
   );
