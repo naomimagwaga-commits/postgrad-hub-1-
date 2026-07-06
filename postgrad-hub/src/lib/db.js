@@ -611,7 +611,17 @@ export const submissions = {
     const d = read();
     return d.submissions.filter((s) => s.userId === d.sessions.current);
   },
-  async listAll() { return read().submissions; },
+  /**
+   * Admin queue — ONLY shows submissions where the student has claimed a payment.
+   * Unpaid / abandoned drafts (rare, since the UI now gates payment BEFORE the
+   * submit form) never reach the admin's inbox, keeping the queue clean.
+   * Pass { includeUnpaid: true } to bypass this filter if ever needed.
+   */
+  async listAll(opts = {}) {
+    const all = read().submissions;
+    if (opts.includeUnpaid) return all;
+    return all.filter((s) => s.paymentStatus === 'paid_pending_verification' || s.paymentStatus === 'paid');
+  },
   async create(payload) {
     const d = read();
     const item = {
@@ -953,7 +963,16 @@ export const analysisOrders = {
     const d = read();
     return d.analysisOrders.filter((o) => o.userId === d.sessions.current);
   },
-  async listAll() { return read().analysisOrders; },
+  /**
+   * Admin queue — ONLY shows paid orders. Unpaid drafts are filtered out
+   * (they should never exist anymore since the UI gates payment first, but
+   * this is a safety net). Pass { includeUnpaid: true } to bypass.
+   */
+  async listAll(opts = {}) {
+    const all = read().analysisOrders;
+    if (opts.includeUnpaid) return all;
+    return all.filter((o) => o.paymentStatus === 'paid_pending_verification' || o.paymentStatus === 'paid');
+  },
   async create(payload) {
     const d = read();
     const o = {
