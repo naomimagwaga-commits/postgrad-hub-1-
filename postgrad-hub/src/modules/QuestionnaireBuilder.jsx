@@ -3,7 +3,7 @@ import { submissions, SUBMISSION_STATUSES } from '../lib/db.js';
 import { SERVICE_PRICES, formatKES } from '../data/prices.js';
 import {
   IconForm, IconCheck, IconArrow, IconClock, IconShield, IconPlus,
-  IconSpark, IconStar, IconChart, IconLocation,
+  IconSpark, IconStar, IconChart, IconLocation, IconDownload,
 } from '../components/Icons.jsx';
 
 /**
@@ -190,22 +190,9 @@ function SubmissionDetail({ submission, onRefresh }) {
           </ol>
         </div>
 
-        {/* Survey link ready */}
-        {submission.status === 'ready' && submission.surveyLink && (
-          <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200">
-            <div className="flex items-center gap-2 text-emerald-700 font-bold">
-              <IconCheck className="w-5 h-5"/> Your survey link is ready
-            </div>
-            <p className="text-sm text-slate-700 mt-2">
-              Share this link with your respondents. Responses are securely collected and exported to you.
-            </p>
-            <div className="mt-4 flex flex-col sm:flex-row gap-3">
-              <input readOnly value={submission.surveyLink}
-                className="input bg-white flex-1 font-mono text-xs"/>
-              <button onClick={() => navigator.clipboard.writeText(submission.surveyLink)}
-                className="btn-primary shrink-0">Copy link</button>
-            </div>
-          </div>
+        {/* Survey link ready — full delivery package */}
+        {submission.status === 'ready' && (
+          <ReadyDeliveryPackage submission={submission}/>
         )}
 
         {submission.status !== 'ready' && (
@@ -440,8 +427,154 @@ function Mini({ label, value, capitalize }) {
 }
 
 /* ─────────────────────────────────────────────────────────────
+   "Your refined instrument is ready" — the full delivery package
+   shown to the student once admin marks their submission ready.
+   Includes: the survey link, the XLSForm download (if provided),
+   the researcher setup PDF guide, and an embedded tutorial video
+   walking them through the entire launch process.
+   ───────────────────────────────────────────────────────────── */
+function ReadyDeliveryPackage({ submission }) {
+  const [copied, setCopied] = useState(false);
+  const copyLink = () => {
+    if (!submission.surveyLink) return;
+    navigator.clipboard.writeText(submission.surveyLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="mt-8 space-y-6">
+      {/* Success banner */}
+      <div className="p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
+            <IconCheck className="w-6 h-6"/>
+          </div>
+          <div>
+            <h3 className="display text-2xl text-emerald-900 font-bold">Your refined instrument is ready! 🎉</h3>
+            <p className="text-sm text-emerald-800/80 mt-0.5">
+              Everything you need to launch, collect responses, and export clean data is right here.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Survey link (if provided) */}
+      {submission.surveyLink && (
+        <div className="card-elevated p-6 lg:p-7">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="badge-gold">1</span>
+            <h4 className="display text-xl text-brand font-bold">Your survey link</h4>
+          </div>
+          <p className="text-sm text-slate-600 mb-4">
+            This is the link you'll share with your respondents via WhatsApp, email, or any messaging platform.
+            Anyone who opens it can fill the form — no account required.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input readOnly value={submission.surveyLink}
+              className="input bg-slate-50 flex-1 font-mono text-xs"/>
+            <button onClick={copyLink} className="btn-primary shrink-0 min-w-[120px]">
+              {copied ? '✓ Copied!' : 'Copy link'}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* XLSForm download (if provided) */}
+      {submission.xlsFormUrl && (
+        <div className="card-elevated p-6 lg:p-7">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="badge-gold">2</span>
+            <h4 className="display text-xl text-brand font-bold">Your XLSForm file (.xlsx)</h4>
+          </div>
+          <p className="text-sm text-slate-600 mb-4">
+            This is the Excel spreadsheet version of your form. You'll upload this file to your account on
+            the data-collection platform (see the guide below for step-by-step instructions).
+          </p>
+          <a href={submission.xlsFormUrl} download
+            className="btn-gold inline-flex">
+            <IconDownload className="w-4 h-4"/> Download XLSForm (.xlsx)
+          </a>
+        </div>
+      )}
+
+      {/* Researcher Setup Guide PDF */}
+      <div className="card-elevated p-6 lg:p-7 bg-gradient-to-br from-brand/[0.03] to-white">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="badge-gold">{submission.xlsFormUrl ? '3' : '2'}</span>
+          <h4 className="display text-xl text-brand font-bold">Researcher Setup &amp; Usage Guide (PDF)</h4>
+        </div>
+        <p className="text-sm text-slate-600 mb-4">
+          A complete 5-page guide walking you through every step: creating your free account, uploading
+          your form, deploying it, sharing the link with respondents, monitoring responses in real time, and
+          downloading your data for SPSS analysis. Print it or keep it open while you work.
+        </p>
+        <div className="grid sm:grid-cols-3 gap-3 mb-4">
+          {[
+            { n: '1', t: 'Create free account' },
+            { n: '2', t: 'Upload your form' },
+            { n: '3', t: 'Deploy &amp; go live' },
+            { n: '4', t: 'Share with respondents' },
+            { n: '5', t: 'Monitor responses' },
+            { n: '6', t: 'Download for SPSS' },
+          ].map((s) => (
+            <div key={s.n} className="flex items-center gap-2 p-2.5 rounded-lg bg-white border border-slate-100">
+              <span className="w-6 h-6 rounded-full bg-brand text-white text-xs font-bold flex items-center justify-center shrink-0">{s.n}</span>
+              <span className="text-xs text-slate-700" dangerouslySetInnerHTML={{ __html: s.t }}/>
+            </div>
+          ))}
+        </div>
+        <a href="/downloads/researcher-guide.pdf" download
+          className="btn-gold inline-flex">
+          <IconDownload className="w-4 h-4"/> Download the guide (PDF, ~150 KB)
+        </a>
+      </div>
+
+      {/* Embedded video tutorial */}
+      <div className="card-elevated p-6 lg:p-7">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="badge-gold">{submission.xlsFormUrl ? '4' : '3'}</span>
+          <h4 className="display text-xl text-brand font-bold">Video walkthrough — watch first, then follow the PDF</h4>
+        </div>
+        <p className="text-sm text-slate-600 mb-4">
+          This short official tutorial (under 5 minutes) shows exactly what your dashboard looks like and
+          how to upload your Excel form. Once you've watched it, the PDF guide will feel obvious to follow.
+        </p>
+        <div className="relative w-full rounded-xl overflow-hidden bg-black" style={{ paddingBottom: '56.25%' }}>
+          <iframe
+            className="absolute inset-0 w-full h-full"
+            src="https://www.youtube.com/embed/xpeBCy9p1Ys"
+            title="Getting started tutorial"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        </div>
+        <p className="text-xs text-slate-500 mt-3 italic">
+          💡 Tip: Watch the video once end-to-end BEFORE opening your account. Then have the PDF guide open
+          on the side as you work through each step.
+        </p>
+      </div>
+
+      {/* Support callout */}
+      <div className="p-5 rounded-xl bg-gold/[0.06] border border-gold/30 flex items-start gap-3">
+        <span className="text-2xl">🙋‍♀️</span>
+        <div className="text-sm">
+          <p className="font-bold text-brand">Stuck at any step?</p>
+          <p className="text-slate-600 mt-1">
+            WhatsApp us on <a href="https://wa.me/254779568272" className="text-brand font-bold underline">+254 779 568 272</a> or
+            email <a href="mailto:postgraduatedatahub@gmail.com" className="text-brand font-bold underline">postgraduatedatahub@gmail.com</a>.
+            We'll walk you through it screen-share style if needed.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
    "Why digital data collection?" — the pitch section that sells
-   KoboToolbox over paper questionnaires. Shown on the list view
+   digital over paper questionnaires. Shown on the list view
    so every visitor understands WHY they should use this route.
    ───────────────────────────────────────────────────────────── */
 function WhyDigital({ onStart }) {
@@ -508,7 +641,7 @@ function WhyDigital({ onStart }) {
       color: 'from-slate-50 to-slate-100/40 border-slate-200',
       accent: 'text-slate-700 bg-slate-100',
       points: [
-        'Data stored securely on KoboToolbox servers',
+        'Data stored securely on cloud servers with encrypted access',
         'No risk of losing or damaging paper questionnaires',
         'Confidentiality easier to maintain and audit',
       ],
@@ -524,9 +657,9 @@ function WhyDigital({ onStart }) {
           Why digital data collection beats paper — <span className="italic text-gold">every time</span>
         </h2>
         <p className="mt-3 text-slate-600 leading-relaxed max-w-3xl">
-          We refine your instrument and deliver it as a live <strong>KoboToolbox</strong> online survey — the
-          same professional tool used by the UN, WHO, universities, and Kenyan NGOs. Here's why it's the
-          right choice for your postgraduate research:
+          We refine your instrument and deliver it as a ready-to-share <strong>online survey</strong> using a
+          professional digital data-collection platform trusted by universities, UN agencies, WHO, and Kenyan
+          NGOs. Here's why it's the right choice for your postgraduate research:
         </p>
 
         {/* Paper vs Digital comparison strip */}
@@ -547,7 +680,7 @@ function WhyDigital({ onStart }) {
           <div className="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-2xl">📱</span>
-              <p className="font-bold text-emerald-700 uppercase text-xs tracking-wider">The KoboToolbox way</p>
+              <p className="font-bold text-emerald-700 uppercase text-xs tracking-wider">The digital way</p>
             </div>
             <ul className="text-sm text-slate-700 space-y-1.5">
               <li>✅ Share ONE link via WhatsApp / email</li>
@@ -606,8 +739,8 @@ function WhyDigital({ onStart }) {
         <h3 className="display text-2xl lg:text-3xl">Ready to go digital?</h3>
         <p className="mt-3 text-white/80 max-w-2xl mx-auto">
           Submit your draft questionnaire or interview guide. We'll refine the wording, align every question
-          to your objectives, and return a ready-to-share KoboToolbox link — plus a plain PDF copy for your
-          appendix.
+          to your objectives, and return a ready-to-deploy digital survey form — plus a plain PDF copy for
+          your appendix and a step-by-step guide showing you exactly how to launch it and collect responses.
         </p>
         <button onClick={onStart} className="btn-gold mt-6 inline-flex">
           Submit your draft <IconArrow className="w-4 h-4"/>
