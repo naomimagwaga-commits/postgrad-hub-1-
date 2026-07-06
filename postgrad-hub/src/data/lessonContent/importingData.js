@@ -37,6 +37,65 @@ export const IMPORTING_DATA_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 BEFORE YOU IMPORT ANYTHING — THE MENTAL MAP ════════════════════ */
+    {
+      id: 'variables-first',
+      title: 'Before you import ANYTHING — get the mental map right',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'The single biggest reason SPSS imports fail is that students treat "Excel" and "SPSS" as the same tool. They\'re not — and understanding the difference BEFORE you click File → Import saves hours of debugging later.',
+            'This section takes 3 minutes. Read it. Then the walkthrough that follows will feel obvious.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'Excel and SPSS are NOT the same thing' },
+
+        { type: 'comparison',
+          headers: ['', 'Excel', 'SPSS'],
+          rows: [
+            ['**Purpose**',              'Flexible general-purpose spreadsheet — invoices, budgets, lists, notes, anything', 'Statistical software — every column MUST be a properly-defined variable'],
+            ['**Cell contents**',        'Can be anything — text, numbers, formulas, images, notes',                          'Each column can be ONLY ONE type — numeric or string, never mixed'],
+            ['**Row structure**',        'Free-form — you can have titles, blank rows, subtotals wherever',                    'Strict: row 1 = variable names, row 2 onwards = one respondent per row, no exceptions'],
+            ['**Missing data**',         'Blank cells, "?", "N/A", 999, "don\'t know" — anything goes',                        'Must be either genuinely blank OR a declared numeric missing code (like 999)'],
+            ['**Multiple sheets**',      'Common — one file for data, notes, analysis, charts',                                'Imports ONE sheet at a time. The other sheets are invisible to SPSS'],
+          ]},
+
+        { type: 'callout', tone: 'brand', title: 'The insight that changes everything',
+          body: [
+            'Your Excel file is like a **flexible notebook**. Your SPSS file is like a **structured database**.',
+            'To move from one to the other, you must first STRUCTURE your Excel file to look like what SPSS expects. That means one header row, no title, no blank rows, one worksheet, consistent data types per column, and a proper missing-value convention.',
+            'The next section walks through the "7 Excel sins" that violate these rules — with the Machakos study as the worked example.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'What the Machakos data looks like BEFORE and AFTER cleaning' },
+
+        { type: 'paragraph', text:
+          'To make this concrete, we\'ll follow ONE Excel file through the whole lesson — the raw Machakos study data as it was originally typed by the researcher, and then the same file after cleaning. You\'ll see the exact 7 sins in the raw file (Figure 1 in the next section), and the fixes in the cleaned file (Figure 2).' },
+
+        { type: 'comparison',
+          headers: ['Aspect', 'Machakos raw (messy) Excel', 'Machakos cleaned (SPSS-ready) Excel'],
+          rows: [
+            ['**Title row**',            '"Machakos Digital Learning Study - Data Collection 2024" merged across A1:H1', 'None. Row 1 = header names.'],
+            ['**Variable names**',       '"Q1: Do you have devices?", "Age (yrs)", "Sex"',                                'Dev_1, Age, Gender (SPSS-friendly)'],
+            ['**Gender values**',        '"M", "F", "male", "Female" all mixed',                                          '"Male" and "Female" only — consistent'],
+            ['**Age values**',           '48, "thirty-four", 41, 16, "?"',                                                'All pure numbers: 48, 34, 41, 16'],
+            ['**Missing entries**',      '"?", "--", "NOTE: follow up later", or completely random',                     'Blank cells (SPSS handles genuine blanks) or numeric 999'],
+            ['**Number of worksheets**', '4 sheets: Sheet1, Raw Data, Analysis, Notes',                                   '1 sheet: "Machakos"'],
+            ['**Bottom row**',           '"Sub-total | | | | 6.05"',                                                     'Deleted — no aggregate rows'],
+          ]},
+
+        { type: 'callout', tone: 'warning', title: 'The rule to memorise',
+          body: [
+            '**Every column in your Excel file must be able to answer "What ONE type of information am I?"**',
+            'If the answer is "sometimes a number, sometimes a note, sometimes blank" — that column will break SPSS.',
+            'Fix the Excel FIRST. Import SECOND. Never do it in the other order.',
+          ]},
+
+        { type: 'why', body:
+          'The temptation is always to just click Import and "fix it in SPSS later". But every messy value that gets imported becomes a data-cleaning task inside SPSS — where the tools are less familiar and every mistake is harder to undo. Twenty minutes fixing Excel beats twenty hours fixing SPSS.' },
+      ],
+    },
+
     /* ════════════════════ 2. PREPARING THE EXCEL FILE ════════════════════ */
     {
       id: 'preparing',
@@ -47,8 +106,8 @@ export const IMPORTING_DATA_LESSON = {
         { type: 'paragraph', text:
           'An Excel file that looks neat to a human can be a disaster for SPSS to read. Before you open SPSS, open your Excel file and fix the seven problems below. We will look at each one, see what it looks like, and learn the fix.' },
 
-        { type: 'illustration', component: 'MessyExcelWarning',
-          caption: 'Figure 1. A typical messy Excel file from a beginner researcher. Every red ❌ marks a problem that will break the SPSS import. We will fix all of them in the next few minutes.' },
+        { type: 'illustration', component: 'MachakosImportMessy',
+          caption: 'Figure 1. The Machakos study data typed into Excel by a beginner researcher — every one of the 7 Excel sins on display. Merged title row, blank rows at the top, mixed text/numbers ("thirty-four" in Age), inconsistent capitalization ("M", "F", "male", "Female"), words instead of decimals ("5 point 5"), notes/comments embedded in data cells, and multiple worksheet tabs at the bottom. Every red ❌ marks a problem that will break the SPSS import. We will fix all of them in the next few minutes.' },
 
         { type: 'heading', level: 3, text: 'Sin 1 — Title rows above the data' },
         { type: 'paragraph', text:
@@ -94,8 +153,8 @@ export const IMPORTING_DATA_LESSON = {
 
         { type: 'heading', level: 2, text: 'What a clean Excel file looks like' },
 
-        { type: 'illustration', component: 'CleanDatasetExample',
-          caption: 'Figure 2. The same data after applying all seven fixes. One header row in row 1. Numeric codes only (1, 2, 999 instead of "Male", "Female", blanks). Short variable names. No titles, no merged cells, no subtotals. This file imports into SPSS perfectly with zero post-import cleanup.' },
+        { type: 'illustration', component: 'MachakosImportClean',
+          caption: 'Figure 2. The SAME Machakos data after applying all 7 fixes. Headers in row 1 (RespID, SchoolID, Category, Gender, Age, Form, HighestQual, Dev_1, Math_KCSE_Mean). Variable names follow SPSS rules (underscores, no spaces). Every gender is consistently "Male" or "Female". Every Age is a pure number. Empty cells are genuinely blank (correct missing per study design — Form is blank for principals/teachers). ONE worksheet at the bottom called "Machakos". This file imports into SPSS perfectly.' },
 
         { type: 'reveal',
           prompt: 'Your Excel file has a column called "Age". Most cells have numbers like 22, 24, 31. But three cells have "twenty-five" and one has "?". When you import this into SPSS, what will happen — and how do you fix it?',
@@ -112,6 +171,9 @@ export const IMPORTING_DATA_LESSON = {
 
         { type: 'paragraph', text:
           'Once your Excel file is clean, the actual import takes 30 seconds. Open SPSS to a blank Data Editor and follow these steps.' },
+
+        { type: 'illustration', component: 'MachakosImportMenuPath',
+          caption: 'Figure 3. The menu path to import an Excel file. From the SPSS main menu: **File → Import Data → Excel…** The gold arrow shows exactly which item to click. (For CSV files, use "CSV Data..." — the next item on the same submenu.)' },
 
         { type: 'steps', steps: [
           { title: 'Open the import dialog',
@@ -132,8 +194,8 @@ export const IMPORTING_DATA_LESSON = {
             body: 'SPSS reads the file and populates the Data Editor. You should now see your data in Data View, with column headers matching your Excel headers.' },
         ]},
 
-        { type: 'illustration', component: 'ExcelImportDialog',
-          caption: 'Figure 3. The Read Excel File dialog. The two checkboxes at the top — "Read variable names from the first row" and "Determine data type from data" — are the most important. Both should be ticked. The preview at the bottom shows you what SPSS is about to import; check it before clicking OK.' },
+        { type: 'illustration', component: 'MachakosImportDialog',
+          caption: 'Figure 4. The Read Excel File dialog with the MachakosData_CLEAN.xlsx file selected. SPSS has auto-detected the worksheet range A1:I275 (274 respondents + header row). The critical checkbox — **"Read variable names from first row of data"** — is ticked (highlighted gold). The PREVIEW panel at the bottom shows the first 5 rows of Machakos data with proper column names. ALWAYS check the preview before clicking OK — if the data looks wrong here, it will look wrong in SPSS.' },
 
         { type: 'callout', tone: 'info', title: 'You can use the same dialog for CSV files',
           body: 'CSV (comma-separated values) files import the same way: **File → Import Data → CSV Data…** The dialog is almost identical to the Excel one. The main difference is you may need to specify the field delimiter (comma vs semicolon vs tab) and the text qualifier (usually a double quote).' },
@@ -149,6 +211,9 @@ export const IMPORTING_DATA_LESSON = {
 
         { type: 'paragraph', text:
           'SPSS does not warn you if the import went subtly wrong. A column could have imported as string when you expected numeric, or the row count might be one short because of a stray blank row in Excel. Spend 2 minutes running through this checklist every time you import.' },
+
+        { type: 'illustration', component: 'MachakosImportSuccess',
+          caption: 'Figure 5. The Machakos dataset just after a successful import — with the 4-item verification checklist overlaid. ✅ Cases = 274, ✅ Variables = 9 (both matching what we typed in Excel). ⚠️ Two warnings flagged: (1) Form was auto-detected as Scale — but it should be Ordinal (SPSS guessed wrong because Form has only 3 values); (2) Categorical variables like Gender came in as text ("Male", "Female") — you may want to recode to numeric 1/2 for cleaner analyses. Once verified, File → Save As → save as `.sav` so you never have to re-import.' },
 
         { type: 'steps', steps: [
           { title: 'Check the row count',
