@@ -196,8 +196,8 @@ export const DATA_CLEANING_BASICS_LESSON = {
         { type: 'paragraph', text:
           'A questionnaire scale usually mixes positively-worded items ("I enjoy my work") with negatively-worded items ("I find my work pointless"). Both are scored 1 = Strongly Disagree to 5 = Strongly Agree. But for the negatively-worded items, a HIGH score actually means LOW satisfaction — the opposite of the other items. Before you compute a total satisfaction score or run reliability analysis, you MUST reverse-code the negatively-worded items so all items point in the same direction.' },
 
-        { type: 'illustration', component: 'ReverseLikertExample',
-          caption: 'Figure 2. Why reverse-coding matters. Top: a respondent scores 5 on the positively-worded item ("I enjoy my work" = strongly agree) and 5 on the negatively-worded item ("My work is pointless" = strongly agree). Without reverse-coding, both 5s add to a "high satisfaction" total — but the second 5 actually means LOW satisfaction. Bottom: after reverse-coding item 2, the 5 becomes a 1, the totals add up correctly, and Cronbach\'s alpha works.' },
+        { type: 'illustration', component: 'MachakosCleanReverseBeforeAfter',
+          caption: 'Figure 4. Why reverse-coding matters — the Machakos teacher example. LEFT (red, WITHOUT reverse-coding): the teacher scores 5 = Strongly Agree on both "My school has enough devices" (=lots of devices, GOOD) and "Devices are constantly broken" (=lots of broken devices, BAD). Adding these raw gives 10/10 — WRONG, suggests excellent device availability. RIGHT (green, WITH reverse-coding): item 2 flipped from 5 to 1. Total = 6/10 — correctly reflects MIXED device quality. This is why every negatively-worded item in the Machakos scales (Dev_3, Comp_5) must be reverse-coded BEFORE building composites.' },
 
         { type: 'heading', level: 3, text: 'The recoding rule for 1-5 Likert' },
 
@@ -206,16 +206,22 @@ export const DATA_CLEANING_BASICS_LESSON = {
 
         { type: 'steps', steps: [
           { title: 'IMPORTANT — always recode into a NEW variable, never the original',
-            body: 'Use **Transform → Recode into Different Variables** (NOT "Recode into Same Variables"). Give the new variable a clear name like `item7_r` ("r" for "reversed"). This preserves the original data and makes your work auditable.' },
-          { title: 'Move the variable to recode',
-            body: 'Drag your negatively-worded item (e.g. **item7**) into the Numeric Variable → Output Variable box.' },
+            body: 'Use **Transform → Recode into Different Variables** (NOT "Recode into Same Variables"). For the Machakos scale, name the new variable **`Dev_3_r`** (the `_r` suffix marks it as reverse-coded). This preserves the original Dev_3 as a backup and makes your work auditable.' },
+          { title: 'Move Dev_3 to the Output Variable box',
+            body: 'Drag Dev_3 (the negatively-worded Machakos device item) into the Numeric Variable → Output Variable box.' },
           { title: 'Name the output variable',
-            body: 'Under "Output Variable" type Name = **item7_r** and Label = "Item 7 (reverse-coded)". Click Change.' },
+            body: 'Under "Output Variable" type Name = **Dev_3_r** and Label = "Device item 3 (reverse-coded)". Click Change to lock it in.' },
           { title: 'Click "Old and New Values"',
-            body: 'For 1-5 Likert, type 1 → 5, 2 → 4, 3 → 3, 4 → 2, 5 → 1, each via the Add button. Also tick "System- or user-missing → System-missing" so missing stays missing. Click Continue → OK.' },
+            body: 'For the Machakos 1-5 Likert, type 1 → 5, 2 → 4, 3 → 3, 4 → 2, 5 → 1, each via the Add button. Also add MISSING → SYSMIS so missing stays missing. Click Continue → OK.' },
           { title: 'Verify by running Frequencies on both',
-            body: 'The new variable\'s distribution should be the MIRROR of the original. If 80% of cases were "5" in the original, 80% should be "1" in the recoded version. Always verify visually.' },
+            body: 'The Dev_3_r distribution should be the MIRROR of Dev_3. If 80% scored "5" on Dev_3, 80% should score "1" on Dev_3_r. Always verify visually before using Dev_3_r in Compute Variable.' },
         ]},
+
+        { type: 'illustration', component: 'MachakosCleanRecodeMain',
+          caption: 'Figure 5. The main Recode into Different Variables dialog. Dev_3 is selected on the left and moved to the right box as Dev_3_r. Output Variable name is set to `Dev_3_r` with the label "Device item 3 (reverse-coded)". The next click is the [Old and New Values...] button — highlighted with a gold callout.' },
+
+        { type: 'illustration', component: 'MachakosCleanOldNewValues',
+          caption: 'Figure 6. The Old and New Values sub-dialog with the full 1-5 Likert reversal already typed in. The Old --> New list at the bottom shows: 1→5, 2→4, 3→3 (stays same), 4→2, 5→1, and MISSING → SYSMIS. Click Continue to return to the main dialog, then OK to run the recode. The formula in words: **new_value = (max + min) − old_value**. For a 5-point Likert: **new = 6 − old**. For 7-point: new = 8 − old.' },
 
         { type: 'callout', tone: 'warning', title: 'Use the new variable from this point on',
           body: 'When you compute the total satisfaction score, include `item7_r` (the recoded version), NOT `item7` (the original). When you run Cronbach\'s alpha, include `item7_r`. The original item is now just a backup. Mixing the two will produce wrong results and an unhappy supervisor.' },
@@ -249,14 +255,23 @@ export const DATA_CLEANING_BASICS_LESSON = {
           { title: 'Open the dialog',
             body: 'Transform → Compute Variable.' },
           { title: 'Name your new variable',
-            body: 'Type a clear name in Target Variable (e.g. **total_sat**). Click Type & Label to add a human-readable label.' },
+            body: 'Type a clear name in Target Variable — for the Machakos example, type **Digital_Devices**. Click Type & Label to add "Digital devices composite (mean of Dev_1 to Dev_5)".' },
           { title: 'Build the expression',
-            body: 'In the Numeric Expression box type your formula. Use the buttons (+, −, *, /) or the Functions panel on the right. For SUM/MEAN, double-click the function then drag items into the parentheses, comma-separated.' },
+            body: 'In the Numeric Expression box type your formula. For the Machakos Digital_Devices composite: **MEAN(Dev_1, Dev_2, Dev_3_r, Dev_4, Dev_5)**. Notice Dev_3_r — the reverse-coded version, not Dev_3! Use the buttons (+, −, *, /) or the Functions panel on the right.' },
           { title: 'Add an optional IF condition',
-            body: 'Click If… → "Include if case satisfies condition" if you want this compute to apply only to a subset (e.g. only female respondents).' },
+            body: 'Click If… → "Include if case satisfies condition" if you want this compute to apply only to a subset (e.g. **Category = 3** for students only).' },
           { title: 'Click OK and verify',
-            body: 'The new variable appears at the right end of Data View. Always run Frequencies or Descriptives on the new variable immediately to check it looks plausible (correct range, reasonable mean).' },
+            body: 'The new Digital_Devices column appears at the right end of Data View. IMMEDIATELY run Descriptives on it — expected range 1-5 (matching the Likert scale) and mean around 3.51 for the Machakos data. If ANY check fails, re-open Compute and fix your formula.' },
         ]},
+
+        { type: 'illustration', component: 'MachakosCleanComputeDialog',
+          caption: 'Figure 7. The Compute Variable dialog set up to build the Machakos **Digital_Devices** composite. Target Variable = `Digital_Devices`. Numeric Expression = `MEAN(Dev_1, Dev_2, Dev_3_r, Dev_4, Dev_5)`. Note Dev_3_r (reverse-coded) — NOT Dev_3. Function group "Arithmetic" and MEAN highlighted in the Functions list.' },
+
+        { type: 'illustration', component: 'MachakosCleanThreeComposites',
+          caption: 'Figure 8. All 3 Machakos composites at a glance — the ONE recipe each. **Digital_Devices** = MEAN of 5 device items (with Dev_3_r reverse-coded). **Teacher_Competency** = MEAN of 5 competency items (with Comp_5_r reverse-coded). **Internet_Connectivity** = MEAN of 5 network items (no reverse coding needed). Each shows the Machakos M and SD. Without these 3 composites, no correlation lesson from Pearson onwards works — this is the single most important cleaning step for the whole Machakos curriculum.' },
+
+        { type: 'illustration', component: 'MachakosCleanCompositeVerification',
+          caption: 'Figure 9. Data View immediately after computing Digital_Devices. The new column appears on the right (highlighted gold) with computed values like 4.20, 3.60, 4.60 per respondent. Status bar confirms Variables = 22 (was 21). A verification card overlay shows the Descriptives output: N = 269 (5 respondents had too many missing items), Min = 1.00, Max = 5.00, Mean = 3.51, SD = 0.82 — all three checks green. Always run this verification.' },
 
         { type: 'callout', tone: 'gold', title: 'SUM vs MEAN — pick deliberately',
           body: 'SUM treats any missing item as a system-missing total (cautious, drops the whole case if even one item is missing). MEAN computes the average across whatever items are present (uses partial data, more permissive). For Likert SCALES with occasional skipped items, MEAN is often preferred because it preserves more cases. Make a deliberate choice and report it — "Total satisfaction was computed as the MEAN of the five item scores, allowing for up to 2 missing items per case."' },
@@ -279,12 +294,18 @@ export const DATA_CLEANING_BASICS_LESSON = {
           { title: 'Choose the selection method',
             body: '"If condition is satisfied" is the most flexible. "Random sample of cases" lets you take a percentage or a fixed number. "Based on time or case range" lets you keep rows N to M.' },
           { title: 'Type your condition',
-            body: 'Click If… → type the expression (e.g. **gender = 1 AND age >= 18** → only adult women). Click Continue.' },
+            body: 'Click If… → type the expression. For the Machakos students-only sub-analysis: **Category = 3** (recall: 1=Principal, 2=Teacher, 3=Student). For teachers only: Category = 2. For principals only: Category = 1.' },
           { title: 'Choose what to do with unselected cases',
-            body: '**Filter out** (default) is reversible — adds a filter variable, hides unselected cases from analyses, but keeps them in the dataset. **Copy selected to a new dataset** keeps your original intact. **Delete unselected cases** is permanent — only use this when you are sure (and after saving a backup).' },
+            body: '**Filter out unselected cases** (SAFEST default) is reversible — adds a filter variable, hides unselected cases from analyses, but keeps them in the dataset. **Copy selected to a new dataset** keeps your original intact. **Delete unselected cases** is permanent — only use this when you are sure (and after saving a backup).' },
           { title: 'A filter indicator appears in Data View',
             body: 'Filtered-out rows get a small diagonal line through the case number. Subsequent analyses will only use selected cases until you turn the filter off (Data → Select Cases → All cases).' },
         ]},
+
+        { type: 'illustration', component: 'MachakosCleanSelectCases',
+          caption: 'Figure 10. The Select Cases dialog set up for the Machakos students-only sub-analysis. "If condition is satisfied" radio selected with **Category = 3** typed in the condition box. "Filter out unselected cases" chosen (the safest reversible option). Current Status confirms: When active, 212 of 274 cases will be selected (the 62 principals+teachers get filtered out).' },
+
+        { type: 'illustration', component: 'MachakosCleanSubsetsWorkflow',
+          caption: 'Figure 11. The 3 Machakos sub-analyses that need Select Cases. **Students only** (Category = 3, N=212) — for Form × Math_KCSE_Mean correlations and any KCSE outcomes. **Teachers only** (Category = 2, N=54) — for HighestQual × Teacher_Competency and teacher-experience analyses. **Principals only** (Category = 1, N=8) — descriptives only (N too small for inferential tests). The navy banner reminds: ALWAYS turn the filter OFF when you finish a sub-analysis — the #1 reason overall results look wrong is a filter left on from earlier.' },
 
         { type: 'callout', tone: 'warning', title: 'Always TURN OFF the filter when done',
           body: 'A surprisingly common mistake: you filter to "only women", run one analysis, forget, and run the next ten analyses still on the female-only subset. Your "overall" results are actually only women. Always go back to Data → Select Cases → All cases when you finish a sub-analysis.' },
@@ -301,8 +322,8 @@ export const DATA_CLEANING_BASICS_LESSON = {
         { type: 'paragraph', text:
           'Below is the sequence to run on every new dataset. Following this order every time means you never miss a step and your cleaned files are consistent across projects.' },
 
-        { type: 'illustration', component: 'CleaningWorkflow',
-          caption: 'Figure 3. The data-cleaning workflow. Save a raw backup → import → declare types in Variable View → run Frequencies on everything → fix impossible values → declare missing codes → handle duplicates → reverse-code negatively-worded items → compute composites and indices → set up any sub-analysis filters with Select Cases → save your cleaned working file. Document every step in a syntax script as you go.' },
+        { type: 'illustration', component: 'MachakosCleanWorkflow',
+          caption: 'Figure 12. The complete Machakos data-cleaning workflow (repeated here as a summary). Save raw → hunt impossible values → find duplicates → audit missing → build composites. Do these 5 steps in order on every new dataset. Document every step in a syntax script as you go — that syntax IS your Chapter 3 methods appendix.' },
 
         { type: 'steps', steps: [
           { title: '1. Backup the raw file',
