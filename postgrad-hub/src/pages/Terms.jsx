@@ -77,10 +77,12 @@ export default function Terms() {
             <h2 className="display text-2xl text-brand mb-3">4. Payments (M-Pesa)</h2>
             <p>
               All payments are made via M-Pesa to our Paybill <strong>4096483</strong>, Account <strong>7028M</strong>,
-              Business Name <strong>The Postgraduate Data Hub Kenya</strong>. After payment, the student marks the
-              payment as complete inside the Platform; certain unlocks (notes packs) activate instantly, while others
-              (per-test unlocks, service orders) are verified by an administrator against our M-Pesa records before
-              activation. Pricing per service is displayed at the point of purchase.
+              trading as <strong>The Postgraduate Data Hub Kenya</strong>. The paybill is registered under our legal
+              business entity <strong>ETICA CAPITAL LTD</strong>, which is the name that will appear on your M-Pesa
+              confirmation SMS. After payment, the student marks the payment as complete inside the Platform; certain
+              unlocks (notes packs) activate instantly, while others (per-test unlocks, service orders) are verified
+              by an administrator against our M-Pesa records before activation. Pricing per service is displayed at
+              the point of purchase.
             </p>
           </div>
 
