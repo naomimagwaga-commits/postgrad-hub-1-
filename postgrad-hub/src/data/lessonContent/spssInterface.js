@@ -1,6 +1,6 @@
 /**
  * SPSS Basics · Lesson 1 — The SPSS Interface
-  * Written for an anxious true beginner. Reassuring beginner-friendly voice with reassurance every few paragraphs.
+ * Written for an anxious true beginner. Reassuring beginner-friendly voice.
  * Pacing: very slow, every term defined the first time used, no jargon without explanation.
  */
 
@@ -85,8 +85,8 @@ export const SPSS_INTERFACE_LESSON = {
         { type: 'paragraph', text:
           'After dismissing the welcome dialog, you are now staring at the main SPSS window. It is officially called the **Data Editor**. Even when it is empty (no data loaded), it has six important areas you should be able to point at. Let us walk through them one by one.' },
 
-        { type: 'illustration', component: 'SpssInterfaceMap',
-          caption: 'Figure 2. The SPSS Data Editor with all six key areas labelled. (1) Title bar. (2) Menu bar with 11 menus. (3) Toolbar with quick-action icons. (4) The data grid — currently empty. (5) Data View tab (currently active). (6) Variable View tab. We will walk through each one below.' },
+        { type: 'illustration', component: 'MachakosInterfaceMap',
+          caption: 'Figure 2. The SPSS Data Editor with 5 color-coded callouts pointing to every essential area. 🟡 Gold = Menu Bar (11 menus). 🟢 Green = Toolbar (icon shortcuts). 🔵 Navy = Data View Grid (where your dataset lives — rows are respondents, columns are variables). 🔴 Coral = View Tabs (switch between Data View and Variable View). 🟣 Purple = Status Bar (tells you whether SPSS is ready or running). Refer back to this map whenever you feel lost — every SPSS window has these same 5 areas.' },
 
         { type: 'heading', level: 3, text: 'Area 1 — The title bar' },
 
@@ -148,6 +148,9 @@ export const SPSS_INTERFACE_LESSON = {
 
         { type: 'paragraph', text:
           'You do not need to remember every option inside every menu — there are hundreds of them and even seasoned researchers regularly forget where things live. What you DO need is a rough mental map: when you want to do something, which menu should you open first? Here is your map.' },
+
+        { type: 'illustration', component: 'MachakosInterfaceMenuMap',
+          caption: 'Figure 3. The 11 SPSS menus laid out as a printable cheat sheet. Each menu has a short description of what lives inside. The ⭐ **ANALYZE** menu is highlighted — you will spend most of your time there running statistical tests. The blue banner at the bottom names the three menus (DATA, TRANSFORM, ANALYZE) where 80% of everyday work happens. Bookmark this image.' },
 
         { type: 'comparison',
           headers: ['Menu', 'Use it when you want to…', 'Things hiding inside'],
@@ -218,6 +221,9 @@ export const SPSS_INTERFACE_LESSON = {
 
         { type: 'paragraph', text:
           'The Data Editor we have been exploring is the window you spend most time in — but SPSS has **four** main types of window, and you will encounter all of them during your thesis. Knowing what each one is for stops you getting lost when SPSS suddenly opens a new window you weren\'t expecting.' },
+
+        { type: 'illustration', component: 'MachakosInterfaceFourWindows',
+          caption: 'Figure 4. The 4 SPSS windows shown side by side. 🟢 Data Editor (top-left) holds your dataset — 274 rows in the Machakos study. 🟡 Output Viewer (top-right) collects every table and chart from your analyses. 🔵 Syntax Editor (bottom-left) records analyses as reproducible code. 🟣 Chart Builder (bottom-right) is the drag-and-drop chart designer. The navy tip banner reminds you: 90% of your time is spent in Data Editor and Output Viewer — master those two first.' },
 
         { type: 'comparison',
           headers: ['Window', 'What it holds', 'When it opens'],
@@ -344,6 +350,51 @@ export const SPSS_INTERFACE_LESSON = {
           title: 'Closing the error message without reading it',
           body: 'When SPSS shows a red error message, beginners often click "OK" reflexively and try the analysis again. The error message contains the exact reason your analysis failed.',
           fix: 'Always READ the error before dismissing it. Often it says something simple: "Variable X is type String — cannot compute mean". Now you know the fix: convert X to numeric.' },
+      ],
+    },
+
+    /* ════════════════════ 9.5 MEET THE MACHAKOS DATA (the recurring case study) ════════════════════ */
+    {
+      id: 'meet-machakos',
+      title: 'Meet the Machakos data — the study that runs through every lesson',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'From this lesson onwards, every SPSS Basics and Descriptive/Correlation lesson uses the SAME real-world case study — a Kenyan postgraduate research project. This gives you consistency: instead of a different toy dataset every lesson, you follow ONE study from start to finish.',
+            'This section introduces the study so that when you see "Digital_Devices" or "Math_KCSE_Mean" mentioned in later lessons, you already know what those variables are and why they matter.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'The study — one paragraph' },
+
+        { type: 'paragraph', text:
+          'A Kenyan postgraduate researcher wanted to know whether digital learning resources (devices, teacher training, internet connectivity, per-student investment) actually IMPROVE Mathematics performance in Machakos County secondary schools. She collected data from **274 respondents across 8 schools**: 8 principals, 54 teachers, and 212 students (Form 2, 3, and 4). Everyone completed the same Likert-scale questionnaire; the students also had their Mathematics KCSE mean scores recorded.' },
+
+        { type: 'heading', level: 2, text: 'What the dataset looks like when loaded in SPSS' },
+
+        { type: 'illustration', component: 'MachakosInterfaceMachakosLoaded',
+          caption: 'Figure 6. The Machakos_Study.sav dataset opened in the SPSS Data Editor. Each ROW is one respondent (274 in total). Each COLUMN is one variable (21 in total). Notice the icons next to each column name — 🔴 red circles mean String (like Category or Gender), 📏 yellow rulers mean Scale/continuous (like Age or Math_KCSE_Mean), 📊 bar-chart icons mean Ordinal (like Form). You will learn to read these icons at a glance in Lesson 3. Status bar at the bottom-right confirms: Cases 274, Variables 21.' },
+
+        { type: 'comparison',
+          headers: ['Variable group', 'Example variables', 'What they measure'],
+          rows: [
+            ['**Identifiers**',            'RespID, SchoolID',                       'Unique respondent ID and their school code (S01–S08)'],
+            ['**Demographics**',           'Category, Gender, Age, Form, HighestQual', 'Who each respondent is. Note: Form (2/3/4) only applies to students; HighestQual only applies to teachers/principals.'],
+            ['**Digital-devices Likert (5 items)**',  'Dev_1 to Dev_5',              'Individual questionnaire responses about device availability (1=Strongly disagree to 5=Strongly agree)'],
+            ['**Teacher-competency Likert (5 items)**',  'Comp_1 to Comp_5',         'Individual responses about teacher digital-skills training'],
+            ['**Internet-connectivity Likert (5 items)**', 'Net_1 to Net_5',         'Individual responses about network reliability'],
+            ['**Composite scores** (computed in Data Cleaning lesson)',  'Digital_Devices, Teacher_Competency, Internet_Connectivity', 'The 5-item Likert groups averaged into single continuous variables'],
+            ['**Financial variable**',     'InvestmentPerStudent',                    'KES spent per student per year on digital resources (M ≈ KES 4,820)'],
+            ['**The dependent variable**', 'Math_KCSE_Mean',                          'The outcome we\'re trying to predict — student Math KCSE mean score (M ≈ 5.92 out of a max ~8)'],
+          ]},
+
+        { type: 'callout', tone: 'info', title: 'You don\'t need to memorise this now',
+          body: [
+            'Bookmark this section. Every time a later lesson mentions "Digital_Devices" or "InvestmentPerStudent" you can pop back here to remember what it is.',
+            'The point is not to memorise 21 variable names today — it is to know that WHENEVER you see the same variable names reappearing across lessons, they refer to this same Machakos dataset.',
+          ]},
+
+        { type: 'why', body:
+          'Real thesis work uses one study, one dataset, followed all the way through. This platform mirrors that — so by the time you finish the entire SPSS Academy, you will have effectively "done" one full Chapter 4 for a real Kenyan case study. That skill transfers directly to YOUR own data.' },
       ],
     },
 
