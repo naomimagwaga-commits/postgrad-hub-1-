@@ -76,6 +76,157 @@ export const MATRICES_LESSON = {
       ],
     },
 
+    /* ════════════════════ 2.5 BEFORE YOU PRESENT — DECIDE WHAT BELONGS IN A MATRIX ════════════════════ */
+    {
+      id: 'variables-first',
+      title: 'Before you present ANYTHING — understand your matrix decision',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Before this lesson teaches you HOW to read a matrix, we need to answer a more basic question: **should you present a matrix at all?** Not every Chapter 4 needs one.',
+            'A matrix that shouldn\'t be there wastes precious page space. But a matrix that\'s missing (when it should be there) makes examiners ask "why didn\'t you present the correlations together?"',
+            'This section teaches you the ONE question to ask before deciding, using the Machakos study as the worked example.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'The ONE question to ask' },
+
+        { type: 'callout', tone: 'brand', title: 'Look at your correlations. How many are there?',
+          body: [
+            '**Just 1 or 2 correlations?** → Report individually in prose. A matrix is overkill.',
+            '**3 to 6 correlations?** → Judgment call. If they all belong to ONE conceptual objective (e.g. "the four IVs predicting the DV"), a matrix is cleaner. If they\'re scattered across different objectives, report individually.',
+            '**7 or more correlations?** → Always use a matrix. Individual reporting becomes unreadable.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'Applied to the Machakos study' },
+
+        { type: 'paragraph', text:
+          'In the Pearson lesson we ran 4 correlations for our 4 objectives (Digital_Devices, Teacher_Competency, Internet_Connectivity, and InvestmentPerStudent — each vs Math_KCSE_Mean). That\'s exactly on the boundary — should we present those 4 numbers individually, or as a matrix?' },
+
+        { type: 'comparison',
+          headers: ['Approach', 'When it works', 'When it fails'],
+          rows: [
+            ['**Individual prose reporting** — one paragraph per correlation',
+              'When each objective needs its own detailed discussion (theoretical framing, prior literature, implications).',
+              'When you have too many — reader loses track of which one is which by paragraph 4.'],
+            ['**Correlation matrix table** — all 5 variables (4 IVs + 1 DV) in one grid',
+              'When you also want to show INTER-CORRELATIONS between the IVs (a key check for multicollinearity later).',
+              'When you actually only care about the IV↔DV cells — a matrix wastes space showing IV↔IV cells you\'ll never discuss.'],
+          ]},
+
+        { type: 'callout', tone: 'info', title: 'Best practice for the Machakos study — use BOTH',
+          body: [
+            '**Present the full 5×5 matrix ONCE** early in Chapter 4 as your "correlation results" summary. This shows the reader every pairwise relationship at a glance.',
+            '**Then discuss each of the 4 IV↔DV correlations INDIVIDUALLY** in the sub-sections aligned to your 4 objectives, referencing the matrix for the numbers ("as shown in Table 12, Digital_Devices correlated with Math_KCSE_Mean at r = .48, p < .001").',
+            'This approach avoids repetition while giving the examiner both the big picture AND the objective-by-objective analysis they\'re expecting.',
+          ]},
+
+        { type: 'callout', tone: 'brand', title: 'Locked in — how to present the Machakos correlations',
+          body: 'One 5×5 matrix table + four one-paragraph interpretations. That\'s the plan. Now let\'s learn how to READ and REFORMAT that matrix properly.',
+        },
+      ],
+    },
+
+    /* ════════════════════ 2.75 THE MACHAKOS PROCEDURE — READING AND REFORMATTING ════════════════════ */
+    {
+      id: 'machakos-walkthrough',
+      title: 'The Machakos procedure',
+      blocks: [
+        { type: 'callout', tone: 'brand', title: 'What we\'re doing in this section',
+          body: [
+            'This section takes the 5×5 correlation matrix you already produced in the Pearson lesson and shows you how to:',
+            '1. READ it properly using a 4-part visual scan (diagonal, symmetry, asterisks, DV column)',
+            '2. REFORMAT it from raw SPSS output into a proper APA 7 Chapter-4-ready table',
+            'No new SPSS clicks needed — this is pure interpretation and presentation.',
+          ]},
+
+        /* ─────── STEP 1 — how to READ ─────── */
+        { type: 'heading', level: 3, text: 'STEP 1 — Read the raw SPSS matrix using the 4-part scan' },
+
+        { type: 'paragraph', text:
+          'Every correlation matrix has 4 visual features you should look for in a specific order. Here\'s the Machakos 5×5 matrix from the Pearson lesson, annotated:' },
+
+        { type: 'illustration', component: 'MachakosMatrixAnnotated',
+          caption: 'Figure 1. The 4-part scan for reading a correlation matrix. 🟡 Gold arrow → ignore the diagonal (all 1.000s). 🟢 Green arrow → the lower triangle mirrors the upper (read one only). 🔴 Red arrow → focus on cells with asterisks (** = p<.01, * = p<.05). 🔵 Navy arrow → if you have a DV, its column is the most important — read it top-to-bottom to see how each IV correlates with it.' },
+
+        { type: 'comparison',
+          headers: ['What to look at', 'What you\'ll notice in the Machakos matrix', 'What it MEANS for your thesis'],
+          rows: [
+            ['**Diagonal (1.000s)**',
+              'Five 1.000 values from top-left to bottom-right',
+              'Just structure. Skip past them — no interpretation needed.'],
+            ['**Off-diagonal cells with `**`**',
+              'ALL 10 unique off-diagonal cells are significant at p<.01',
+              'Every pairwise relationship in the study is statistically significant. Not surprising with N=274 — large samples make small effects significant.'],
+            ['**IV × IV correlations** (top-left 4×4 block)',
+              'Range from .489 (Teacher_Comp × Internet) to .612 (Digital_Devices × Investment)',
+              'The IVs are MODERATELY correlated with each other. Flag this as potential multicollinearity to check in the Regression lesson.'],
+            ['**Math_KCSE_Mean column** (the DV — rightmost column)',
+              'Teacher_Comp .524 > Digital_Devices .478 > Investment .456 > Internet .389',
+              'Teacher_Competency has the STRONGEST bivariate relationship with the DV, and Internet_Connectivity the weakest. This ordering matters when writing your discussion.'],
+          ]},
+
+        { type: 'callout', tone: 'info', title: 'What the numbers TELL you about the Machakos study',
+          body: [
+            'The strongest IV↔DV correlation is **Teacher_Competency ↔ Math_KCSE_Mean (r = .524)** — meaning teacher training/skill has the biggest bivariate association with student outcomes.',
+            'The weakest is **Internet_Connectivity ↔ Math_KCSE_Mean (r = .389)** — still significant, still meaningful, but the smallest of the four.',
+            'The IV↔IV correlations of .489-.612 suggest the four IVs are all measuring related aspects of "school digital infrastructure quality" — they cluster together. That\'s theoretically sensible but statistically important for later multiple regression (where multicollinearity becomes a concern).',
+          ]},
+
+        /* ─────── STEP 2 — how to REFORMAT ─────── */
+        { type: 'heading', level: 3, text: 'STEP 2 — Reformat into an APA 7 Chapter-4-ready table' },
+
+        { type: 'paragraph', text:
+          'Never paste the raw SPSS output directly into your thesis. It looks unprofessional and includes elements APA doesn\'t want (like vertical borders, the "Pearson Correlation" row labels, and both triangles duplicated). Instead, reformat as follows:' },
+
+        { type: 'illustration', component: 'MachakosMatrixPublication',
+          caption: 'Figure 2. The Machakos 5×5 correlation matrix reformatted for a Chapter 4 thesis in APA 7 style. Notice: (a) title uses italic case, (b) only horizontal rules — no vertical lines, (c) variables are numbered 1-5 and the column headers use those numbers (not repeated names), (d) only the LOWER triangle is populated — upper triangle omitted to avoid duplication, (e) diagonal shows em dashes instead of 1.000, (f) note at bottom describes N and significance code.' },
+
+        { type: 'comparison',
+          headers: ['Raw SPSS output', 'APA 7 published version', 'Why the change'],
+          rows: [
+            ['Both upper AND lower triangles filled with identical numbers',
+              'Only LOWER triangle. Upper triangle blank.',
+              'The two triangles show the SAME information. Showing both wastes ink and clutters the reader.'],
+            ['Diagonal cells show `1.000`',
+              'Diagonal cells show em dash `—`',
+              'Everyone knows a variable correlates 1.0 with itself. The dash saves space and looks cleaner.'],
+            ['Variable full names repeated as column headers',
+              'Column headers just numbered 1-5, matching row numbering',
+              'For a 5-column matrix, repeating "Teacher_Competency" 5 times is ugly. Numbers reference the row labels.'],
+            ['Vertical and horizontal borders on every cell',
+              'ONLY three horizontal rules (top, below header, bottom)',
+              'This is the APA 7 style. Vertical borders are forbidden in tables.'],
+            ['Three rows per cell (Pearson Correlation, Sig, N)',
+              'ONE row per cell showing just `r` with asterisks',
+              'The N and p values are moved to the Note at the bottom of the table.'],
+            ['Underscored variable names (e.g. `Digital_Devices`)',
+              'Human-readable names (e.g. `Digital Devices`)',
+              'Underscores are SPSS variable naming. In prose and tables, spell them normally.'],
+          ]},
+
+        { type: 'callout', tone: 'gold', title: 'The exact Note format for correlation matrices',
+          body: [
+            'Every APA correlation matrix ends with a Note in italic at the bottom. Ours reads:',
+            '_"Note. N = 274. **p < .01 (two-tailed)."_',
+            'If some correlations were significant at .05 (single *) you would add: _"*p < .05."_',
+            'If your Ns differed across cells due to pairwise exclusion, you would say: _"Ns ranged from 267 to 274 due to pairwise deletion of missing values."_',
+          ]},
+
+        /* ─────── STEP 3 — write-up ─────── */
+        { type: 'heading', level: 3, text: 'STEP 3 — Write up the matrix in Chapter 4 prose' },
+
+        { type: 'callout', tone: 'brand', title: 'APA Chapter-4 opening template for a correlation matrix',
+          body: [
+            '_"Table [N] presents the intercorrelations among the study variables. As shown, [DV name] correlated significantly and positively with all [K] independent variables. The strongest bivariate relationship was between [strongest IV] and [DV], r = [.XX], p [< .001], while the weakest was between [weakest IV] and [DV], r = [.XX], p [< .001]. Intercorrelations among the independent variables ranged from [.XX] to [.XX], suggesting [interpretation about multicollinearity]."_',
+            '',
+            '**Example for the Machakos matrix:**',
+            '_"Table 12 presents the intercorrelations among the study variables. As shown, Math KCSE Mean correlated significantly and positively with all four independent variables. The strongest bivariate relationship was between Teacher Competency and Math KCSE Mean, **r(272) = .52, p < .001**, while the weakest was between Internet Connectivity and Math KCSE Mean, **r(272) = .39, p < .001**. Intercorrelations among the independent variables ranged from .49 to .61, suggesting moderate overlap consistent with the theoretical construct of a shared digital-infrastructure environment. These inter-IV correlations will be examined for multicollinearity in the subsequent multiple regression analysis (Section 4.X)."_',
+            '',
+            'This opening paragraph does 4 things at once: (1) points to the table, (2) states the general pattern, (3) highlights strongest and weakest for detail, (4) flags a follow-up analysis. That\'s exactly what examiners want to see.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 3. SCANNING THE MATRIX ════════════════════ */
     {
       id: 'scanning',
