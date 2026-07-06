@@ -6684,6 +6684,40 @@ export function MachakosSpearmanScatter() {
     alt="Scatter plot of Form vs Math_KCSE_Mean showing 3 vertical stacks of dots at Form 2, 3, and 4 across 212 students. Gold trend line shows the positive monotonic relationship. Spearmans rho = .284"/>;
 }
 
+/* ─── Machakos Partial Correlation (Analyze → Correlate → Partial) ─── */
+export function MachakosPartialMenuPath() {
+  return <ScreenshotFrame
+    src="/lesson-images/partial/00-menu-path.jpg"
+    alt="SPSS menu path Analyze then Correlate then Partial highlighted with a gold CLICK HERE arrow, distinguishing it from the Bivariate option used in the Pearson lesson"/>;
+}
+export function MachakosPartialDialog() {
+  return <ScreenshotFrame
+    src="/lesson-images/partial/01-dialog.jpg"
+    alt="SPSS Partial Correlations dialog with Digital_Devices and Math_KCSE_Mean in the Variables box, and InvestmentPerStudent highlighted in the Controlling for box with a gold THE KEY DIFFERENCE callout"/>;
+}
+export function MachakosPartialOutput() {
+  return <ScreenshotFrame
+    src="/lesson-images/partial/02-output.jpg"
+    alt="SPSS output showing Partial Corr with two nested tables. Top table zero-order correlations with .478 highlighted amber. Bottom table controlling for InvestmentPerStudent with .285 highlighted gold. df = 271"/>;
+}
+export function MachakosPartialComparison() {
+  return <ScreenshotFrame
+    src="/lesson-images/partial/03-comparison.jpg"
+    alt="Educational infographic titled Bivariate vs Partial. Two panels side by side. Left panel amber shows r = .478 medium-large. Right panel gold shows r = .285 small-medium after controlling for InvestmentPerStudent. Navy explanation card at the bottom explains how funding was inflating the bivariate relationship"/>;
+}
+
+/* ─── Machakos Correlation Matrices (READING the Pearson matrix) ─── */
+export function MachakosMatrixAnnotated() {
+  return <ScreenshotFrame
+    src="/lesson-images/matrices/00-annotated.jpg"
+    alt="Educational infographic showing a 5x5 Machakos Pearson correlation matrix with four color-coded callouts. Gold arrow to the diagonal (ignore 1.000s), green arrow to the lower triangle (symmetric, read one only), red arrow to asterisks (significance), navy arrow to the Math_KCSE_Mean column (the DV money row)"/>;
+}
+export function MachakosMatrixPublication() {
+  return <ScreenshotFrame
+    src="/lesson-images/matrices/01-publication.jpg"
+    alt="APA 7 publication-ready Pearson correlation matrix table styled like a real thesis Chapter 4. Table 12 heading. Variables numbered 1 to 5. Only the lower triangle populated. Em dashes on the diagonal. Note at bottom N=274 and asterisk indicators"/>;
+}
+
 /* ─── Machakos Pearson Correlation (Bivariate Correlations walkthrough) ─── */
 export function MachakosPearsonMenuPath() {
   return <ScreenshotFrame
@@ -6843,6 +6877,10 @@ export const ILLUSTRATIONS = {
   MachakosPearsonOutput, MachakosPearsonAnnotated, MachakosPearsonScatter,
   /* Machakos Spearman Correlation screenshots (reuses Pearson menu path) */
   MachakosSpearmanDialog, MachakosSpearmanOutput, MachakosSpearmanAnnotated, MachakosSpearmanScatter,
+  /* Machakos Partial Correlation screenshots */
+  MachakosPartialMenuPath, MachakosPartialDialog, MachakosPartialOutput, MachakosPartialComparison,
+  /* Machakos Correlation Matrices — 2 unique images (menu path etc. reused from Pearson) */
+  MachakosMatrixAnnotated, MachakosMatrixPublication,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
