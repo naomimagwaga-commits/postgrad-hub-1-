@@ -138,6 +138,189 @@ export const PARTIAL_LESSON = {
       ],
     },
 
+    /* ════════════════════ 4.4 BEFORE YOU CLICK — UNDERSTAND YOUR VARIABLES ════════════════════ */
+    {
+      id: 'variables-first',
+      title: 'Before you click ANYTHING — understand your variables',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Partial correlation is one of the most misused tests in postgraduate research. Students throw in a "control variable" because a supervisor mentioned it — without understanding what "controlling for" actually MEANS conceptually.',
+            'This section teaches you the two questions to ask before you touch the Partial Correlations dialog — so your analysis is honest, defensible, and answers the RIGHT question.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'What does "controlling for" actually mean?' },
+
+        { type: 'paragraph', text:
+          'Imagine you find that Digital_Devices correlates with Math_KCSE_Mean at r = .478 (medium-large positive). Great, digital devices help students learn — right?' },
+
+        { type: 'paragraph', text:
+          'But hold on. Well-funded schools tend to have BOTH more digital devices AND better academic outcomes overall (better teachers, better facilities, better nutrition programmes). What if the ENTIRE correlation between Digital_Devices and Math_KCSE_Mean is being caused by school funding? What if devices themselves add nothing on top of what wealth already provides?' },
+
+        { type: 'callout', tone: 'brand', title: 'What partial correlation does',
+          body: [
+            'Partial correlation asks: "IF two schools had EXACTLY the same funding, would the one with more devices still have better Math scores?"',
+            'It mathematically removes the influence of the control variable from BOTH the IV and the DV before calculating the correlation. What remains is the UNIQUE relationship between IV and DV — the part that isn\'t explained by the control.',
+            'If the correlation stays roughly the same after controlling → the control variable wasn\'t driving things. If it drops significantly → your original correlation was partly (or entirely) spurious.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'The TWO questions to ask before running partial correlation' },
+
+        { type: 'comparison',
+          headers: ['Question', 'How to answer', 'What if you can\'t answer?'],
+          rows: [
+            ['**1. Which variable is my CONTROL and WHY?**',
+              'Pick a variable that could plausibly cause BOTH your IV and DV. (e.g. school funding causes both device availability AND academic outcomes.)',
+              'If you can\'t justify why the control causes both → don\'t control for it. You\'ll be introducing bias, not removing it.'],
+            ['**2. Are all my variables CONTINUOUS (Scale)?**',
+              'Partial correlation in SPSS uses Pearson — so it needs Scale IV, Scale DV, and Scale control. Check each variable icon in the Variable View.',
+              'If any is ordinal/nominal → rank-transform first (Transform → Rank Cases) or use regression with dummy variables instead.'],
+          ]},
+
+        { type: 'heading', level: 2, text: 'Applied to the Machakos study' },
+
+        { type: 'paragraph', text:
+          'Our earlier Pearson analysis found Digital_Devices ↔ Math_KCSE_Mean r = .478. Now we ask the deeper question: is that relationship REAL, or is it being propped up by school funding? We\'ll test using `InvestmentPerStudent` (funding) as our control variable.' },
+
+        { type: 'comparison',
+          headers: ['Variable name', 'Real data example', 'Role in this partial correlation', 'Measurement type'],
+          rows: [
+            ['**Digital_Devices**',           'Composite 1-5 Likert (M=3.51)',  'IV — the "cause" we\'re investigating',           '📏 Scale (ruler icon)'],
+            ['**Math_KCSE_Mean**',            'KCSE mean 4.8 - 7.1 (M=5.92)',   'DV — the outcome we\'re predicting',              '📏 Scale (ruler icon)'],
+            ['**InvestmentPerStudent**',      'KES 3,000 - 7,500 (M=4,820)',    'CONTROL — the confounder we\'re holding constant', '📏 Scale (ruler icon)'],
+          ]},
+
+        { type: 'callout', tone: 'brand', title: 'Locked in — 3 variables into the Partial dialog',
+          body: 'Digital_Devices and Math_KCSE_Mean go in the top "Variables" box. InvestmentPerStudent goes in the bottom "Controlling for" box. Now we\'re ready to click.',
+        },
+
+        { type: 'callout', tone: 'warning', title: 'The examiner question you MUST be able to answer',
+          body: [
+            '_"Why did you choose to control for InvestmentPerStudent specifically? Why not Teacher_Competency or Internet_Connectivity?"_',
+            '**Your answer:** "InvestmentPerStudent was chosen as the control because it is the plausible common cause of both digital device availability AND academic performance — well-funded schools purchase more devices AND generate better outcomes. Controlling for it isolates the UNIQUE contribution of device availability, over and above the effect of overall school wealth."',
+            'Practise saying that out loud before your defence. It shows you didn\'t just click blindly.',
+          ]},
+      ],
+    },
+
+    /* ════════════════════ 4.5 THE MACHAKOS PROCEDURE ════════════════════ */
+    {
+      id: 'machakos-walkthrough',
+      title: 'The Machakos procedure',
+      blocks: [
+        { type: 'callout', tone: 'brand', title: 'The research question we\'re answering',
+          body: [
+            '**Question:** After removing the influence of school funding, is there still a real relationship between digital devices and Math performance?',
+            '**Test:** Partial correlation of `Digital_Devices` × `Math_KCSE_Mean`, controlling for `InvestmentPerStudent`.',
+            '**What we expect:** If devices matter INDEPENDENTLY, the correlation should stay significant (though probably smaller). If devices are just a proxy for wealth, the correlation should disappear.',
+          ]},
+
+        /* ─────── STEP 1 — menu path ─────── */
+        { type: 'heading', level: 3, text: 'STEP 1 — Open the Partial Correlations dialog' },
+
+        { type: 'paragraph', text:
+          'Partial correlation lives in a **DIFFERENT menu from Pearson and Spearman**. From the SPSS main menu:' },
+
+        { type: 'callout', tone: 'brand', title: 'The click path',
+          body: '**Analyze → Correlate → Partial…** (note the ellipsis — this is DIFFERENT from Bivariate)',
+        },
+
+        { type: 'illustration', component: 'MachakosPartialMenuPath',
+          caption: 'Figure 1. The SPSS menu path for partial correlation. Analyze → Correlate → Partial. Notice this is a SEPARATE menu item from Bivariate — a common student mistake is to look for a control-variable option inside the Bivariate dialog. It doesn\'t exist there.' },
+
+        /* ─────── STEP 2 — dialog ─────── */
+        { type: 'heading', level: 3, text: 'STEP 2 — Populate the Variables AND Controlling for boxes' },
+
+        { type: 'paragraph', text:
+          'Unlike Bivariate, the Partial dialog has TWO right-side boxes stacked vertically:' },
+
+        { type: 'comparison',
+          headers: ['Setting', 'What to select', 'Why'],
+          rows: [
+            ['**Top box: "Variables"**', 'Move `Digital_Devices` and `Math_KCSE_Mean` here (use the TOP blue arrow)',
+              'These are the two variables whose relationship you want to test AFTER controlling. IV and DV.'],
+            ['**Bottom box: "Controlling for"**', 'Move `InvestmentPerStudent` here (use the BOTTOM blue arrow)',
+              'This is the confounder to hold constant. You can control for one variable (first-order partial) or several (higher-order) — for thesis work, one or two is usually enough.'],
+            ['**Test of Significance**', '⚫ Two-tailed', 'Standard for postgraduate work unless you have a strictly one-directional hypothesis.'],
+            ['**Display actual significance level**', '☑ (leave ticked)', 'Shows exact p-values in the output — needed for reporting.'],
+          ]},
+
+        { type: 'illustration', component: 'MachakosPartialDialog',
+          caption: 'Figure 2. The Partial Correlations dialog. Digital_Devices and Math_KCSE_Mean sit in the top Variables box. InvestmentPerStudent — highlighted yellow — sits in the bottom Controlling for box. The gold "THE KEY DIFFERENCE" callout points to what makes partial correlation distinct from bivariate.' },
+
+        { type: 'callout', tone: 'mistake', title: 'Common mistake — throwing control variables into the wrong box',
+          body: [
+            'Students often accidentally put the CONTROL variable in the top box (making a 3-way bivariate matrix) instead of the bottom box (which is what actually triggers partial correlation logic).',
+            'If your output looks like a normal Pearson matrix with 3 variables → you put them all in the wrong box. Go back to the dialog and MOVE InvestmentPerStudent to the Controlling for box.',
+          ]},
+
+        /* ─────── STEP 3 — options ─────── */
+        { type: 'heading', level: 3, text: 'STEP 3 — Options sub-dialog (CRUCIAL setting)' },
+
+        { type: 'paragraph', text:
+          'Click **Options…** and configure:' },
+
+        { type: 'callout', tone: 'brand', title: 'Options settings — pay attention to Zero-order correlations',
+          body: [
+            '☑ **Means and standard deviations** (adds context)',
+            '☑ **Zero-order correlations** — CRITICAL. This is what makes SPSS show you BOTH the bivariate (uncontrolled) correlation AND the partial correlation in the same output, so you can compare them side by side.',
+            '⚫ Exclude cases listwise (only option available for partial correlation)',
+            'Click **Continue**.',
+          ]},
+
+        { type: 'callout', tone: 'gold', title: 'Why zero-order correlations matter for your thesis',
+          body: [
+            'Without ticking Zero-order correlations, SPSS gives you ONLY the partial r. But the whole POINT of running partial correlation is to compare it against the bivariate r — otherwise you can\'t say what "controlling for" actually changed.',
+            'The comparison "r dropped from .478 to .285 after controlling for funding" is the interesting FINDING. Without both numbers, you have no story to tell in Chapter 4.',
+          ]},
+
+        /* ─────── STEP 4 — output ─────── */
+        { type: 'heading', level: 3, text: 'STEP 4 — Click OK and read the output' },
+
+        { type: 'paragraph', text:
+          'Click **OK**. The Output Viewer opens with your Partial Correlations results — and it looks different from bivariate output:' },
+
+        { type: 'illustration', component: 'MachakosPartialOutput',
+          caption: 'Figure 3. The Partial Correlations output. TOP block "Control Variables: -none-" shows the ZERO-ORDER (bivariate) correlations — the same numbers you\'d get from Pearson. Digital_Devices × Math_KCSE_Mean = .478 (highlighted amber). BOTTOM block "Control Variables: InvestmentPerStudent" shows the PARTIAL correlations after removing funding\'s influence. Digital_Devices × Math_KCSE_Mean = .285 (highlighted gold), df = 271. The drop from .478 → .285 is the finding.' },
+
+        { type: 'callout', tone: 'info', title: 'What each part of the output means',
+          body: [
+            '**"Control Variables: -none-a"** — this is the ZERO-ORDER block. Same as bivariate Pearson output. Uses the raw scores without removing any influence.',
+            '**"Control Variables: InvestmentPerStudent"** — this is the PARTIAL block. Uses the RESIDUALS from Digital_Devices and Math_KCSE_Mean after removing InvestmentPerStudent\'s linear influence from both.',
+            '**df = N - number of controls - 2** — so with N=274 and 1 control, df = 271 (not 272 like bivariate). This shift in df is normal.',
+            '**The footnote "a. Cells contain zero-order (Pearson) correlations."** — SPSS is telling you the top block is un-controlled. Good.',
+          ]},
+
+        /* ─────── STEP 5 — the story of the numbers ─────── */
+        { type: 'heading', level: 3, text: 'STEP 5 — Read the before-and-after side by side' },
+
+        { type: 'paragraph', text:
+          'The whole point of partial correlation is to compare the bivariate and partial coefficients. Here they are visually:' },
+
+        { type: 'illustration', component: 'MachakosPartialComparison',
+          caption: 'Figure 4. Bivariate vs Partial for Digital_Devices × Math_KCSE_Mean. LEFT (amber): bivariate r = .478, N = 274 — a medium-to-large positive relationship. RIGHT (gold): partial r = .285, df = 271 — a small-to-medium positive relationship AFTER controlling for InvestmentPerStudent. The correlation dropped by about 40% but did NOT disappear — meaning digital devices DO have a unique effect, but a smaller one than the raw correlation suggested. This is the finding worth writing about.' },
+
+        { type: 'callout', tone: 'gold', title: 'The 3-part story every partial correlation tells',
+          body: [
+            '**Story 1: "The correlation stays roughly the same"** — e.g. r = .478 → .460 (small drop). Interpretation: the control variable wasn\'t driving things. Your bivariate finding was robust. Report both to be transparent.',
+            '**Story 2: "The correlation drops significantly but stays significant"** — like our case: r = .478 → .285 (large drop, still significant). Interpretation: the control variable was inflating the raw correlation, but there IS still a unique relationship. Discuss both in Chapter 4/5.',
+            '**Story 3: "The correlation disappears entirely"** — e.g. r = .478 → .020 (near zero). Interpretation: the original bivariate finding was SPURIOUS — it was entirely driven by the control variable. This is a genuine research finding: report it honestly, don\'t hide it.',
+          ]},
+
+        /* ─────── STEP 6 — write-up ─────── */
+        { type: 'heading', level: 3, text: 'STEP 6 — Write it up for Chapter 4' },
+
+        { type: 'callout', tone: 'brand', title: 'APA Chapter-4 template for partial correlation',
+          body: [
+            '_"A partial correlation was computed to assess the relationship between [IV] and [DV] while controlling for [control variable]. The zero-order (uncontrolled) correlation was significant, r([N-2]) = [bivariate r], p [< .001]. After controlling for [control], the partial correlation was [also/still/no longer] significant, r([N-3]) = [partial r], p [value]. This suggests that [interpretive sentence]."_',
+            '',
+            '**Example for our Machakos analysis:** _"A partial correlation was computed to assess the relationship between digital device availability and Mathematics KCSE performance while controlling for investment per student. The zero-order correlation was significant, **r(272) = .48, p < .001**. After controlling for per-student investment, the partial correlation remained significant but attenuated, **r(271) = .29, p < .001**. This suggests that digital device availability contributes uniquely to Math performance above and beyond the effect of overall school funding, though a substantial portion of the raw association was explained by shared variance with school investment levels."_',
+            '',
+            'Notice how the interpretive sentence names BOTH findings (unique contribution + shared variance). That balanced honesty is what examiners love.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 5. READING THE OUTPUT ════════════════════ */
     {
       id: 'reading-output',
