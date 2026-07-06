@@ -6684,6 +6684,33 @@ export function MachakosSpearmanScatter() {
     alt="Scatter plot of Form vs Math_KCSE_Mean showing 3 vertical stacks of dots at Form 2, 3, and 4 across 212 students. Gold trend line shows the positive monotonic relationship. Spearmans rho = .284"/>;
 }
 
+/* ─── SPSS Basics · Lesson 5 · Handling Missing Values ─── */
+export function MachakosMissingMcarMarMnar() {
+  return <ScreenshotFrame
+    src="/lesson-images/missing-values/00-mcar-mar-mnar.jpg"
+    alt="Three-panel infographic explaining MCAR, MAR, and MNAR missing data types. Each panel has a definition, an icon, a Machakos study example, and an impact statement. Green panel MCAR, gold panel MAR, red panel MNAR"/>;
+}
+export function MachakosMissingMvaMenu() {
+  return <ScreenshotFrame
+    src="/lesson-images/missing-values/01-mva-menu.jpg"
+    alt="SPSS Analyze menu open showing Missing Value Analysis highlighted with a gold CLICK HERE arrow. Full click path is Analyze then Missing Value Analysis"/>;
+}
+export function MachakosMissingMvaOutput() {
+  return <ScreenshotFrame
+    src="/lesson-images/missing-values/02-mva-output.jpg"
+    alt="SPSS Missing Value Analysis output showing the Univariate Statistics table for all 13 Machakos variables. Form 23.4 percent missing and HighestQual 77.4 percent missing highlighted amber. Gold callout explains these are structural missing values"/>;
+}
+export function MachakosMissingPairwiseListwise() {
+  return <ScreenshotFrame
+    src="/lesson-images/missing-values/03-pairwise-listwise.jpg"
+    alt="Side-by-side comparison of Listwise versus Pairwise deletion using Machakos data. Left red panel shows Listwise drops the effective N from 274 to 164. Right green panel shows Pairwise varies from N=268 to 272 per variable pair. Navy banner recommends Pairwise for correlation"/>;
+}
+export function MachakosMissingDecisionTree() {
+  return <ScreenshotFrame
+    src="/lesson-images/missing-values/04-decision-tree.jpg"
+    alt="Decision tree flowchart titled Which missing-data strategy should I use. Question 1 asks percentage missing (less than 5 percent, 5 to 15 percent, greater than 15 percent). Question 2 asks whether missingness is structural. Question 3 asks the analysis type (correlation, regression, or reliability). Final boxes recommend PAIRWISE or LISTWISE based on the path"/>;
+}
+
 /* ─── SPSS Basics · Lesson 4 · Importing Data from Excel ─── */
 export function MachakosImportMessy() {
   return <ScreenshotFrame
@@ -6992,6 +7019,8 @@ export const ILLUSTRATIONS = {
   MachakosDefineValueLabels, MachakosDefineMissingValues, MachakosDefineVariableType, MachakosDefineProperties, MachakosDefineCodebook,
   /* SPSS Basics · Lesson 4 · Importing from Excel — 5 workflow images */
   MachakosImportMessy, MachakosImportClean, MachakosImportMenuPath, MachakosImportDialog, MachakosImportSuccess,
+  /* SPSS Basics · Lesson 5 · Handling Missing Values — 5 concept + procedure images */
+  MachakosMissingMcarMarMnar, MachakosMissingMvaMenu, MachakosMissingMvaOutput, MachakosMissingPairwiseListwise, MachakosMissingDecisionTree,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
