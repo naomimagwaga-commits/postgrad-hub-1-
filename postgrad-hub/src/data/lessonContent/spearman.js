@@ -140,6 +140,193 @@ export const SPEARMAN_LESSON = {
       ],
     },
 
+    /* ════════════════════ 4.4 BEFORE YOU CLICK — UNDERSTAND YOUR VARIABLES ════════════════════ */
+    {
+      id: 'variables-first',
+      title: 'Before you click ANYTHING — understand your variables',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Choosing between Pearson and Spearman is one of the most common mistakes in postgraduate SPSS work. Students see "correlation" in their objectives and click whichever they saw first — usually Pearson, because it\'s more famous.',
+            'But Pearson has strict assumptions. If your variables violate them, your correlation coefficient is misleading, your p-value is wrong, and your defence will fall apart when your examiner asks "why did you use Pearson here?"',
+            'This section teaches you the ONE question to ask before every correlation — so you always pick the right test.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'The ONE question to ask' },
+
+        { type: 'callout', tone: 'brand', title: 'Look at your two variables. What TYPE is each one?',
+          body: [
+            '**Both variables are CONTINUOUS (Scale)?** → Use Pearson (previous lesson).',
+            '**At least ONE variable is ORDINAL (Likert 1-5, Form 2/3/4, rank)?** → Use Spearman (this lesson).',
+            '**Data is badly non-normal or has strong outliers?** → Use Spearman even if both variables are technically continuous.',
+            '**Either variable is NOMINAL (Gender, County, Category)?** → Neither correlation works. Use Chi-square instead (later lesson).',
+          ]},
+
+        { type: 'heading', level: 2, text: 'Applied to the Machakos study' },
+
+        { type: 'paragraph', text:
+          'In the Pearson lesson we tested the 4 continuous IVs against the continuous DV — that was Pearson\'s natural home. In this Spearman lesson we\'ll test a variable that Pearson CAN\'T properly handle: `Form` (an ordinal variable with just 3 values: 2, 3, 4).' },
+
+        { type: 'comparison',
+          headers: ['Variable name', 'Real data example', 'Measurement type (SPSS icon)', 'Correlation choice'],
+          rows: [
+            ['**Form**',            '2 / 3 / 4',                       '📊 Ordinal (bar-chart icon)',    '⚠️ Ordinal — Pearson NOT valid → use **Spearman**'],
+            ['**Math_KCSE_Mean**',  '5.92 / 6.4 / 7.1 …',              '📏 Scale (ruler icon)',          '✅ Continuous — either would work, but partner\'s type decides'],
+            ['**Combining the two**', 'Form × Math_KCSE_Mean',         'Ordinal × Continuous',           '**→ Spearman** (whenever one side is ordinal, Spearman wins)'],
+          ]},
+
+        { type: 'callout', tone: 'info', title: 'Why Pearson would technically be WRONG here',
+          body: [
+            'Pearson assumes both variables are measured on an **interval or ratio scale** — meaning the "distance" between values is equal and meaningful (Age 20 → 21 is the same distance as Age 40 → 41).',
+            'Form has only 3 values (2, 3, 4). Is the "distance" between Form 2 and Form 3 really equal to the distance between Form 3 and Form 4? In terms of biological age? Maybe. In terms of academic maturity, exam preparation, hormones? Almost certainly not.',
+            'Because Form violates Pearson\'s interval assumption, Spearman is the honest choice. Your examiner will ask this question. Now you have the answer.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'What variables will go into the SPSS dialog' },
+
+        { type: 'comparison',
+          headers: ['Machakos variable', 'Where does it go?', 'Why?'],
+          rows: [
+            ['**Form**',           'Variables: box (right side of dialog)', 'Ordinal → Spearman handles it correctly'],
+            ['**Math_KCSE_Mean**', 'Variables: box (right side of dialog)', 'Continuous — Spearman also accepts continuous partners'],
+            ['**Digital_Devices, Teacher_Competency, etc.**', '🚫 Skip for this run', 'Continuous — better tested with Pearson (previous lesson)'],
+            ['**Gender, Category**', '🚫 Never for correlation',           'Nominal (labels, not orderable numbers) → use Chi-square instead'],
+          ]},
+
+        { type: 'callout', tone: 'brand', title: 'Locked in — 2 variables into the Spearman dialog',
+          body: 'Form · Math_KCSE_Mean. Now we\'re ready to click.',
+        },
+      ],
+    },
+
+    /* ════════════════════ 4.5 THE MACHAKOS PROCEDURE ════════════════════ */
+    {
+      id: 'machakos-walkthrough',
+      title: 'The Machakos procedure',
+      blocks: [
+        { type: 'callout', tone: 'brand', title: 'The Machakos objective we\'re answering',
+          body: [
+            'While the Pearson lesson tested Objectives 1-4 (continuous IVs), a real thesis often includes a supplementary question: **"Does academic progression (Form level) itself relate to Math performance?"**',
+            'This isn\'t one of the 4 original objectives, but it\'s the kind of exploratory analysis examiners love to see. And it\'s the perfect Spearman test.',
+            '**Hypothesis:** Higher-Form students have higher Mathematics KCSE mean scores. **Variables:** Form (ordinal 2/3/4) × Math_KCSE_Mean (continuous). **Test:** Spearman\'s rank-order correlation (rho).',
+          ]},
+
+        /* ─────── STEP 1 — menu path ─────── */
+        { type: 'heading', level: 3, text: 'STEP 1 — Open the Bivariate Correlations dialog' },
+
+        { type: 'paragraph', text:
+          'Spearman lives in the SAME dialog as Pearson — just with a different checkbox. From the SPSS main menu:' },
+
+        { type: 'callout', tone: 'brand', title: 'The click path',
+          body: '**Analyze → Correlate → Bivariate…** (same as Pearson lesson)',
+        },
+
+        { type: 'illustration', component: 'MachakosPearsonMenuPath',
+          caption: 'Figure 1. The SPSS menu path — identical to the one used for Pearson. Analyze → Correlate → Bivariate. (Reused from the Pearson lesson because the click path is the same.)' },
+
+        /* ─────── STEP 2 — main dialog ─────── */
+        { type: 'heading', level: 3, text: 'STEP 2 — Move Form and Math_KCSE_Mean into the Variables box' },
+
+        { type: 'paragraph', text:
+          'In the left-hand variable list, find `Form` (has the little 📊 bar-chart icon indicating ordinal) and `Math_KCSE_Mean` (has the 📏 ruler icon indicating continuous). Click `Form` first, then Ctrl-click `Math_KCSE_Mean`, then click the blue **▶** arrow to move both into the **Variables** box on the right.' },
+
+        { type: 'paragraph', text:
+          'CRITICAL setting change — under "Correlation Coefficients", **UNTICK Pearson and TICK Spearman**:' },
+
+        { type: 'comparison',
+          headers: ['Setting', 'What to select', 'Why'],
+          rows: [
+            ['**Correlation Coefficients**', '☐ Pearson (UNTICK it)  ☑ Spearman',
+              'Pearson would be wrong for ordinal data — untick it. Spearman handles ranked data correctly.'],
+            ['**Test of Significance**', '⚫ Two-tailed',
+              'Two-tailed unless you have a specific one-directional hypothesis (rare in postgrad work).'],
+            ['**Flag significant correlations**', '☑ (leave ticked)',
+              'Adds * and ** to the output so you spot significant correlations quickly.'],
+          ]},
+
+        { type: 'illustration', component: 'MachakosSpearmanDialog',
+          caption: 'Figure 2. The Bivariate Correlations dialog configured for Spearman. Form and Math_KCSE_Mean are in the Variables box on the right. Only the Spearman checkbox is ticked — Pearson and Kendall are unchecked.' },
+
+        { type: 'callout', tone: 'info', title: 'Pro tip — you CAN tick both Pearson AND Spearman',
+          body: [
+            'If you want to compare both methods side by side, tick BOTH Pearson AND Spearman. SPSS produces both matrices in one output.',
+            'When Pearson r and Spearman ρ closely agree, it means the relationship is robust — real. When they disagree substantially, the discrepancy tells you something (usually outliers or non-normality affecting Pearson).',
+            'For strict thesis reporting, however, pick ONE test (the right one for your data) and report that. Reporting both can confuse examiners.',
+          ]},
+
+        /* ─────── STEP 3 — options ─────── */
+        { type: 'heading', level: 3, text: 'STEP 3 — Options sub-dialog (same as Pearson)' },
+
+        { type: 'paragraph', text:
+          'Click **Options…** and use the same settings as the Pearson lesson:' },
+
+        { type: 'callout', tone: 'brand', title: 'Options settings',
+          body: [
+            '☑ Means and standard deviations (adds context to the output)',
+            '⚫ Exclude cases pairwise (safer than listwise — see the Pearson lesson for details)',
+            'Click **Continue**.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosPearsonOptions',
+          caption: 'Figure 3. The Options sub-dialog — identical settings to the Pearson lesson. Means and standard deviations ticked, Exclude cases pairwise selected. (Reused image — the sub-dialog is the same for both Pearson and Spearman.)' },
+
+        /* ─────── STEP 4 — output ─────── */
+        { type: 'heading', level: 3, text: 'STEP 4 — Click OK and read the output' },
+
+        { type: 'paragraph', text:
+          'Click **OK**. The Output Viewer opens with your Spearman results. NOTICE — SPSS labels this differently from Pearson output:' },
+
+        { type: 'illustration', component: 'MachakosSpearmanOutput',
+          caption: 'Figure 4. The Spearman output. TOP: Descriptive Statistics — Form has N=212 (students only), Math_KCSE_Mean has N=274 (all respondents). BOTTOM: the Correlations matrix headed "Spearman\'s rho". Each cell shows Correlation Coefficient, Sig. (2-tailed), and N. The .284** in the Form × Math_KCSE_Mean cell means a small-to-moderate significant positive correlation.' },
+
+        { type: 'callout', tone: 'gold', title: '3 visual differences from Pearson output',
+          body: [
+            '**Title says "Nonparametric Correlations"** (red heading) — not just "Correlations". This is SPSS\'s way of marking that this analysis doesn\'t assume normality.',
+            '**Table sub-header says "Spearman\'s rho"** — not "Pearson Correlation".',
+            '**Row label says "Correlation Coefficient"** — not "Pearson Correlation". Since Spearman uses ranks, SPSS uses the generic name.',
+            'These differences matter when reporting — always call it ρ (rho) not r, and always cite "Spearman\'s rank-order correlation" in your write-up.',
+          ]},
+
+        /* ─────── STEP 5 — annotated cell ─────── */
+        { type: 'heading', level: 3, text: 'STEP 5 — Read the correlation cell in detail' },
+
+        { type: 'paragraph', text:
+          'The critical cell in the matrix is where `Form` meets `Math_KCSE_Mean`. Here it is annotated:' },
+
+        { type: 'illustration', component: 'MachakosSpearmanAnnotated',
+          caption: 'Figure 5. The Form × Math_KCSE_Mean cell with four color-coded annotations. Gold = ρ = 0.284 explained (small-to-medium positive monotonic relationship). Red = the significance asterisks. Navy = Sig. (2-tailed) = .000 (i.e. p < .001). Green = N = 212 (only students had a Form value). Bottom: exact APA write-up template.' },
+
+        /* ─────── STEP 6 — scatter check ─────── */
+        { type: 'heading', level: 3, text: 'STEP 6 — Confirm with a scatter plot' },
+
+        { type: 'paragraph', text:
+          'A scatter plot of an ordinal variable looks unusual — the points STACK into vertical columns (one column per Form level). But that\'s the correct visualization, and it clearly shows the monotonic trend:' },
+
+        { type: 'illustration', component: 'MachakosSpearmanScatter',
+          caption: 'Figure 6. Scatter plot of Form vs Math_KCSE_Mean across 212 students. Points stack vertically at Form 2, 3, and 4 (because Form has only 3 discrete values). The gold trend line shows the positive monotonic pattern — Form 4 students tend to have slightly higher KCSE means than Form 2 students. Spearman\'s rho = .284 quantifies exactly this pattern.' },
+
+        { type: 'callout', tone: 'gold', title: 'What "monotonic but not linear" means (and why it matters)',
+          body: [
+            '**Linear** = a straight-line pattern. When X increases by 1, Y increases by a constant amount.',
+            '**Monotonic** = a consistently-going-up (or consistently-going-down) pattern, but the rate can change. When X increases by 1, Y might jump a lot or barely at all — but Y never REVERSES direction.',
+            'For ordinal data (Form 2/3/4), we can\'t claim linearity because we can\'t assume "Form 2 to Form 3" is the same "distance" as "Form 3 to Form 4". But we CAN claim monotonicity — Form 4 students consistently score higher than Form 2 students on average.',
+            'Spearman measures monotonic relationships. Pearson measures linear ones. That\'s why Spearman is the right choice here.',
+          ]},
+
+        /* ─────── STEP 7 — write-up ─────── */
+        { type: 'heading', level: 3, text: 'STEP 7 — Write it up for Chapter 4' },
+
+        { type: 'callout', tone: 'brand', title: 'APA Chapter-4 template for Spearman',
+          body: [
+            '_"A Spearman rank-order correlation was computed to assess the relationship between [IV name] and [DV name]. There was a [strength] [direction] correlation between the two variables, ρ(N-2) = [rho value to 2 dp], p [< .001 or exact value], N = [sample size]."_',
+            '',
+            '**Example for Form × Math_KCSE_Mean:** _"A Spearman rank-order correlation was computed to assess the relationship between student Form level and Mathematics KCSE mean score. There was a **small-to-moderate positive** correlation between the two variables, **ρ(210) = .28, p < .001, N = 212**."_',
+            '',
+            'Note: use the Greek letter **ρ** (rho), not r. Report N because it may differ from your total sample (as it does here — 212 students, not 274 total respondents).',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 5. READING THE OUTPUT ════════════════════ */
     {
       id: 'reading-output',
