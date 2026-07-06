@@ -41,6 +41,30 @@ export const DATA_CLEANING_BASICS_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 THE MACHAKOS CLEANING WORKFLOW OVERVIEW ════════════════════ */
+    {
+      id: 'workflow-overview',
+      title: 'The Machakos 5-step cleaning workflow — big picture first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this overview matters',
+          body: [
+            'Before we dive into individual cleaning techniques, look at the WHOLE workflow first. Cleaning data isn\'t a random collection of tricks — it\'s a **specific sequence** where each step depends on the previous one.',
+            'Do these 5 steps in ORDER on every new dataset. Skip a step and you\'ll be back-tracking to fix problems you should have caught earlier.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosCleanWorkflow',
+          caption: 'Figure 0. The 5-step data-cleaning workflow. Step 1 protects your raw data. Step 2 catches typos and impossible values. Step 3 removes duplicate rows. Step 4 declares missing codes properly. Step 5 builds the composite scores your analysis will use (Digital_Devices, Teacher_Competency, Internet_Connectivity). The rest of this lesson walks through each step in detail.' },
+
+        { type: 'callout', tone: 'brand', title: 'What "cleaning" is NOT',
+          body: [
+            '❌ Cleaning is NOT "fixing" values you don\'t like or think are outliers — that\'s p-hacking.',
+            '❌ Cleaning is NOT deleting rows because they\'re inconvenient — that\'s selection bias.',
+            '✅ Cleaning IS identifying values that are IMPOSSIBLE given your instrument (Likert 1-5 with a 7 in it) or your study population (Age 13 in an adult sample).',
+            '✅ Cleaning IS making structural decisions (missing codes, composite variables) that were baked into your study design.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. PHILOSOPHY ════════════════════ */
     {
       id: 'philosophy',
@@ -84,8 +108,11 @@ export const DATA_CLEANING_BASICS_LESSON = {
             body: 'Analyze → Descriptive Statistics → Descriptives → tick Minimum and Maximum. If your dataset has age range 18-105 but Min = 0 and Max = 999, you have data-entry errors AND undefined missing codes mixed together.' },
         ]},
 
-        { type: 'illustration', component: 'ImpossibleValues',
-          caption: 'Figure 1. Frequencies output revealing typos. The "satisfaction" item should be coded 1-5 but the frequency table shows codes 1, 2, 3, 4, 5, 6, AND 55. The 6 is probably a fat-finger error (meant 5); the 55 is probably a missed comma (meant 5.5? Or two separate values?). Either fix in the data file or recode them as system-missing before analysis.' },
+        { type: 'illustration', component: 'MachakosCleanImpossibleFreq',
+          caption: 'Figure 1. Frequencies output for the Machakos `Dev_1` (device availability Likert item). Values 1-5 are the expected Likert responses (Strongly Disagree to Strongly Agree). But look at the highlighted rows — **6 and 7 are impossible** (someone hit the wrong number during data entry) and **99 is a missing code** that was typed as if it were a real value. Total of 6 rows to fix before running any analysis with Dev_1.' },
+
+        { type: 'illustration', component: 'MachakosCleanDescriptivesRange',
+          caption: 'Figure 2. Descriptive Statistics output for the 6 Machakos continuous variables — showing every variable\'s **Min** and **Max**, which is your fastest range-check. Age min=13 is too young for the study population. Age max=99 is a data-entry typo (probably meant to be a 999 missing code). Dev_1 max=7 is out of Likert range. InvestmentPerStudent min=300 and max=50000 both indicate missing/extra zeros — realistic range is KES 3,000-7,500. Every red-highlighted cell is a data-cleaning fix to make BEFORE any correlation, regression, or descriptive.' },
 
         { type: 'callout', tone: 'warning', title: 'Fix in the cleaning script, not by retyping',
           body: 'When you find an impossible value, do NOT just retype the cell value in Data View. That breaks your audit trail. Use Transform → Recode into Same Variables → If condition (e.g. "satisfaction = 6") to write the change into syntax. Then if you ever re-run from raw, the fix re-applies automatically.' },
@@ -150,6 +177,9 @@ export const DATA_CLEANING_BASICS_LESSON = {
           { title: 'Use Select Cases to drop confirmed duplicates',
             body: 'Data → Select Cases → If condition is satisfied → PrimaryLast = 1 → tick "Delete unselected cases". This permanently removes the duplicates. (Make sure you saved a backup before doing this.)' },
         ]},
+
+        { type: 'illustration', component: 'MachakosCleanIdentifyDuplicates',
+          caption: 'Figure 3. The Identify Duplicate Cases dialog set up for the Machakos study. **RespID** (Machakos unique respondent ID) is moved to the "Define matching cases by" box — because in a well-designed study each RespID should appear exactly ONCE. If any two rows share the same RespID, one is almost certainly a duplicate entry from re-typing or a copy-paste mistake. Behind the dialog you can see two duplicate rows highlighted amber in the Data View (row 3 and row 4 both have RespID 3). PrimaryLast variable will be created to flag which row to keep (1) vs delete (0).' },
 
         { type: 'callout', tone: 'warning', title: 'Distinguish duplicates from genuine repeated measures',
           body: 'If your design has the same person measured before and after (paired design), those two rows are NOT duplicates — they are the legitimate paired observations. Only consider duplicates in CROSS-SECTIONAL designs where each respondent should appear exactly once. For repeated-measures designs in wide format, each row is one person already; for long format, the same ID appearing across time is by design.' },
