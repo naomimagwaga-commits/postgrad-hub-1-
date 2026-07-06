@@ -6684,6 +6684,28 @@ export function MachakosSpearmanScatter() {
     alt="Scatter plot of Form vs Math_KCSE_Mean showing 3 vertical stacks of dots at Form 2, 3, and 4 across 212 students. Gold trend line shows the positive monotonic relationship. Spearmans rho = .284"/>;
 }
 
+/* ─── SPSS Basics · Lesson 1 · The SPSS Interface ─── */
+export function MachakosInterfaceMap() {
+  return <ScreenshotFrame
+    src="/lesson-images/spss-interface/00-editor-map.jpg"
+    alt="The SPSS Data Editor window annotated with 5 color-coded callouts. Gold for the menu bar, green for the toolbar, navy for the Data View grid, coral for the View tabs, and purple for the status bar"/>;
+}
+export function MachakosInterfaceFourWindows() {
+  return <ScreenshotFrame
+    src="/lesson-images/spss-interface/01-four-windows.jpg"
+    alt="Four main SPSS windows shown side by side. Data Editor (green border), Output Viewer (gold border), Syntax Editor (navy border), Chart Builder (purple border). Each panel captioned with when to use it"/>;
+}
+export function MachakosInterfaceMenuMap() {
+  return <ScreenshotFrame
+    src="/lesson-images/spss-interface/02-menu-map.jpg"
+    alt="The 11 SPSS menus shown as colored callouts under a real SPSS menu bar. Each callout describes what lives inside that menu. Analyze menu highlighted with a gold star as the most important"/>;
+}
+export function MachakosInterfaceMachakosLoaded() {
+  return <ScreenshotFrame
+    src="/lesson-images/spss-interface/03-machakos-loaded.jpg"
+    alt="SPSS Data Editor showing the Machakos study dataset just opened. Column headers show variable-type icons for each of the 21 variables. First 15 rows show a realistic mix of principals, teachers, and students with age, form, qualification, Likert scores, and KCSE means. Status bar reads Cases 274 Variables 21"/>;
+}
+
 /* ─── Machakos Partial Correlation (Analyze → Correlate → Partial) ─── */
 export function MachakosPartialMenuPath() {
   return <ScreenshotFrame
@@ -6881,6 +6903,8 @@ export const ILLUSTRATIONS = {
   MachakosPartialMenuPath, MachakosPartialDialog, MachakosPartialOutput, MachakosPartialComparison,
   /* Machakos Correlation Matrices — 2 unique images (menu path etc. reused from Pearson) */
   MachakosMatrixAnnotated, MachakosMatrixPublication,
+  /* SPSS Basics · Lesson 1 · The SPSS Interface — 4 reference images */
+  MachakosInterfaceMap, MachakosInterfaceFourWindows, MachakosInterfaceMenuMap, MachakosInterfaceMachakosLoaded,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
