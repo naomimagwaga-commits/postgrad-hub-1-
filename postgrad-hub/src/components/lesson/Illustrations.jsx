@@ -6684,6 +6684,33 @@ export function MachakosSpearmanScatter() {
     alt="Scatter plot of Form vs Math_KCSE_Mean showing 3 vertical stacks of dots at Form 2, 3, and 4 across 212 students. Gold trend line shows the positive monotonic relationship. Spearmans rho = .284"/>;
 }
 
+/* ─── SPSS Basics · Lesson 2 · Data View vs Variable View ─── */
+export function MachakosDataViewSideBySide() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-view/00-side-by-side.jpg"
+    alt="The Machakos dataset shown in Data View (left, showing values like R001 Principal Male 48) and Variable View (right, showing the variable definitions and settings). Large gold arrow between them says SAME DATASET click bottom tab to switch"/>;
+}
+export function MachakosDataViewGrid() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-view/01-data-view-grid.jpg"
+    alt="The Machakos Data View grid with 4 color-coded callouts: gold arrow to row 1 explaining ONE ROW = ONE RESPONDENT, green arrow to Gender column explaining ONE COLUMN = ONE VARIABLE, navy arrow to a selected Age cell explaining ONE CELL = ONE VALUE, coral arrow to blank Form cells explaining BLANK CELLS = MISSING for principals and teachers"/>;
+}
+export function MachakosCaseVsVariable() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-view/02-case-vs-variable.jpg"
+    alt="Educational infographic explaining case vs variable. Left blue panel shows CASE = ONE PERSON with a horizontal strip of R004's data. Right gold panel shows VARIABLE = ONE QUESTION with a vertical Age column. Big navy arrow at bottom TOGETHER THEY FORM the dataset. Gold banner reminds Row = Case = Respondent"/>;
+}
+export function MachakosVariableViewGrid() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-view/03-variable-view-grid.jpg"
+    alt="The Machakos Variable View showing 11 variables defined across 11 metadata columns (Name, Type, Width, Decimals, Label, Values, Missing, Columns, Align, Measure, Role). Row 4 Gender highlighted. Four color-coded callouts explain Name, Label, Values, and Measure columns with Machakos examples"/>;
+}
+export function MachakosMeasurementLevels() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-view/04-measurement-levels.jpg"
+    alt="The 3 measurement levels in SPSS as a reference card. Gold column SCALE with Machakos examples like Age and Math_KCSE_Mean. Green column ORDINAL with Form and HighestQual. Red column NOMINAL with Gender and Category. Each column lists the appropriate statistical tests. Warning banner explains getting Measure wrong causes meaningless test results"/>;
+}
+
 /* ─── SPSS Basics · Lesson 1 · The SPSS Interface ─── */
 export function MachakosInterfaceMap() {
   return <ScreenshotFrame
@@ -6905,6 +6932,8 @@ export const ILLUSTRATIONS = {
   MachakosMatrixAnnotated, MachakosMatrixPublication,
   /* SPSS Basics · Lesson 1 · The SPSS Interface — 4 reference images */
   MachakosInterfaceMap, MachakosInterfaceFourWindows, MachakosInterfaceMenuMap, MachakosInterfaceMachakosLoaded,
+  /* SPSS Basics · Lesson 2 · Data View vs Variable View — 5 reference images */
+  MachakosDataViewSideBySide, MachakosDataViewGrid, MachakosCaseVsVariable, MachakosVariableViewGrid, MachakosMeasurementLevels,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
