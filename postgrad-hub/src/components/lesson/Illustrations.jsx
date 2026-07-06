@@ -6662,6 +6662,28 @@ export function MachakosFreqMenuPath() {
     alt="SPSS main menu showing the click path: Analyze menu open (boxed), Descriptive Statistics highlighted in blue with cascading submenu, Frequencies highlighted in blue as the item to click, with a gold arrow and CLICK HERE label pointing to Frequencies"/>;
 }
 
+/* ─── Machakos Spearman Correlation (rank-based, ordinal-friendly) ─── */
+export function MachakosSpearmanDialog() {
+  return <ScreenshotFrame
+    src="/lesson-images/spearman/01-dialog.jpg"
+    alt="SPSS Bivariate Correlations dialog configured for Spearman. Form (Ordinal) and Math_KCSE_Mean moved to the Variables box. Only the Spearman checkbox is ticked (Pearson and Kendall unticked)"/>;
+}
+export function MachakosSpearmanOutput() {
+  return <ScreenshotFrame
+    src="/lesson-images/spearman/02-output.jpg"
+    alt="SPSS Output Viewer showing Nonparametric Correlations. Descriptive Statistics table for Form (N=212) and Math_KCSE_Mean (N=274). Main Correlations table headed Spearmans rho with correlation coefficient .284**, Sig .000, N=212"/>;
+}
+export function MachakosSpearmanAnnotated() {
+  return <ScreenshotFrame
+    src="/lesson-images/spearman/03-annotated.jpg"
+    alt="Annotated Spearman correlation cell for Form x Math_KCSE_Mean with four color-coded callouts: rho = 0.284 explained (gold), significance asterisks (red), Sig 2-tailed p-value (navy), N=212 explaining the students-only sample (green)"/>;
+}
+export function MachakosSpearmanScatter() {
+  return <ScreenshotFrame
+    src="/lesson-images/spearman/04-scatter.jpg"
+    alt="Scatter plot of Form vs Math_KCSE_Mean showing 3 vertical stacks of dots at Form 2, 3, and 4 across 212 students. Gold trend line shows the positive monotonic relationship. Spearmans rho = .284"/>;
+}
+
 /* ─── Machakos Pearson Correlation (Bivariate Correlations walkthrough) ─── */
 export function MachakosPearsonMenuPath() {
   return <ScreenshotFrame
@@ -6819,6 +6841,8 @@ export const ILLUSTRATIONS = {
   /* Machakos Pearson Correlation screenshots (Bivariate walkthrough) */
   MachakosPearsonMenuPath, MachakosPearsonDialog, MachakosPearsonOptions,
   MachakosPearsonOutput, MachakosPearsonAnnotated, MachakosPearsonScatter,
+  /* Machakos Spearman Correlation screenshots (reuses Pearson menu path) */
+  MachakosSpearmanDialog, MachakosSpearmanOutput, MachakosSpearmanAnnotated, MachakosSpearmanScatter,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
