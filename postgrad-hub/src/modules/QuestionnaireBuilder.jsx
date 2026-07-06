@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { submissions, SUBMISSION_STATUSES } from '../lib/db.js';
-import { SERVICE_PRICES, formatKES } from '../data/prices.js';
+import { submissions, SUBMISSION_STATUSES, unlocks } from '../lib/db.js';
+import { SERVICE_PRICES, SERVICE_TIMELINES, formatKES } from '../data/prices.js';
 import {
   IconForm, IconCheck, IconArrow, IconClock, IconShield, IconPlus,
   IconSpark, IconStar, IconChart, IconLocation, IconDownload,
 } from '../components/Icons.jsx';
+import MpesaModal from '../components/MpesaModal.jsx';
 
 /**
  * Research Instrument Refinement Portal
@@ -16,8 +17,34 @@ export default function QuestionnaireBuilder() {
   const [view, setView] = useState('list'); // list | submit | detail
   const [selected, setSelected] = useState(null);
 
+  /* Payment gate state — the pay modal must be closed with a valid unlock
+     before the SubmitForm is allowed to appear. */
+  const [payOpen, setPayOpen] = useState(false);
+  const [paidUnlock, setPaidUnlock] = useState(null); // the unlock row that authorises the pending submission
+
   const refresh = async () => setList(await submissions.list());
   useEffect(() => { refresh(); }, []);
+
+  /* When the student clicks "New submission" we always open the payment modal FIRST.
+     A fresh unlock is created each time (one instrument = one payment). */
+  const beginNewSubmission = () => {
+    setPaidUnlock(null);
+    setPayOpen(true);
+  };
+
+  /* Fires once the student clicks "I've paid" inside the M-Pesa modal.
+     We stash the just-claimed unlock row so SubmitForm can attach its id to
+     the submission when it's created — that links payment → work. */
+  const handlePaymentClaimed = async () => {
+    // Find the most-recent pending questionnaire unlock for this user.
+    const all = await unlocks.list();
+    const mine = all
+      .filter((u) => u.itemType === 'questionnaire_refinement' && u.paymentStatus === 'claimed' && u.status !== 'consumed')
+      .sort((a, b) => new Date(b.requestedAt) - new Date(a.requestedAt));
+    if (mine.length) setPaidUnlock(mine[0]);
+    setPayOpen(false);
+    setView('submit');
+  };
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
@@ -38,14 +65,18 @@ export default function QuestionnaireBuilder() {
             <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Refinement fee</p>
             <p className="display text-3xl text-brand font-bold">{formatKES(SERVICE_PRICES.questionnaireRefinement)}</p>
             <p className="text-[10px] text-slate-500 italic">per instrument</p>
+            <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200">
+              <IconClock className="w-3 h-3 text-emerald-700"/>
+              <span className="text-[10px] font-bold text-emerald-800">Turnaround: {SERVICE_TIMELINES.questionnaireRefinement.short}</span>
+            </div>
           </div>
           {view === 'list' && (
-            <button onClick={() => setView('submit')} className="btn-gold">
+            <button onClick={beginNewSubmission} className="btn-gold">
               <IconPlus className="w-4 h-4"/> New submission
             </button>
           )}
           {view !== 'list' && (
-            <button onClick={() => { setView('list'); refresh(); }} className="btn-outline">
+            <button onClick={() => { setView('list'); setPaidUnlock(null); refresh(); }} className="btn-outline">
               ← Back to submissions
             </button>
           )}
@@ -54,13 +85,19 @@ export default function QuestionnaireBuilder() {
 
       {view === 'list' && (
         <>
-          <WhyDigital onStart={() => setView('submit')}/>
+          <WhyDigital onStart={beginNewSubmission}/>
           <SubmissionsList list={list} onOpen={(s) => { setSelected(s); setView('detail'); }}
-            onStart={() => setView('submit')}/>
+            onStart={beginNewSubmission}/>
         </>
       )}
-      {view === 'submit' && (
-        <SubmitForm onDone={async () => { await refresh(); setView('list'); }}/>
+      {view === 'submit' && paidUnlock && (
+        <SubmitForm
+          paidUnlock={paidUnlock}
+          onDone={async () => { await refresh(); setPaidUnlock(null); setView('list'); }}
+        />
+      )}
+      {view === 'submit' && !paidUnlock && (
+        <PaymentRequiredNotice onPay={beginNewSubmission} onBack={() => setView('list')}/>
       )}
       {view === 'detail' && selected && (
         <SubmissionDetail submission={selected} onRefresh={async () => {
@@ -69,6 +106,43 @@ export default function QuestionnaireBuilder() {
           if (fresh) setSelected(fresh);
         }}/>
       )}
+
+      {/* Payment gate modal — must be paid BEFORE any submission is accepted */}
+      <MpesaModal
+        open={payOpen}
+        item={payOpen ? {
+          itemKey: `questionnaire_refinement:${Date.now()}`,
+          itemType: 'questionnaire_refinement',
+          itemName: 'Instrument Refinement (Questionnaire / Interview Guide)',
+          format: 'service',
+          priceKES: SERVICE_PRICES.questionnaireRefinement,
+        } : null}
+        onClose={() => setPayOpen(false)}
+        onClaimed={handlePaymentClaimed}
+      />
+    </div>
+  );
+}
+
+/* Fallback shown if a user somehow lands on the submit view without a paid unlock
+   (e.g. refresh mid-flow). Guides them back to the payment button. */
+function PaymentRequiredNotice({ onPay, onBack }) {
+  return (
+    <div className="card-elevated p-10 text-center space-y-4">
+      <div className="w-16 h-16 rounded-full bg-gold/15 mx-auto flex items-center justify-center">
+        <IconShield className="w-8 h-8 text-gold-700"/>
+      </div>
+      <h2 className="display text-2xl text-brand">Payment required to begin</h2>
+      <p className="text-slate-600 max-w-md mx-auto">
+        Instrument refinement is a paid service. Once your payment is received we'll unlock the submission
+        form so you can share your draft with our research team.
+      </p>
+      <div className="flex gap-3 justify-center pt-2">
+        <button onClick={onBack} className="btn-outline">← Back</button>
+        <button onClick={onPay} className="btn-gold">
+          Pay {formatKES(SERVICE_PRICES.questionnaireRefinement)} to continue <IconArrow className="w-4 h-4"/>
+        </button>
+      </div>
     </div>
   );
 }
@@ -190,16 +264,41 @@ function SubmissionDetail({ submission, onRefresh }) {
           </ol>
         </div>
 
-        {/* Survey link ready — full delivery package */}
-        {submission.status === 'ready' && (
+        {/* Payment badge (always visible) */}
+        {submission.paymentStatus === 'paid_pending_verification' && (
+          <div className="mt-8 p-4 rounded-xl bg-amber-50/70 border border-amber-200 text-sm flex gap-3">
+            <IconClock className="w-5 h-5 shrink-0 mt-0.5 text-amber-700"/>
+            <div className="flex-1">
+              <p className="font-bold text-amber-900">Payment received \u2014 awaiting admin verification</p>
+              <p className="text-amber-800/80 mt-0.5">
+                Our team will confirm your M-Pesa payment against the paybill records and start the refinement.
+                Once verified, delivery is within <strong>{SERVICE_TIMELINES.questionnaireRefinement.short}</strong>. You'll be notified by email at every step.
+              </p>
+            </div>
+          </div>
+        )}
+        {submission.paymentStatus === 'paid' && submission.status !== 'ready' && (
+          <div className="mt-8 p-4 rounded-xl bg-emerald-50/60 border border-emerald-200 text-sm flex gap-3">
+            <IconCheck className="w-5 h-5 shrink-0 mt-0.5 text-emerald-700"/>
+            <div className="flex-1">
+              <p className="font-bold text-emerald-900">Payment confirmed \u00b7 refinement in progress</p>
+              <p className="text-emerald-800/80 mt-0.5">
+                Delivery within <strong>{SERVICE_TIMELINES.questionnaireRefinement.short}</strong>. We'll email you the moment it's ready.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Survey link ready — full delivery package (ONLY shows once admin approves) */}
+        {submission.status === 'ready' && submission.paymentStatus !== 'paid_pending_verification' && (
           <ReadyDeliveryPackage submission={submission}/>
         )}
 
-        {submission.status !== 'ready' && (
+        {submission.status !== 'ready' && !submission.paymentStatus && (
           <div className="mt-8 p-5 rounded-xl bg-brand-50/60 border border-brand-100 text-sm text-brand-700 flex gap-3">
             <IconClock className="w-5 h-5 shrink-0 mt-0.5"/>
             <div>
-              <p className="font-bold">Estimated turnaround: 48–72 hours</p>
+              <p className="font-bold">Estimated turnaround: {SERVICE_TIMELINES.questionnaireRefinement.short}</p>
               <p className="text-brand-600 mt-1">We'll email you the moment your refined instrument is ready.</p>
             </div>
           </div>
@@ -239,7 +338,7 @@ function DetailBlock({ label, value }) {
 }
 
 /* ─────────── Submit form (3 steps) ─────────── */
-function SubmitForm({ onDone }) {
+function SubmitForm({ onDone, paidUnlock }) {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
     title: '',
@@ -256,7 +355,15 @@ function SubmitForm({ onDone }) {
 
   const submit = async () => {
     setBusy(true);
-    await submissions.create(form);
+    // Attach the payment unlock id so admin can see this submission is paid-for.
+    // Also stamp paymentStatus='paid_pending_verification' — admin verifies against
+    // M-Pesa records and flips it to 'paid' before starting the refinement.
+    await submissions.create({
+      ...form,
+      unlockId: paidUnlock?.id || null,
+      paymentStatus: 'paid_pending_verification',
+      priceKES: paidUnlock?.priceKES ?? SERVICE_PRICES.questionnaireRefinement,
+    });
     setBusy(false);
     onDone();
   };
@@ -268,6 +375,22 @@ function SubmitForm({ onDone }) {
 
   return (
     <div className="card-elevated p-8 lg:p-10">
+      {/* Payment-confirmed ribbon */}
+      {paidUnlock && (
+        <div className="mb-8 -mt-2 flex items-center gap-3 p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+          <div className="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
+            <IconCheck className="w-5 h-5"/>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-bold text-emerald-800 text-sm">Payment received — thank you!</p>
+            <p className="text-xs text-emerald-700/80 mt-0.5">
+              KES {(paidUnlock.priceKES ?? SERVICE_PRICES.questionnaireRefinement).toLocaleString('en-KE')} claimed via M-Pesa.
+              Complete this form and we'll deliver your refined instrument within <strong>{SERVICE_TIMELINES.questionnaireRefinement.short}</strong> of payment verification.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Stepper */}
       <ol className="flex items-center gap-3 text-sm mb-10">
         {['Study profile', 'Your draft', 'Confirm'].map((label, i) => {
@@ -746,7 +869,7 @@ function WhyDigital({ onStart }) {
           Submit your draft <IconArrow className="w-4 h-4"/>
         </button>
         <p className="mt-4 text-xs text-white/60">
-          Refinement fee: <strong className="text-gold">{formatKES(SERVICE_PRICES.questionnaireRefinement)}</strong> per instrument · Turnaround: 3-5 working days
+          Refinement fee: <strong className="text-gold">{formatKES(SERVICE_PRICES.questionnaireRefinement)}</strong> per instrument \u00b7 Turnaround: <strong className="text-gold">{SERVICE_TIMELINES.questionnaireRefinement.short}</strong> after payment verification
         </p>
       </div>
 
