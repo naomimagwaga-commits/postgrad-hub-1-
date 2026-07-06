@@ -251,11 +251,18 @@ export const daysUntilExpiry = (u) => {
   return Math.floor(ms / (1000 * 60 * 60 * 24));
 };
 
-/* ---------------- M-Pesa config ---------------- */
+/* ---------------- M-Pesa config ----------------
+   IMPORTANT: The paybill 4096483 is registered under our legal business entity
+   'ETICA CAPITAL LTD' — that's the name Safaricom prints on the M-Pesa
+   confirmation SMS. `payeeLegalName` is what appears on the SMS, `businessName`
+   is our public trading name (The Postgraduate Data Hub Kenya). We show BOTH
+   in the payment modal so students aren't confused when their SMS arrives.
+*/
 export const MPESA = {
   paybill: '4096483',
   accountNumber: '7028M',
-  businessName: 'The Postgraduate Data Hub Kenya',
+  businessName: 'The Postgraduate Data Hub Kenya',   // Public trading name
+  payeeLegalName: 'ETICA CAPITAL LTD',                // What appears on the M-Pesa SMS
 };
 
 /* ---------------- localStorage helpers ---------------- */
