@@ -6684,6 +6684,28 @@ export function MachakosSpearmanScatter() {
     alt="Scatter plot of Form vs Math_KCSE_Mean showing 3 vertical stacks of dots at Form 2, 3, and 4 across 212 students. Gold trend line shows the positive monotonic relationship. Spearmans rho = .284"/>;
 }
 
+/* ─── Data Cleaning · Impossible Values + Duplicates ─── */
+export function MachakosCleanImpossibleFreq() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/00-impossible-freq.jpg"
+    alt="SPSS Frequencies output for a Machakos Dev_1 Likert item revealing impossible values. Rows for values 6 and 7 highlighted red because the scale only goes 1-5. Row 99 highlighted amber as an undeclared missing code. Gold callout explains how to fix using Select Cases or Recode"/>;
+}
+export function MachakosCleanDescriptivesRange() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/01-descriptives-range.jpg"
+    alt="SPSS Descriptive Statistics table showing range checks for 6 Machakos continuous variables. Age min 13 and max 99, Dev_1 max 7, InvestmentPerStudent min 300 and max 50000 all highlighted red as impossible values. Gold callout gives specific fixes for each"/>;
+}
+export function MachakosCleanIdentifyDuplicates() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/02-identify-duplicates.jpg"
+    alt="SPSS Identify Duplicate Cases dialog for the Machakos study. RespID moved to the Define matching cases by box highlighted yellow. PrimaryLast indicator variable set to be created. Behind the dialog Data View shows two duplicate rows highlighted"/>;
+}
+export function MachakosCleanWorkflow() {
+  return <ScreenshotFrame
+    src="/lesson-images/data-cleaning/03-cleaning-workflow.jpg"
+    alt="The Machakos 5-step data-cleaning workflow. Step 1 Save Raw File. Step 2 Hunt Impossible Values with Frequencies and Descriptives. Step 3 Find and Resolve Duplicates. Step 4 Audit Missing Values. Step 5 Build Composite Scores with Transform Compute. Navy banner reminds to do these in order on a working copy"/>;
+}
+
 /* ─── SPSS Basics · Lesson 5 · Handling Missing Values ─── */
 export function MachakosMissingMcarMarMnar() {
   return <ScreenshotFrame
@@ -7021,6 +7043,8 @@ export const ILLUSTRATIONS = {
   MachakosImportMessy, MachakosImportClean, MachakosImportMenuPath, MachakosImportDialog, MachakosImportSuccess,
   /* SPSS Basics · Lesson 5 · Handling Missing Values — 5 concept + procedure images */
   MachakosMissingMcarMarMnar, MachakosMissingMvaMenu, MachakosMissingMvaOutput, MachakosMissingPairwiseListwise, MachakosMissingDecisionTree,
+  /* Data Cleaning · Impossible Values + Duplicates — 4 workflow images */
+  MachakosCleanImpossibleFreq, MachakosCleanDescriptivesRange, MachakosCleanIdentifyDuplicates, MachakosCleanWorkflow,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
