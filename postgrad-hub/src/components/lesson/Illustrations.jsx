@@ -6684,6 +6684,33 @@ export function MachakosSpearmanScatter() {
     alt="Scatter plot of Form vs Math_KCSE_Mean showing 3 vertical stacks of dots at Form 2, 3, and 4 across 212 students. Gold trend line shows the positive monotonic relationship. Spearmans rho = .284"/>;
 }
 
+/* ─── SPSS Basics · Lesson 4 · Importing Data from Excel ─── */
+export function MachakosImportMessy() {
+  return <ScreenshotFrame
+    src="/lesson-images/importing-data/00-messy-excel.jpg"
+    alt="Microsoft Excel showing a messy Machakos data file with 7 problems that break SPSS imports. Red X callouts point to merged title row, blank rows, mixed text/numbers, inconsistent capitalization, words instead of decimals, notes inside data cells, and multiple worksheet tabs"/>;
+}
+export function MachakosImportClean() {
+  return <ScreenshotFrame
+    src="/lesson-images/importing-data/01-clean-excel.jpg"
+    alt="Microsoft Excel showing the SAME Machakos data properly formatted for SPSS import. Green checkmark callouts point to headers in row 1, SPSS-friendly variable names with underscores, consistent Male/Female spelling, pure numbers only in Age column, and a single worksheet tab"/>;
+}
+export function MachakosImportMenuPath() {
+  return <ScreenshotFrame
+    src="/lesson-images/importing-data/02-menu-path.jpg"
+    alt="SPSS File menu open showing Import Data submenu with Excel highlighted and a gold CLICK HERE arrow. The full click path is File then Import Data then Excel"/>;
+}
+export function MachakosImportDialog() {
+  return <ScreenshotFrame
+    src="/lesson-images/importing-data/03-import-dialog.jpg"
+    alt="The SPSS Read Excel File dialog with the Machakos file selected. File path visible, Worksheet dropdown showing Machakos A1 to I275 auto-detected. Read variable names from first row of data checkbox ticked and highlighted gold. Preview panel below shows the first five rows of Machakos data"/>;
+}
+export function MachakosImportSuccess() {
+  return <ScreenshotFrame
+    src="/lesson-images/importing-data/04-success-checklist.jpg"
+    alt="SPSS Data Editor showing the successfully imported Machakos dataset with a 4-item verification checklist overlay. Cases equal 274 and Variables equal 9 both checked green. Two amber warnings flag the Measure column needs review and Value Labels are missing for categorical variables"/>;
+}
+
 /* ─── SPSS Basics · Lesson 3 · Defining Variables & Labels ─── */
 export function MachakosDefineValueLabels() {
   return <ScreenshotFrame
@@ -6963,6 +6990,8 @@ export const ILLUSTRATIONS = {
   MachakosDataViewSideBySide, MachakosDataViewGrid, MachakosCaseVsVariable, MachakosVariableViewGrid, MachakosMeasurementLevels,
   /* SPSS Basics · Lesson 3 · Defining Variables — 5 dialog screenshots */
   MachakosDefineValueLabels, MachakosDefineMissingValues, MachakosDefineVariableType, MachakosDefineProperties, MachakosDefineCodebook,
+  /* SPSS Basics · Lesson 4 · Importing from Excel — 5 workflow images */
+  MachakosImportMessy, MachakosImportClean, MachakosImportMenuPath, MachakosImportDialog, MachakosImportSuccess,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
