@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { analysisOrders, ANALYSIS_TIERS, ANALYSIS_STATUSES } from '../lib/db.js';
-import { SERVICE_PRICES, formatKES } from '../data/prices.js';
+import { analysisOrders, ANALYSIS_TIERS, ANALYSIS_STATUSES, unlocks } from '../lib/db.js';
+import { SERVICE_PRICES, SERVICE_TIMELINES, formatKES } from '../data/prices.js';
 import {
   IconChart, IconCheck, IconArrow, IconShield, IconClose, IconPlus, IconClock,
 } from '../components/Icons.jsx';
+import MpesaModal from '../components/MpesaModal.jsx';
 
 /**
  * Price mapping for the 3 Analysis & Interpretation tiers.
@@ -12,12 +13,19 @@ import {
  * platform for questionnaire refinement or online data collection.
  */
 const TIER_PRICE_MAP = {
-  'tables':         { price: SERVICE_PRICES.analysisTablesOnly },           // 15,000
-  'interpretation': { price: SERVICE_PRICES.analysisInterpretationOnly },   // 12,000
+  'tables': {
+    price: SERVICE_PRICES.analysisTablesOnly,                               // 15,000
+    timeline: SERVICE_TIMELINES.analysisTablesOnly,                         // 3 weeks max
+  },
+  'interpretation': {
+    price: SERVICE_PRICES.analysisInterpretationOnly,                       // 12,000
+    timeline: SERVICE_TIMELINES.analysisInterpretationOnly,                 // 3 weeks max
+  },
   'full': {
     price: SERVICE_PRICES.analysisFull,                                     // 35,000
     loyaltyPrice: SERVICE_PRICES.analysisFullLoyalty,                       // 30,000
     loyaltyNote: `KES ${SERVICE_PRICES.analysisFullLoyalty.toLocaleString('en-KE')} loyalty rate if you collected data via our platform`,
+    timeline: SERVICE_TIMELINES.analysisFull,                               // 6 weeks max
   },
 };
 
@@ -27,8 +35,33 @@ export default function AnalysisServices() {
   const [activeTier, setActiveTier] = useState(null);
   const [activeOrder, setActiveOrder] = useState(null);
 
+  /* Payment gate — student must pay BEFORE the order form appears. */
+  const [payOpen, setPayOpen] = useState(false);
+  const [payTier, setPayTier] = useState(null); // which tier the user is paying for
+  const [paidUnlock, setPaidUnlock] = useState(null);
+
   const refresh = async () => setMine(await analysisOrders.list());
   useEffect(() => { refresh(); }, []);
+
+  /* Click "Order this" on any tier → open payment modal with that tier's price */
+  const beginOrder = (tier) => {
+    setPayTier(tier);
+    setPaidUnlock(null);
+    setPayOpen(true);
+  };
+
+  /* After they claim payment inside the modal, look up the pending unlock so we
+     can attach its id to the order when it's created. */
+  const handlePaymentClaimed = async () => {
+    const all = await unlocks.list();
+    const mineU = all
+      .filter((u) => u.itemType === 'analysis_order' && u.paymentStatus === 'claimed' && u.status !== 'consumed')
+      .sort((a, b) => new Date(b.requestedAt) - new Date(a.requestedAt));
+    if (mineU.length) setPaidUnlock(mineU[0]);
+    setPayOpen(false);
+    setActiveTier(payTier);
+    setView('order');
+  };
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
@@ -54,12 +87,31 @@ export default function AnalysisServices() {
       </div>
 
       {view === 'catalog' && (
-        <Catalog onOrder={(t) => { setActiveTier(t); setView('order'); }}/>
+        <Catalog onOrder={beginOrder}/>
       )}
-      {view === 'order' && activeTier && (
+      {view === 'order' && activeTier && paidUnlock && (
         <OrderForm tier={activeTier}
-          onDone={async () => { await refresh(); setView('mine'); }}
-          onCancel={() => setView('catalog')}/>
+          paidUnlock={paidUnlock}
+          onDone={async () => { await refresh(); setPaidUnlock(null); setView('mine'); }}
+          onCancel={() => { setPaidUnlock(null); setView('catalog'); }}/>
+      )}
+      {view === 'order' && activeTier && !paidUnlock && (
+        <div className="card-elevated p-10 text-center space-y-4">
+          <div className="w-16 h-16 rounded-full bg-gold/15 mx-auto flex items-center justify-center">
+            <IconShield className="w-8 h-8 text-gold-700"/>
+          </div>
+          <h2 className="display text-2xl text-brand">Payment required to begin</h2>
+          <p className="text-slate-600 max-w-md mx-auto">
+            Analysis orders are paid up-front so our PhD researchers can start work immediately once your
+            payment is verified.
+          </p>
+          <div className="flex gap-3 justify-center pt-2">
+            <button onClick={() => setView('catalog')} className="btn-outline">← Back</button>
+            <button onClick={() => beginOrder(activeTier)} className="btn-gold">
+              Pay {formatKES(TIER_PRICE_MAP[activeTier.id].price)} to continue <IconArrow className="w-4 h-4"/>
+            </button>
+          </div>
+        </div>
       )}
       {view === 'mine' && (
         <MyOrders list={mine} onOpen={(o) => { setActiveOrder(o); setView('detail'); }}
@@ -68,6 +120,20 @@ export default function AnalysisServices() {
       {view === 'detail' && activeOrder && (
         <OrderDetail order={activeOrder} onBack={() => setView('mine')}/>
       )}
+
+      {/* Payment gate modal — must be paid BEFORE the order form is shown */}
+      <MpesaModal
+        open={payOpen}
+        item={payOpen && payTier ? {
+          itemKey: `analysis_order:${payTier.id}:${Date.now()}`,
+          itemType: 'analysis_order',
+          itemName: `Analysis & Interpretation — ${payTier.name}`,
+          format: 'service',
+          priceKES: TIER_PRICE_MAP[payTier.id]?.price ?? 0,
+        } : null}
+        onClose={() => setPayOpen(false)}
+        onClaimed={handlePaymentClaimed}
+      />
     </div>
   );
 }
@@ -102,6 +168,12 @@ function Catalog({ onOrder }) {
                   <p className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold mt-0.5">
                     per project
                   </p>
+                  {pricing?.timeline && (
+                    <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200">
+                      <IconClock className="w-3 h-3 text-emerald-700"/>
+                      <span className="text-[11px] font-bold text-emerald-800">Delivery: {pricing.timeline.short}</span>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -168,7 +240,7 @@ function Catalog({ onOrder }) {
   );
 }
 
-function OrderForm({ tier, onDone, onCancel }) {
+function OrderForm({ tier, onDone, onCancel, paidUnlock }) {
   const [form, setForm] = useState({
     title: '', objectives: '', hypotheses: '',
     analyses: '', attachmentName: '', notes: '',
@@ -185,6 +257,10 @@ function OrderForm({ tier, onDone, onCancel }) {
     setBusy(true);
     await analysisOrders.create({
       tierId: tier.id, tierName: tier.name, ...form,
+      // Payment linkage — set at creation so admin queue can filter unpaid work out
+      unlockId: paidUnlock?.id || null,
+      paymentStatus: 'paid_pending_verification',
+      priceKES: paidUnlock?.priceKES ?? TIER_PRICE_MAP[tier.id]?.price ?? 0,
     });
     setBusy(false);
     onDone();
@@ -208,9 +284,15 @@ function OrderForm({ tier, onDone, onCancel }) {
           <div className="text-right">
             <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Project fee</p>
             <p className="display text-3xl text-brand font-bold">{formatKES(tierPricing.price)}</p>
+            {tierPricing.timeline && (
+              <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200">
+                <IconClock className="w-3 h-3 text-emerald-700"/>
+                <span className="text-[10px] font-bold text-emerald-800">Delivery: {tierPricing.timeline.short}</span>
+              </div>
+            )}
             {tierPricing.loyaltyNote && (
               <p className="text-[10px] text-emerald-700 font-semibold mt-1 max-w-[180px]">
-                🎉 {tierPricing.loyaltyNote}
+                \ud83c\udf89 {tierPricing.loyaltyNote}
               </p>
             )}
           </div>
@@ -299,11 +381,30 @@ function OrderForm({ tier, onDone, onCancel }) {
         </div>
       </div>
 
-      <div className="mt-8 p-5 rounded-xl bg-brand/5 border border-brand/10 flex gap-3 text-sm text-brand-700">
+      {/* Payment-received ribbon */}
+      {paidUnlock && (
+        <div className="mt-8 p-4 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
+            <IconCheck className="w-5 h-5"/>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-bold text-emerald-800 text-sm">Payment received \u2014 thank you!</p>
+            <p className="text-xs text-emerald-700/80 mt-0.5">
+              KES {(paidUnlock.priceKES ?? TIER_PRICE_MAP[tier.id]?.price ?? 0).toLocaleString('en-KE')} claimed via M-Pesa.
+              Once verified, our PhD researchers deliver within <strong>{tierPricing?.timeline?.short || 'the promised timeframe'}</strong>.
+            </p>
+          </div>
+        </div>
+      )}
+
+      <div className="mt-4 p-5 rounded-xl bg-brand/5 border border-brand/10 flex gap-3 text-sm text-brand-700">
         <IconShield className="w-5 h-5 shrink-0 mt-0.5 text-gold-600"/>
         <div>
-          <p className="font-bold">Handled by well-knowledgeable PhD researchers · 100% confidential.</p>
-          <p className="text-brand-600 mt-1">Your data is reviewed and processed by experienced PhD researchers familiar with thesis-level work. We'll review your order and send a quote within 24 hours. Payment via M-Pesa once you accept the quote.</p>
+          <p className="font-bold">Handled by well-knowledgeable PhD researchers \u00b7 100% confidential.</p>
+          <p className="text-brand-600 mt-1">
+            {tierPricing?.timeline?.long || 'Once we verify your M-Pesa payment, our PhD researchers begin work immediately.'}
+            {' '}You'll be notified by email at every milestone.
+          </p>
         </div>
       </div>
 
