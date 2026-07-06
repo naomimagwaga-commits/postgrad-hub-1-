@@ -1,6 +1,6 @@
 /**
  * SPSS Basics · Lesson 2 — Data View vs. Variable View
-  * The single most-confused topic in beginner SPSS. Voice: beginner-friendly with reassurance.
+ * The single most-confused topic in beginner SPSS. Voice: beginner-friendly with reassurance.
  */
 
 export const DATA_VIEW_LESSON = {
@@ -49,8 +49,8 @@ export const DATA_VIEW_LESSON = {
         { type: 'paragraph', text:
           'In SPSS, the same dataset has these two faces. **Data View** holds the values. **Variable View** holds the settings that tell SPSS how to interpret those values. They are not separate datasets — they are two ways of looking at the same dataset, just like the inside and the cover of a register.' },
 
-        { type: 'illustration', component: 'DataVsVariableSideBySide',
-          caption: 'Figure 1. The same five-pupil dataset shown from both angles. On the LEFT in Data View, the actual values for each pupil — id 1 is gender = 1 with math = 78. On the RIGHT in Variable View, the definitions — the variable called "gender" is labelled "Gender", has value labels {1=Male, 2=Female}, and is measured at the Nominal level. The numbers in Data View only make sense thanks to the labels in Variable View.' },
+        { type: 'illustration', component: 'MachakosDataViewSideBySide',
+          caption: 'Figure 1. The Machakos_Study.sav dataset shown from both angles. LEFT — Data View shows the actual values: Respondent R001 is a Principal, Male, aged 48. RIGHT — Variable View shows the definitions: the variable called `Gender` is labelled "Gender", has value labels {1=Male, 2=Female}, and is measured at the Nominal level. The numbers in Data View only make sense thanks to the labels in Variable View. Same file, same dataset — click the bottom tabs to switch.' },
 
         { type: 'callout', tone: 'gold', title: 'In one sentence',
           body: '**Data View shows the data. Variable View shows the rules for interpreting that data.** Both views describe the same dataset; they just answer different questions.' },
@@ -71,8 +71,8 @@ export const DATA_VIEW_LESSON = {
         { type: 'paragraph', text:
           'Click the **Data View** tab at the bottom-left of the SPSS window. You see a grid that looks like an Excel spreadsheet. Three things are happening on this grid at all times — learn to read them and Data View will hold no mystery for you.' },
 
-        { type: 'illustration', component: 'DataViewGrid',
-          caption: 'Figure 2. The Data View grid with six pupils\' data entered. The grey column on the far left is the row number (SPSS adds it automatically). Each row is one pupil — one CASE. Each named column is one VARIABLE.' },
+        { type: 'illustration', component: 'MachakosDataViewGrid',
+          caption: 'Figure 2. The Machakos Data View grid with 4 color-coded callouts. 🟡 Gold arrow to Row 1 → ONE ROW = ONE RESPONDENT (R001 is one Principal, 48 years old). 🟢 Green arrow to Gender column → ONE COLUMN = ONE VARIABLE (every value in the column is a gender). 🔵 Navy arrow to a highlighted Age cell → ONE CELL = ONE VALUE. 🟠 Coral arrow to blank Form cells → BLANK CELLS = MISSING (Form only applies to students, so principals and teachers correctly have blank Form values).' },
 
         { type: 'steps', steps: [
           { title: 'Each ROW = one CASE',
@@ -93,8 +93,8 @@ export const DATA_VIEW_LESSON = {
             ]},
         ]},
 
-        { type: 'illustration', component: 'CaseVsVariable',
-          caption: 'Figure 3. Reading the grid: row 2 (highlighted in gold) is the case "Otieno" — all his information sits in that row. The "Age" column (highlighted in green at the bottom) is one variable — every cell in that column is a pupil\'s age. The intersection of row 2 and the "Age" column is the cell holding the value 24 — Otieno\'s age.' },
+        { type: 'illustration', component: 'MachakosCaseVsVariable',
+          caption: 'Figure 3. Case vs Variable explained visually using the Machakos study. LEFT (blue): one CASE is one horizontal strip — Respondent R004 is one Machakos student, and all 21 values in her row describe HER. RIGHT (gold): one VARIABLE is one vertical strip — the `Age` column is one question asked to EVERY respondent, and every value in it is a number of years. Together, cases (rows) × variables (columns) form the dataset. In SPSS-speak, Row = Case = Respondent, and Column = Variable = Question — the words are interchangeable.' },
 
         { type: 'heading', level: 3, text: 'A few things Data View will NOT let you do' },
 
@@ -125,8 +125,8 @@ export const DATA_VIEW_LESSON = {
         { type: 'paragraph', text:
           'Click the **Variable View** tab at the bottom of the SPSS window. The grid changes completely. You are now looking at the *definitions* of your variables. In Variable View, the rules flip: each **row** is now one *variable*, and each **column** is one *property* of that variable.' },
 
-        { type: 'illustration', component: 'VariableViewGrid',
-          caption: 'Figure 4. Variable View with four variables defined. Each row is one variable (id, gender, age_yrs, math_score). Each column is a different setting for that variable. The red exclamation mark points to the "Values" cell for gender, which is where you set value labels like {1=Male, 2=Female}. This is the single most important cell beginners forget to fill in.' },
+        { type: 'illustration', component: 'MachakosVariableViewGrid',
+          caption: 'Figure 4. Machakos Variable View with 11 variables defined across the 11 metadata columns (Name, Type, Width, Decimals, Label, Values, Missing, Columns, Align, Measure, Role). Row 4 Gender is highlighted. Four color-coded callouts point to the 4 columns you MUST get right: 🟡 **Name** (short code, no spaces), 🟢 **Label** (human-readable, shown in output), 🔵 **Values** (the codebook — 1=Male, 2=Female), 🟠 **Measure** (Scale/Ordinal/Nominal — SPSS uses this to pick the right test).' },
 
         { type: 'paragraph', text:
           'There are **eleven columns** in Variable View. You do not need to fill in every one for every variable — but you should understand what each is for. Here they are in order, with their plain-English purpose:' },
@@ -152,15 +152,81 @@ export const DATA_VIEW_LESSON = {
       ],
     },
 
+    /* ════════════════════ 4.5 BEFORE YOU TOUCH ANYTHING — UNDERSTAND YOUR VARIABLES ════════════════════ */
+    {
+      id: 'variables-first',
+      title: 'Before you touch ANYTHING — understand your Machakos variables',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'A Chapter 4 that gets rejected is almost never rejected because the analysis was wrong. It gets rejected because the VARIABLES were set up wrong at the very start — wrong Measure level, missing Value Labels, missing Missing codes.',
+            'Before you start clicking Data View and Variable View for real, spend 5 minutes THINKING about your variables. This section teaches you the 3 questions to ask about EVERY variable in your dataset before you type a single value.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'The 3 questions to ask about EVERY variable' },
+
+        { type: 'comparison',
+          headers: ['Question', 'What you\'re deciding', 'Example (Machakos: Gender variable)'],
+          rows: [
+            ['**1. What is its measurement level?**',
+              'Nominal (unordered categories), Ordinal (ordered categories), or Scale (continuous number).',
+              'Gender = Nominal (Male and Female have no order — you can\'t say Male > Female).'],
+            ['**2. Does it need Value Labels?**',
+              'If you\'re storing categories as codes (1, 2, 3 instead of "Male", "Female", "Other"), you MUST define Value Labels so SPSS output shows the labels, not the meaningless codes.',
+              'Gender codes: 1 = Male, 2 = Female. Without labels, your output shows "Gender 1 = 128, Gender 2 = 146" instead of "Male = 128, Female = 146".'],
+            ['**3. Does it need a Missing Value code?**',
+              'For any variable where some respondents don\'t apply (e.g. Form only applies to students), you must declare a numeric code that means "not applicable" so SPSS knows to exclude it from analyses.',
+              'Gender itself has no missing values in Machakos (everyone reported gender). But Form has missing for all 62 principals+teachers — we\'ll use code 9 = missing.'],
+          ]},
+
+        { type: 'heading', level: 2, text: 'The Machakos 3-question audit — 21 variables answered up-front' },
+
+        { type: 'paragraph', text:
+          'Here\'s how the 3-question audit applies to every variable in the Machakos dataset. Bookmark this table — you\'ll refer back to it in the Data Cleaning, Descriptives, and Correlation lessons.' },
+
+        { type: 'comparison',
+          headers: ['Variable', 'Measurement', 'Value labels needed?', 'Missing code?'],
+          rows: [
+            ['**RespID**',               '🔴 Nominal (String)', 'No — it\'s a unique identifier',           'No'],
+            ['**SchoolID**',             '🔴 Nominal (String)', 'No — S01 to S08 already readable',        'No'],
+            ['**Category**',             '🔴 Nominal',          '✅ 1=Principal, 2=Teacher, 3=Student',    'No'],
+            ['**Gender**',               '🔴 Nominal',          '✅ 1=Male, 2=Female',                     'No'],
+            ['**Age**',                  '📏 Scale',            'No — real numbers',                       '✅ 999 = missing'],
+            ['**Form**',                 '📊 Ordinal',          '✅ 2=Form 2, 3=Form 3, 4=Form 4',        '✅ 9 = N/A (principals/teachers)'],
+            ['**HighestQual**',          '📊 Ordinal',          '✅ 1=Diploma, 2=B.Ed, 3=PGDE, 4=M.Ed',   '✅ 9 = N/A (students)'],
+            ['**Dev_1 … Dev_5**',        '📊 Ordinal (Likert)', '✅ 1=SD, 2=D, 3=N, 4=A, 5=SA',           '✅ 9 = missing'],
+            ['**Comp_1 … Comp_5**',      '📊 Ordinal (Likert)', '✅ Same as Dev items',                    '✅ 9 = missing'],
+            ['**Net_1 … Net_5**',        '📊 Ordinal (Likert)', '✅ Same as Dev items',                    '✅ 9 = missing'],
+            ['**Digital_Devices** (composite)', '📏 Scale',     'No — computed mean, continuous',          '✅ 999 = missing'],
+            ['**Teacher_Competency** (composite)', '📏 Scale',   'No',                                     '✅ 999'],
+            ['**Internet_Connectivity** (composite)', '📏 Scale', 'No',                                    '✅ 999'],
+            ['**InvestmentPerStudent**', '📏 Scale',            'No — real KES amount',                    '✅ 999'],
+            ['**Math_KCSE_Mean**',       '📏 Scale',            'No — real KCSE score',                    '✅ 99 (KCSE max is ~8)'],
+          ]},
+
+        { type: 'callout', tone: 'brand', title: 'The single biggest beginner mistake',
+          body: [
+            'Beginners type all their data into Data View FIRST, then try to set up Variable View AFTERWARDS. This causes 3 predictable problems:',
+            '**(a)** SPSS auto-guesses the wrong measurement level for every variable.',
+            '**(b)** Categorical codes (1, 2) appear as raw numbers in your output — you have to redo every analysis with proper labels.',
+            '**(c)** Missing values are treated as real data — inflating your N and biasing every statistic.',
+            '**Do it the other way around** — set up Variable View FIRST, then type data. Ten extra minutes here saves ten hours later.',
+          ]},
+
+        { type: 'why', body:
+          'Every renovated lesson on this platform assumes your Variable View is set up correctly. If your Measure column is wrong on your own dataset, the SPSS dialogs will not even OFFER the correct tests. This is the single most important habit — spend the time here first.' },
+      ],
+    },
+
     /* ════════════════════ 5. WALKING THROUGH ONE VARIABLE ════════════════════ */
     {
       id: 'walkthrough',
       title: 'Walking through one variable end-to-end',
       blocks: [
-        { type: 'heading', level: 2, text: 'Setting up the "gender" variable from scratch' },
+        { type: 'heading', level: 2, text: 'Setting up the Machakos "Gender" variable from scratch' },
 
         { type: 'paragraph', text:
-          'Let us set up one complete variable together so the eleven columns stop feeling abstract. We will create a variable called **gender** that holds whether each pupil is Male or Female. By the end of this section you will have walked through every setting that matters and you will be able to set up any variable in your own dataset by following the same recipe.' },
+          'Let us set up one complete variable together so the eleven columns stop feeling abstract. We will create the **Gender** variable from the Machakos study that holds whether each respondent is Male (code 1) or Female (code 2). By the end of this section you will have walked through every setting that matters and you will be able to set up any variable in your own dataset by following the same recipe.' },
 
         { type: 'workedExample', title: 'Setting up "gender" — a complete walkthrough',
           body: [
@@ -201,8 +267,8 @@ export const DATA_VIEW_LESSON = {
         { type: 'paragraph', text:
           'The **Measure** column in Variable View asks you to choose one of three measurement levels for every variable: **Scale**, **Ordinal**, or **Nominal**. This is not a cosmetic setting. SPSS uses it to decide which statistical analyses are appropriate. Choosing wrong can either prevent SPSS from running the test you want, or — worse — let you run a test that is statistically inappropriate.' },
 
-        { type: 'illustration', component: 'MeasurementLevels',
-          caption: 'Figure 5. The three measurement levels in SPSS. Scale (📏) is numbers on a continuous scale. Ordinal (📊) is ranked categories where order matters. Nominal (🏷️) is named categories with no order.' },
+        { type: 'illustration', component: 'MachakosMeasurementLevels',
+          caption: 'Figure 5. The 3 measurement levels shown with real Machakos examples. 📏 **Scale** (gold column) — continuous numbers where the gap between values is meaningful. Machakos examples: Age, Math_KCSE_Mean, InvestmentPerStudent. 📊 **Ordinal** (green column) — ordered categories with unequal spacing. Machakos examples: Form (2/3/4), HighestQual, single Likert items. 🔴 **Nominal** (red column) — named categories with no natural order. Machakos examples: Gender, Category, SchoolID. Each column also shows the statistical tests appropriate for that measurement level. Get this WRONG and SPSS will happily run a T-test on Gender codes (1 and 2) and give you a meaningless result.' },
 
         { type: 'heading', level: 3, text: 'Scale — true numbers' },
 
