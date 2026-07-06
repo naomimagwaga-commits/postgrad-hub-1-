@@ -37,6 +37,63 @@ export const MISSING_VALUES_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 BEFORE YOU HANDLE ANYTHING — AUDIT YOUR MACHAKOS DATA ════════════════════ */
+    {
+      id: 'variables-first',
+      title: 'Before you handle ANYTHING — audit your missing values',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Missing data handling is where many theses quietly lose credibility. Not because students used the "wrong" technique — but because they picked a technique without understanding WHY certain values are missing in the first place.',
+            'Before you touch the Missing column in Variable View, before you run Missing Value Analysis, before you decide between pairwise and listwise deletion — spend 5 minutes AUDITING your dataset. This section shows you how using the Machakos study.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'The 3-part audit for EVERY variable' },
+
+        { type: 'comparison',
+          headers: ['Question', 'What you\'re deciding', 'Machakos example'],
+          rows: [
+            ['**1. Is this variable missing for a STRUCTURAL reason?**',
+              'Does the question simply not apply to some respondents? (e.g. asking students about "teaching qualification").',
+              '**Form** is blank for principals+teachers (they have no Form). **HighestQual** is blank for students (they have no teaching qualification). These are DESIGN-BASED missing values — expected and correct.'],
+            ['**2. If not structural — WHY is it missing?**',
+              'Was the respondent refused? Skipped by mistake? Confused by the wording? Data-entry error? Different reasons → different codes.',
+              '**Age** has 2 missing values — probably data-entry oversight. Use code 999 to distinguish from valid ages.'],
+            ['**3. How much of the variable is missing?**',
+              'Under 5% is safe with almost any method. 5-15% needs thought. Over 15% is a red flag that may need Multiple Imputation.',
+              '**Dev_1 3.3%** = safe. **Comp_1 5.1%** = worth documenting. **HighestQual 77.4%** — but this is STRUCTURAL missingness (77% of the sample are students), not a data-quality issue.'],
+          ]},
+
+        { type: 'heading', level: 2, text: 'The Machakos missing-value audit — full breakdown' },
+
+        { type: 'paragraph', text:
+          'Here\'s the complete missing-value audit for every Machakos variable. Bookmark this table — you\'ll refer back to it throughout the lesson.' },
+
+        { type: 'comparison',
+          headers: ['Variable', 'Missing %', 'Type', 'Action to take'],
+          rows: [
+            ['**RespID, SchoolID, Category, Gender**', '0%',    'None',        'Nothing to do'],
+            ['**Age**',                              '0.7% (2)', 'Random (data-entry)', 'Code 999 → mark as Missing in Variable View'],
+            ['**Form**',                             '23.4% (64)', 'STRUCTURAL',  '⚠️ Do NOT impute! Structural missing — Form doesn\'t apply to non-students. Use Split File or Select Cases for student-only analyses.'],
+            ['**HighestQual**',                      '77.4% (212)', 'STRUCTURAL', '⚠️ Same — HighestQual doesn\'t apply to students. Use Split File for principal/teacher-only analyses.'],
+            ['**Dev_1 to Net_5** (Likert items)',    '2-5% each',   'Random',      'Code 9 → mark as Missing. Use pairwise for correlations.'],
+            ['**Digital_Devices, Teacher_Competency, Internet_Connectivity** (composites)', '~5%', 'Random', 'Recompute after handling item-level missings. Use pairwise deletion.'],
+            ['**InvestmentPerStudent**',             '2.2% (6)',    'Random',      'Code 999 → mark as Missing.'],
+            ['**Math_KCSE_Mean**',                   '23.4% (64)',  'STRUCTURAL',  '⚠️ Only students have KCSE scores. Analyse using student subsample only (N=210).'],
+          ]},
+
+        { type: 'callout', tone: 'brand', title: 'The critical insight most students miss',
+          body: [
+            'STRUCTURAL missing values are NOT a problem to fix — they\'re a feature of your study design. Trying to "impute" Form for a principal or HighestQual for a student would be **nonsense** — those questions genuinely don\'t apply.',
+            '**The right response to structural missingness is not imputation — it\'s SUBGROUP ANALYSIS.** Analyse students separately for Form/Math_KCSE; analyse principals+teachers separately for HighestQual.',
+            'The wrong response is to lump everyone together and use listwise deletion — which would drop 60%+ of your sample and produce meaningless correlations.',
+          ]},
+
+        { type: 'why', body:
+          'Examiners consistently ask: "How did you distinguish structural missingness from random missingness in your data?" A student who can answer that question in one clear paragraph — pointing to their audit table like the one above — sails through the viva. A student who says "I just used listwise deletion" or "I imputed the mean" without differentiation gets a hard conversation.' },
+      ],
+    },
+
     /* ════════════════════ 2. WHAT COUNTS AS MISSING ════════════════════ */
     {
       id: 'what-counts',
@@ -59,8 +116,8 @@ export const MISSING_VALUES_LESSON = {
         { type: 'why', body:
           'Why three codes instead of just one? Because the analysis can be very different. A 5% "refused to answer income" rate is methodologically interesting — perhaps wealthier respondents refused, biasing your sample. A 5% "not applicable" rate from skip logic is meaningless — those respondents were never supposed to answer. Lumping them together would obscure the story.' },
 
-        { type: 'illustration', component: 'MissingValuesDialog',
-          caption: 'Figure 1. The Missing Values dialog in SPSS, accessed by clicking the small grey box in the Missing column of Variable View. Here we declared three discrete missing codes: 999, 998, and 997. From now on, anywhere SPSS encounters one of those values, it will treat it as missing rather than as a real value.' },
+        { type: 'illustration', component: 'MachakosDefineMissingValues',
+          caption: 'Figure 1. The Missing Values dialog in SPSS, opened by clicking the "..." button in the Missing column of Variable View. Here we\'ve declared the value **9** as a Discrete missing code for a Machakos Likert item (Dev_1). From now on, anywhere SPSS encounters a 9 in this variable, it will EXCLUDE it from analyses rather than treating it as a real answer. Same lesson we covered in Defining Variables — reusing the image because the dialog is unchanged.' },
 
         { type: 'callout', tone: 'warning', title: 'The most expensive beginner mistake',
           body: 'You used 999 to mean "refused" in your Excel file but never declared it as missing in SPSS Variable View. SPSS treats 999 as a real value. When you compute the mean income, SPSS averages real incomes (25000, 47000, 80000…) WITH the missing codes (999, 999, 999…), giving you a meaningless number. **Every variable that has missing codes MUST have them declared in the Missing column of Variable View.**' },
@@ -82,8 +139,8 @@ export const MISSING_VALUES_LESSON = {
         { type: 'paragraph', text:
           'Statisticians distinguish three types of missingness, each with a strange acronym and a precise meaning. The type you have determines which handling strategies are safe — so you need to be able to name and explain them. Below is the plain-English version.' },
 
-        { type: 'illustration', component: 'MissingTypesGrid',
-          caption: 'Figure 2. The three patterns of missingness. MCAR (green): missing cells scattered randomly across the dataset. MAR (gold): missing cells concentrated in one column, with the pattern explainable by another variable. MNAR (red): missing cells concentrated in one variable in a way that depends on the variable\'s own value.' },
+        { type: 'illustration', component: 'MachakosMissingMcarMarMnar',
+          caption: 'Figure 2. The 3 types of missing data shown side by side with Machakos study examples. 🟢 **MCAR** (green): a research assistant\'s screen refreshed mid-entry, dropping 3 random rows. 🟡 **MAR** (gold): Form 4 students in revision mode skipped Internet_Connectivity (missingness relates to Form, which we observed). 🔴 **MNAR** (red): teachers with low device ratings deliberately skipped Dev items because embarrassed (the reason for missing IS the missing value). Assume MAR unless you have strong contextual reason to suspect MNAR.' },
 
         { type: 'heading', level: 3, text: 'MCAR — Missing Completely At Random' },
 
@@ -136,7 +193,13 @@ export const MISSING_VALUES_LESSON = {
         { type: 'heading', level: 3, text: 'Tool 2 — Missing Values Analysis (MVA)' },
 
         { type: 'paragraph', text:
-          'For a deeper look, Analyze → Missing Value Analysis (this menu item is only available if your SPSS licence includes the Missing Values add-on; many university installations do). MVA gives you:' },
+          'For a deeper look, Analyze → Missing Value Analysis (this menu item is only available if your SPSS licence includes the Missing Values add-on; many university installations do).' },
+
+        { type: 'illustration', component: 'MachakosMissingMvaMenu',
+          caption: 'Figure 3. The menu path to open the Missing Value Analysis dialog: **Analyze → Missing Value Analysis…** — note it lives near the bottom of the Analyze menu, above Multiple Imputation. The gold arrow shows exactly which item to click.' },
+
+        { type: 'paragraph', text:
+          'MVA gives you:' },
 
         { type: 'list', items: [
           'A summary table of missing values per variable and per case.',
@@ -144,6 +207,9 @@ export const MISSING_VALUES_LESSON = {
           'Little\'s MCAR test — a statistical test of whether your missingness pattern is consistent with MCAR. A non-significant result (p > .05) suggests MCAR; a significant result (p < .05) suggests your data is NOT MCAR.',
           'Options for imputation directly from the dialog.',
         ]},
+
+        { type: 'illustration', component: 'MachakosMissingMvaOutput',
+          caption: 'Figure 4. The MVA output for the Machakos study. The **Univariate Statistics** table shows every variable\'s N, Mean, Std Dev, Missing Count, and Missing Percent side by side. Two rows are highlighted amber — **Form (23.4% missing)** and **HighestQual (77.4% missing)** — because they exceed the 10% attention threshold. But these are STRUCTURAL missing values (Form only applies to students, HighestQual only to principals/teachers) — not a data-quality problem. Always check WHY a variable is >10% missing before assuming it\'s a problem.' },
 
         { type: 'heading', level: 3, text: 'Tool 3 — Crosstabs (testing MAR by hand)' },
 
@@ -181,7 +247,13 @@ export const MISSING_VALUES_LESSON = {
             ['**Multiple imputation (MI)**', 'Creates several (typically 5-20) plausible "filled-in" datasets using the relationships among your variables, runs your analysis on each, and pools the results.', 'When missingness is MAR (or MCAR) and you have ≥ 5% missing on key variables. The modern gold standard.', 'More complex. Requires the SPSS Missing Values add-on or a tool like R. But the gain in unbiasedness is large.'],
           ]},
 
+        { type: 'illustration', component: 'MachakosMissingPairwiseListwise',
+          caption: 'Figure 5. **Listwise vs Pairwise deletion** shown side by side using Machakos data. **LEFT (red — Listwise):** if ANY variable in the analysis has a missing value, the ENTIRE respondent gets dropped. Running a correlation matrix on all 4 IVs + Math_KCSE_Mean drops effective N from 274 to ~164 — 40% of your sample gone. **RIGHT (green — Pairwise):** for EACH pair of variables, uses all cases available for that pair. Effective N varies per cell (e.g. Digital_Devices × Math_KCSE_Mean uses N=272; Teacher_Competency × Math_KCSE_Mean uses N=270). **Recommendation:** almost always PAIRWISE for correlation and reliability; LISTWISE for regression (which requires complete cases anyway).' },
+
         { type: 'heading', level: 3, text: 'The decision tree for thesis work' },
+
+        { type: 'illustration', component: 'MachakosMissingDecisionTree',
+          caption: 'Figure 6. **The decision tree** — a visual flowchart to pick the right strategy for YOUR data. **Q1:** what % missing overall? **Q2:** structural (question doesn\'t apply) or genuine? **Q3:** what type of analysis? Each path terminates in a specific SPSS recommendation. Bookmark this image — it answers the "which option do I tick?" question that comes up in every dialog.' },
 
         { type: 'decision', title: 'How should you handle your missing data?',
           branches: [
