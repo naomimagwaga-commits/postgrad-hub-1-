@@ -403,6 +403,9 @@ export default function Home() {
               <p className="text-sm text-slate-700 mt-1">
                 <strong>Paybill 4096483</strong> · Account <strong>7028M</strong> · The Postgraduate Data Hub Kenya
               </p>
+              <p className="text-xs text-slate-500 mt-1 italic">
+                Your M-Pesa SMS confirmation will show <strong>ETICA CAPITAL LTD</strong> — that's the legal entity operating this platform.
+              </p>
             </div>
             <a href="https://wa.me/254779568272?text=I%27m%20having%20trouble%20with%20a%20payment."
                target="_blank" rel="noopener noreferrer"
