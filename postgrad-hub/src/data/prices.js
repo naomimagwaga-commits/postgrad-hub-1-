@@ -107,6 +107,35 @@ export const SERVICE_PRICES = {
   analysisFullLoyalty: 30000,           // For students who used our platform for their questionnaire/survey
 };
 
+/* ─────────── Service turnaround times (maximum promise, may deliver sooner) ───────────
+   Single source of truth for delivery expectations shown on:
+   - Catalog / pricing cards (before payment)
+   - Order form (after payment)
+   - Confirmation / detail views
+   Always phrased as a MAXIMUM so we always look faster than promised. */
+export const SERVICE_TIMELINES = {
+  questionnaireRefinement: {
+    short: '3 days max',
+    long:  'We deliver your refined instrument and digital survey link within 3 days of payment verification.',
+  },
+  analysisTablesOnly: {
+    short: '3 weeks max',
+    long:  'Complete SPSS output tables aligned to your objectives, delivered within 3 weeks of payment verification.',
+  },
+  analysisInterpretationOnly: {
+    short: '3 weeks max',
+    long:  'Full Chapter 4 write-up of your existing tables, delivered within 3 weeks of payment verification.',
+  },
+  analysisFull: {
+    short: '6 weeks max',
+    long:  'Full Chapter 4 and Chapter 5 (tables + interpretation + discussion), delivered within 6 weeks of payment verification.',
+  },
+  consultation: {
+    short: 'Same week',
+    long:  'One-on-one Zoom or in-person session, scheduled within the same week.',
+  },
+};
+
 /* ─────────── Data Cleaning conditional pricing ─────────── */
 // If the student has PAID_FOR at least this many lessons, they qualify for the discount
 export const DATA_CLEANING_DISCOUNT_THRESHOLD = 3;
