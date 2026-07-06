@@ -6684,6 +6684,33 @@ export function MachakosSpearmanScatter() {
     alt="Scatter plot of Form vs Math_KCSE_Mean showing 3 vertical stacks of dots at Form 2, 3, and 4 across 212 students. Gold trend line shows the positive monotonic relationship. Spearmans rho = .284"/>;
 }
 
+/* ─── SPSS Basics · Lesson 3 · Defining Variables & Labels ─── */
+export function MachakosDefineValueLabels() {
+  return <ScreenshotFrame
+    src="/lesson-images/defining-variables/00-value-labels-dialog.jpg"
+    alt="SPSS Value Labels dialog for the Machakos Gender variable. Value field 2, Label field Female. List below shows 1 = Male and 2 = Female (highlighted). Behind the dialog Variable View grid with Gender row and its ... button visible"/>;
+}
+export function MachakosDefineMissingValues() {
+  return <ScreenshotFrame
+    src="/lesson-images/defining-variables/01-missing-values-dialog.jpg"
+    alt="SPSS Missing Values dialog for a Machakos Likert item Dev_1. Discrete missing values radio button selected, first text box filled with 9. Range option greyed out. Gold callout explains why 9 not 5 as the missing code"/>;
+}
+export function MachakosDefineVariableType() {
+  return <ScreenshotFrame
+    src="/lesson-images/defining-variables/02-variable-type-dialog.jpg"
+    alt="SPSS Variable Type dialog for Machakos Math_KCSE_Mean. Numeric radio button selected with format icon. Width 5 and Decimal Places 2 shown. Nine type options visible on the left (Numeric, Comma, Dot, Scientific, Date, Dollar, Custom currency, String, Restricted Numeric)"/>;
+}
+export function MachakosDefineProperties() {
+  return <ScreenshotFrame
+    src="/lesson-images/defining-variables/03-define-properties.jpg"
+    alt="SPSS Define Variable Properties dialog scanning the Machakos Category variable. Value Label Grid shows auto-detected counts Principal 8, Teacher 54, Student 212 exactly matching the Machakos study frequencies. Left panel shows Scan variables checkboxes"/>;
+}
+export function MachakosDefineCodebook() {
+  return <ScreenshotFrame
+    src="/lesson-images/defining-variables/04-codebook.jpg"
+    alt="SPSS Output Viewer showing an auto-generated Codebook report for Machakos variables. Gender block with position label type measurement value labels and frequency table 128 males 146 females. Category block with Principal 8 Teacher 54 Student 212. Age block with descriptive stats N=274"/>;
+}
+
 /* ─── SPSS Basics · Lesson 2 · Data View vs Variable View ─── */
 export function MachakosDataViewSideBySide() {
   return <ScreenshotFrame
@@ -6934,6 +6961,8 @@ export const ILLUSTRATIONS = {
   MachakosInterfaceMap, MachakosInterfaceFourWindows, MachakosInterfaceMenuMap, MachakosInterfaceMachakosLoaded,
   /* SPSS Basics · Lesson 2 · Data View vs Variable View — 5 reference images */
   MachakosDataViewSideBySide, MachakosDataViewGrid, MachakosCaseVsVariable, MachakosVariableViewGrid, MachakosMeasurementLevels,
+  /* SPSS Basics · Lesson 3 · Defining Variables — 5 dialog screenshots */
+  MachakosDefineValueLabels, MachakosDefineMissingValues, MachakosDefineVariableType, MachakosDefineProperties, MachakosDefineCodebook,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
