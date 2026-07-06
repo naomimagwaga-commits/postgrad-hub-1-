@@ -3,6 +3,7 @@ import { submissions, SUBMISSION_STATUSES } from '../lib/db.js';
 import { SERVICE_PRICES, formatKES } from '../data/prices.js';
 import {
   IconForm, IconCheck, IconArrow, IconClock, IconShield, IconPlus,
+  IconSpark, IconStar, IconChart, IconLocation,
 } from '../components/Icons.jsx';
 
 /**
@@ -52,8 +53,11 @@ export default function QuestionnaireBuilder() {
       </div>
 
       {view === 'list' && (
-        <SubmissionsList list={list} onOpen={(s) => { setSelected(s); setView('detail'); }}
-          onStart={() => setView('submit')}/>
+        <>
+          <WhyDigital onStart={() => setView('submit')}/>
+          <SubmissionsList list={list} onOpen={(s) => { setSelected(s); setView('detail'); }}
+            onStart={() => setView('submit')}/>
+        </>
       )}
       {view === 'submit' && (
         <SubmitForm onDone={async () => { await refresh(); setView('list'); }}/>
@@ -432,5 +436,193 @@ function Mini({ label, value, capitalize }) {
       <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{label}</p>
       <p className={`text-sm text-brand mt-1.5 whitespace-pre-wrap ${capitalize ? 'capitalize' : ''}`}>{value}</p>
     </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   "Why digital data collection?" — the pitch section that sells
+   KoboToolbox over paper questionnaires. Shown on the list view
+   so every visitor understands WHY they should use this route.
+   ───────────────────────────────────────────────────────────── */
+function WhyDigital({ onStart }) {
+  const advantages = [
+    {
+      icon: IconSpark,
+      title: 'Efficiency',
+      color: 'from-amber-50 to-amber-100/40 border-amber-200',
+      accent: 'text-amber-700 bg-amber-100',
+      points: [
+        'Data collected and stored instantly — no transferring from paper to Excel to SPSS',
+        'Multiple respondents can fill the questionnaire simultaneously, from anywhere',
+        'Saves weeks of manual data-entry time',
+      ],
+    },
+    {
+      icon: IconCheck,
+      title: 'Data quality',
+      color: 'from-emerald-50 to-emerald-100/40 border-emerald-200',
+      accent: 'text-emerald-700 bg-emerald-100',
+      points: [
+        'Mandatory fields prevent missing responses',
+        'Constraints catch errors in real time — e.g. impossible ages are blocked at entry',
+        'No handwriting-interpretation errors',
+        'Skip logic routes respondents automatically — they never see irrelevant questions',
+      ],
+    },
+    {
+      icon: IconStar,
+      title: 'Cost',
+      color: 'from-yellow-50 to-yellow-100/40 border-yellow-200',
+      accent: 'text-yellow-700 bg-yellow-100',
+      points: [
+        'No printing, no paper, no physical distribution costs',
+        'Free for basic academic use',
+        'No need to hire data-entry assistants',
+      ],
+    },
+    {
+      icon: IconChart,
+      title: 'Data management',
+      color: 'from-sky-50 to-sky-100/40 border-sky-200',
+      accent: 'text-sky-700 bg-sky-100',
+      points: [
+        'All responses automatically aggregated in one place',
+        'Direct export to Excel and SPSS — no manual transfer',
+        'Timestamps show exactly when each response was submitted',
+      ],
+    },
+    {
+      icon: IconLocation,
+      title: 'Reach',
+      color: 'from-rose-50 to-rose-100/40 border-rose-200',
+      accent: 'text-rose-700 bg-rose-100',
+      points: [
+        'Works offline on mobile devices — critical for rural areas with unreliable internet',
+        'Data syncs automatically when connection is restored',
+        'Respondents complete the survey on their own phones',
+      ],
+    },
+    {
+      icon: IconShield,
+      title: 'Security',
+      color: 'from-slate-50 to-slate-100/40 border-slate-200',
+      accent: 'text-slate-700 bg-slate-100',
+      points: [
+        'Data stored securely on KoboToolbox servers',
+        'No risk of losing or damaging paper questionnaires',
+        'Confidentiality easier to maintain and audit',
+      ],
+    },
+  ];
+
+  return (
+    <section className="space-y-8">
+      {/* Section intro */}
+      <div className="card-elevated p-8 lg:p-10 bg-gradient-to-br from-brand/[0.03] via-white to-gold/[0.04]">
+        <span className="eyebrow">— Why this matters</span>
+        <h2 className="display text-3xl lg:text-4xl text-brand mt-2">
+          Why digital data collection beats paper — <span className="italic text-gold">every time</span>
+        </h2>
+        <p className="mt-3 text-slate-600 leading-relaxed max-w-3xl">
+          We refine your instrument and deliver it as a live <strong>KoboToolbox</strong> online survey — the
+          same professional tool used by the UN, WHO, universities, and Kenyan NGOs. Here's why it's the
+          right choice for your postgraduate research:
+        </p>
+
+        {/* Paper vs Digital comparison strip */}
+        <div className="mt-8 grid md:grid-cols-2 gap-4">
+          <div className="p-5 rounded-2xl bg-red-50/60 border border-red-100">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-2xl">📄</span>
+              <p className="font-bold text-red-700 uppercase text-xs tracking-wider">The paper way</p>
+            </div>
+            <ul className="text-sm text-slate-600 space-y-1.5">
+              <li>❌ Print hundreds of copies</li>
+              <li>❌ Physically travel to each respondent</li>
+              <li>❌ Manually type every response into Excel</li>
+              <li>❌ Handwriting errors, missing answers, lost forms</li>
+              <li>❌ Wait weeks to see even preliminary results</li>
+            </ul>
+          </div>
+          <div className="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-2xl">📱</span>
+              <p className="font-bold text-emerald-700 uppercase text-xs tracking-wider">The KoboToolbox way</p>
+            </div>
+            <ul className="text-sm text-slate-700 space-y-1.5">
+              <li>✅ Share ONE link via WhatsApp / email</li>
+              <li>✅ Collect from the comfort of your home</li>
+              <li>✅ Data flows straight into your dashboard</li>
+              <li>✅ Watch responses arrive in real time</li>
+              <li>✅ Export clean data to SPSS in one click</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* 6 advantage cards */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {advantages.map((a) => {
+          const Icon = a.icon;
+          return (
+            <div key={a.title} className={`p-6 rounded-2xl bg-gradient-to-br ${a.color} border`}>
+              <div className={`w-11 h-11 rounded-xl ${a.accent} flex items-center justify-center`}>
+                <Icon className="w-5 h-5"/>
+              </div>
+              <h3 className="display text-xl text-brand mt-4 font-bold">{a.title}</h3>
+              <ul className="mt-3 space-y-2">
+                {a.points.map((p, i) => (
+                  <li key={i} className="flex gap-2 text-sm text-slate-700 leading-relaxed">
+                    <span className="text-brand mt-1 shrink-0">•</span>
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Bonus card — the "personal comfort" advantages Naomi highlighted */}
+      <div className="card-elevated p-8 bg-gradient-to-br from-gold/[0.06] via-white to-brand/[0.03] border-gold/30">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-xl bg-gold/15 text-gold-700 flex items-center justify-center shrink-0">
+            <IconClock className="w-6 h-6"/>
+          </div>
+          <div className="flex-1">
+            <h3 className="display text-2xl text-brand font-bold">And the game-changing bit for postgraduates…</h3>
+            <p className="mt-2 text-slate-700 leading-relaxed">
+              You can <strong>collect data from the comfort of your home</strong>. No traveling from school to
+              school with a stack of forms. Log in to your dashboard and <strong>see exactly how many people
+              have responded</strong>, watch new submissions arrive live, and follow up with your sample only
+              when you need to. Your Chapter 4 analysis can start the same day you close the survey.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="card-elevated p-8 lg:p-10 text-center bg-brand text-white">
+        <h3 className="display text-2xl lg:text-3xl">Ready to go digital?</h3>
+        <p className="mt-3 text-white/80 max-w-2xl mx-auto">
+          Submit your draft questionnaire or interview guide. We'll refine the wording, align every question
+          to your objectives, and return a ready-to-share KoboToolbox link — plus a plain PDF copy for your
+          appendix.
+        </p>
+        <button onClick={onStart} className="btn-gold mt-6 inline-flex">
+          Submit your draft <IconArrow className="w-4 h-4"/>
+        </button>
+        <p className="mt-4 text-xs text-white/60">
+          Refinement fee: <strong className="text-gold">{formatKES(SERVICE_PRICES.questionnaireRefinement)}</strong> per instrument · Turnaround: 3-5 working days
+        </p>
+      </div>
+
+      {/* Divider before the submissions list */}
+      <div className="flex items-center gap-4 pt-4">
+        <div className="h-px bg-slate-200 flex-1"/>
+        <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Your submissions</span>
+        <div className="h-px bg-slate-200 flex-1"/>
+      </div>
+    </section>
   );
 }
