@@ -155,8 +155,8 @@ export const DEFINING_VARIABLES_LESSON = {
         { type: 'paragraph', text:
           'Lesson 2 introduced the Value Labels dialog briefly. Now we go deeper — the keyboard shortcuts, how to copy value labels from one variable to many, and the conventions for coding categorical variables.' },
 
-        { type: 'illustration', component: 'ValueLabelsDialog',
-          caption: 'Figure 1. The Value Labels dialog. (1) Type the code in Value and the human meaning in Label. (2) Click Add to commit it to the list below. (3) Repeat for each category — including your missing codes if you want them to appear with labels.' },
+        { type: 'illustration', component: 'MachakosDefineValueLabels',
+          caption: 'Figure 1. The Value Labels dialog for the Machakos Gender variable. (1) Type the code in Value ("2") and the human meaning in Label ("Female"). (2) Click Add to commit it to the list below. (3) The list now shows 1 = "Male" and 2 = "Female" — this is exactly how every categorical variable in the Machakos study gets labelled. Without these labels, your output would show "Gender 1 = 128" instead of "Male = 128".' },
 
         { type: 'heading', level: 3, text: 'Coding conventions for common categorical variables' },
 
@@ -200,6 +200,73 @@ export const DEFINING_VARIABLES_LESSON = {
           title: 'Setting value labels on Scale variables',
           body: 'Variables like age_yrs (in years) or income (in KSh) should NOT have value labels. They are continuous numbers, not categorical codes. Setting value labels on them clutters output and confuses SPSS.',
           fix: 'Only set value labels for **Nominal** and **Ordinal** variables — gender, county, satisfaction levels, etc. Leave the Values cell empty (showing "None") for all Scale variables.' },
+      ],
+    },
+
+    /* ════════════════════ 4.5 THE TWO OTHER "..." DIALOGS ════════════════════ */
+    {
+      id: 'other-dialogs',
+      title: 'The two other "..." dialogs — Missing Values & Variable Type',
+      blocks: [
+        { type: 'paragraph', text:
+          'You already know the Value Labels dialog — the "..." button in the Values column. There are TWO more identical-looking "..." buttons in Variable View you need to master: one in the **Missing** column, and one in the **Type** column. Each opens its own dialog. Skip either and your dataset will misbehave in subtle, painful ways.' },
+
+        { type: 'heading', level: 2, text: 'The Missing Values dialog' },
+
+        { type: 'paragraph', text:
+          'When a respondent doesn\'t answer a question, or the question doesn\'t apply to them, you need SPSS to know that. If you leave the cell blank in Data View, SPSS treats it as "no data" — fine. But if you type a placeholder number (like 9 or 999), SPSS treats it as a REAL data point and includes it in every calculation. That inflates your Ns and wrecks your descriptives.' },
+
+        { type: 'paragraph', text:
+          'Solution: declare your placeholder codes as Missing Values so SPSS knows to exclude them. Click the "..." in the **Missing** column for any variable that has a missing placeholder:' },
+
+        { type: 'illustration', component: 'MachakosDefineMissingValues',
+          caption: 'Figure 2. The Missing Values dialog for the Machakos Dev_1 Likert item. Three radio options: (a) No missing values, (b) Discrete missing values — SELECTED, with "9" typed in the first box, (c) Range plus one optional discrete missing value (greyed out). Behind the dialog you see the Variable View grid with Dev_1 row highlighted and the "..." button.' },
+
+        { type: 'comparison',
+          headers: ['Machakos variable type', 'What missing code to use', 'Why that specific number'],
+          rows: [
+            ['**Likert items (Dev_1, Comp_1, Net_1…)**', '9', 'Likert answers go 1–5, so 9 can never be a real answer. Impossible = safe placeholder.'],
+            ['**Form** (2, 3, or 4)',                    '9', 'Same reason. Also 9 is used for principals/teachers who have no Form.'],
+            ['**HighestQual** (1–4)',                    '9', 'Same reason. Also 9 for students who have no qualification level.'],
+            ['**Age** (real number)',                    '999', 'Nobody in the Machakos sample is 999 years old. Three-digit code avoids collision with real ages up to 99.'],
+            ['**InvestmentPerStudent** (KES)',           '999', 'Same logic. Real investments range KES 3,000–7,500. 999 could never be a real KES value in this dataset.'],
+            ['**Math_KCSE_Mean** (out of ~8)',           '99',  'KCSE max is ~8. 99 is safely out of range.'],
+          ]},
+
+        { type: 'callout', tone: 'brand', title: 'The rule for choosing missing codes',
+          body: [
+            '**Pick a code that CANNOT be a real answer to that specific question.**',
+            'Likert 1–5? Use 9. Age 0–100? Use 999. KCSE 0–8? Use 99. Height in cm? Use -1 (nobody is negative height).',
+            'If your missing code CAN overlap with real values, you\'ll silently corrupt your data. This is the single most common way early-career researchers destroy their datasets.',
+          ]},
+
+        { type: 'heading', level: 2, text: 'The Variable Type dialog' },
+
+        { type: 'paragraph', text:
+          'The **Type** column tells SPSS what KIND of value each variable holds — a number, a string of text, a date, a currency, etc. Click "..." in the Type column to configure it:' },
+
+        { type: 'illustration', component: 'MachakosDefineVariableType',
+          caption: 'Figure 3. The Variable Type dialog for the Machakos Math_KCSE_Mean variable. LEFT: 9 type options (Numeric selected — the correct choice for a continuous score). RIGHT: Width = 5 (four digits + one decimal point), Decimal Places = 2 (so "5.92" displays correctly). Setting Decimal Places = 0 would display the value as "6" even though the underlying data is unchanged — a subtle but painful trap.' },
+
+        { type: 'comparison',
+          headers: ['Machakos variable', 'Correct Type', 'Correct Width', 'Correct Decimal Places'],
+          rows: [
+            ['**RespID, SchoolID**',      'String',   '4 (RespID: R001-R274) / 3 (SchoolID: S01-S08)', 'N/A'],
+            ['**Category, Gender**',      'Numeric',  '1',    '0 (integer codes)'],
+            ['**Age**',                   'Numeric',  '3',    '0 (integer years)'],
+            ['**Dev_1 … Net_5** (Likert)','Numeric',  '1',    '0 (integer codes 1-5)'],
+            ['**InvestmentPerStudent**',  'Numeric',  '8',    '0 (whole KES amounts)'],
+            ['**Math_KCSE_Mean**',        'Numeric',  '5',    '**2** (to show 5.92 not 6)'],
+          ]},
+
+        { type: 'callout', tone: 'gold', title: 'The 3-dialog checklist for every categorical variable',
+          body: [
+            'For EVERY Nominal or Ordinal variable in your dataset, open all three "..." dialogs in order:',
+            '**1. Type "..." →** confirm it\'s Numeric (unless it\'s a String like RespID).',
+            '**2. Values "..." →** define ALL the value labels (1=Male, 2=Female, etc.).',
+            '**3. Missing "..." →** declare the missing code (9, 99, 999 depending on scale).',
+            'If you do all three ONCE per variable, your data is ready for every analysis. Skip one and something will silently break weeks later during a Chapter 4 crisis.',
+          ]},
       ],
     },
 
@@ -247,8 +314,8 @@ export const DEFINING_VARIABLES_LESSON = {
         { type: 'paragraph', text:
           'Setting up variables one at a time in Variable View works fine for small datasets — but if you have 50 or 100 variables to define, it becomes tedious. SPSS has a power-user shortcut called **Define Variable Properties** that scans your data and lets you set value labels, missing codes, measurement level, and labels for many variables at once.' },
 
-        { type: 'illustration', component: 'DefineVarPropertiesDialog',
-          caption: 'Figure 2. The Define Variable Properties dialog. On the left is the list of variables you brought in. On the right are the settings for whichever variable is selected — Label, Measure, and a grid of value labels with the actual counts SPSS found in your data. You can also tick the "Missing" column directly to mark codes as missing.' },
+        { type: 'illustration', component: 'MachakosDefineProperties',
+          caption: 'Figure 4. The Define Variable Properties dialog scanning the Machakos Category variable. LEFT panel: Scan variables checkboxes (Gender ✓, Category ✓, then Age, Form, HighestQual etc.). RIGHT panel shows the auto-detected value counts — Principal 8, Teacher 54, Student 212 (matching the exact Machakos study frequencies — 274 total). You just type the label next to each auto-found value. Massively faster than opening Variable View → Values → typing every code from memory.' },
 
         { type: 'steps', steps: [
           { title: 'Open the dialog',
@@ -326,6 +393,9 @@ export const DEFINING_VARIABLES_LESSON = {
           { title: 'Click OK',
             body: 'SPSS produces a beautifully formatted Output Viewer document listing every variable with its full metadata. Right-click → Export to save as Word, PDF, or Excel for your thesis appendix.' },
         ]},
+
+        { type: 'illustration', component: 'MachakosDefineCodebook',
+          caption: 'Figure 5. The auto-generated Codebook output for the Machakos study. Each variable gets its own boxed section showing Position, Label, Type, Format, Measurement, Role, Value Labels, and Missing Values. Below each categorical variable, a frequency table (Value | Count | Percent) confirms the distribution. Gender shows 128 males / 146 females. Category shows Principal 8 (2.9%) / Teacher 54 (19.7%) / Student 212 (77.4%). Below Age, a descriptive stats table shows N=274, Mean=27.3, Std Dev=1.2, Min=15, Max=48. This entire document is generated in one click and belongs in your thesis Appendix.' },
 
         { type: 'callout', tone: 'gold', title: 'The codebook is your insurance policy',
           body: 'When an examiner asks "how did you handle missing data for variable sa_07?" the codebook answers in one line. When you return to your data two years later for a journal paper, the codebook tells you exactly what every variable was. When you collaborate with someone new, you send them the dataset PLUS the codebook and they can hit the ground running. Generate it. Save it. Include it in your thesis appendix.' },
