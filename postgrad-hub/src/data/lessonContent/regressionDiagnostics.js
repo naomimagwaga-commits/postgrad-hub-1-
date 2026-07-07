@@ -42,6 +42,10 @@ export const REGRESSION_DIAGNOSTICS_LESSON = {
       id: 'five-assumptions',
       title: 'The five assumptions of linear regression',
       blocks: [
+        { type: 'illustration', component: 'MachakosRegFiveAssumptions',
+          caption: 'Figure 0. The 5 assumptions of linear regression as a printable reference card. Each panel: definition, how to check in SPSS, what to do if it fails. Every regression you run in your thesis needs ALL 5 checked before you write up. The navy banner at the bottom tells you exactly which boxes to tick in Plots... Statistics... and Save... to generate all the diagnostics in one run.' },
+
+
         { type: 'heading', level: 2, text: 'Each one in one paragraph' },
 
         { type: 'paragraph', text:
@@ -106,8 +110,8 @@ export const REGRESSION_DIAGNOSTICS_LESSON = {
         { type: 'paragraph', text:
           'The scatter plot of **standardised residuals (Y axis) vs standardised predicted values (X axis)** is the most important diagnostic in regression. It checks TWO assumptions at once — linearity and homoscedasticity.' },
 
-        { type: 'illustration', component: 'ResidualsHomoVsHetero',
-          caption: 'Figure 1. The residuals plot. LEFT (good): an even rectangular cloud of points around zero — homoscedasticity holds, no curvature visible, assumptions met. RIGHT (bad): the points fan out as predicted values increase — heteroscedasticity, the assumption is violated, model coefficients may have biased standard errors.' },
+        { type: 'illustration', component: 'MachakosRegResidualScatter',
+          caption: 'Figure 1. Three diagnostic patterns for the residuals vs predicted scatter plot. GOOD (left, green) = random cloud, assumptions met. BAD (middle, red) = U-shape means linearity is violated (need a transform or non-linear model). BAD (right, amber) = fan/funnel means homoscedasticity is violated (need robust standard errors or transform DV). Every regression needs this plot checked before Chapter 4.' },
 
         { type: 'heading', level: 3, text: 'What to look for' },
 
