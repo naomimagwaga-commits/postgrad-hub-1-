@@ -6684,6 +6684,48 @@ export function MachakosSpearmanScatter() {
     alt="Scatter plot of Form vs Math_KCSE_Mean showing 3 vertical stacks of dots at Form 2, 3, and 4 across 212 students. Gold trend line shows the positive monotonic relationship. Spearmans rho = .284"/>;
 }
 
+/* ─── Regression · Simple, Multiple, Diagnostics ─── */
+export function MachakosRegMenu() {
+  return <ScreenshotFrame src="/lesson-images/regression/00-menu-path.jpg"
+    alt="SPSS Analyze menu open showing Regression then Linear highlighted with a gold CLICK HERE arrow. Full submenu shown including Binary Logistic, Multinomial Logistic, Ordinal for reference"/>;
+}
+export function MachakosRegSimpleDialog() {
+  return <ScreenshotFrame src="/lesson-images/regression/01-simple-dialog.jpg"
+    alt="SPSS Linear Regression dialog set up for simple regression. Math_KCSE_Mean in the Dependent box. Digital_Devices in the Independent(s) box. Method = Enter"/>;
+}
+export function MachakosRegSimpleOutput() {
+  return <ScreenshotFrame src="/lesson-images/regression/02-simple-output.jpg"
+    alt="SPSS simple linear regression output for Machakos. Model Summary shows R=.478, R Square=.228. Coefficients table shows Digital_Devices B=.566, standardized beta=.478, t=8.84, Sig<.001"/>;
+}
+export function MachakosRegScatterLine() {
+  return <ScreenshotFrame src="/lesson-images/regression/03-scatter-line.jpg"
+    alt="Scatter plot of Digital_Devices vs Math_KCSE_Mean with a gold fitted regression line running from lower-left to upper-right. Equation y = 3.93 + 0.57x, R squared = .228, N = 267 shown in the corner"/>;
+}
+export function MachakosRegMultiDialog() {
+  return <ScreenshotFrame src="/lesson-images/regression/04-multi-dialog.jpg"
+    alt="SPSS Linear Regression dialog for multiple regression. Math_KCSE_Mean in Dependent. All 4 IVs (Digital_Devices, Teacher_Competency, Internet_Connectivity, InvestmentPerStudent) in Independent(s). Method = Enter"/>;
+}
+export function MachakosRegMultiOutput() {
+  return <ScreenshotFrame src="/lesson-images/regression/05-multi-output.jpg"
+    alt="SPSS multiple regression output for Machakos. Model Summary R=.617, R Square=.381. Coefficients table shows Teacher_Competency has strongest beta=.268 p=.001, Internet_Connectivity beta=.092 not significant. VIF all below 5"/>;
+}
+export function MachakosRegBetaComparison() {
+  return <ScreenshotFrame src="/lesson-images/regression/06-beta-comparison.jpg"
+    alt="Bar chart comparing standardized beta coefficients from Machakos multiple regression. Teacher_Competency biggest bar green beta=.27, InvestmentPerStudent gold beta=.19, Digital_Devices amber beta=.14, Internet_Connectivity smallest grey beta=.09 not significant. Comparison table shows bivariate r vs multiple beta for each"/>;
+}
+export function MachakosRegR2Breakdown() {
+  return <ScreenshotFrame src="/lesson-images/regression/07-r2-breakdown.jpg"
+    alt="Pie chart showing R squared of .381 breakdown. Gold slice 38.1 percent EXPLAINED by the 4 IVs. Grey slice 61.9 percent UNEXPLAINED residual. Smaller donuts show each IVs contribution to explained variance"/>;
+}
+export function MachakosRegFiveAssumptions() {
+  return <ScreenshotFrame src="/lesson-images/regression/08-five-assumptions.jpg"
+    alt="5-panel reference card of linear regression assumptions. 1 Linearity gold, 2 Normality green, 3 Homoscedasticity navy, 4 Independence amber, 5 No Multicollinearity red. Each panel has definition, how to check, and what to do if it fails"/>;
+}
+export function MachakosRegResidualScatter() {
+  return <ScreenshotFrame src="/lesson-images/regression/09-residual-scatter.jpg"
+    alt="3 side-by-side residuals scatter plots. Left green random cloud GOOD assumptions met. Middle red U-shape BAD linearity violated. Right amber funnel shape BAD homoscedasticity violated. Each labeled with fix advice"/>;
+}
+
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
   return <ScreenshotFrame
@@ -7093,6 +7135,10 @@ export const ILLUSTRATIONS = {
   MachakosCleanComputeDialog, MachakosCleanThreeComposites, MachakosCleanCompositeVerification,
   /* Data Cleaning · Select Cases — 2 images */
   MachakosCleanSelectCases, MachakosCleanSubsetsWorkflow,
+  /* Regression · Simple + Multiple + Diagnostics — 10 images */
+  MachakosRegMenu, MachakosRegSimpleDialog, MachakosRegSimpleOutput, MachakosRegScatterLine,
+  MachakosRegMultiDialog, MachakosRegMultiOutput, MachakosRegBetaComparison, MachakosRegR2Breakdown,
+  MachakosRegFiveAssumptions, MachakosRegResidualScatter,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
