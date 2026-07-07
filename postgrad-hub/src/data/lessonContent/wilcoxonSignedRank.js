@@ -36,6 +36,32 @@ export const WILCOXON_SIGNED_RANK_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Before you touch the SPSS dialog, understand: (1) What this non-parametric test IS, (2) Why you use it instead of the parametric equivalent, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'NakuruWilcoxonWWWW',
+          caption: 'Figure 0. Wilcoxon Signed-Rank WHAT/WHY/WHERE/WHEN reference card. The non-parametric alternative to the paired t-test, using Nakuru Wellness SBP before/after data.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Rank** — the position of a difference score when sorted by absolute size (smallest = rank 1).',
+            '**Signed rank** — the rank multiplied by the sign of the difference. Positive difference keeps the rank positive; negative difference makes it negative.',
+            '**Z-statistic** — a standardized test value. Wilcoxon converts the sum of signed ranks into a Z score for significance testing.',
+            '**Median difference** — the central value of all difference scores. Non-parametric tests report medians, NOT means.',
+            '**Ties** — pairs with zero difference (T2 = T1). SPSS drops these from the analysis.',
+            '**Asymp. Sig.** — the asymptotic (large-sample) p-value. For small N (< 25 pairs), request Exact test via the Exact button.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
@@ -121,6 +147,12 @@ export const WILCOXON_SIGNED_RANK_LESSON = {
 
         { type: 'callout', tone: 'warning', title: 'Direction matters: SPSS\'s diff = Var2 − Var1',
           body: 'SPSS subtracts Variable 1 from Variable 2 — opposite to the paired t-test dialog. If you put anxiety_before as Variable 1 and anxiety_after as Variable 2, the differences are (after − before). When anxiety drops, the differences are NEGATIVE, so the negative ranks will dominate. This is not a problem; just interpret it correctly. Many students panic at negative-rank dominance — it just means Variable 1 was higher than Variable 2 on average.' },
+        { type: 'illustration', component: 'NakuruWilcoxonDialog',
+          caption: 'Figure 1. The Two-Related-Samples Tests dialog for the Nakuru Wellness Wilcoxon. Same paired-variables layout as the paired t-test, but with a Test Type panel where you tick Wilcoxon (the default). Menu path: Analyze → Nonparametric Tests → Legacy Dialogs → 2 Related Samples.' },
+
+        { type: 'illustration', component: 'NakuruWilcoxonOutput',
+          caption: 'Figure 2. The output. Ranks table shows 40 negative ranks (SBP dropped) vs 4 positive ranks (SBP rose) vs 1 tie. The 40 vs 4 imbalance is the raw evidence of improvement. Test Statistics shows Z = -5.31, p < .001. Report MEDIANS (not means) — Nakuru median SBP dropped from 141 to 133 mmHg. Chapter-4 write-up template in the gold callout.' },
+
       ],
     },
 
