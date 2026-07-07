@@ -142,6 +142,10 @@ export const SIMPLE_REGRESSION_LESSON = {
 
         { type: 'illustration', component: 'MachakosRegMenu',
           caption: 'Figure 2a. The menu path to Linear Regression: Analyze → Regression → Linear. Note the submenu also contains Binary Logistic, Multinomial Logistic, and Ordinal — you\'ll use these in later lessons for different DV types.' },
+
+        { type: 'illustration', component: 'MachakosSrNumberedClicks',
+          caption: 'Figure 2. The full 6-click sequence for simple regression. Red numbered circles show each click in order: (1) Analyze → Regression → Linear from the menu, (2) move DV to Dependent, (3) move IV to Independent(s), (4) Method = Enter (default), (5) optional Statistics click for 95% CIs, (6) click OK. About 30 seconds total.' },
+
         { type: 'illustration', component: 'MachakosRegSimpleDialog',
           caption: 'Figure 2. The Linear Regression dialog set up for a SIMPLE regression — one DV (Math_KCSE_Mean) in the Dependent box, one IV (Digital_Devices) in the Independent(s) box, Method = Enter. Same dialog does multiple regression by adding more variables.' },
       ],
