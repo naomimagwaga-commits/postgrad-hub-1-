@@ -51,7 +51,7 @@ export const SIMPLE_REGRESSION_LESSON = {
         { type: 'analogy', title: 'The line that minimises disappointment',
           body: 'Imagine a teacher trying to predict each pupil\'s exam score using only the number of hours they studied. Any straight line she draws will be wrong for every pupil — some scored better than predicted, some worse. The "best" line is the one where the TOTAL squared disappointment (the sum of squared distances from each point to the line) is as small as possible. That is the line of best fit, and that is exactly what regression computes for you.' },
 
-        { type: 'illustration', component: 'RegressionLineResiduals',
+        { type: 'illustration', component: 'MachakosRegScatterLine',
           caption: 'Figure 1. The line of best fit (gold) and the residuals (red dashed). Each red line is the distance from one pupil\'s actual score to the prediction the line would make. Regression finds the line that MINIMISES the sum of the SQUARED residuals — the "least squares" line.' },
 
         { type: 'definition', term: 'Simple linear regression',
@@ -139,8 +139,11 @@ export const SIMPLE_REGRESSION_LESSON = {
             body: 'SPSS produces several tables in the Output Viewer: Descriptives, Correlations, Model Summary, ANOVA, and Coefficients. The last three are the key ones.' },
         ]},
 
-        { type: 'illustration', component: 'LinearRegressionDialog',
-          caption: 'Figure 2. The Linear Regression dialog. The Dependent variable goes at the top, Independent(s) below. The four buttons on the right (Statistics, Plots, Save, Options) let you customise what SPSS outputs. Always click Statistics and tick the items in the red annotation.' },
+
+        { type: 'illustration', component: 'MachakosRegMenu',
+          caption: 'Figure 2a. The menu path to Linear Regression: Analyze → Regression → Linear. Note the submenu also contains Binary Logistic, Multinomial Logistic, and Ordinal — you\'ll use these in later lessons for different DV types.' },
+        { type: 'illustration', component: 'MachakosRegSimpleDialog',
+          caption: 'Figure 2. The Linear Regression dialog set up for a SIMPLE regression — one DV (Math_KCSE_Mean) in the Dependent box, one IV (Digital_Devices) in the Independent(s) box, Method = Enter. Same dialog does multiple regression by adding more variables.' },
       ],
     },
 
@@ -154,8 +157,8 @@ export const SIMPLE_REGRESSION_LESSON = {
         { type: 'paragraph', text:
           'SPSS produces three tables that work together to tell the regression story. Read them in this order: Model Summary (how well the model fits), ANOVA (is the overall model significant?), Coefficients (what are the exact regression equation values?).' },
 
-        { type: 'illustration', component: 'RegressionOutput',
-          caption: 'Figure 3. The three key output tables. TOP: Model Summary shows R² — the proportion of variance in Y explained by X. MIDDLE: ANOVA shows the F-test — is the overall model better than predicting the mean for everyone? BOTTOM: Coefficients shows B (the slope) and the standardised β. Read all three together.' },
+        { type: 'illustration', component: 'MachakosRegSimpleOutput',
+          caption: 'Figure 3. Simple regression output for Machakos. Model Summary: R = .478, R² = .228 (Digital_Devices explains 22.8% of KCSE variance). ANOVA: F(1, 265) = 78.14, p < .001 (model is significant). Coefficients: β = .478, unstandardized B = .566, t = 8.84, p < .001. Regression equation: Math_KCSE_Mean = 3.93 + 0.57 × Digital_Devices.' },
 
         { type: 'heading', level: 3, text: 'Table 1 — Model Summary' },
 
