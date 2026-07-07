@@ -6725,6 +6725,10 @@ export function MachakosRegResidualScatter() {
   return <ScreenshotFrame src="/lesson-images/regression/09-residual-scatter.jpg"
     alt="3 side-by-side residuals scatter plots. Left green random cloud GOOD assumptions met. Middle red U-shape BAD linearity violated. Right amber funnel shape BAD homoscedasticity violated. Each labeled with fix advice"/>;
 }
+export function MachakosRegStatsDialog() {
+  return <ScreenshotFrame src="/lesson-images/regression/10-stats-dialog.jpg"
+    alt="SPSS Linear Regression Statistics sub-dialog with the essential checkboxes ticked: Estimates, Confidence intervals 95, Model fit, R squared change, Descriptives, and Collinearity diagnostics highlighted gold as critical. Continue Cancel Help buttons at the bottom"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7135,10 +7139,10 @@ export const ILLUSTRATIONS = {
   MachakosCleanComputeDialog, MachakosCleanThreeComposites, MachakosCleanCompositeVerification,
   /* Data Cleaning · Select Cases — 2 images */
   MachakosCleanSelectCases, MachakosCleanSubsetsWorkflow,
-  /* Regression · Simple + Multiple + Diagnostics — 10 images */
+  /* Regression · Simple + Multiple + Diagnostics — 11 images */
   MachakosRegMenu, MachakosRegSimpleDialog, MachakosRegSimpleOutput, MachakosRegScatterLine,
   MachakosRegMultiDialog, MachakosRegMultiOutput, MachakosRegBetaComparison, MachakosRegR2Breakdown,
-  MachakosRegFiveAssumptions, MachakosRegResidualScatter,
+  MachakosRegFiveAssumptions, MachakosRegResidualScatter, MachakosRegStatsDialog,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
