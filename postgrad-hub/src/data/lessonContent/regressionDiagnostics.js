@@ -113,6 +113,16 @@ export const REGRESSION_DIAGNOSTICS_LESSON = {
         { type: 'illustration', component: 'MachakosRegResidualScatter',
           caption: 'Figure 1. Three diagnostic patterns for the residuals vs predicted scatter plot. GOOD (left, green) = random cloud, assumptions met. BAD (middle, red) = U-shape means linearity is violated (need a transform or non-linear model). BAD (right, amber) = fan/funnel means homoscedasticity is violated (need robust standard errors or transform DV). Every regression needs this plot checked before Chapter 4.' },
 
+        { type: 'illustration', component: 'MachakosDiagNormality',
+          caption: 'Figure 2. NORMALITY of residuals — 2 diagnostic plots side by side. LEFT: histogram of standardized residuals with a red normal-curve overlay. If the bars roughly match the curve, normality is OK. RIGHT: Normal P-P plot. If the blue points hug the diagonal line, normality is OK. With N=267 (Machakos), mild deviations are tolerated by the Central Limit Theorem — only worry if bars are wildly asymmetric or PP points curve dramatically away. To generate: Linear Regression → Plots... → tick Histogram AND Normal probability plot.' },
+
+        { type: 'illustration', component: 'MachakosDiagVIF',
+          caption: 'Figure 3. MULTICOLLINEARITY diagnostics — the Tolerance and VIF columns from the Machakos Coefficients table. All 4 IVs have VIF between 1.64 (Internet_Connectivity) and 2.08 (InvestmentPerStudent) — well below the 5 threshold. Safe. **Rule: VIF < 5 = OK · VIF > 10 = drop the redundant IV.** To generate: Statistics... → tick Collinearity diagnostics.' },
+
+        { type: 'illustration', component: 'MachakosDiagCooks',
+          caption: 'Figure 4. INFLUENTIAL OUTLIERS — Cook distance for the Machakos study. Each dot is one respondent Cook D. 4 cases exceed the 4/N threshold (circled red) but NONE exceed the danger threshold of 1.0. Action: investigate the 4 flagged cases (are their raw values realistic?) and run a sensitivity analysis with and without them. To generate: Linear Regression → Save... → tick Cook distance. A new variable COO_1 appears in your Data View.' },
+
+
         { type: 'heading', level: 3, text: 'What to look for' },
 
         { type: 'list', items: [
