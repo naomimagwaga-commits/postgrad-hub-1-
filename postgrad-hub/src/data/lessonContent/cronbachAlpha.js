@@ -36,7 +36,33 @@ export const CRONBACH_ALPHA_LESSON = {
       ],
     },
 
-    /* ════════════════════ 2. WHAT IS RELIABILITY ════════════════════ */
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Cronbach Alpha is the reliability statistic every thesis needs. Before touching the SPSS dialog, understand: (1) What alpha IS, (2) Why you use it before analysing scale data, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it over alternatives.',
+            'The WWWW card below answers all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'MombasaCronbachWWWW',
+          caption: 'Figure 0. Cronbach Alpha WHAT/WHY/WHERE/WHEN reference card using the Mombasa Patient Satisfaction Scale (15 items, alpha = .84).' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Alpha (a)** - the Cronbach reliability coefficient. Range 0 to 1.',
+            '**Internal consistency** - how well the items of a scale MEASURE THE SAME THING.',
+            '**Corrected item-total correlation** - how well each item correlates with the total of the OTHER items. Above .30 = good item.',
+            '**Alpha if item deleted** - what alpha would become if you dropped that item. If higher than current alpha, item is hurting reliability.',
+            '**Reverse-code** - flipping negatively-worded item scores BEFORE running alpha. Otherwise alpha will look artificially low.',
+            '**Reliability thresholds** - .70 minimum for thesis, .80 very good, .90 excellent (check redundancy).',
+          ]},
+      ],
+    },
+
+/* ════════════════════ 2. WHAT IS RELIABILITY ════════════════════ */
     {
       id: 'what-is-reliability',
       title: 'What "reliability" actually means',
@@ -158,8 +184,13 @@ export const CRONBACH_ALPHA_LESSON = {
             body: 'SPSS produces three tables in the Output Viewer: Reliability Statistics (the alpha itself), Item Statistics, and Item-Total Statistics. The first table is what you report; the third is for diagnostic refinement (Lesson 2).' },
         ]},
 
-        { type: 'illustration', component: 'ReliabilityDialog',
+        { type: 'illustration', component: 'MombasaCronbachDialog',
           caption: 'Figure 3. The Reliability Analysis dialog. The exclamation mark points to the "Statistics…" button — ALWAYS click this and tick "Scale if item deleted". Without it, you get only the alpha value and miss the diagnostic information that tells you which items might be problematic.' },
+
+
+        { type: 'illustration', component: 'MombasaCronbachStats',
+          caption: 'Figure 3. The Statistics sub-dialog. Tick Item + Scale + Scale if item deleted (highlighted gold as CRITICAL — without it you cannot do item-total analysis in the next lesson). Also tick Correlations under Summaries to see the inter-item correlation matrix.' },
+
       ],
     },
 
@@ -173,7 +204,7 @@ export const CRONBACH_ALPHA_LESSON = {
         { type: 'paragraph', text:
           "The most important output is the small **Reliability Statistics** table at the top. It contains two numbers: Cronbach\'s Alpha and the N of Items. That\'s it. From these two numbers you decide whether your scale is acceptable." },
 
-        { type: 'illustration', component: 'ReliabilityOutput',
+        { type: 'illustration', component: 'MombasaCronbachOutput',
           caption: 'Figure 4. The Reliability Statistics output table. Two numbers: Cronbach\'s Alpha (.847 here — "good") and N of Items (8 in this scale). This is the table you report in your Chapter 4 methodology section.' },
 
         { type: 'heading', level: 3, text: 'Interpreting the alpha value' },
