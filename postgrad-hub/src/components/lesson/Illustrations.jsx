@@ -6852,6 +6852,47 @@ export function MachakosCorrelationDecision() {
   return <ScreenshotFrame src="/lesson-images/correlation-shared/04-decision-map.jpg"
     alt="Which correlation should I use decision map. Top branch asks how many variables. 2 variables branches into Pearson, Spearman, or Partial based on data type and control needs. 3+ variables branches into Correlation Matrix"/>;
 }
+/* T-Tests course — WWWW cards + dialogs + outputs + shared decision map */
+export function KiambuOstWWWW() {
+  return <ScreenshotFrame src="/lesson-images/ttests/00-ost-wwww.jpg"
+    alt="One-Sample T-Test WWWW 4-quadrant reference card. WHAT explains comparing sample mean to a known value using Kiambu yield vs national 1750 kg/acre. WHY explains statistical significance. WHERE lists Kenyan scenarios. WHEN gives decision table"/>;
+}
+export function KiambuOstDialog() {
+  return <ScreenshotFrame src="/lesson-images/ttests/01-ost-dialog.jpg"
+    alt="SPSS One-Sample T Test dialog for Kiambu Maize. Yield_KgPerAcre in Test Variable, Test Value set to 1750 highlighted gold with note about national average benchmark"/>;
+}
+export function KiambuOstOutput() {
+  return <ScreenshotFrame src="/lesson-images/ttests/02-ost-output.jpg"
+    alt="SPSS One-Sample T Test output for Kiambu Maize. One-Sample Statistics shows N 180, Mean 1636.67, SD 443.21. Test table shows t equals -3.43, df 179, Sig .001, Mean Difference -113.33, 95 percent CI -178.51 to -48.15. Chapter 4 write-up template in the gold callout"/>;
+}
+export function KiambuItWWWW() {
+  return <ScreenshotFrame src="/lesson-images/ttests/03-it-wwww.jpg"
+    alt="Independent T-Test WWWW 4-quadrant reference card. WHAT explains comparing 2 separate groups. WHY explains checking Levene test for equal variances. WHERE lists 2-group comparisons. WHEN gives decision table"/>;
+}
+export function KiambuItDialog() {
+  return <ScreenshotFrame src="/lesson-images/ttests/04-it-dialog.jpg"
+    alt="SPSS Independent-Samples T Test dialog for Kiambu DAP vs CAN. Main dialog shows Yield_KgPerAcre in Test Variable and FertilizerType (1 2) as Grouping Variable. Define Groups sub-dialog visible below showing Group 1 = 1 (DAP), Group 2 = 2 (CAN)"/>;
+}
+export function KiambuItOutput() {
+  return <ScreenshotFrame src="/lesson-images/ttests/05-it-output.jpg"
+    alt="SPSS Independent-Samples T Test output for Kiambu Maize. Group Statistics: DAP mean 1840.42 SD 320.16, CAN mean 1620.28 SD 289.75. Independent Samples Test with Levene test not significant so top row read: t 3.95, df 118, Sig <.001, Mean Difference 220.13, 95 percent CI 109.71 to 330.56"/>;
+}
+export function NakuruPtWWWW() {
+  return <ScreenshotFrame src="/lesson-images/ttests/06-pt-wwww.jpg"
+    alt="Paired T-Test WWWW 4-quadrant reference card. WHAT explains comparing same people at 2 time points using Nakuru SBP baseline vs Week 12. WHY explains within-person power. WHERE lists before/after designs. WHEN gives decision table"/>;
+}
+export function NakuruPtDialog() {
+  return <ScreenshotFrame src="/lesson-images/ttests/07-pt-dialog.jpg"
+    alt="SPSS Paired-Samples T Test dialog for Nakuru Wellness. Paired Variables table shows Pair 1 with Variable 1 SBP_T0 and Variable 2 SBP_T2. Gold callout explains the 3-step selection workflow"/>;
+}
+export function NakuruPtOutput() {
+  return <ScreenshotFrame src="/lesson-images/ttests/08-pt-output.jpg"
+    alt="SPSS Paired-Samples T Test output for Nakuru Wellness. Paired Samples Statistics shows SBP_T0 mean 142.4 SD 12.1 and SBP_T2 mean 134.2 SD 11.3 for N 45. Paired Samples Correlations shows r .823 p <.001. Paired Samples Test shows Mean Difference 8.20, t 6.87, df 44, Sig <.001, 95 percent CI 5.79 to 10.61"/>;
+}
+export function TTestDecisionMap() {
+  return <ScreenshotFrame src="/lesson-images/ttests/09-decision-map.jpg"
+    alt="Which t-test do I need decision map. Top question asks how many groups or measurements. 3 branches: 1 sample vs known value goes to One-Sample T-Test (Lesson 1). 2 separate groups branches into Independent T-Test (Lesson 2) if normal or Mann-Whitney U (Lesson 5) if non-parametric. Same people measured twice branches into Paired T-Test (Lesson 3) if normal or Wilcoxon Signed-Rank (Lesson 4) if non-parametric"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7281,6 +7322,11 @@ export const ILLUSTRATIONS = {
   /* Correlation course — WWWW cards + decision map */
   MachakosPearsonWWWW, MachakosSpearmanWWWW, MachakosPartialWWWW, MachakosMatricesWWWW,
   MachakosCorrelationDecision,
+  /* T-Tests course — WWWW + dialogs + outputs + decision map */
+  KiambuOstWWWW, KiambuOstDialog, KiambuOstOutput,
+  KiambuItWWWW, KiambuItDialog, KiambuItOutput,
+  NakuruPtWWWW, NakuruPtDialog, NakuruPtOutput,
+  TTestDecisionMap,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
