@@ -36,6 +36,40 @@ export const HIERARCHICAL_REGRESSION_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Before you touch any SPSS dialog, understand FOUR things: (1) What hierarchical regression actually IS, (2) Why you would use it instead of ordinary multiple regression, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it over alternatives.',
+            'If you can answer all 4 in one sentence each, you\'re ready for the SPSS walkthrough. If not, spend 5 minutes here.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosHrWWWW',
+          caption: 'Figure 1. The Hierarchical Regression WHAT/WHY/WHERE/WHEN reference card. Bookmark this image — it answers the 4 questions your examiner will ask about why you chose hierarchical over multiple regression.' },
+
+        { type: 'heading', level: 3, text: 'The 30-second summary' },
+
+        { type: 'comparison',
+          headers: ['Question', 'One-line answer'],
+          rows: [
+            ['**WHAT is it?**',   'A regression where you enter predictors in **ordered groups called BLOCKS** instead of all at once.'],
+            ['**WHY use it?**',   'To test whether a new set of predictors adds unique value **BEYOND** what earlier blocks already explain.'],
+            ['**WHERE is it used?**', 'In education, health, agriculture research where theory says "control for X first, then test whether Y matters."'],
+            ['**WHEN to choose it?**', 'When you have a **theoretical ordering** to your predictors (controls first, test IVs second). If all IVs are theoretically equal, use ordinary multiple regression instead.'],
+          ]},
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you\'ll meet in the walkthrough',
+          body: [
+            '**Block** — a group of predictors entered together. Like a chapter of your regression story.',
+            '**ΔR² (delta R squared)** — the ADDITIONAL variance explained by the current block, over and above previous blocks. This is the "did adding this block matter?" number.',
+            '**Sig. F Change** — the p-value for ΔR². If it\'s < .05, the current block significantly improves the model.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
@@ -123,6 +157,13 @@ export const HIERARCHICAL_REGRESSION_LESSON = {
           { title: 'Click OK',
             body: 'SPSS produces a Model Summary with one row per block, an ANOVA table per block, and a Coefficients table showing every variable\'s b, β, t, p in EACH block.' },
         ]},
+
+
+        { type: 'illustration', component: 'MachakosHrStepBlock1',
+          caption: 'Figure 2. **STEP 3 — Load Block 1 controls, click Next (not OK!)** — The Linear Regression dialog after moving InvestmentPerStudent and Internet_Connectivity into Independent(s). Block indicator shows "Block 1 of 1". CRITICAL: click [Next] (highlighted gold) to open Block 2 — do NOT click OK yet.' },
+
+        { type: 'illustration', component: 'MachakosHrStepBlock2',
+          caption: 'Figure 3. **STEP 4 — Load Block 2 test predictors, then Statistics, then OK** — The dialog after clicking Next. Block indicator now shows "Block 2 of 2". Independent(s) box shows the NEW test predictors (Digital_Devices, Teacher_Competency in green). Block 1 variables are saved internally (small note confirms this). Next click: Statistics... → tick R squared change. Then OK.' },
 
         { type: 'illustration', component: 'MachakosHierarchicalBlocks',
           caption: 'Figure 2. The Linear Regression dialog set up for HIERARCHICAL regression using blocks. Currently showing Block 2 of 2 (containing Digital_Devices and Teacher_Competency as test predictors). Block 1 previously contained InvestmentPerStudent and Internet_Connectivity as baseline controls. Use [Previous] and [Next] to move between blocks. Remember to tick R squared change in Statistics... to see ΔR² in the output.' },
