@@ -36,6 +36,29 @@ export const ITEM_TOTAL_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Item-Total Analysis is the diagnostic follow-up to Cronbach Alpha. Before diving in, understand: (1) What Item-Total analysis IS, (2) Why you use it, (3) Where it appears in Chapter 4, (4) When to drop or keep an item.',
+          ]},
+
+        { type: 'illustration', component: 'MombasaItemTotalWWWW',
+          caption: 'Figure 0. Item-Total Analysis WHAT/WHY/WHERE/WHEN reference card using the Mombasa Patient Satisfaction Scale (PSS_7 identified as weak item).' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Corrected item-total correlation** - correlation between each item and the SUM of the OTHER items (excluding itself). Above .30 = good, below .30 = weak item candidate for removal.',
+            '**Alpha if item deleted** - what Cronbach alpha would become if this item were removed. If higher than current alpha, the item is HURTING reliability.',
+            '**Scale purification** - the process of identifying and removing weak items to strengthen a scale. Must be transparently reported in Chapter 4 methods.',
+            '**Item revision** - alternative to dropping - reword the item for future studies rather than delete.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. THE TABLE EXPLAINED ════════════════════ */
     {
       id: 'the-table',
@@ -46,7 +69,7 @@ export const ITEM_TOTAL_LESSON = {
         { type: 'paragraph', text:
           'When you tick "Scale if item deleted" in the Reliability Analysis Statistics dialog (Lesson 1), SPSS produces the Item-Total Statistics table. It has one row per item in your scale and five columns of diagnostics. Most beginners read it left to right and get lost in the first three columns. Save your attention for the last two — they are the only ones that drive decisions.' },
 
-        { type: 'illustration', component: 'ItemTotalStatistics',
+        { type: 'illustration', component: 'MombasaItemTotalAnnotated',
           caption: 'Figure 1. The Item-Total Statistics table for an 8-item job satisfaction scale. Item sa_04 is highlighted in red — its Corrected Item-Total Correlation is only .12 (well below .30), and Cronbach\'s α if Item Deleted is .88 (higher than the current overall α = .85). These two warning signs together say: dropping sa_04 would IMPROVE the scale.' },
 
         { type: 'comparison',
