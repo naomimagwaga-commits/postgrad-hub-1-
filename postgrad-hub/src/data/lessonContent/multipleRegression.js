@@ -104,22 +104,37 @@ export const MULTIPLE_REGRESSION_LESSON = {
       blocks: [
         { type: 'heading', level: 2, text: 'Same dialog as simple regression, just more variables' },
 
+        { type: 'paragraph', text:
+          'Multiple regression uses the SAME Linear Regression dialog as simple regression — you just move more variables into the Independent(s) box. The critical addition is clicking **Statistics...** to enable **Collinearity diagnostics** so SPSS reports VIF alongside your coefficients. Here is the click-by-click walkthrough using the Machakos study.' },
+
         { type: 'steps', steps: [
-          { title: 'Check correlations between predictors first',
-            body: 'Run a Pearson correlation matrix (Analyze → Correlate → Bivariate) including ALL your predictors. If any pair correlates r > .8, you have a potential multicollinearity problem — consider dropping one or combining them.' },
-          { title: 'Open Linear Regression',
-            body: 'Analyze → Regression → Linear. The dialog is identical to simple regression.' },
-          { title: 'Move outcome to Dependent',
-            body: 'Same as before — your continuous outcome variable.' },
-          { title: 'Move ALL predictors to Independent(s)',
-            body: 'Select multiple variables (hold Ctrl while clicking) and move them across with the blue arrow. There is no upper limit — but remember the sample size rule.' },
-          { title: 'Set Method to "Enter"',
-            body: 'For most thesis work, "Enter" is the right choice — it puts all predictors into the model simultaneously. We will discuss Stepwise (an automated alternative — often discouraged) in Section 7.' },
-          { title: 'Click Statistics for the essentials',
-            body: 'Tick **Estimates**, **Confidence intervals (95%)**, **Model fit**, **Descriptives**, and CRUCIALLY **Collinearity diagnostics** (this gives you VIF). Click Continue.' },
-          { title: 'Click OK',
-            body: 'SPSS produces the same three core tables (Model Summary, ANOVA, Coefficients) — plus collinearity diagnostics in the Coefficients table.' },
+          { title: 'STEP 1 — Check correlations between predictors first',
+            body: 'Before running multiple regression, run a Pearson correlation matrix (Analyze → Correlate → Bivariate) including ALL your predictors. For Machakos: Digital_Devices, Teacher_Competency, Internet_Connectivity, InvestmentPerStudent. If any pair correlates r > .8, you have a potential multicollinearity problem — consider dropping one or combining them. (Our Machakos IVs range from r=.49 to r=.61 — safe to proceed.)' },
+          { title: 'STEP 2 — Open Linear Regression',
+            body: 'Analyze → Regression → Linear. The dialog is identical to simple regression. See Figure 1 below.' },
+          { title: 'STEP 3 — Move outcome to Dependent',
+            body: 'Move **Math_KCSE_Mean** into the Dependent box. Same as simple regression — one continuous outcome.' },
+          { title: 'STEP 4 — Move ALL 4 predictors to Independent(s)',
+            body: 'Select all 4 Machakos IVs (**Digital_Devices, Teacher_Competency, Internet_Connectivity, InvestmentPerStudent**) — hold **Ctrl** while clicking each — and move them across with the blue arrow. All 4 land in the Independent(s) box together. There is no upper limit — but remember the sample size rule (N ≥ 50 + 8×predictors).' },
+          { title: 'STEP 5 — Set Method to "Enter"',
+            body: 'The Method dropdown below the Independent(s) box should say **Enter** (the default). This tells SPSS to put all predictors into the model simultaneously — the standard approach for thesis-level multiple regression. Stepwise, Forward, and Backward are automated alternatives that are usually discouraged in academic work.' },
+          { title: 'STEP 6 — Click Statistics... (the CRITICAL button)',
+            body: 'Click the **Statistics...** button on the right side of the dialog. A sub-dialog opens. See Figure 2 below. Tick these checkboxes: **Estimates** (the B and β coefficients), **Confidence intervals** at 95%, **Model fit** (R, R², ANOVA), **R squared change**, **Descriptives**, and CRUCIALLY **Collinearity diagnostics** (this gives you VIF and Tolerance — required to verify assumption 5). Click **Continue** to return to the main dialog.' },
+          { title: 'STEP 7 — Click OK to run',
+            body: 'Back on the main Linear Regression dialog, click **OK**. SPSS produces the three core tables (Model Summary, ANOVA, Coefficients) plus collinearity diagnostics inside the Coefficients table. The Coefficients table now has 2 extra columns on the right: **Tolerance** and **VIF**.' },
         ]},
+
+        { type: 'illustration', component: 'MachakosRegMultiDialog',
+          caption: 'Figure 1. The main Linear Regression dialog set up for MULTIPLE regression on the Machakos data. Math_KCSE_Mean sits in the Dependent box. All 4 IVs — Digital_Devices, Teacher_Competency, Internet_Connectivity, InvestmentPerStudent — sit stacked in the Independent(s) box. Method dropdown = Enter. Next click: the [Statistics...] button on the right (highlighted gold) to open the Statistics sub-dialog.' },
+
+        { type: 'illustration', component: 'MachakosRegStatsDialog',
+          caption: 'Figure 2. The Linear Regression → Statistics sub-dialog with the essential checkboxes ticked. Estimates ✓, Confidence intervals 95% ✓, Model fit ✓, R squared change ✓, Descriptives ✓, and CRITICALLY Collinearity diagnostics ✓ (highlighted gold — without this you cannot verify multicollinearity assumption). Click Continue to return to the main dialog, then OK to run.' },
+
+        { type: 'callout', tone: 'brand', title: 'That is the entire multiple regression procedure',
+          body: [
+            '7 steps. 2 dialogs. About 30 seconds of clicking. The complexity is not in running the regression — it is in READING the output correctly (next section) and CHECKING the assumptions (Lesson 3).',
+            'The Machakos multiple regression output you will see next is what these 7 clicks produce: R² = .381, F(4, 262) = 40.14, p < .001, with Teacher_Competency emerging as the strongest unique predictor. That whole story comes from ticking the right boxes on these two dialogs.',
+          ]},
       ],
     },
 
