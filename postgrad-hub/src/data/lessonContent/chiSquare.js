@@ -39,6 +39,32 @@ export const CHI_SQUARE_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Chi-Square is the go-to test whenever your DV is CATEGORICAL. Before touching the SPSS dialog, understand: (1) What Chi-Square IS, (2) Why you use it instead of alternatives, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'NyandaruaChiWWWW',
+          caption: 'Figure 0. Chi-Square Test of Independence WHAT/WHY/WHERE/WHEN reference card using the Nyandarua Vaccine study (Education Level x Vaccine Acceptance, N=320 adults).' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Observed count** — the actual number of cases in each cell of your crosstab.',
+            '**Expected count** — the number you would see IF the two variables were independent. Chi-Square compares observed to expected.',
+            '**Chi-Square (χ²) statistic** — a single number summarizing how much observed and expected differ. Bigger χ² = bigger deviation from independence.',
+            '**df (degrees of freedom)** — for a 2-way chi-square, df = (rows - 1) × (columns - 1). Nyandarua: 4 education levels × 2 acceptance categories → df = 3.',
+            '**Cramer V** — an effect size measure from 0 to 1. Small = .10, medium = .30, large = .50. Report alongside χ² so readers know how STRONG the association is.',
+            '**Expected count assumption** — no more than 20% of cells with expected < 5, and NO cell with expected < 1. SPSS reports this at the bottom of the Chi-Square Tests table.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
@@ -179,6 +205,15 @@ export const CHI_SQUARE_LESSON = {
 
         { type: 'illustration', component: 'CrosstabsDialog',
           caption: 'Figure 2. The Crosstabs dialog set up for the JKUAT example. Row(s) = age_band (the predictor). Column(s) = mpesa_adopted (the outcome). Click Statistics → tick Chi-square AND Phi and Cramer\'s V. Click Cells → tick Observed, Expected, and Row percentages.' },
+
+        { type: 'illustration', component: 'NyandaruaCrosstabsDialog',
+          caption: 'Figure 1. The Crosstabs dialog for the Nyandarua Vaccine chi-square. EducationLevel is moved to the Row(s) box (the IV/predictor), and VaccineAccept goes to the Column(s) box (the DV/outcome). The critical [Statistics...] button is highlighted gold — clicking it opens the sub-dialog where you actually enable the chi-square test.' },
+
+        { type: 'illustration', component: 'NyandaruaChiStatsDialog',
+          caption: 'Figure 2. The Crosstabs → Statistics sub-dialog. You MUST tick Chi-square (highlighted gold) — without this, SPSS only creates a pretty table with no significance test. Also tick Phi and Cramer V (highlighted amber) for the effect size. Click Continue to return to the main dialog, then OK.' },
+
+        { type: 'illustration', component: 'NyandaruaChiOutput',
+          caption: 'Figure 3. The full chi-square output. TOP: Crosstab shows vaccine acceptance rising from 47.5% (None) to 84.0% (Tertiary) — a clear education gradient. MIDDLE: Chi-Square Tests row shows Pearson chi-square = 26.72, df = 3, p < .001 (highly significant). The footnote confirms 0% of cells with expected < 5 — assumption met. BOTTOM: Cramer V = .289 = medium-strength association. Chapter-4 write-up template in the gold callout.' },
       ],
     },
 
