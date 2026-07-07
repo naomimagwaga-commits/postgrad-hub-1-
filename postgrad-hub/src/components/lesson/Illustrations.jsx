@@ -6831,6 +6831,27 @@ export function MachakosOrdinalOutputFull() {
   return <ScreenshotFrame src="/lesson-images/regression/34-ordinal-output.jpg"
     alt="SPSS Ordinal Regression output for Machakos Form prediction. Model Fitting, Goodness-of-Fit, Pseudo R-Square (Nagelkerke .326), and Parameter Estimates with Threshold cutpoints and Location predictors. Digital_Devices (Est .324, p=.011) and Math_KCSE_Mean (Est .628, p<.001) both significant. Chapter 4 write-up template in the gold callout"/>;
 }
+/* Correlation course — WWWW primers for each lesson + decision map */
+export function MachakosPearsonWWWW() {
+  return <ScreenshotFrame src="/lesson-images/correlation-shared/00-pearson-wwww.jpg"
+    alt="Pearson Correlation WWWW 4-quadrant reference card. WHAT explains r as strength of linear relationship. WHY explains needing a number to report. WHERE lists Kenyan postgraduate scenarios. WHEN gives decision table for Pearson vs Spearman vs alternatives"/>;
+}
+export function MachakosSpearmanWWWW() {
+  return <ScreenshotFrame src="/lesson-images/correlation-shared/01-spearman-wwww.jpg"
+    alt="Spearman Rank Correlation WWWW 4-quadrant reference card. WHAT explains rho and monotonic relationships using ranks. WHY explains why it works when Pearson assumptions fail. WHERE lists Likert-scale and skewed-data scenarios. WHEN gives a decision table"/>;
+}
+export function MachakosPartialWWWW() {
+  return <ScreenshotFrame src="/lesson-images/correlation-shared/02-partial-wwww.jpg"
+    alt="Partial Correlation WWWW 4-quadrant reference card. WHAT explains removing shared effect of a third variable using Machakos device-vs-investment example. WHY warns about spurious correlations. WHERE lists demographic-controlling scenarios. WHEN emphasises defending why the third variable is a confounder"/>;
+}
+export function MachakosMatricesWWWW() {
+  return <ScreenshotFrame src="/lesson-images/correlation-shared/03-matrices-wwww.jpg"
+    alt="Correlation Matrices WWWW 4-quadrant reference card. WHAT explains a matrix as a table of all pairwise correlations. WHY compares matrix vs separate paragraphs. WHERE lists multi-variable thesis scenarios. WHEN gives decision rules for matrix vs separate reporting"/>;
+}
+export function MachakosCorrelationDecision() {
+  return <ScreenshotFrame src="/lesson-images/correlation-shared/04-decision-map.jpg"
+    alt="Which correlation should I use decision map. Top branch asks how many variables. 2 variables branches into Pearson, Spearman, or Partial based on data type and control needs. 3+ variables branches into Correlation Matrix"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7257,6 +7278,9 @@ export const ILLUSTRATIONS = {
   MachakosMrWWWW, MachakosMrNumberedClicks,
   MachakosMnWWWW, MachakosMultinomialDialogFull, MachakosMultinomialOutputFull,
   MachakosOrdinalDialogFull, MachakosOrdinalOutputFull,
+  /* Correlation course — WWWW cards + decision map */
+  MachakosPearsonWWWW, MachakosSpearmanWWWW, MachakosPartialWWWW, MachakosMatricesWWWW,
+  MachakosCorrelationDecision,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
