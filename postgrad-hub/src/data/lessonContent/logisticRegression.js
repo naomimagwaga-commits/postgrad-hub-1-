@@ -37,6 +37,41 @@ export const LOGISTIC_REGRESSION_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Logistic regression LOOKS like linear regression but works completely differently. Before you touch the SPSS dialog, understand: (1) What logistic actually IS, (2) Why linear regression FAILS on a binary DV, (3) Where a Kenyan postgraduate would use it, (4) When to choose it over alternatives.',
+            'These 4 answers are what your examiner will grill you on. Get them right before you click anything.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosLgWWWW',
+          caption: 'Figure 1. The Binary Logistic Regression WHAT/WHY/WHERE/WHEN reference card. The "common trap" warning at the bottom is critical — don\'t dichotomise your continuous DV just to run logistic if the binary distinction doesn\'t matter to your research question.' },
+
+        { type: 'heading', level: 3, text: 'The 30-second summary' },
+
+        { type: 'comparison',
+          headers: ['Question', 'One-line answer'],
+          rows: [
+            ['**WHAT is it?**',   'A regression for a **BINARY outcome** (0/1, yes/no, pass/fail). Predicts the PROBABILITY of category 1.'],
+            ['**WHY not linear?**', 'Linear on a binary DV predicts impossible values (like 1.4 on a 0-1 scale) AND its assumptions are violated. Logistic uses the LOGIT link to correctly bound predictions between 0 and 1.'],
+            ['**WHERE is it used?**', 'Anywhere the outcome is naturally either/or: pass/fail (education), adopt/reject (agriculture), recovered/still-sick (health), stayed/churned (business).'],
+            ['**WHEN to choose it?**', 'Whenever your DV has EXACTLY 2 categories. For 3+ nominal categories use Multinomial Logistic. For 3+ ordered categories use Ordinal Regression.'],
+          ]},
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you\'ll meet in the walkthrough',
+          body: [
+            '**Odds** — probability of an event divided by (1 − probability). If P = .75 of passing, odds = 3:1.',
+            '**Odds Ratio (OR / Exp(B))** — how much the odds of the outcome change per 1-unit increase in a predictor. OR = 1.79 means the odds go UP by 79% per 1-unit increase.',
+            '**Nagelkerke R²** — a pseudo-R² for logistic (regular R² doesn\'t work). Interpret similarly: .358 = strong effect for social-science research.',
+            '**Hosmer-Lemeshow test** — checks whether the model FITS the data. NON-significant p (> .05) is GOOD (the model fits well).',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. WHEN TO USE ════════════════════ */
     {
       id: 'when-to-use',
@@ -77,11 +112,17 @@ export const LOGISTIC_REGRESSION_LESSON = {
         { type: 'illustration', component: 'MachakosLogisticMenu',
           caption: 'Figure 1. The Analyze → Regression menu also houses Binary Logistic (for a yes/no DV), Multinomial Logistic (for 3+ unordered categories), and Ordinal (for ordered categories). Reusing the same Regression menu image — click Binary Logistic instead of Linear when your DV is dichotomous.' },
 
+        { type: 'illustration', component: 'MachakosLgStepMenu',
+          caption: 'Figure 2. **STEP 1 — Menu path: Analyze → Regression → Binary Logistic**. The gold arrow shows exactly where to click. Note the submenu also contains Multinomial Logistic (for 3+ nominal DV) and Ordinal (for ordered DV) — same menu house, different DV types.' },
+
         { type: 'illustration', component: 'MachakosLogisticDialog',
-          caption: 'Figure 2. The Logistic Regression dialog set up for the Machakos study. Math_Pass (a binary variable: 1 = passed KCSE with mean ≥ 6, 0 = failed) sits in the Dependent box. The same 4 IVs sit in the Covariates box (note: SPSS uses Covariates here instead of Independents). Method = Enter.' },
+          caption: 'Figure 3. **STEP 2-3 — Main dialog: Move DV to Dependent, IVs to Covariates**. The Logistic Regression dialog set up for the Machakos study. Math_Pass (a binary variable: 1 = passed KCSE with mean ≥ 6, 0 = failed) sits in the Dependent box. The same 4 IVs sit in the Covariates box (note: SPSS uses Covariates here instead of Independents). Method = Enter.' },
+        { type: 'illustration', component: 'MachakosLgStepOptions',
+          caption: 'Figure 4. **STEP 4 — Options sub-dialog (CRITICAL settings)**. Tick Classification plots, Hosmer-Lemeshow goodness-of-fit (highlighted gold — key model-fit test), Iteration history, and CRUCIALLY CI for exp(B) at 95%. The CI is what lets you report proper confidence intervals for your odds ratios (e.g. "OR = 1.79, 95% CI [1.17, 2.74]"). Click Continue to return to main dialog, then OK to run.' },
+
 
         { type: 'illustration', component: 'MachakosLogisticOutput',
-          caption: 'Figure 3. The Logistic Regression output. Model Summary: Nagelkerke R² = .358 (a strong effect for social science). Classification Table: 81.6% of cases correctly classified. Variables in the Equation (bottom): the Exp(B) column is the key — Teacher_Competency has an odds ratio of 1.79 (79% higher odds of passing per 1-point increase in competency), and InvestmentPerStudent OR = 1.30 per unit. Both significant. Digital_Devices and Internet_Connectivity are NOT significant. Chapter-4 write-up template shown in the gold callout.' },
+          caption: 'Figure 5. **STEP 5 — Read the output**. The Logistic Regression output. Model Summary: Nagelkerke R² = .358 (a strong effect for social science). Classification Table: 81.6% of cases correctly classified. Variables in the Equation (bottom): the Exp(B) column is the key — Teacher_Competency has an odds ratio of 1.79 (79% higher odds of passing per 1-point increase in competency), and InvestmentPerStudent OR = 1.30 per unit. Both significant. Digital_Devices and Internet_Connectivity are NOT significant. Chapter-4 write-up template shown in the gold callout.' },
 
 
         { type: 'definition', term: 'Logistic regression',
