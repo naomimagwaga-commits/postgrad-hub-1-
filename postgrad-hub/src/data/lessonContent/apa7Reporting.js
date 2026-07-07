@@ -78,6 +78,10 @@ export const APA7_REPORTING_LESSON = {
       id: 'test-templates',
       title: 'Per-test APA 7 reporting templates',
       blocks: [
+
+        { type: 'illustration', component: 'APATemplatesReference',
+          caption: 'Figure 1. The master APA 7 statistical reporting cheat sheet — every major test with its template and a Kenyan example side by side. Print this and keep it beside your laptop while writing Chapter 4. Includes Pearson, Spearman, Partial correlation, all 3 t-tests, Mann-Whitney, Wilcoxon, Simple regression, Multiple regression, Binary logistic, Chi-square, One-way ANOVA, and Cronbach alpha.' },
+
         { type: 'heading', level: 2, text: 'Copy the template, plug in your numbers' },
 
         { type: 'paragraph', text:
@@ -185,6 +189,15 @@ export const APA7_REPORTING_LESSON = {
       id: 'tables',
       title: 'Table formatting per APA 7',
       blocks: [
+
+        { type: 'illustration', component: 'APATableRules',
+          caption: 'Figure 2. APA 7 table formatting — the 7 rules with a visual example. Only horizontal borders. Table number + italicized title on separate lines above. Bold column headers. Aligned numbers. Italic Note below. Bookmark this — you will need it every time you build a table for your thesis.' },
+
+
+        { type: 'illustration', component: 'APABadVsGoodTable',
+          caption: 'Figure 3. Raw SPSS output vs APA 7 reformatted — the same Machakos correlation matrix, two dramatically different presentations. NEVER paste SPSS directly into your thesis. Always reformat: strip vertical borders, use only the lower triangle, replace 1.000s with em dashes, use human-readable variable names, add proper Table number + italic title + Note.' },
+
+
         { type: 'heading', level: 2, text: 'The five APA 7 table rules' },
 
         { type: 'illustration', component: 'ApaTableExample',
