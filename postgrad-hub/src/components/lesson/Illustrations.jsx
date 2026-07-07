@@ -6794,6 +6794,43 @@ export function MachakosLgStepOptions() {
   return <ScreenshotFrame src="/lesson-images/regression/25-lg-step-options.jpg"
     alt="SPSS Logistic Regression Options sub-dialog. Classification plots checked, Hosmer-Lemeshow goodness-of-fit checked highlighted gold, Iteration history checked. CI for exp B set to 95 percent highlighted gold. Two gold callouts explain Hosmer-Lemeshow interpretation and CI for exp B importance for reporting odds ratios"/>;
 }
+/* WWWW + numbered-click diagrams for Simple, Multiple, Multinomial/Ordinal Regression */
+export function MachakosSrWWWW() {
+  return <ScreenshotFrame src="/lesson-images/regression/26-sr-wwww.jpg"
+    alt="Simple Linear Regression WWWW 4-quadrant reference card. WHAT explains fitting a line y=a+bx with Machakos regression equation. WHY explains prediction vs correlation. WHERE lists Kenyan postgraduate scenarios. WHEN gives decision table simple vs alternatives"/>;
+}
+export function MachakosSrNumberedClicks() {
+  return <ScreenshotFrame src="/lesson-images/regression/27-sr-numbered-clicks.jpg"
+    alt="SPSS Linear Regression dialog with red numbered click markers 2 through 6 overlaid showing the full simple regression setup sequence for Math_KCSE_Mean predicted by Digital_Devices. Gold callout at top lists all 6 steps"/>;
+}
+export function MachakosMrWWWW() {
+  return <ScreenshotFrame src="/lesson-images/regression/28-mr-wwww.jpg"
+    alt="Multiple Regression WWWW 4-quadrant reference card. WHAT explains the equation with multiple predictors. WHY explains unique-effect coefficients that control for shared variance. WHERE lists common Kenyan thesis scenarios. WHEN gives decision table with sample size rule N greater than 50 plus 8 times predictors"/>;
+}
+export function MachakosMrNumberedClicks() {
+  return <ScreenshotFrame src="/lesson-images/regression/29-mr-numbered-clicks.jpg"
+    alt="SPSS Linear Regression dialog with red numbered click markers 2 through 6 overlaid showing multiple regression setup with all 4 Machakos IVs. Statistics button highlighted as critical step 5 for Collinearity diagnostics"/>;
+}
+export function MachakosMnWWWW() {
+  return <ScreenshotFrame src="/lesson-images/regression/30-mn-wwww.jpg"
+    alt="Multinomial and Ordinal Regression WWWW 4-quadrant reference card. WHAT contrasts Multinomial for unordered categories vs Ordinal for ordered categories. WHY explains why linear or binary logistic wouldn't work. WHERE lists Kenyan examples. WHEN gives a decision table by DV type with common traps to avoid"/>;
+}
+export function MachakosMultinomialDialogFull() {
+  return <ScreenshotFrame src="/lesson-images/regression/31-multinomial-dialog.jpg"
+    alt="SPSS Multinomial Logistic Regression dialog for the Machakos study. Category as Dependent variable, with a Reference Category button highlighted. 3 continuous IVs in Covariates box: Age, Digital_Devices, Teacher_Competency. Gold callout explains reference-category selection and per-category odds ratio output"/>;
+}
+export function MachakosMultinomialOutputFull() {
+  return <ScreenshotFrame src="/lesson-images/regression/32-multinomial-output.jpg"
+    alt="SPSS Multinomial Logistic Regression output for Machakos Category prediction. Model Fitting Information, Goodness-of-Fit, Pseudo R-Square (Nagelkerke .518), and Parameter Estimates split into two blocks: Principal-vs-Student and Teacher-vs-Student. Age significant in both, Teacher_Competency significant in Teacher block. Exp(B) columns highlighted gold"/>;
+}
+export function MachakosOrdinalDialogFull() {
+  return <ScreenshotFrame src="/lesson-images/regression/33-ordinal-dialog.jpg"
+    alt="SPSS Ordinal Regression dialog for predicting Machakos Form (ordinal 2,3,4) from Gender in Factors and Age, Digital_Devices, Math_KCSE_Mean in Covariates. Gold callout explains the difference from Multinomial: Ordinal respects DV ordering with a cumulative logit link"/>;
+}
+export function MachakosOrdinalOutputFull() {
+  return <ScreenshotFrame src="/lesson-images/regression/34-ordinal-output.jpg"
+    alt="SPSS Ordinal Regression output for Machakos Form prediction. Model Fitting, Goodness-of-Fit, Pseudo R-Square (Nagelkerke .326), and Parameter Estimates with Threshold cutpoints and Location predictors. Digital_Devices (Est .324, p=.011) and Math_KCSE_Mean (Est .628, p<.001) both significant. Chapter 4 write-up template in the gold callout"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7215,6 +7252,11 @@ export const ILLUSTRATIONS = {
   /* Beginner-first polish — WWWW cards + per-step diagrams */
   MachakosHrWWWW, MachakosHrStepBlock1, MachakosHrStepBlock2,
   MachakosLgWWWW, MachakosLgStepMenu, MachakosLgStepOptions,
+  /* Beginner-first polish (round 2) — Simple + Multiple + Multinomial/Ordinal */
+  MachakosSrWWWW, MachakosSrNumberedClicks,
+  MachakosMrWWWW, MachakosMrNumberedClicks,
+  MachakosMnWWWW, MachakosMultinomialDialogFull, MachakosMultinomialOutputFull,
+  MachakosOrdinalDialogFull, MachakosOrdinalOutputFull,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
