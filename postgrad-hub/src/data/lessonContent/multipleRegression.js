@@ -133,8 +133,8 @@ export const MULTIPLE_REGRESSION_LESSON = {
         { type: 'paragraph', text:
           'Most of the multiple regression output looks identical to simple regression. The new things to focus on:' },
 
-        { type: 'illustration', component: 'RegressionOutput',
-          caption: 'Figure 1. Multiple regression output for predicting math_score from study_hrs, motivation, and attendance (n = 119). Model Summary shows R² = .235 — three predictors together explain 23.5% of variance. ANOVA F(3, 115) = 11.78 highly significant. Coefficients table shows each predictor\'s individual B, β, and significance.' },
+        { type: 'illustration', component: 'MachakosRegMultiOutput',
+          caption: 'Figure 1. Multiple regression output for Machakos with all 4 IVs entered together. R² jumps from .228 (Digital_Devices alone) to .381 (all 4 together). Teacher_Competency emerges as strongest UNIQUE predictor (β = .27, p = .001). Internet_Connectivity is no longer significant (β = .09, p = .184) — its bivariate effect was absorbed by other IVs. All VIF < 5 → no multicollinearity concern.' },
 
         { type: 'heading', level: 3, text: 'Model Summary — pay attention to Adjusted R²' },
 
@@ -181,8 +181,8 @@ export const MULTIPLE_REGRESSION_LESSON = {
         { type: 'paragraph', text:
           'Multicollinearity happens when two or more of your predictors are strongly correlated with each other — they carry overlapping information. The model cannot tell which one is "really" doing the work, so the coefficients become unstable. Tiny changes in your data can flip a B coefficient\'s sign or significance.' },
 
-        { type: 'illustration', component: 'MulticollinearityVenn',
-          caption: 'Figure 2. Multicollinearity visualised. LEFT: low collinearity — predictors X₁ and X₂ are mostly independent, each making a distinct contribution to predicting Y. RIGHT: high collinearity — X₁ and X₂ overlap heavily, both essentially measuring the same thing. The model cannot tell them apart and coefficients become unreliable.' },
+        { type: 'illustration', component: 'MachakosRegBetaComparison',
+          caption: 'Figure 2. Standardized β comparison for all 4 Machakos IVs. Teacher_Competency wins (β = .27). Internet_Connectivity fails to reach significance (grey bar). The right-side table shows how each IV\'s effect SHRANK from its bivariate correlation to its multiple β — the shrinkage tells you how much of each IV\'s apparent effect was actually shared with the others.' },
 
         { type: 'heading', level: 3, text: 'How to detect multicollinearity' },
 
@@ -235,8 +235,8 @@ export const MULTIPLE_REGRESSION_LESSON = {
         { type: 'callout', tone: 'warning', title: 'Avoid Stepwise regression in your thesis',
           body: 'Many older statistics textbooks teach Stepwise as the default. Modern methodologists strongly DISCOURAGE it because: (1) it is atheoretical — SPSS chooses variables, not you; (2) results change wildly if you re-run on slightly different data; (3) it inflates false-positive rates; (4) journals increasingly reject Stepwise findings. If your supervisor specifically requests Stepwise, run it but always also run Enter for comparison. Use Enter as your primary analysis.' },
 
-        { type: 'illustration', component: 'HierarchicalBlocks',
-          caption: 'Figure 3. Hierarchical regression — adding predictors in theory-driven BLOCKS. Block 1: demographics (gender, age, county). Block 2: behavioural variables (study hours, attendance). Block 3: psychological variables (motivation, self-efficacy). Each block\'s ΔR² shows what NEW variance it adds beyond previous blocks. This is the proper way to test "does Z add explanatory power BEYOND X and Y?"' },
+        { type: 'illustration', component: 'MachakosRegR2Breakdown',
+          caption: 'Figure 3. R² = .381 unpacked as a pie chart. 38.1% (gold) is EXPLAINED by the 4 IVs — an excellent result for social-science research. 61.9% (grey) is UNEXPLAINED — everything you didn\'t measure (motivation, home environment, ability, luck). Small donut badges show each IV\'s squared-β contribution to the explained slice.' },
 
         { type: 'heading', level: 3, text: 'When hierarchical (block-by-block) regression is useful' },
 
