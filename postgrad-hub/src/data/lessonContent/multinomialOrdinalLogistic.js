@@ -37,6 +37,31 @@ export const MULTINOMIAL_ORDINAL_LOGISTIC_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'This lesson covers TWO closely-related tests — Multinomial (for unordered 3+ categories) and Ordinal (for ordered 3+ categories). Before touching either SPSS dialog, understand: (1) What each IS, (2) Why linear regression or binary logistic won\'t work, (3) Where you\'d use each, (4) When to choose Multinomial vs Ordinal.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosMnWWWW',
+          caption: 'Figure 0. Multinomial vs Ordinal WHAT/WHY/WHERE/WHEN reference card. The bottom banner distills the key question: does your DV have a meaningful ORDER? If YES → Ordinal. If NO → Multinomial.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you\'ll meet in the walkthrough',
+          body: [
+            '**Reference Category** (Multinomial only) — the group all other categories are COMPARED to. Usually the largest group or the "control" category. All odds ratios are read as "vs [reference]".',
+            '**Cumulative logit** (Ordinal only) — the math that preserves DV ordering. You don\'t need to understand the math, just know it exists and it\'s the reason Ordinal doesn\'t need a reference category.',
+            '**Threshold** (Ordinal output) — the cut-points between adjacent DV categories on the underlying continuous scale. Usually reported but rarely interpreted.',
+            '**Location** (Ordinal output) — where your predictor coefficients appear. Positive = predicts higher DV category, negative = predicts lower.',
+            '**Nagelkerke R²** — pseudo-R² for both tests. Same interpretation as before: >.3 = strong for social science.',
+            '**Parameter Estimates table** — the main output. In Multinomial, split into blocks (one per non-reference category). In Ordinal, one unified block.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. CHOOSING ════════════════════ */
     {
       id: 'choosing',
@@ -122,8 +147,8 @@ export const MULTINOMIAL_ORDINAL_LOGISTIC_LESSON = {
             body: 'SPSS produces several tables. The KEY ones are Model Fitting Information (overall significance), Pseudo R-Square, Likelihood Ratio Tests (which predictors matter overall), and Parameter Estimates (the k − 1 sets of coefficients with odds ratios in the "Exp(B)" column).' },
         ]},
 
-        { type: 'illustration', component: 'MultinomialDialog',
-          caption: 'Figure 2. The Multinomial Logistic dialog. Dependent = transport_mode. Factor(s) = categorical predictors (gender, licence_held). Covariate(s) = continuous predictors (age, income, distance_to_cbd). Click Reference Category to pick a substantive baseline; click Statistics to enable the key output tables.' },
+        { type: 'illustration', component: 'MachakosMultinomialDialogFull',
+          caption: 'Figure 2. **Multinomial Logistic dialog** set up for the Machakos study. DV: Category (Principal/Teacher/Student, 3 unordered groups). IVs: Age, Digital_Devices, Teacher_Competency in Covariates. CRITICAL: click [Reference Category...] first to set the baseline group (usually the largest — Student here with N=212).' },
       ],
     },
 
@@ -134,8 +159,8 @@ export const MULTINOMIAL_ORDINAL_LOGISTIC_LESSON = {
       blocks: [
         { type: 'heading', level: 2, text: 'Three coefficient tables in one' },
 
-        { type: 'illustration', component: 'MultinomialOutput',
-          caption: 'Figure 3. Multinomial Parameter Estimates with matatu as the reference. Three blocks of coefficients — one per non-reference category. For each predictor SPSS prints B (log-odds), Std. Error, Wald, df, Sig., and Exp(B) (the odds ratio) with its 95% CI. Read the table block by block: each block tells you what predicts choosing THAT mode over matatu.' },
+        { type: 'illustration', component: 'MachakosMultinomialOutputFull',
+          caption: 'Figure 3. **Multinomial output** for Machakos Category prediction. Parameter Estimates split into TWO blocks — Principal vs Student, and Teacher vs Student. Age significant in both blocks (older → more likely Principal or Teacher than Student). Teacher_Competency significant in the Teacher block (higher competency → more likely Teacher vs Student). Nagelkerke R² = .518.' },
 
         { type: 'heading', level: 3, text: 'Key tables to read in order' },
 
@@ -186,7 +211,7 @@ export const MULTINOMIAL_ORDINAL_LOGISTIC_LESSON = {
           'The model achieves this by imagining a latent continuous variable underlying your ordered outcome, then placing k − 1 THRESHOLDS (cut-points) along that continuum to define where one category ends and the next begins. Predictors shift the latent variable; the thresholds stay fixed. This is conceptually elegant and far more parsimonious than multinomial when the assumption holds.' },
 
         { type: 'illustration', component: 'OrdinalThresholds',
-          caption: 'Figure 4. Ordinal logistic intuition. A latent continuous variable runs left-right. Three thresholds carve it into four ordered categories (Low / Lower-Middle / Upper-Middle / High poverty band). Predictors (e.g. years of education) SHIFT the latent variable left or right; the thresholds remain fixed. A negative coefficient (e.g. β = −0.4 for education) means more education shifts a respondent\'s latent value LEFT (toward Low) — lower poverty band.' },
+          caption: 'Figure 4. **Ordinal Regression dialog** set up for Machakos Form (ordered 2 < 3 < 4). DV: Form. Factors (categorical IVs): Gender. Covariates (continuous IVs): Age, Digital_Devices, Math_KCSE_Mean. Note the DIFFERENT dialog layout from Multinomial — separate boxes for Factors vs Covariates. No reference category needed (SPSS handles the cumulative ordering).' },
 
         { type: 'definition', term: 'Proportional odds (parallel lines) assumption',
           body: 'The critical assumption of ordinal logistic regression: the effect of each predictor is the SAME ACROSS ALL THRESHOLDS. I.e. the coefficient for education that predicts "Low vs ≥ Lower-Middle" is the same coefficient that predicts "≤ Lower-Middle vs ≥ Upper-Middle" and "≤ Upper-Middle vs High". If this assumption holds, the single coefficient is valid. If it FAILS (Test of Parallel Lines comes back with p < .05), the predictor\'s effect actually differs across thresholds and ordinal logistic gives misleading results.' },
@@ -218,8 +243,8 @@ export const MULTINOMIAL_ORDINAL_LOGISTIC_LESSON = {
             body: 'SPSS produces Model Fitting Information, Goodness-of-Fit, Pseudo R-Square, Parameter Estimates (with thresholds and predictor coefficients), and Test of Parallel Lines (the assumption check).' },
         ]},
 
-        { type: 'illustration', component: 'OrdinalDialog',
-          caption: 'Figure 5. The Ordinal Regression dialog. Dependent = poverty_band (must be ordinal in Variable View). Factor(s) = categorical predictors. Covariate(s) = continuous predictors. CRITICAL: in the Output dialog, tick "Test of parallel lines" — this is the proportional-odds assumption check.' },
+        { type: 'illustration', component: 'MachakosOrdinalDialogFull',
+          caption: 'Figure 5. **Ordinal output** for Machakos Form prediction. Parameter Estimates split into Threshold (cut-points between Form categories) and Location (predictors). Digital_Devices (Est = 0.32, p = .011) and Math_KCSE_Mean (Est = 0.63, p < .001) both significantly predict higher Form category. Nagelkerke R² = .326. Chapter-4 write-up template in the gold callout.' },
       ],
     },
 
@@ -230,7 +255,7 @@ export const MULTINOMIAL_ORDINAL_LOGISTIC_LESSON = {
       blocks: [
         { type: 'heading', level: 2, text: 'Thresholds, coefficients, and the assumption check' },
 
-        { type: 'illustration', component: 'OrdinalOutput',
+        { type: 'illustration', component: 'MachakosOrdinalOutputFull',
           caption: 'Figure 6. The ordinal Parameter Estimates table. The TOP section ("Threshold") lists the k − 1 cut-points — for 4 categories, 3 thresholds. The BOTTOM section ("Location") lists one coefficient per predictor (B, SE, Wald, df, Sig.) — these are the substantive results. Below the table sits the Test of Parallel Lines — Sig. > .05 means the proportional-odds assumption is met and the single coefficients are valid.' },
 
         { type: 'heading', level: 3, text: 'Parameter Estimates — Threshold rows' },
