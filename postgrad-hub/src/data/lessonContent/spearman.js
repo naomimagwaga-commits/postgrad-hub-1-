@@ -36,6 +36,32 @@ export const SPEARMAN_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Spearman is the non-parametric alternative to Pearson — used when Pearson\'s assumptions fail. Before touching the SPSS dialog, understand: (1) What Spearman IS, (2) Why you would use it instead of Pearson, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'If you can answer all 4 in one sentence each, you\'re ready for the walkthrough. If not, spend 3 minutes here.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosSpearmanWWWW',
+          caption: 'Figure 0. Spearman Rank Correlation WHAT/WHY/WHERE/WHEN reference card. The bottom banner gives the golden rule: run both Pearson and Spearman if unsure — if they agree, either is fine.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you\'ll meet in the walkthrough',
+          body: [
+            '**ρ (rho)** — the Spearman rank correlation coefficient. Same -1 to +1 range as Pearson r. Machakos: Form ↔ Math_KCSE ρ = .284.',
+            '**Rank** — the position of a value when sorted (1st, 2nd, 3rd...). Spearman correlates RANKS, not the original values.',
+            '**Monotonic** — a relationship that consistently rises OR consistently falls, but not necessarily in a straight line.',
+            '**Ordinal** — a variable with ordered categories where the spacing between categories may not be equal (Likert 1-5, Form 2/3/4).',
+            '**Non-parametric** — doesn\'t assume any particular distribution (unlike Pearson which assumes normal-ish data).',
+            '**Ties** — when two respondents have the same value. Spearman handles ties automatically with average ranks.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. THE BIG IDEA — RANKS ════════════════════ */
     {
       id: 'big-idea',
