@@ -36,6 +36,32 @@ export const ONE_SAMPLE_TTEST_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Before you touch the SPSS dialog, understand: (1) What this t-test IS, (2) Why you use it instead of alternatives, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'KiambuOstWWWW',
+          caption: 'Figure 0. One-Sample T-Test WHAT/WHY/WHERE/WHEN reference card using the Kiambu Maize case study. Compares Kiambu yield to the national benchmark of 1,750 kg/acre.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Test Value** — the benchmark you compare your sample mean against. Must come from a credible source (ministry stats, published study, policy target).',
+            '**t-statistic** — how many standard errors your sample mean is FROM the test value. Big |t| = big difference. Sign tells direction (positive = sample > test value, negative = below).',
+            '**df (degrees of freedom)** — always N minus 1 for one-sample t-test.',
+            '**Sig.(2-tailed)** — the p-value. Below .05 = significantly different from the test value.',
+            '**Mean Difference** — sample mean minus test value. Machakos example: -113.33 means Kiambu is 113 kg BELOW the national benchmark.',
+            '**95% CI** — the range likely to contain the TRUE mean difference. If it does NOT include 0, the difference is significant.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
@@ -115,6 +141,12 @@ export const ONE_SAMPLE_TTEST_LESSON = {
 
         { type: 'illustration', component: 'OneSampleTTestDialog',
           caption: 'Figure 2. The One-Sample T Test dialog. Test Variable(s) = your continuous outcome (systolic_bp). Test Value = the constant from your reference source (122 in this example). Default test value is 0 — almost never what you want, always type your actual benchmark.' },
+        { type: 'illustration', component: 'KiambuOstDialog',
+          caption: 'Figure 1. The One-Sample T Test dialog set up for Kiambu Maize. Yield_KgPerAcre is the Test Variable; 1750 (the national average per the Ministry of Agriculture) is the Test Value. The Options button lets you change the confidence level (default 95%).' },
+
+        { type: 'illustration', component: 'KiambuOstOutput',
+          caption: 'Figure 2. The output. Descriptives table (top) confirms N=180, Mean=1636.67, SD=443.21. Test table (bottom) shows t = -3.43, df = 179, p = .001, Mean Difference = -113.33, 95% CI [-178.51, -48.15]. Kiambu produces significantly LESS than the national benchmark. Chapter-4 write-up template in the gold callout.' },
+
       ],
     },
 
