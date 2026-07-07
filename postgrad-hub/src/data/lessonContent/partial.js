@@ -36,6 +36,32 @@ export const PARTIAL_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Partial correlation lets you TEST whether a bivariate relationship is REAL or just being driven by a lurking third variable. Before touching the SPSS dialog, understand: (1) What partial correlation IS, (2) Why you would use it instead of ordinary Pearson, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'If you can answer all 4 in one sentence each, you are ready for the walkthrough. If not, spend 3 minutes here.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosPartialWWWW',
+          caption: 'Figure 0. Partial Correlation WHAT/WHY/WHERE/WHEN reference card. Includes the critical warning about defending your choice of control variable — examiners will ask.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Zero-order correlation** — the ordinary bivariate correlation with NO controls (just Pearson r between X and Y).',
+            '**Partial correlation** — the correlation between X and Y AFTER removing the shared variance with a third variable Z.',
+            '**Control variable / covariate** — the third variable whose effect you want to remove. Machakos example: InvestmentPerStudent.',
+            '**Confounder** — a variable that causes BOTH X and Y, making them appear correlated even if they have no direct link.',
+            '**Notation** — r(X,Y | Z) reads as "the correlation of X and Y, controlling for Z". The | means "given" or "holding constant".',
+            '**Shrinkage** — the amount r shrinks when moving from bivariate to partial. Big shrinkage = your control variable was doing a lot of the work.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. THE BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
