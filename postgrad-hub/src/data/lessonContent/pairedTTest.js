@@ -36,6 +36,32 @@ export const PAIRED_TTEST_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Before you touch the SPSS dialog, understand: (1) What this t-test IS, (2) Why you use it instead of alternatives, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'NakuruPtWWWW',
+          caption: 'Figure 0. Paired-Samples T-Test WHAT/WHY/WHERE/WHEN reference card using the Nakuru Wellness before/after SBP comparison.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Paired** — the 2 measurements come from the SAME people. Machakos example: SBP_T0 (baseline) and SBP_T2 (Week 12) for the same 45 staff.',
+            '**Difference Score** — Variable 1 minus Variable 2 for each pair. The paired t-test tests whether the AVERAGE difference score is significantly different from zero.',
+            '**Correlation (r)** — how strongly the 2 measurements are related. High r = paired test is much more powerful than independent t-test on same data.',
+            '**Mean Difference** — average of all the difference scores. Machakos: 8.20 mmHg drop from baseline to Week 12.',
+            '**df** — always N pairs minus 1 (not N total).',
+            '**Missing pair rule** — if ANY person misses either measurement, the whole pair is dropped. Track dropouts explicitly in your methods.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
@@ -121,6 +147,12 @@ export const PAIRED_TTEST_LESSON = {
 
         { type: 'callout', tone: 'warning', title: 'Direction matters: mean difference = Var1 − Var2',
           body: 'SPSS always computes the difference as **the first variable MINUS the second variable**. If you put score_before in Variable1 and score_after in Variable2, the mean difference will be NEGATIVE (because after > before in our example). Many students panic at a negative mean difference — it just means the second variable was higher. To avoid confusion, put the "later" or "experimental" condition as Variable1 — then a positive mean difference means improvement.' },
+        { type: 'illustration', component: 'NakuruPtDialog',
+          caption: 'Figure 1. The Paired-Samples T Test dialog for Nakuru Wellness. Pair 1 contains Variable 1 = SBP_T0 (baseline) and Variable 2 = SBP_T2 (Week 12). SPSS automatically pairs them by row (matching StaffID). You can add multiple pairs to compare several time-comparisons in one output.' },
+
+        { type: 'illustration', component: 'NakuruPtOutput',
+          caption: 'Figure 2. The output. Paired Samples Statistics shows SBP_T0 mean = 142.4 vs SBP_T2 mean = 134.2 (N=45 pairs). Paired Samples Correlations shows r = .823, p < .001 (staff who had high BP at baseline still had relatively high BP at Week 12 — this high correlation is WHY paired tests are more powerful). Paired Samples Test shows mean difference = 8.20 mmHg, t(44) = 6.87, p < .001, 95% CI [5.79, 10.61]. The 12-week wellness programme produced a significant, clinically meaningful reduction in blood pressure.' },
+
       ],
     },
 
