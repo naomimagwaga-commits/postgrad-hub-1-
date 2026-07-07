@@ -47,8 +47,8 @@ export const MULTINOMIAL_ORDINAL_LOGISTIC_LESSON = {
         { type: 'paragraph', text:
           'The entire choice between multinomial and ordinal logistic regression comes down to a single question: **do my outcome categories have a meaningful natural order?**' },
 
-        { type: 'illustration', component: 'MultinomialVsOrdinal',
-          caption: 'Figure 1. Multinomial vs ordinal — at a glance. LEFT: multinomial outcomes (transport mode, party affiliation, marital status) have no natural order. Comparing "boda" to "car" makes no sense as "higher" or "lower". RIGHT: ordinal outcomes (poverty band, education level, Likert agreement) DO have natural order. "Low income" is unambiguously lower than "High income". The category order is meaningful and the analysis exploits it.' },
+        { type: 'illustration', component: 'MachakosRegWhenToUseWhich',
+          caption: 'Figure 1. Which regression should I use? A decision tree based on DV type. CONTINUOUS DV → Linear (Lesson 1-2). BINARY DV → Binary Logistic (Lesson 4). ORDINAL DV → Ordinal Regression (this lesson). NOMINAL 3+ DV → Multinomial Logistic (this lesson). Each terminal box shows a Machakos example, the SPSS menu path, and the key output metric.' },
 
         { type: 'comparison',
           headers: ['', 'Multinomial', 'Ordinal'],
