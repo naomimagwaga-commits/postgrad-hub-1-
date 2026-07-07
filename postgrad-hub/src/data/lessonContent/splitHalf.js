@@ -14,6 +14,10 @@ export const SPLIT_HALF_LESSON = {
       id: 'welcome',
       title: 'A second opinion on your scale\'s reliability',
       blocks: [
+
+        { type: 'illustration', component: 'ReliabilityDecisionMap',
+          caption: 'Figure 0b (shared with the whole Reliability course). Which reliability method should you use? Cronbach Alpha for standard scales; Item-Total for per-item diagnostics; Split-Half for speed tests or as a supplementary check. This lesson covers Split-Half.' },
+
         { type: 'scene', body: [
           'You report Cronbach\'s alpha = .82 for your 10-item engagement scale. Your supervisor reads Chapter 3, nods, then writes in the margin: *"Could you also report the split-half reliability as a robustness check?"*',
           'You stare at the comment. Split-half? You vaguely remember it from a methods class — something about dividing items into halves and comparing them. You wonder why anyone needs two reliability measures when alpha is already there.',
@@ -33,6 +37,29 @@ export const SPLIT_HALF_LESSON = {
 
         { type: 'why', body:
           'Split-half is less frequently reported than alpha in modern research, but it remains a useful robustness check — especially when supervisors specifically request it, when you have a long scale, or when you want to demonstrate that reliability holds up under different computation methods. Knowing both methods makes you a more complete researcher.' },
+      ],
+    },
+
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Split-Half is an older reliability method still used occasionally. Before running it, understand: (1) What Split-Half IS, (2) Why you would use it instead of Cronbach Alpha, (3) Where you would use it, (4) When to CHOOSE it.',
+          ]},
+
+        { type: 'illustration', component: 'MombasaSplitHalfWWWW',
+          caption: 'Figure 0. Split-Half Reliability WHAT/WHY/WHERE/WHEN reference card using the Mombasa scale. Split-Half Spearman-Brown = .82 vs Cronbach Alpha = .84 - both agree the scale is reliable.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Guttman split-half coefficient** - the RAW correlation between the two halves of your scale.',
+            '**Spearman-Brown coefficient** - the CORRECTED estimate of full-scale reliability, assuming both halves are equally reliable. This is the main split-half number to report.',
+            '**Odd-Even split** - the default in SPSS - items 1, 3, 5, 7... form Part 1; items 2, 4, 6, 8... form Part 2.',
+            '**Speed test** - a scale where later items are harder or slower to answer; requires split-half rather than Cronbach.',
+          ]},
       ],
     },
 
@@ -124,6 +151,10 @@ export const SPLIT_HALF_LESSON = {
       id: 'reading',
       title: 'Reading the split-half output — six numbers, one that matters',
       blocks: [
+
+        { type: 'illustration', component: 'MombasaSplitHalfOutput',
+          caption: 'Figure 1. Split-Half output for the Mombasa 15-item scale. Reports Part 1 alpha (.782), Part 2 alpha (.765), Correlation Between Forms (.698), Spearman-Brown Coefficient (.822 Equal Length), and Guttman Split-Half Coefficient (.818). All values converge - the scale is reliable regardless of which method you use.' },
+
         { type: 'heading', level: 2, text: 'What SPSS prints for split-half' },
 
         { type: 'paragraph', text:
