@@ -36,6 +36,32 @@ export const MANN_WHITNEY_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Before you touch the SPSS dialog, understand: (1) What this non-parametric test IS, (2) Why you use it instead of the parametric equivalent, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'KiambuMannWhitneyWWWW',
+          caption: 'Figure 0. Mann-Whitney U WHAT/WHY/WHERE/WHEN reference card. The non-parametric alternative to the independent t-test, using Kiambu Maize DAP vs CAN comparison.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Mean rank** — for each group, the average rank of its values when both groups are pooled and ranked together. Bigger gap between mean ranks = clearer group difference.',
+            '**U statistic** — the Mann-Whitney test value. Smaller U = bigger group difference. SPSS reports it alongside a Z score for large samples.',
+            '**Wilcoxon W** — an equivalent statistic reported by SPSS (older convention). Same information as U.',
+            '**Z-statistic** — the standardized test value used when both groups have N ≥ 20 (default in SPSS).',
+            '**Median** — report medians for each group, NOT means (this is a rank-based test).',
+            '**Exact test** — for small samples (N < 20 per group), click the Exact button in the dialog to get an exact p-value instead of the asymptotic approximation.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
@@ -122,6 +148,12 @@ export const MANN_WHITNEY_LESSON = {
 
         { type: 'illustration', component: 'MannWhitneyDialog',
           caption: 'Figure 2. The 2 Independent Samples (Legacy Dialogs) dialog. Test Variable List = the outcome (monthly_income). Grouping Variable = the categorical 2-level variable (settlement). Make sure Mann-Whitney U is ticked under Test Type — that is the default.' },
+        { type: 'illustration', component: 'KiambuMannWhitneyDialog',
+          caption: 'Figure 1. The Two-Independent-Samples Tests dialog for the Kiambu Mann-Whitney. Same setup as the independent t-test (Test Variable + Grouping Variable + Define Groups), plus a Test Type panel where you tick Mann-Whitney U. Menu path: Analyze → Nonparametric Tests → Legacy Dialogs → 2 Independent Samples.' },
+
+        { type: 'illustration', component: 'KiambuMannWhitneyOutput',
+          caption: 'Figure 2. The output. Ranks table shows DAP Mean Rank = 74.0 vs CAN Mean Rank = 47.0 — a wide gap indicating DAP consistently ranks higher. Test Statistics shows U = 990.0, Z = -4.24, p < .001. Report the MEDIAN yield for each group (DAP median = 1,845 kg vs CAN median = 1,610 kg). Chapter-4 write-up template in the gold callout.' },
+
       ],
     },
 
