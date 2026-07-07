@@ -6893,6 +6893,31 @@ export function TTestDecisionMap() {
   return <ScreenshotFrame src="/lesson-images/ttests/09-decision-map.jpg"
     alt="Which t-test do I need decision map. Top question asks how many groups or measurements. 3 branches: 1 sample vs known value goes to One-Sample T-Test (Lesson 1). 2 separate groups branches into Independent T-Test (Lesson 2) if normal or Mann-Whitney U (Lesson 5) if non-parametric. Same people measured twice branches into Paired T-Test (Lesson 3) if normal or Wilcoxon Signed-Rank (Lesson 4) if non-parametric"/>;
 }
+/* T-Tests non-parametric alternatives */
+export function NakuruWilcoxonWWWW() {
+  return <ScreenshotFrame src="/lesson-images/ttests/10-wilcoxon-wwww.jpg"
+    alt="Wilcoxon Signed-Rank WWWW 4-quadrant reference card using Nakuru Wellness data. WHAT explains the rank-based comparison of paired measurements. WHY explains it works when difference scores fail normality. WHERE lists small-sample and ordinal-outcome scenarios. WHEN contrasts with paired t-test"/>;
+}
+export function NakuruWilcoxonDialog() {
+  return <ScreenshotFrame src="/lesson-images/ttests/11-wilcoxon-dialog.jpg"
+    alt="SPSS Two-Related-Samples Tests dialog for Nakuru Wellness. Test Pairs table shows Pair 1 with SBP_T0 and SBP_T2. Wilcoxon checkbox ticked highlighted gold. Other test types Sign, McNemar, Marginal Homogeneity unchecked"/>;
+}
+export function NakuruWilcoxonOutput() {
+  return <ScreenshotFrame src="/lesson-images/ttests/12-wilcoxon-output.jpg"
+    alt="SPSS Wilcoxon Signed-Rank output. Ranks table shows 40 Negative Ranks, 4 Positive Ranks, 1 Tie for SBP_T2 minus SBP_T0. Test Statistics table shows Z equals -5.31, Asymp Sig less than .001. Chapter 4 write-up template explains reporting medians not means"/>;
+}
+export function KiambuMannWhitneyWWWW() {
+  return <ScreenshotFrame src="/lesson-images/ttests/13-mannwhitney-wwww.jpg"
+    alt="Mann-Whitney U WWWW 4-quadrant reference card using Kiambu Maize data. WHAT explains rank-based comparison of 2 independent groups. WHY explains it works when independent t-test assumptions fail. WHERE lists ordinal-outcome and small-sample scenarios. WHEN contrasts with independent t-test"/>;
+}
+export function KiambuMannWhitneyDialog() {
+  return <ScreenshotFrame src="/lesson-images/ttests/14-mannwhitney-dialog.jpg"
+    alt="SPSS Two-Independent-Samples Tests dialog for Kiambu Maize. Yield_KgPerAcre in Test Variable, FertilizerType (1 2) as Grouping Variable with Define Groups button. Mann-Whitney U checkbox ticked highlighted gold"/>;
+}
+export function KiambuMannWhitneyOutput() {
+  return <ScreenshotFrame src="/lesson-images/ttests/15-mannwhitney-output.jpg"
+    alt="SPSS Mann-Whitney U output. Ranks table shows DAP mean rank 74.00 vs CAN mean rank 47.00. Test Statistics table shows U equals 990.00, Z equals -4.24, Asymp Sig less than .001. Chapter 4 write-up template explains reporting medians and mean ranks"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7327,6 +7352,9 @@ export const ILLUSTRATIONS = {
   KiambuItWWWW, KiambuItDialog, KiambuItOutput,
   NakuruPtWWWW, NakuruPtDialog, NakuruPtOutput,
   TTestDecisionMap,
+  /* T-Tests non-parametric alternatives */
+  NakuruWilcoxonWWWW, NakuruWilcoxonDialog, NakuruWilcoxonOutput,
+  KiambuMannWhitneyWWWW, KiambuMannWhitneyDialog, KiambuMannWhitneyOutput,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
