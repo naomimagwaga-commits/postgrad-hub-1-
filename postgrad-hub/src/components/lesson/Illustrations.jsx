@@ -6729,6 +6729,46 @@ export function MachakosRegStatsDialog() {
   return <ScreenshotFrame src="/lesson-images/regression/10-stats-dialog.jpg"
     alt="SPSS Linear Regression Statistics sub-dialog with the essential checkboxes ticked: Estimates, Confidence intervals 95, Model fit, R squared change, Descriptives, and Collinearity diagnostics highlighted gold as critical. Continue Cancel Help buttons at the bottom"/>;
 }
+export function MachakosDiagNormality() {
+  return <ScreenshotFrame src="/lesson-images/regression/11-diag-normality.jpg"
+    alt="Two SPSS diagnostic plots side by side testing normality of residuals. Left histogram of standardized residuals showing a bell shape hugging a red normal-curve overlay. Right Normal PP plot with points closely tracing the diagonal line. Both marked with green checkmarks. Navy banner explains how to tick Histogram and Normal probability plot in Linear Regression Plots"/>;
+}
+export function MachakosDiagVIF() {
+  return <ScreenshotFrame src="/lesson-images/regression/12-diag-vif.jpg"
+    alt="SPSS Coefficients table for Machakos multiple regression showing the Tolerance and VIF columns highlighted green. All 4 IVs have VIF between 1.64 and 2.08 well below the 5 threshold. Gold callout explains how to read VIF: below 5 is safe, above 10 is a serious problem, drop one variable"/>;
+}
+export function MachakosDiagCooks() {
+  return <ScreenshotFrame src="/lesson-images/regression/13-diag-cooks.jpg"
+    alt="Cooks Distance scatter plot for the Machakos study with 4 outlier cases circled red above the 4 over N threshold. Reference table on the right explains Cooks D below .015 is safe, between .015 and 1 investigate, above 1 highly influential. Navy banner explains how to generate the plot from Linear Regression Save Cooks distance"/>;
+}
+export function MachakosLogisticMenu() {
+  return <ScreenshotFrame src="/lesson-images/regression/00-menu-path.jpg"
+    alt="SPSS Analyze menu open showing Regression submenu including Linear, Binary Logistic, Multinomial Logistic, and Ordinal all in the same menu house. Gold CLICK HERE arrow originally pointed at Linear but the same submenu shows Binary Logistic and Multinomial Logistic below"/>;
+}
+export function MachakosLogisticDialog() {
+  return <ScreenshotFrame src="/lesson-images/regression/14-logistic-dialog.jpg"
+    alt="SPSS Logistic Regression dialog for predicting Math_Pass binary outcome. Math_Pass in Dependent box, 4 Machakos IVs in Covariates box, Method Enter. Note SPSS uses Covariates for the IVs in Logistic Regression rather than Independent"/>;
+}
+export function MachakosLogisticOutput() {
+  return <ScreenshotFrame src="/lesson-images/regression/15-logistic-output.jpg"
+    alt="SPSS Logistic Regression output showing Model Summary with Nagelkerke R square .358, Classification Table with 81.6 percent correct, and Variables in the Equation table with the Exp(B) odds ratios highlighted gold. Teacher_Competency OR 1.79 and InvestmentPerStudent OR 1.30 significant. Gold callout explains how to interpret odds ratios and 95 percent confidence intervals"/>;
+}
+export function MachakosHierarchicalBlocks() {
+  return <ScreenshotFrame src="/lesson-images/regression/16-hierarchical-blocks.jpg"
+    alt="SPSS Linear Regression dialog set for hierarchical regression. Block 2 of 2 indicator visible. Block 1 previously had InvestmentPerStudent and Internet_Connectivity as baseline controls. Block 2 now has Digital_Devices and Teacher_Competency as test predictors. Gold callout explains how to add blocks and remember to tick R squared change in Statistics"/>;
+}
+export function MachakosHierarchicalR2Change() {
+  return <ScreenshotFrame src="/lesson-images/regression/17-hierarchical-r2change.jpg"
+    alt="SPSS Model Summary table for hierarchical regression showing 2 models. Model 1 R square .257 baseline. Model 2 R square .381 with Delta R square .124 F change 26.28 p less than .001. R Square Change and F Change columns highlighted gold with explanatory callout"/>;
+}
+export function MachakosThreeApproachesComparison() {
+  return <ScreenshotFrame src="/lesson-images/regression/18-simple-multiple-hierarchical.jpg"
+    alt="3-panel comparison card. Simple regression gold panel R square .228. Multiple regression green panel R square .381. Hierarchical navy panel Block 1 R square .257 Block 2 R square .381 Delta R square .124. Each panel shows research question, formula, Machakos results, and when to use it. Navy banner recommends Multiple as default for most Machakos-style thesis questions"/>;
+}
+export function MachakosRegWhenToUseWhich() {
+  return <ScreenshotFrame src="/lesson-images/regression/19-when-to-use-which.jpg"
+    alt="Decision tree for choosing regression type based on DV type. Continuous DV goes to Linear Regression. Binary DV goes to Binary Logistic. Ordinal DV goes to Ordinal Regression. Nominal 3+ categories goes to Multinomial Logistic. Each terminal box shows a Machakos example, the SPSS menu path, and the key output metric. Navy banner warns against using Linear on a binary or ordinal DV"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7139,10 +7179,14 @@ export const ILLUSTRATIONS = {
   MachakosCleanComputeDialog, MachakosCleanThreeComposites, MachakosCleanCompositeVerification,
   /* Data Cleaning · Select Cases — 2 images */
   MachakosCleanSelectCases, MachakosCleanSubsetsWorkflow,
-  /* Regression · Simple + Multiple + Diagnostics — 11 images */
+  /* Regression · Simple + Multiple + Diagnostics + Logistic + Hierarchical + Multinomial/Ordinal — 20 images */
   MachakosRegMenu, MachakosRegSimpleDialog, MachakosRegSimpleOutput, MachakosRegScatterLine,
   MachakosRegMultiDialog, MachakosRegMultiOutput, MachakosRegBetaComparison, MachakosRegR2Breakdown,
   MachakosRegFiveAssumptions, MachakosRegResidualScatter, MachakosRegStatsDialog,
+  MachakosDiagNormality, MachakosDiagVIF, MachakosDiagCooks,
+  MachakosLogisticMenu, MachakosLogisticDialog, MachakosLogisticOutput,
+  MachakosHierarchicalBlocks, MachakosHierarchicalR2Change, MachakosThreeApproachesComparison,
+  MachakosRegWhenToUseWhich,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
