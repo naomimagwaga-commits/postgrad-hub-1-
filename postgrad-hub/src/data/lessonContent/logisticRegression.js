@@ -74,8 +74,15 @@ export const LOGISTIC_REGRESSION_LESSON = {
         { type: 'paragraph', text:
           'Imagine you tried to fit a straight line through data where Y is 0 or 1. The line could predict Y = 1.4 for some pupils (above 100% probability) or Y = −0.2 for others (below 0% probability). Both are nonsensical for binary outcomes. You need a function that ALWAYS produces values between 0 and 1.' },
 
-        { type: 'illustration', component: 'LogisticCurve',
-          caption: 'Figure 1. The logistic (S-shaped) curve. Predicted probability is always between 0 and 1. As the predictor X increases, P(Y=1) approaches 1 smoothly; as X decreases, P(Y=1) approaches 0. The threshold for classification is conventionally .50: if predicted P ≥ .50, classify as Y = 1 (event); if P < .50, classify as Y = 0.' },
+        { type: 'illustration', component: 'MachakosLogisticMenu',
+          caption: 'Figure 1. The Analyze → Regression menu also houses Binary Logistic (for a yes/no DV), Multinomial Logistic (for 3+ unordered categories), and Ordinal (for ordered categories). Reusing the same Regression menu image — click Binary Logistic instead of Linear when your DV is dichotomous.' },
+
+        { type: 'illustration', component: 'MachakosLogisticDialog',
+          caption: 'Figure 2. The Logistic Regression dialog set up for the Machakos study. Math_Pass (a binary variable: 1 = passed KCSE with mean ≥ 6, 0 = failed) sits in the Dependent box. The same 4 IVs sit in the Covariates box (note: SPSS uses Covariates here instead of Independents). Method = Enter.' },
+
+        { type: 'illustration', component: 'MachakosLogisticOutput',
+          caption: 'Figure 3. The Logistic Regression output. Model Summary: Nagelkerke R² = .358 (a strong effect for social science). Classification Table: 81.6% of cases correctly classified. Variables in the Equation (bottom): the Exp(B) column is the key — Teacher_Competency has an odds ratio of 1.79 (79% higher odds of passing per 1-point increase in competency), and InvestmentPerStudent OR = 1.30 per unit. Both significant. Digital_Devices and Internet_Connectivity are NOT significant. Chapter-4 write-up template shown in the gold callout.' },
+
 
         { type: 'definition', term: 'Logistic regression',
           body: 'A regression method that models the PROBABILITY of a binary outcome Y as an S-shaped function of one or more predictors. The output is a predicted probability between 0 and 1. The mathematics involves the "logit" — the log of the odds of Y = 1 — which transforms the bounded probability into an unbounded value that can be modelled with a linear combination of predictors.' },
