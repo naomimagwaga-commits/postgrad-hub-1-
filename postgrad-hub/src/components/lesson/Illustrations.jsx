@@ -6769,6 +6769,31 @@ export function MachakosRegWhenToUseWhich() {
   return <ScreenshotFrame src="/lesson-images/regression/19-when-to-use-which.jpg"
     alt="Decision tree for choosing regression type based on DV type. Continuous DV goes to Linear Regression. Binary DV goes to Binary Logistic. Ordinal DV goes to Ordinal Regression. Nominal 3+ categories goes to Multinomial Logistic. Each terminal box shows a Machakos example, the SPSS menu path, and the key output metric. Navy banner warns against using Linear on a binary or ordinal DV"/>;
 }
+/* ─── Beginner-first polish: What/Why/Where/When + per-step diagrams ─── */
+export function MachakosHrWWWW() {
+  return <ScreenshotFrame src="/lesson-images/regression/22-hr-wwww.jpg"
+    alt="Hierarchical Regression What Why Where When 4-quadrant reference card. WHAT explains blocks and delta R squared. WHY explains testing add-value beyond controls. WHERE lists 4 Kenyan postgraduate scenarios. WHEN gives a decision table Hierarchical vs Multiple. Golden rule banner at bottom about defensible block order"/>;
+}
+export function MachakosHrStepBlock1() {
+  return <ScreenshotFrame src="/lesson-images/regression/20-hr-step-block1.jpg"
+    alt="SPSS Linear Regression dialog showing Hierarchical Step 3. Block 1 of 1 indicator visible. Independent(s) box has InvestmentPerStudent and Internet_Connectivity as baseline controls. Next button highlighted gold. Big callout says DO NOT click OK yet, click Next to open Block 2"/>;
+}
+export function MachakosHrStepBlock2() {
+  return <ScreenshotFrame src="/lesson-images/regression/21-hr-step-block2.jpg"
+    alt="SPSS Linear Regression dialog showing Hierarchical Step 4. Block 2 of 2 indicator visible. Independent(s) box now has Digital_Devices and Teacher_Competency highlighted green as the new test predictors. Info note shows Block 1 contains InvestmentPerStudent and Internet_Connectivity. Callout instructs to click Statistics for R squared change then OK"/>;
+}
+export function MachakosLgWWWW() {
+  return <ScreenshotFrame src="/lesson-images/regression/23-lg-wwww.jpg"
+    alt="Binary Logistic Regression What Why Where When 4-quadrant reference card. WHAT explains binary DV and odds ratios. WHY explains why linear regression fails on binary DVs. WHERE lists Kenyan postgraduate scenarios like pass/fail and adoption studies. WHEN gives a decision table for choosing logistic vs alternatives. Common trap warning at bottom about dichotomising continuous variables"/>;
+}
+export function MachakosLgStepMenu() {
+  return <ScreenshotFrame src="/lesson-images/regression/24-lg-step-menu.jpg"
+    alt="SPSS menu Analyze Regression Binary Logistic highlighted gold with STEP 1 CLICK HERE label. Full submenu also shows Multinomial Logistic and Ordinal below. Small note explains same menu house different DV types"/>;
+}
+export function MachakosLgStepOptions() {
+  return <ScreenshotFrame src="/lesson-images/regression/25-lg-step-options.jpg"
+    alt="SPSS Logistic Regression Options sub-dialog. Classification plots checked, Hosmer-Lemeshow goodness-of-fit checked highlighted gold, Iteration history checked. CI for exp B set to 95 percent highlighted gold. Two gold callouts explain Hosmer-Lemeshow interpretation and CI for exp B importance for reporting odds ratios"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7187,6 +7212,9 @@ export const ILLUSTRATIONS = {
   MachakosLogisticMenu, MachakosLogisticDialog, MachakosLogisticOutput,
   MachakosHierarchicalBlocks, MachakosHierarchicalR2Change, MachakosThreeApproachesComparison,
   MachakosRegWhenToUseWhich,
+  /* Beginner-first polish — WWWW cards + per-step diagrams */
+  MachakosHrWWWW, MachakosHrStepBlock1, MachakosHrStepBlock2,
+  MachakosLgWWWW, MachakosLgStepMenu, MachakosLgStepOptions,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
