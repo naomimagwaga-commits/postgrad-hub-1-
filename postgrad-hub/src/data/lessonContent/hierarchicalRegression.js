@@ -49,8 +49,8 @@ export const HIERARCHICAL_REGRESSION_LESSON = {
         { type: 'paragraph', text:
           'In **hierarchical** regression, you specify the predictors in groups called BLOCKS, in an order you justify from theory. SPSS adds Block 1 first and computes R². Then it adds Block 2 and computes R² AGAIN, alongside the CHANGE (**ΔR²**) from Block 1 to Block 2 — i.e. the new variance Block 2 explains over and above Block 1. Then it does the same for Block 3, etc. The Model Summary now has one row PER BLOCK, and each row\'s **Sig. F Change** tells you whether that block added a statistically significant amount of new explanatory power.' },
 
-        { type: 'illustration', component: 'HierarchicalBlocksDetailed',
-          caption: 'Figure 1. Hierarchical regression with three blocks. Block 1 = demographics (gender, age, school type) → R² = .12. Block 2 = behavioural (study hours, attendance) → R² = .31, ΔR² = .19 (big jump). Block 3 = psychological (motivation, self-efficacy, anxiety) → R² = .47, ΔR² = .16 (still substantial). Each block\'s F Change p-value confirms whether the new variance is statistically significant.' },
+        { type: 'illustration', component: 'MachakosThreeApproachesComparison',
+          caption: 'Figure 1. Simple vs Multiple vs Hierarchical — three regression approaches compared using the same Machakos data. Simple: 1 IV, R² = .228. Multiple: 4 IVs entered together, R² = .381. Hierarchical: 2 baseline IVs in Block 1 (R² = .257), then 2 test IVs in Block 2 (R² = .381, ΔR² = .124). Each approach answers a different research question — pick based on your question, not fashion.' },
 
         { type: 'definition', term: 'ΔR² (change in R²)',
           body: 'The additional proportion of variance in the outcome explained by a new block of predictors, OVER AND ABOVE the variance already explained by all previous blocks. Computed as R²_current − R²_previous. The associated **F Change** test (with its p-value, Sig. F Change) tests whether ΔR² is significantly different from zero. ΔR² = .15 with Sig. F Change = .002 means "this block adds 15% new variance, and that addition is highly statistically significant."' },
@@ -124,8 +124,8 @@ export const HIERARCHICAL_REGRESSION_LESSON = {
             body: 'SPSS produces a Model Summary with one row per block, an ANOVA table per block, and a Coefficients table showing every variable\'s b, β, t, p in EACH block.' },
         ]},
 
-        { type: 'illustration', component: 'HierarchicalDialog',
-          caption: 'Figure 2. The Linear Regression dialog set up for hierarchical regression. The Block indicator at the top — currently showing "Block 3 of 3" — confirms three blocks have been entered. The Independent(s) box shows the Block 3 predictors. The Statistics dialog (right) has "R squared change" ticked, which is essential to get ΔR² in the output.' },
+        { type: 'illustration', component: 'MachakosHierarchicalBlocks',
+          caption: 'Figure 2. The Linear Regression dialog set up for HIERARCHICAL regression using blocks. Currently showing Block 2 of 2 (containing Digital_Devices and Teacher_Competency as test predictors). Block 1 previously contained InvestmentPerStudent and Internet_Connectivity as baseline controls. Use [Previous] and [Next] to move between blocks. Remember to tick R squared change in Statistics... to see ΔR² in the output.' },
 
         { type: 'callout', tone: 'warning', title: 'Common slip — forgetting to tick R squared change',
           body: 'Every semester students run hierarchical regression but forget to tick R squared change under Statistics. The Model Summary then shows only R² per block, NOT the ΔR² and Sig. F Change you need. If you see no "R Square Change" column in your Model Summary, you missed this option — re-run with it ticked.' },
@@ -139,8 +139,8 @@ export const HIERARCHICAL_REGRESSION_LESSON = {
       blocks: [
         { type: 'heading', level: 2, text: 'The one table that does ALL the heavy lifting' },
 
-        { type: 'illustration', component: 'HierarchicalModelSummary',
-          caption: 'Figure 3. The hierarchical Model Summary. Three blocks → three rows. Each row reports R, R², Adjusted R², plus the Change Statistics columns: R Square Change (ΔR²), F Change, df1, df2, and Sig. F Change. The bold takeaway: Block 1 explains 12%, Block 2 adds another 19% (huge), Block 3 adds another 16% (still substantial). All three blocks contribute significantly.' },
+        { type: 'illustration', component: 'MachakosHierarchicalR2Change',
+          caption: 'Figure 3. Model Summary output for the Machakos hierarchical regression. Model 1 (Block 1 controls): R² = .257, F(2, 264) = 45.62, p < .001. Model 2 (adds Block 2 test IVs): R² = .381, ΔR² = **.124**, ΔF(2, 262) = 26.28, p < .001. The Δ (change) columns are the KEY output — they tell you whether Block 2 adds significant explanatory power beyond Block 1.' },
 
         { type: 'comparison',
           headers: ['Column', 'What it shows', 'How to interpret'],
