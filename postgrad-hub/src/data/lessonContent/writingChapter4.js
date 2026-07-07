@@ -42,6 +42,9 @@ export const WRITING_CHAPTER_4_LESSON = {
       id: 'structure',
       title: 'The standard Chapter 4 structure',
       blocks: [
+
+        { type: 'illustration', component: 'Chapter4StructureCard',
+          caption: 'Figure 0. The Chapter 4 blueprint at a glance — 6 sections in order with page-length guidance. Introduction (~½ page), Response Rate & Sample Characteristics (~1 page), Descriptive Statistics (~2 pages), Reliability & Assumption Checks (~1 page), Inferential Analysis Findings per Objective (~3-4 pages — the BULK), Chapter Summary (~½ page). Bookmark this — every thesis Chapter 4 follows this order.' },
         { type: 'heading', level: 2, text: 'Six sections. Same order. Every thesis.' },
 
         { type: 'paragraph', text:
@@ -88,6 +91,9 @@ export const WRITING_CHAPTER_4_LESSON = {
       id: 'section-4-2',
       title: 'Section 4.2 — Response rate & sample characteristics (1 page)',
       blocks: [
+
+        { type: 'illustration', component: 'Chapter4ResponseRate',
+          caption: 'Figure 2. A worked example of Section 4.2 from the Machakos study — showing exactly how to lay out Table 4.1 (Response Rate by Category) and Table 4.2 (Gender Distribution). Copy this structure directly. Notice the response rate calculation, the Mugenda & Mugenda benchmark citation, and the correct APA table formatting.' },
         { type: 'heading', level: 2, text: 'How many actually responded, and who were they?' },
 
         { type: 'paragraph', text:
@@ -290,6 +296,10 @@ export const WRITING_CHAPTER_4_LESSON = {
       id: 'mistakes',
       title: 'Five structural mistakes that trigger revision cycles',
       blocks: [
+
+        { type: 'illustration', component: 'Chapter4GoodVsBad',
+          caption: 'Figure 3. Side-by-side comparison of BAD student writing vs GOOD APA-style writing of the SAME Machakos finding. The bad version uses vague language, mixes in discussion/recommendations, and omits key statistics. The good version reports Pearson r, df, p, N, effect size, and direction — nothing more. Chapter 4 = findings only.' },
+
         { type: 'mistake',
           title: 'Mistake 1 — Copy-pasting raw SPSS tables directly into the chapter',
           body: 'Every table in your Chapter 4 has SPSS\'s default styling — grey headers, "Model 1a", "Adjusted R Square", "Std. Error of the Estimate" columns nobody reads. It looks like SPSS output, not a professional thesis chapter.',
