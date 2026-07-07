@@ -6960,6 +6960,43 @@ export function APABadVsGoodTable() {
   return <ScreenshotFrame src="/lesson-images/writing-up/05-apa-bad-vs-good.jpg"
     alt="Side-by-side comparison of raw SPSS output vs reformatted APA 7 table using the Machakos correlation matrix"/>;
 }
+/* Reliability course — Mombasa 15-item Patient Satisfaction Scale */
+export function MombasaCronbachWWWW() {
+  return <ScreenshotFrame src="/lesson-images/reliability/00-cronbach-wwww.jpg"
+    alt="Cronbach Alpha WWWW 4-quadrant reference card using Mombasa 15-item scale alpha .84. WHAT explains internal consistency and alpha range. WHY explains scale trustworthiness. WHERE lists Kenyan Likert-scale scenarios. WHEN gives decision table with reverse-coding warning"/>;
+}
+export function MombasaCronbachDialog() {
+  return <ScreenshotFrame src="/lesson-images/reliability/01-cronbach-dialog.jpg"
+    alt="SPSS Reliability Analysis dialog for Mombasa 15-item PSS. All 15 PSS items moved to Items box. Model dropdown Alpha selected. Statistics button highlighted gold as critical next click"/>;
+}
+export function MombasaCronbachStats() {
+  return <ScreenshotFrame src="/lesson-images/reliability/02-cronbach-stats.jpg"
+    alt="SPSS Reliability Statistics sub-dialog. Item, Scale, and Scale if item deleted checkboxes all ticked. Scale if item deleted highlighted gold as CRITICAL for item-total analysis. Correlations tick highlighted amber for inter-item matrix"/>;
+}
+export function MombasaCronbachOutput() {
+  return <ScreenshotFrame src="/lesson-images/reliability/03-cronbach-output.jpg"
+    alt="SPSS Reliability output for Mombasa. Reliability Statistics shows Cronbach Alpha .84 for 15 items. Item-Total Statistics table shows PSS_7 flagged red as weak with corrected r .198 and Alpha if item deleted .856. Chapter 4 write-up template in the gold callout"/>;
+}
+export function MombasaItemTotalWWWW() {
+  return <ScreenshotFrame src="/lesson-images/reliability/04-itemtotal-wwww.jpg"
+    alt="Item-Total Analysis WWWW 4-quadrant reference card. WHAT explains the diagnostic per-item procedure. WHY explains catching problem items dragging down reliability. WHERE lists scale-purification scenarios. WHEN gives drop-vs-keep decision table"/>;
+}
+export function MombasaItemTotalAnnotated() {
+  return <ScreenshotFrame src="/lesson-images/reliability/05-itemtotal-annotated.jpg"
+    alt="Annotated Item-Total Statistics table for Mombasa scale. Four color-coded callouts explain each column. Gold Scale Mean, Green Scale Variance, Navy Corrected Item-Total Correlation as key diagnostic, Coral Cronbach Alpha if Item Deleted as the decision column. PSS_7 highlighted red as problem item"/>;
+}
+export function MombasaSplitHalfWWWW() {
+  return <ScreenshotFrame src="/lesson-images/reliability/06-splithalf-wwww.jpg"
+    alt="Split-Half Reliability WWWW 4-quadrant reference card. WHAT explains the two-halves-correlation approach. WHY explains when it beats Cronbach Alpha. WHERE lists speed-test and supplementary-check scenarios. WHEN advises Cronbach as default for most thesis work"/>;
+}
+export function MombasaSplitHalfOutput() {
+  return <ScreenshotFrame src="/lesson-images/reliability/07-splithalf-output.jpg"
+    alt="SPSS Split-Half Reliability output for Mombasa scale. Part 1 alpha .782, Part 2 alpha .765, Correlation Between Forms .698, Spearman-Brown Equal Length .822, Guttman Split-Half .818. Chapter 4 supplementary write-up in the gold callout"/>;
+}
+export function ReliabilityDecisionMap() {
+  return <ScreenshotFrame src="/lesson-images/reliability/08-decision-map.jpg"
+    alt="Which reliability method should I use decision map. Cronbach Alpha for consistency of one construct. Item-Total Analysis for per-item diagnostics. Split-Half for supplementary robustness check. Standard workflow shown at bottom"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7402,6 +7439,11 @@ export const ILLUSTRATIONS = {
   /* Writing Up course — Chapter 4 + APA 7 */
   Chapter4StructureCard, Chapter4ResponseRate, Chapter4GoodVsBad,
   APATemplatesReference, APATableRules, APABadVsGoodTable,
+  /* Reliability course — Mombasa 15-item scale */
+  MombasaCronbachWWWW, MombasaCronbachDialog, MombasaCronbachStats, MombasaCronbachOutput,
+  MombasaItemTotalWWWW, MombasaItemTotalAnnotated,
+  MombasaSplitHalfWWWW, MombasaSplitHalfOutput,
+  ReliabilityDecisionMap,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
