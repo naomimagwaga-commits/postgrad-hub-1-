@@ -36,6 +36,32 @@ export const INDEPENDENT_TTEST_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Before you touch the SPSS dialog, understand: (1) What this t-test IS, (2) Why you use it instead of alternatives, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'KiambuItWWWW',
+          caption: 'Figure 0. Independent-Samples T-Test WHAT/WHY/WHERE/WHEN reference card using the Kiambu DAP vs CAN fertilizer comparison.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Grouping Variable** — the categorical variable that defines your 2 groups. Machakos example: FertilizerType (1=DAP, 2=CAN).',
+            '**Levene test** — a preliminary test SPSS runs automatically to check whether the 2 groups have EQUAL variances. If Levene p > .05 = equal variances (use top row of t-test); if p < .05 = unequal (use bottom row / Welch adjustment).',
+            '**Define Groups** — the sub-dialog where you tell SPSS which 2 codes of the grouping variable to compare. Necessary because grouping variables often have 3+ categories but a t-test uses only 2.',
+            '**Mean Difference** — Group 1 mean minus Group 2 mean. Sign tells you which group is higher.',
+            '**Std. Error Difference** — how much the mean difference varies from sample to sample. Used to compute the t-statistic.',
+            '**Independent** — the 2 groups have DIFFERENT people. This distinguishes it from paired t-test (same people 2×).',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
@@ -120,6 +146,12 @@ export const INDEPENDENT_TTEST_LESSON = {
 
         { type: 'illustration', component: 'IndependentTTestDialog',
           caption: 'Figure 2. The Independent-Samples T Test dialog. Test Variable(s) = the continuous outcome (stress_score). Grouping Variable = the categorical grouping variable (hospital_level). After dragging the grouping variable across, click Define Groups and type the two value codes (1 and 2 in this example).' },
+        { type: 'illustration', component: 'KiambuItDialog',
+          caption: 'Figure 1. The Independent-Samples T Test setup for Kiambu Maize. Main dialog (top): DV = Yield_KgPerAcre in Test Variable, IV = FertilizerType in Grouping Variable. Sub-dialog (bottom): Define Groups → Group 1 = 1 (DAP), Group 2 = 2 (CAN). The 3rd fertilizer (Organic) is auto-excluded.' },
+
+        { type: 'illustration', component: 'KiambuItOutput',
+          caption: 'Figure 2. The output. Group Statistics shows DAP mean = 1840.42 vs CAN mean = 1620.28. Independent Samples Test shows Levene p = .365 (NOT significant → use top row) and the t-test: t(118) = 3.95, p < .001, mean difference = 220.13 kg/acre, 95% CI [109.71, 330.56]. DAP significantly outperforms CAN. Chapter-4 write-up template in the gold callout.' },
+
       ],
     },
 
