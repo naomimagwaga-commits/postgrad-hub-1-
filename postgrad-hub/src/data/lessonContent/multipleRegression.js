@@ -58,6 +58,31 @@ export const MULTIPLE_REGRESSION_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Multiple regression is the DEFAULT test for most postgraduate thesis questions. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why it\'s better than running separate simple regressions, (3) Where you\'ll use it, (4) When to choose it over alternatives.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosMrWWWW',
+          caption: 'Figure 0. Multiple Regression WHAT/WHY/WHERE/WHEN reference card. Includes the crucial sample-size rule: N ≥ 50 + 8×predictors (so 4 predictors → N ≥ 82).' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you\'ll meet in the walkthrough',
+          body: [
+            '**Unstandardized B** — the slope in the ORIGINAL units of your variables. Machakos: for Teacher_Competency, B = 0.283 means each 1-point rise on the competency scale predicts a 0.283-mark rise in KCSE score.',
+            '**Standardized β** — the slope after standardizing all variables to SD units. Lets you COMPARE the strength of different predictors on the same scale. Bigger |β| = stronger unique effect.',
+            '**R²** — total variance in DV explained by ALL predictors together. Machakos: R² = .381.',
+            '**Adjusted R²** — R² penalized for adding useless predictors. Always report this alongside R².',
+            '**VIF (Variance Inflation Factor)** — measure of multicollinearity. Below 5 = safe, above 10 = serious problem, drop one IV.',
+            '**Tolerance** — mathematical inverse of VIF. Above .2 = safe, below .1 = serious problem.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 3. WHEN TO USE ════════════════════ */
     {
       id: 'when-to-use',
@@ -123,6 +148,10 @@ export const MULTIPLE_REGRESSION_LESSON = {
           { title: 'STEP 7 — Click OK to run',
             body: 'Back on the main Linear Regression dialog, click **OK**. SPSS produces the three core tables (Model Summary, ANOVA, Coefficients) plus collinearity diagnostics inside the Coefficients table. The Coefficients table now has 2 extra columns on the right: **Tolerance** and **VIF**.' },
         ]},
+
+
+        { type: 'illustration', component: 'MachakosMrNumberedClicks',
+          caption: 'Figure 1a. The full 6-click sequence for multiple regression with numbered click markers. Red circle 2 = move DV. Red circle 3 = move ALL 4 IVs (Ctrl-click to select multiple). Red circle 5 = CLICK STATISTICS (critical — for VIF and R² change). Red circle 6 = OK. Skipping step 5 means no VIF in output and no way to check multicollinearity.' },
 
         { type: 'illustration', component: 'MachakosRegMultiDialog',
           caption: 'Figure 1. The main Linear Regression dialog set up for MULTIPLE regression on the Machakos data. Math_KCSE_Mean sits in the Dependent box. All 4 IVs — Digital_Devices, Teacher_Competency, Internet_Connectivity, InvestmentPerStudent — sit stacked in the Independent(s) box. Method dropdown = Enter. Next click: the [Statistics...] button on the right (highlighted gold) to open the Statistics sub-dialog.' },
