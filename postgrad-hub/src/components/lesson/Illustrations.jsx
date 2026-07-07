@@ -6918,6 +6918,23 @@ export function KiambuMannWhitneyOutput() {
   return <ScreenshotFrame src="/lesson-images/ttests/15-mannwhitney-output.jpg"
     alt="SPSS Mann-Whitney U output. Ranks table shows DAP mean rank 74.00 vs CAN mean rank 47.00. Test Statistics table shows U equals 990.00, Z equals -4.24, Asymp Sig less than .001. Chapter 4 write-up template explains reporting medians and mean ranks"/>;
 }
+/* Chi-Square course — Nyandarua Vaccine study */
+export function NyandaruaChiWWWW() {
+  return <ScreenshotFrame src="/lesson-images/chisquare/00-wwww.jpg"
+    alt="Chi-Square WWWW 4-quadrant reference card using Nyandarua Vaccine study. WHAT explains testing whether two categorical variables are related. WHY explains it as the only option for 2-way categorical data. WHERE lists Kenyan scenarios. WHEN gives decision table with assumption warning about expected cell counts"/>;
+}
+export function NyandaruaCrosstabsDialog() {
+  return <ScreenshotFrame src="/lesson-images/chisquare/01-crosstabs-dialog.jpg"
+    alt="SPSS Crosstabs dialog for Nyandarua Vaccine. EducationLevel in Row(s), VaccineAccept in Column(s). Statistics button highlighted with a gold CLICK HERE arrow explaining the 4-step setup"/>;
+}
+export function NyandaruaChiStatsDialog() {
+  return <ScreenshotFrame src="/lesson-images/chisquare/02-stats-subdialog.jpg"
+    alt="SPSS Crosstabs Statistics sub-dialog. Chi-square checkbox ticked highlighted gold. Phi and Cramer's V ticked highlighted amber as the effect-size measure. Two gold callouts explain the critical role of ticking Chi-square and reporting Cramer's V"/>;
+}
+export function NyandaruaChiOutput() {
+  return <ScreenshotFrame src="/lesson-images/chisquare/03-output.jpg"
+    alt="SPSS chi-square output for Nyandarua Vaccine study. Crosstabulation shows acceptance rising from 47.5 percent None to 84 percent Tertiary education. Chi-Square Tests shows Pearson value 26.72, df 3, Sig less than .001. Symmetric Measures shows Cramer's V .289 medium effect size. Chapter 4 write-up template in the gold callout"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7355,6 +7372,8 @@ export const ILLUSTRATIONS = {
   /* T-Tests non-parametric alternatives */
   NakuruWilcoxonWWWW, NakuruWilcoxonDialog, NakuruWilcoxonOutput,
   KiambuMannWhitneyWWWW, KiambuMannWhitneyDialog, KiambuMannWhitneyOutput,
+  /* Chi-Square course — Nyandarua Vaccine study */
+  NyandaruaChiWWWW, NyandaruaCrosstabsDialog, NyandaruaChiStatsDialog, NyandaruaChiOutput,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
