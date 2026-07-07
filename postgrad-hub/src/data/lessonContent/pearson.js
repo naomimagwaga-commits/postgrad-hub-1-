@@ -37,6 +37,37 @@ export const PEARSON_LESSON = {
       ],
     },
 
+    /* ═},
+
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Pearson correlation is the most-used bivariate test in postgraduate research. Before you touch the SPSS dialog, understand: (1) What Pearson actually IS, (2) Why you would use it instead of just looking at a scatterplot, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it over Spearman or other alternatives.',
+            'If you can answer all 4 in one sentence each, you\'re ready for the walkthrough. If not, spend 3 minutes here.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosCorrelationDecision',
+          caption: 'Figure 0a (shared with the whole Correlation course). Which correlation should I use? Decision map showing the 4 lessons — Pearson (2 continuous vars), Spearman (ordinal or non-normal), Partial (control for a third variable), Matrix (3+ variables). Bookmark this — it sits above the Correlation Analysis course and answers "which lesson do I need?"' },
+
+        { type: 'illustration', component: 'MachakosPearsonWWWW',
+          caption: 'Figure 0. Pearson Correlation WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you chose Pearson.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you\'ll meet in the walkthrough',
+          body: [
+            '**r** — the Pearson correlation coefficient. Ranges from -1 to +1. Machakos: Digital_Devices ↔ Math_KCSE r = .478.',
+            '**Sign of r** — positive means both variables move together; negative means one goes up while the other goes down.',
+            '**|r|** (absolute value) — the STRENGTH. Cohen benchmarks: .10 = small, .30 = medium, .50 = large.',
+            '**p-value (Sig.)** — probability the correlation could be zero. p < .05 = statistically significant.',
+            '**N** — number of respondents used to compute r. Should match your sample size (or explain if lower due to missing data).',
+            '**r²** — proportion of variance in one variable that overlaps with the other. Machakos r² = .228 means Digital_Devices shares 22.8 percent of variance with Math_KCSE.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. WHAT IS A CORRELATION? ════════════════════ */
     {
       id: 'what-is-correlation',
