@@ -36,6 +36,32 @@ export const MATRICES_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'A correlation matrix is how you REPORT multiple correlations at once in Chapter 4. Before you start building one, understand: (1) What a correlation matrix IS, (2) Why it beats reporting each correlation separately, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE matrix format.',
+            'If you can answer all 4 in one sentence each, you\'re ready for the walkthrough. If not, spend 3 minutes here.',
+          ]},
+
+        { type: 'illustration', component: 'MachakosMatricesWWWW',
+          caption: 'Figure 0. Correlation Matrices WHAT/WHY/WHERE/WHEN reference card. Explains why SPSS raw output is cluttered and needs reformatting for APA thesis presentation.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you\'ll meet in the walkthrough',
+          body: [
+            '**Correlation matrix** — a square TABLE showing every pairwise correlation among your variables.',
+            '**Diagonal** — the cells where a variable meets itself. Always 1.000. Ignore these when interpreting.',
+            '**Symmetric** — the upper triangle mirrors the lower triangle. Read ONE only to avoid double-counting.',
+            '**Unique correlations** — the actual number you need to interpret. For n variables: n(n-1)/2. So 5 variables = 10 correlations, 10 variables = 45 correlations.',
+            '**Multiple comparisons problem** — when you run many correlations, some will be "significant" by chance alone. Correct with Bonferroni or FDR when reporting.',
+            '**Publication-ready format** — the reformatted matrix you paste into Chapter 4 (lower triangle only, variable numbering, note at bottom).',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. THE ANATOMY ════════════════════ */
     {
       id: 'anatomy',
