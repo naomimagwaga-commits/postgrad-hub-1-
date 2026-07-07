@@ -6935,6 +6935,31 @@ export function NyandaruaChiOutput() {
   return <ScreenshotFrame src="/lesson-images/chisquare/03-output.jpg"
     alt="SPSS chi-square output for Nyandarua Vaccine study. Crosstabulation shows acceptance rising from 47.5 percent None to 84 percent Tertiary education. Chi-Square Tests shows Pearson value 26.72, df 3, Sig less than .001. Symmetric Measures shows Cramer's V .289 medium effect size. Chapter 4 write-up template in the gold callout"/>;
 }
+/* Writing Up course — Chapter 4 + APA 7 (NEW image-based components) */
+export function Chapter4StructureCard() {
+  return <ScreenshotFrame src="/lesson-images/writing-up/00-c4-structure.jpg"
+    alt="Chapter 4 blueprint showing the 6 standard sections in order with page-length guidance and rule against including discussion in Chapter 4"/>;
+}
+export function Chapter4ResponseRate() {
+  return <ScreenshotFrame src="/lesson-images/writing-up/01-c4-response-rate.jpg"
+    alt="Chapter 4 Section 4.2 example showing Response Rate and Sample Characteristics tables for the Machakos study"/>;
+}
+export function Chapter4GoodVsBad() {
+  return <ScreenshotFrame src="/lesson-images/writing-up/02-c4-good-vs-bad.jpg"
+    alt="Side-by-side comparison of bad vs good Chapter 4 writing using the Machakos Digital_Devices Math_KCSE finding"/>;
+}
+export function APATemplatesReference() {
+  return <ScreenshotFrame src="/lesson-images/writing-up/03-apa-templates.jpg"
+    alt="Master APA 7 statistical reporting templates cheat sheet showing every major test with template and Kenyan example"/>;
+}
+export function APATableRules() {
+  return <ScreenshotFrame src="/lesson-images/writing-up/04-apa-table-rules.jpg"
+    alt="APA 7 table formatting 7 rules with visual example of a correctly formatted Machakos correlation matrix"/>;
+}
+export function APABadVsGoodTable() {
+  return <ScreenshotFrame src="/lesson-images/writing-up/05-apa-bad-vs-good.jpg"
+    alt="Side-by-side comparison of raw SPSS output vs reformatted APA 7 table using the Machakos correlation matrix"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7374,6 +7399,9 @@ export const ILLUSTRATIONS = {
   KiambuMannWhitneyWWWW, KiambuMannWhitneyDialog, KiambuMannWhitneyOutput,
   /* Chi-Square course — Nyandarua Vaccine study */
   NyandaruaChiWWWW, NyandaruaCrosstabsDialog, NyandaruaChiStatsDialog, NyandaruaChiOutput,
+  /* Writing Up course — Chapter 4 + APA 7 */
+  Chapter4StructureCard, Chapter4ResponseRate, Chapter4GoodVsBad,
+  APATemplatesReference, APATableRules, APABadVsGoodTable,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
