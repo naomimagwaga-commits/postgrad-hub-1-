@@ -9,6 +9,10 @@ import ResetPassword from './pages/ResetPassword.jsx';
 import Terms from './pages/Terms.jsx';
 import Privacy from './pages/Privacy.jsx';
 import FAQ from './pages/FAQ.jsx';
+import Glossary from './pages/Glossary.jsx';
+import Pathway from './pages/Pathway.jsx';
+import Datasets from './pages/Datasets.jsx';
+import CheatSheet from './pages/CheatSheet.jsx';
 import AppLayout from './components/AppLayout.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Dashboard from './pages/Dashboard.jsx';
@@ -32,6 +36,10 @@ export default function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/glossary" element={<Glossary />} />
+        <Route path="/pathway" element={<Pathway />} />
+        <Route path="/datasets" element={<Datasets />} />
+        <Route path="/cheatsheet" element={<CheatSheet />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reset" element={<ResetPassword />} />
