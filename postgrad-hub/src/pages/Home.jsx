@@ -171,7 +171,7 @@ export default function Home() {
           <div className="max-w-3xl">
             <span className="eyebrow">— What we offer</span>
             <h2 className="display text-4xl sm:text-5xl lg:text-6xl text-brand mt-4">
-              Four focused services. <span className="italic font-light">One trusted partner.</span>
+              Five focused services. <span className="italic font-light">One trusted partner.</span>
             </h2>
           </div>
 
