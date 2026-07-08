@@ -1,6 +1,7 @@
 /**
  * Advanced ANOVA · Lesson 3 — Mixed ANOVA (between × within)
  * Combining a between-subjects factor with a within-subjects (repeated) factor.
+ * Renovated to Nakuru Wellness SBP × Time × Sex standard.
  */
 
 export const MIXED_ANOVA_LESSON = {
@@ -12,19 +13,19 @@ export const MIXED_ANOVA_LESSON = {
     /* ════════════════════ 1. WELCOME ════════════════════ */
     {
       id: 'welcome',
-      title: 'Three groups × three time points — the most useful ANOVA you don\'t know yet',
+      title: 'Three time points × two groups — the most useful ANOVA you may not know yet',
       blocks: [
         { type: 'scene', body: [
-          'You are doing a Master\'s study at Kenyatta University Hospital on a 12-week diabetes-education programme. You randomly assigned 75 patients to one of THREE arms — full programme (n = 25), abbreviated programme (n = 25), or usual care (n = 25). You measured their HbA1c at THREE time points — baseline (week 0), mid-trial (week 6), and end-trial (week 12). You now have a perfect 3 × 3 design.',
-          'You could split this into pieces. You could run a one-way ANOVA at week 12 (comparing arms at the end) — but that ignores the baseline differences and the trajectory. You could run repeated-measures ANOVA on each arm separately (within-subject change over time) — but that ignores the comparison ACROSS arms. Both miss the most interesting question: **do the three arms have different TRAJECTORIES over time?** Does the full-programme arm improve faster than abbreviated or usual care?',
-          'That question — does the within-subjects effect (time) depend on the between-subjects factor (treatment arm)? — is exactly what **mixed ANOVA** answers. It combines a between-subjects factor (treatment arm) with a within-subjects factor (time point) in one model, and the headline statistic is the **treatment × time interaction**. A significant interaction means "the trajectories differ across arms" — typically the focal hypothesis of any intervention study with repeated measurement.',
+          'You are analysing the Nakuru Wellness Study (N = 45) — a 12-week lifestyle intervention on adults with elevated blood pressure. You measured systolic blood pressure (SBP) at THREE time points: baseline (T0), mid-programme (T1, week 6), and end-programme (T2, week 12). Overall the sample shows a healthy decline: T0 = 142.4, T1 = 138.9, T2 = 134.2 mmHg. Your repeated-measures ANOVA (Lesson 2 of ANOVA course) already confirmed the time effect is significant.',
+          'But your reviewer asks: *"Did the intervention work equally well for men and women? Or do the sexes have different TRAJECTORIES over time?"* That question — does the within-subjects effect (time) DEPEND on the between-subjects factor (sex)? — is exactly what **Mixed ANOVA** answers. Mixed ANOVA combines a between-subjects factor (Sex: 22 men, 23 women) with a within-subjects factor (Time: T0, T1, T2) in one model, and the headline statistic is the **Sex × Time interaction**. A significant interaction means "the trajectories differ across sexes" — typically the focal hypothesis of any intervention study with repeated measurement.',
+          'This lesson teaches you Mixed ANOVA: how to set it up, the three effects it produces (between main effect, within main effect, between × within interaction), how to handle sphericity for the within factor, and how to interpret the interaction plot. By the end you will own the workhorse analysis for pre-post-follow-up intervention studies — by far the most common quasi-experimental design in Kenyan postgrad research.',
         ]},
 
         { type: 'callout', tone: 'gold', title: 'What you will be able to do after this lesson',
           body: [
-            '**Recognise** the situations where mixed ANOVA is the right test (a between-subjects factor + a within-subjects factor measured on every participant).',
-            '**Distinguish** the three effects mixed ANOVA produces: the between main effect, the within main effect, and (most importantly) the between × within INTERACTION.',
-            '**Run** mixed ANOVA in SPSS via Analyze → General Linear Model → Repeated Measures, with the between-subjects factor entered separately.',
+            '**Recognise** the situations where Mixed ANOVA is the right test (a between-subjects factor + a within-subjects factor measured on every participant).',
+            '**Distinguish** the three effects Mixed ANOVA produces: the between main effect, the within main effect, and (most importantly) the between × within INTERACTION.',
+            '**Run** Mixed ANOVA in SPSS via Analyze → General Linear Model → Repeated Measures, with the between-subjects factor entered separately.',
             '**Check Mauchly\'s sphericity** for the within-subjects effect; apply Greenhouse-Geisser correction if violated.',
             '**Interpret an interaction plot** — parallel lines = no interaction; crossing or diverging lines = interaction.',
             '**Follow up a significant interaction** with simple-effects analyses or pairwise contrasts.',
@@ -37,237 +38,230 @@ export const MIXED_ANOVA_LESSON = {
       ],
     },
 
-    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN ════════════════════ */
     {
       id: 'wwww',
       title: 'What / Why / Where / When — read THIS first',
       blocks: [
         { type: 'callout', tone: 'gold', title: 'Why this section exists',
           body: [
-            'Mixed ANOVA is the most powerful test for intervention studies. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it to test if an intervention actually worked, (3) Where a postgraduate would use it, (4) When to CHOOSE it over Repeated Measures ANOVA.',
-            'The WWWW card below answers all 4 in 3 minutes.',
+            'Before touching the SPSS dialog, understand: (1) What Mixed ANOVA IS, (2) Why you use it, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it over separate between and within analyses.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
           ]},
 
-        { type: 'illustration', component: 'AnovaMixedWWWW',
-          caption: 'Figure 0. Mixed ANOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you chose Mixed ANOVA.' },
+        { type: 'illustration', component: 'NakuruMixedWWWW',
+          caption: 'Figure 0. Mixed ANOVA WHAT/WHY/WHERE/WHEN reference card using Nakuru Wellness SBP measured at 3 time points (within factor) crossed with Sex (between factor).' },
 
         { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
           body: [
-            '**Between-Subjects Factor** - Your grouping variable (e.g., Treatment Group vs Control Group).',
-            '**Within-Subjects Factor** - Your time variable (e.g., Pre-test, Post-test).',
-            '**Time × Group Interaction** - The most important result. Tests whether the treatment group improved DIFFERENTLY over time compared to the control group.',
-          ]
-        }
-      ]
+            '**Between-subjects factor** — a grouping variable where each participant belongs to ONE level only (e.g. Sex: male or female; Treatment vs Control).',
+            '**Within-subjects factor** — a variable where every participant provides data at ALL levels (e.g. Time: T0, T1, T2). Also called "repeated measures".',
+            '**Mixed design** — one between factor + one within factor combined in the same model.',
+            '**Between × Within interaction** — the KEY effect in Mixed ANOVA: do the trajectories on the within factor DIFFER across levels of the between factor?',
+            '**Mauchly\'s sphericity** — the assumption that variances of the differences between all pairs of within-subjects levels are equal. Tested automatically; use Greenhouse-Geisser correction if violated.',
+            '**Partial eta-squared (partial η²)** — effect size for each of the three effects. Same benchmarks: .01 small, .06 medium, .14 large.',
+          ]},
+      ],
     },
 
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
-      title: 'The big idea — the interaction is the headline',
+      title: 'The big idea — three effects, one model',
       blocks: [
-        { type: 'heading', level: 2, text: 'Three effects, but the interaction is what you care about' },
+        { type: 'heading', level: 2, text: 'Three F-tests, three questions' },
 
         { type: 'paragraph', text:
-          'A mixed ANOVA produces THREE F-tests. They answer three different questions, and most thesis-level interpretations focus on the THIRD.' },
+          'Mixed ANOVA produces THREE F-tests in one analysis, each answering a different question about the design:' },
 
         { type: 'comparison',
-          headers: ['Effect', 'Question it answers', 'What it tells you'],
+          headers: ['Effect', 'Question it answers', 'Nakuru example'],
           rows: [
-            ['**Between-subjects main effect** (treatment)',  'Do treatment arms differ AVERAGED across all time points?',           'Often hard to interpret on its own — averages over baseline (where groups may be equal) and end-trial. Usually not the focal result.'],
-            ['**Within-subjects main effect** (time)',         'Does the outcome change over time AVERAGED across all treatment arms?', 'Tells you whether the outcome generally drifts over time — but doesn\'t tell you whether the intervention drove the change.'],
-            ['**Treatment × time INTERACTION**',                'Do the trajectories OVER TIME DIFFER across treatment arms?',           'THE HEADLINE EFFECT. A significant interaction means the time effect depends on which treatment arm you\'re in — i.e. the intervention is doing different things in different arms. This is the focal hypothesis of nearly every intervention study.'],
+            ['**Within main effect (Time)**',                'Does the OUTCOME change over the within-subjects levels, averaged across the between-subjects groups?', 'Does SBP change over T0, T1, T2 combining men and women?'],
+            ['**Between main effect (Sex)**',                'Does the OUTCOME differ across the between-subjects groups, averaged across the within-subjects levels?', 'Do men and women differ in average SBP across the whole study?'],
+            ['**Between × Within interaction (Sex × Time)**', 'Does the TRAJECTORY over time DEPEND on the between-subjects group?',                                    'Do men and women change DIFFERENTLY over T0 → T1 → T2?'],
           ]},
 
-        { type: 'illustration', component: 'MixedAnovaInteraction',
-          caption: 'Figure 1. Three patterns of results in a mixed ANOVA. LEFT — no interaction, no main effects: all three arms flat, identical trajectories. MIDDLE — no interaction, main effects only: all arms decline, but the lines are PARALLEL. The change-over-time is the same in every arm. The intervention drives a general improvement but not differential improvement. RIGHT — significant interaction (the focal pattern in intervention research): the three arms have DIFFERENT TRAJECTORIES — the full-programme arm declines faster than abbreviated, which declines faster than usual care. Lines diverge. This is what intervention researchers hope to see and what mixed ANOVA is built to detect.' },
+        { type: 'definition', term: 'Between × Within interaction',
+          body: 'The most important test in Mixed ANOVA. A significant interaction means the pattern of change over the within-subjects factor (time) is NOT the same across levels of the between-subjects factor (sex). For example, women may drop from 143 → 132 mmHg while men only drop from 141 → 136 mmHg — different trajectories. This is exactly the question intervention researchers care about most: "Did our intervention work MORE for one group than another?"' },
 
-        { type: 'definition', term: 'Treatment × time interaction',
-          body: 'The F-test of whether the within-subjects effect (time) DIFFERS across the levels of the between-subjects factor (treatment). Reported as F(df_within, df_within×between) with df adjusted for sphericity. A significant interaction (p < .05) means the trajectories of the outcome over time are not the same across groups — typically the focal evidence that an intervention produced differential change.' },
-
-        { type: 'analogy', title: 'Three matatu Saccos and weekly fuel-price changes',
-          body: 'Three Saccos record their daily takings on Monday, Wednesday, and Friday. The week sees a midweek fuel hike that affects how matatus operate. Mixed-ANOVA-style: Sacco × Day. (1) The Sacco main effect: do the three Saccos differ in takings averaged across the week? Maybe. (2) The Day main effect: do takings drop midweek averaged across all Saccos? Yes, the fuel hike hits everyone. (3) THE INTERACTION: does the day-to-day pattern differ across Saccos? If one Sacco operates only short routes (less affected by fuel) and another operates only long routes (much more affected), their day-to-day trajectories will diverge — and the interaction captures exactly that.' },
+        { type: 'analogy', title: 'Two runners on a track — different speeds AND different paces?',
+          body: 'Two runners start the same race. The **within main effect** is whether either speeds up or slows down as the race progresses (do people generally get faster or slower over laps?). The **between main effect** is whether one runner is faster overall (a whole-race advantage). The **interaction** is whether they change speed at different rates — maybe Runner A starts strong and fades while Runner B starts slow and accelerates. Mixed ANOVA gives you all three pieces of information in one analysis: overall pace change (time), overall speed advantage (group), and different pacing strategies (interaction).' },
 
         { type: 'reveal',
-          prompt: 'Your mixed ANOVA shows: treatment main effect F = 0.8, p = .44 (n.s.); time main effect F = 25.6, p < .001 (significant); treatment × time interaction F = 8.4, p < .001 (significant). What does this pattern mean substantively?',
-          answer: '**The three treatment arms had no overall mean differences (when averaged across time), but they DID have different trajectories over time — which is exactly what intervention research hopes to find.** The non-significant treatment main effect simply means that at baseline (where the three arms started essentially equal) and averaged across the three time points, the arms look similar — that\'s normal and not concerning. The significant time main effect says the outcome changes over time on average. The significant interaction is the headline: the way the outcome changes over time DEPENDS on which arm you\'re in. Plot the means by time per arm to see whether the full-programme arm improved faster, plateaued earlier, etc. Then do simple-effects follow-ups: within each time point, do arms differ? Within each arm, does the outcome change?' },
+          prompt: 'You find: significant Time main effect (p < .001, partial η² = .47); non-significant Sex main effect (p = .147); significant Sex × Time interaction (p = .006, partial η² = .12). What does this combination mean?',
+          answer: '**SBP dropped overall across the three time points AND the pattern of dropping differed between men and women — but the sexes did not differ in AVERAGE SBP across the whole study.** (1) The intervention worked overall — SBP fell over time regardless of sex (Time main effect, LARGE). (2) Men and women had similar OVERALL average SBP across all three time points combined (Sex main effect ns) — because their averages happened to be roughly the same across the whole 12 weeks. (3) BUT the interaction is significant — meaning the SHAPE of the decline differed. Perhaps women dropped steeply between T0 and T1 and levelled off, while men dropped more gradually across all three time points. The interaction is the practically interesting result: the intervention affects the two sexes DIFFERENTLY over time, even if they end at similar overall averages. Next step: inspect the interaction plot to describe the pattern.' },
       ],
     },
 
     /* ════════════════════ 3. WHEN TO USE ════════════════════ */
     {
       id: 'when-to-use',
-      title: 'When mixed ANOVA is the right test',
+      title: 'When Mixed ANOVA is the right test',
       blocks: [
-        { type: 'heading', level: 2, text: 'The four telltale signs' },
+        { type: 'heading', level: 2, text: 'The conditions' },
 
         { type: 'steps', steps: [
-          { title: 'A BETWEEN-SUBJECTS factor with 2+ INDEPENDENT GROUPS',
-            body: 'Each participant belongs to ONE group only — e.g. treatment arm (3 levels), gender (2), school type (3). This is the "between" half.' },
-          { title: 'A WITHIN-SUBJECTS factor with 2+ LEVELS',
-            body: 'Every participant is measured at every level — e.g. time (baseline, mid, end), condition (drug A, drug B, placebo all on the same patients). This is the "within" half.' },
-          { title: 'Continuous outcome',
-            body: 'Y is Scale — HbA1c, exam score, anxiety scale. For ordinal or non-normal outcomes consider a non-parametric alternative or a mixed-effects model.' },
-          { title: 'Complete data on every within-level for every participant',
-            body: 'Standard mixed ANOVA is LISTWISE — drops any participant missing even one within-subjects measurement. With substantial attrition (>15%), consider a linear mixed-effects (LMM) model instead, which handles missing data more gracefully.' },
+          { title: 'Continuous outcome (Y is Scale)',
+            body: 'SBP, exam score, self-esteem index, yield, etc.' },
+          { title: 'At least ONE between-subjects factor',
+            body: 'A grouping variable where each participant belongs to one level (Sex: M/F; Treatment: A/B/C).' },
+          { title: 'At least ONE within-subjects factor',
+            body: 'A repeated measurement where every participant provides data at each level (Time: T0/T1/T2; Condition: baseline/stress/recovery).' },
+          { title: 'Same participants measured at each within level',
+            body: 'The 45 Nakuru participants each provide 3 SBP readings. No participant missing at any time point (or use listwise deletion / MANOVA-approach for missing data).' },
+          { title: 'Assumptions: normality per cell, sphericity for within factor, homogeneity of between-group variance',
+            body: 'Roughly normal within each cell of the design. Mauchly for sphericity (within). Levene / Box\'s M for homogeneity across between groups. Sample per group ≥ 15 for stability.' },
         ]},
 
         { type: 'comparison',
-          headers: ['Situation', 'Design', 'Right test'],
+          headers: ['Design', 'Right test'],
           rows: [
-            ['Compare 3 treatments at end-of-trial only',          '1 between, no within',  'One-way ANOVA (anova-1)'],
-            ['Compare same patients at 3 time points',              '0 between, 1 within',   'Repeated-measures ANOVA (anova-4)'],
-            ['Compare 3 treatments × 3 time points (same pts)',     '1 between × 1 within',  '**Mixed ANOVA (this lesson)**'],
-            ['Compare gender × method × time',                       '2 between × 1 within',  '**Mixed ANOVA (3-way extension)**'],
-            ['Compare 3 treatments × time on MULTIPLE outcomes',    '1 between × 1 within × multiple Ys', 'Doubly-multivariate / mixed MANOVA (extension)'],
-            ['Compare 3 treatments at baseline, adjusting for covariates', '1 between + covariate', 'ANCOVA (Lesson 1)'],
+            ['1 group, 1 continuous outcome measured at 2+ time points', 'Repeated-measures ANOVA (Lesson 2)'],
+            ['2+ groups, 1 continuous outcome measured ONCE',           'One-way / Two-way ANOVA'],
+            ['**2+ groups, 1 continuous outcome measured at 2+ time points**', '**Mixed ANOVA (this lesson)**'],
+            ['2 groups, 1 outcome measured at exactly 2 time points',   'Mixed ANOVA (still) — or a difference-score t-test if you prefer'],
+            ['Multiple outcomes measured repeatedly',                    'Doubly-multivariate / repeated-measures MANOVA (advanced)'],
           ]},
-
-        { type: 'callout', tone: 'gold', title: 'Mixed ANOVA is the default for intervention studies with repeated measurement',
-          body: 'Any study where you (a) assign participants to different conditions/arms AND (b) measure them at multiple time points or under multiple conditions, fits the mixed-ANOVA template. The treatment × time interaction directly tests "did the arms diverge over time" — the central question of intervention research. If your design fits this template, do not run separate analyses at each time point; do mixed ANOVA.' },
       ],
     },
 
-    /* ════════════════════ 4. SPSS STEPS ════════════════════ */
+    /* ════════════════════ 4. SPHERICITY REVISITED ════════════════════ */
+    {
+      id: 'sphericity',
+      title: 'Sphericity — the within-factor assumption',
+      blocks: [
+        { type: 'heading', level: 2, text: 'The same Mauchly check as ordinary repeated measures' },
+
+        { type: 'paragraph', text:
+          'Mixed ANOVA inherits sphericity from its within-subjects part. Sphericity means the variances of the differences between all pairs of within levels are approximately equal (T1−T0 has the same variance as T2−T1 as T2−T0). SPSS runs Mauchly\'s test automatically.' },
+
+        { type: 'comparison',
+          headers: ['Mauchly result', 'What to do'],
+          rows: [
+            ['**W significant (p ≤ .05)**',    'Sphericity VIOLATED. Read the **Greenhouse-Geisser** row of the Tests of Within-Subjects Effects table. Corrected df are non-integer (e.g. 1.68 instead of 2).'],
+            ['**W non-significant (p > .05)**', 'Sphericity assumed. Read the **Sphericity Assumed** row. Report those F, df, p.'],
+            ['**Only 2 within-level factor**', 'Sphericity trivially met (only one pair of differences). No correction needed.'],
+          ]},
+
+        { type: 'callout', tone: 'gold', title: 'Greenhouse-Geisser is safe',
+          body: 'If in doubt, report Greenhouse-Geisser regardless. It is a conservative correction that is nearly identical to the uncorrected version when sphericity holds, so you rarely lose information. Some journals now recommend always reporting Greenhouse-Geisser for repeated measures.' },
+      ],
+    },
+
+    /* ════════════════════ 5. SPSS STEPS ════════════════════ */
     {
       id: 'spss-steps',
-      title: 'Running mixed ANOVA in SPSS — the 9-step click path',
+      title: 'The Nakuru procedure',
       blocks: [
-        { type: 'heading', level: 2, text: 'The Repeated Measures dialog — but with a between-subjects factor too' },
+        { type: 'heading', level: 2, text: 'Same menu as Repeated Measures, plus one extra step' },
+
+        { type: 'paragraph', text:
+          'Mixed ANOVA uses the SAME menu as ordinary repeated measures: **Analyze → General Linear Model → Repeated Measures**. The only extra step is that AFTER defining the within-subjects factor, you also drop the between-subjects factor into its own box in the main dialog. That single extra move turns your repeated-measures ANOVA into a Mixed ANOVA.' },
 
         { type: 'steps', steps: [
-          { title: 'Data must be in WIDE format',
-            body: 'One row per participant. Within-subjects levels are SEPARATE COLUMNS (e.g. hba1c_baseline, hba1c_week6, hba1c_week12). Between-subjects factor is ONE column (treatment_arm, coded 1/2/3). If your data is in long format, restructure first via Data → Restructure → Cases to Variables.' },
-          { title: 'Open the dialog',
-            body: 'Analyze → General Linear Model → Repeated Measures.' },
-          { title: 'Define the within-subjects factor',
-            body: 'In the "Repeated Measures Define Factor(s)" pop-up: Within-Subject Factor Name = **time** (or another descriptive name); Number of Levels = **3**. Click Add. Click Define.' },
-          { title: 'Map your within-subjects variables in order',
-            body: 'In the Within-Subjects Variables box, drag your three time-point variables in the CORRECT ORDER: hba1c_baseline → slot (1), hba1c_week6 → slot (2), hba1c_week12 → slot (3). Order matters for interpretation.' },
-          { title: 'Add the between-subjects factor',
-            body: 'Drag **treatment_arm** into the Between-Subjects Factor(s) box. This is what makes the analysis MIXED rather than pure repeated-measures.' },
-          { title: 'Click Plots — request the interaction plot',
-            body: 'Move **time** to Horizontal Axis, **treatment_arm** to Separate Lines, click Add. This creates the line-plot showing trajectories per arm — essential for interpreting any significant interaction.' },
-          { title: 'Click Options',
-            body: 'Move (OVERALL), **time**, **treatment_arm**, and **time*treatment_arm** into Display Means for. Tick **Compare main effects**, set Confidence interval adjustment to **Bonferroni**. Tick **Descriptive statistics**, **Estimates of effect size** (partial η²), **Homogeneity tests**. Click Continue.' },
-          { title: 'Click EM Means (newer SPSS) — confirm settings',
-            body: 'Confirm the same factors are listed.' },
+          { title: 'Open the Define Factor(s) dialog',
+            body: 'Analyze → General Linear Model → Repeated Measures. SPSS opens a small preliminary dialog first.' },
+          { title: 'Name the within-subjects factor',
+            body: 'Within-Subject Factor Name: type "Time". Number of Levels: type "3" (we have T0, T1, T2). Click Add. The list shows "Time(3)". Click Define.' },
+          { title: 'Set the within-subjects variables',
+            body: 'The main Repeated Measures dialog opens with three empty slots labelled _?_(1), _?_(2), _?_(3). Move SBP_T0 into slot (1), SBP_T1 into slot (2), SBP_T2 into slot (3). ORDER MATTERS.' },
+          { title: 'Move the BETWEEN factor into Between-Subjects Factor(s)',
+            body: 'This is the ONE step that distinguishes Mixed ANOVA from ordinary repeated measures. Drop Sex into the Between-Subjects Factor(s) box on the lower right.' },
+          { title: 'Click Plots…',
+            body: 'Move Time to Horizontal Axis and Sex to Separate Lines. Click Add. Tick "Include Error Bars" with 95% CI. Click Continue.' },
+          { title: 'Click EM Means…',
+            body: 'Move Time, Sex, and Time*Sex into Display Means for. Tick Compare main effects with Bonferroni. Click Continue.' },
+          { title: 'Click Options…',
+            body: 'Tick **Descriptive statistics**, **Estimates of effect size**, **Homogeneity tests**. Click Continue.' },
           { title: 'Click OK',
-            body: 'SPSS produces many tables. The KEY ones in order: Box\'s Test (multivariate equality of covariance matrices), Mauchly\'s Test of Sphericity (within-subjects assumption), Tests of Within-Subjects Effects (time main effect AND time × treatment interaction), Levene\'s per time point, Tests of Between-Subjects Effects (treatment main effect), Estimated Marginal Means, Pairwise Comparisons, and the Profile Plot.' },
+            body: 'SPSS produces: Within-Subjects Factors, Between-Subjects Factors, Descriptive Statistics, Box\'s Test, Mauchly\'s Test, Tests of Within-Subjects Effects (Time + Time*Sex), Tests of Between-Subjects Effects (Sex), and the Profile Plot.' },
         ]},
 
-        { type: 'illustration', component: 'MixedAnovaDefineFactor',
-          caption: 'Figure 1. Define Factor(s). Name the repeated measure (e.g. "time") and specify the number of levels (e.g. 3).' },
-
-        { type: 'illustration', component: 'MixedAnovaDialog',
-          caption: 'Figure 2. The main Repeated Measures dialog. Map your columns to the slots in chronological order (1, 2, 3). For Mixed ANOVA, also drag the group variable into the Between-Subjects Factor(s) box.' },
-
-        { type: 'illustration', component: 'MixedAnovaOptions',
-          caption: 'Figure 3. The Options dialog. Move your factors and interaction into "Display Means for". This is critical for getting the pairwise comparisons.' },
-      ],
-    },
-
-    /* ════════════════════ 5. ASSUMPTIONS ════════════════════ */
-    {
-      id: 'assumptions',
-      title: 'The two assumption checks unique to mixed ANOVA',
-      blocks: [
-        { type: 'heading', level: 2, text: 'Sphericity (within) and homogeneity of covariance matrices (between)' },
-
-        { type: 'paragraph', text:
-          'Mixed ANOVA inherits the assumptions of both its parents — homogeneity of variance across groups (Levene\'s) for the between-subjects factor AND sphericity for the within-subjects factor. The two extra checks to run are Mauchly\'s test and Box\'s M.' },
-
-        { type: 'heading', level: 3, text: 'Mauchly\'s Test of Sphericity — within-subjects' },
-
-        { type: 'paragraph', text:
-          'Sphericity = the variances of the DIFFERENCES between every pair of within-subjects levels are equal. With 3+ time points, mixed ANOVA assumes this. If Mauchly\'s Sig. > .05, sphericity is assumed; use the "Sphericity Assumed" row. If Mauchly\'s Sig. < .05, sphericity is violated; use the **Greenhouse-Geisser** corrected row (the convention) or Huynh-Feldt corrected row (used when GG correction is severe). Both adjust the dfs upward and produce a more conservative p-value.' },
-
-        { type: 'heading', level: 3, text: 'Box\'s Test of Equality of Covariance Matrices — between × within' },
-
-        { type: 'paragraph', text:
-          'Box\'s M tests whether the variance-covariance structure of the within-subjects measurements is the same across the between-subjects groups. Use the lenient p > .001 threshold (Box\'s is over-sensitive). If violated, mixed ANOVA results may be biased; report cautiously and consider a multivariate mixed model.' },
-
-        { type: 'comparison',
-          headers: ['Test', 'Tests what', 'Threshold', 'If violated...'],
+        { type: 'reasoning', headers: ['Setting', 'What we chose', 'Why'],
           rows: [
-            ['Mauchly\'s Sphericity',  'Variances of differences between within-subjects levels',  'p > .05',  'Use Greenhouse-Geisser corrected row of the Tests of Within-Subjects Effects.'],
-            ['Box\'s M',                 'Covariance matrices equal across between-subjects groups', 'p > .001', 'Report cautiously; consider linear mixed-effects model as a robust alternative.'],
-            ['Levene\'s (per time point)', 'Variance of outcome equal across groups at each time point', 'p > .05',  'Robust if group sizes are roughly equal; report cautiously otherwise.'],
+            ['Within-Subject Factor Name', '"Time"', 'A descriptive name that will appear in output tables. Any label works.'],
+            ['Number of Levels',           '3',      'Three time points: T0 (baseline), T1 (mid), T2 (end).'],
+            ['Slot order',                 'SBP_T0 → SBP_T1 → SBP_T2', 'Chronological order so trends read left-to-right.'],
+            ['Between-Subjects Factor',    'Sex',    'The grouping variable that turns this into a Mixed design.'],
+            ['Plots: Horizontal = Time, Lines = Sex', 'Chosen', 'This visualisation lets you SEE the interaction — parallel = no interaction; diverging = interaction.'],
+            ['EM Means: include Time*Sex',  'Chosen', 'Gives cell means for interpreting the interaction if significant.'],
+            ['Options: Homogeneity',       'Ticked', 'Levene per time point + Box\'s M for between-group covariance equality.'],
           ]},
 
-        { type: 'callout', tone: 'warning', title: 'Always report Mauchly\'s and which sphericity row you used',
-          body: 'A common student slip is reporting "F(2, 144) = 8.4, p < .001" without specifying which sphericity correction. If Mauchly\'s was non-significant, those dfs come from the Sphericity Assumed row. If significant, they should be Greenhouse-Geisser corrected (and look like F(1.62, 116.7) = 8.4, p < .001 — decimal dfs are normal with GG). Always cite Mauchly\'s result and the correction used.' },
+        { type: 'illustration', component: 'NakuruMixedDialog',
+          caption: 'Figure 1. The two-dialog Mixed ANOVA setup. First (top): the Define Factors sub-dialog naming Time with 3 levels. Second (bottom): the main Repeated Measures dialog with SBP_T0/T1/T2 in the Within-Subjects Variables slots AND Sex in the Between-Subjects Factor(s) box (highlighted gold — THIS is what makes it Mixed). Plots button highlighted because the Time × Sex profile plot is what visualises the interaction.' },
+
+        { type: 'illustration', component: 'NakuruMixedOutput',
+          caption: 'Figure 2. Mixed ANOVA output. Top: Mauchly W = .812, p = .014 → sphericity violated → use Greenhouse-Geisser. Middle: Within-subjects Time effect (Greenhouse-Geisser) F(1.68, 72.24) = 38.42, p < .001, partial η² = .472 (LARGE); Time × Sex interaction F(1.68, 72.24) = 5.94, p = .006, partial η² = .121 (medium-significant) — THE KEY RESULT. Bottom: Between-subjects Sex main effect F(1, 43) = 2.18, p = .147, ns.' },
       ],
     },
 
-    /* ════════════════════ 6. READING OUTPUT ════════════════════ */
+    /* ════════════════════ 6. READING THE OUTPUT ════════════════════ */
     {
       id: 'reading-output',
-      title: 'Reading the mixed ANOVA output',
+      title: 'Reading the Mixed ANOVA output in the right order',
       blocks: [
-        { type: 'heading', level: 2, text: 'The order to read it' },
-
-        { type: 'illustration', component: 'MixedAnovaOutput',
-          caption: 'Figure 3. Mixed ANOVA output flow. (1) Mauchly\'s sphericity test — pick the right row for within-subjects effects. (2) Tests of Within-Subjects Effects — gives the time main effect AND the time × treatment interaction (the focal effect). (3) Levene\'s per time point — within-time homogeneity of variance check. (4) Tests of Between-Subjects Effects — gives the treatment main effect. (5) Profile Plot — visualises the interaction. (6) Pairwise comparisons — follow-up contrasts.' },
-
-        { type: 'heading', level: 3, text: 'Step 1 — Mauchly\'s Test of Sphericity' },
+        { type: 'heading', level: 2, text: 'Two tables, three effects' },
 
         { type: 'paragraph', text:
-          'Read FIRST. Sig. > .05 → sphericity assumed → in the next table use the "Sphericity Assumed" rows. Sig. < .05 → sphericity violated → use the "Greenhouse-Geisser" rows (decimal dfs).' },
+          'The output splits your three effects across TWO tables. Within-subjects effects (Time, Time × Sex) appear in the Tests of Within-Subjects Effects table. Between-subjects effects (Sex) appear in the Tests of Between-Subjects Effects table. Read them in this order:' },
 
-        { type: 'heading', level: 3, text: 'Step 2 — Tests of Within-Subjects Effects' },
+        { type: 'steps', steps: [
+          { title: 'Step 1 — Mauchly\'s Test (assumption check)',
+            body: 'Look at W and its p. If p ≤ .05 → sphericity violated → read Greenhouse-Geisser rows in the next table. If p > .05 → read Sphericity Assumed rows.' },
+          { title: 'Step 2 — Tests of Within-Subjects Effects → Time × Sex interaction row',
+            body: 'THE headline. If significant, the trajectories differ across sexes. This changes how you interpret everything else.' },
+          { title: 'Step 3 — Tests of Within-Subjects Effects → Time main effect row',
+            body: 'Does SBP change over time, averaged across sexes? If significant, there is an overall time trend.' },
+          { title: 'Step 4 — Tests of Between-Subjects Effects → Sex main effect row',
+            body: 'Do men and women differ in overall (averaged over time) SBP? If significant, there is an overall sex difference in mean.' },
+          { title: 'Step 5 — Profile plot + pairwise comparisons',
+            body: 'If the interaction is significant, look at the plot to describe the pattern. Use pairwise comparisons (Bonferroni-adjusted) to identify which specific cells differ.' },
+        ]},
 
-        { type: 'paragraph', text:
-          'Lists FOUR rows per effect (Sphericity Assumed, Greenhouse-Geisser, Huynh-Feldt, Lower-bound) for EACH of the within-subjects effects: **time** and **time × treatment_arm**. Pick the sphericity row that matches Mauchly\'s result. The **time × treatment interaction** is the focal effect for intervention studies.' },
+        { type: 'comparison',
+          headers: ['Row', 'Table it appears in', 'What it tests'],
+          rows: [
+            ['**Time**',        'Within-subjects effects',   'Main effect of the within-subjects factor.'],
+            ['**Time × Sex**',  'Within-subjects effects',   'THE KEY interaction — does trajectory depend on group?'],
+            ['**Sex**',         'Between-subjects effects',  'Main effect of the between-subjects factor (averaged over time).'],
+            ['**Error (Within)**', 'Within-subjects effects', 'Residual variance for within terms.'],
+            ['**Error (Between)**', 'Between-subjects effects', 'Residual variance for between terms.'],
+          ]},
 
-        { type: 'heading', level: 3, text: 'Step 3 — Tests of Between-Subjects Effects' },
-
-        { type: 'paragraph', text:
-          'Lists the treatment main effect (averaged across all time points). Report F, df, p, partial η² — but remember this is averaged across time and often less interpretable than the interaction.' },
-
-        { type: 'heading', level: 3, text: 'Step 4 — Interpret the Profile Plot' },
-
-        { type: 'paragraph', text:
-          'The line plot you requested in Plots. If lines are **parallel** → no interaction. If lines **cross or diverge** → significant interaction (the trajectories differ across arms). Always include the plot in your Chapter 4.' },
-
-        { type: 'heading', level: 3, text: 'Step 5 — Follow up a significant interaction' },
-
-        { type: 'paragraph', text:
-          'A significant time × treatment interaction tells you trajectories differ, but not WHERE. Two standard follow-ups: (a) **simple main effects of time within each treatment arm** — split the file by treatment_arm and run repeated-measures ANOVA per arm, OR use Bonferroni-adjusted pairwise comparisons from the EM Means table to identify within each arm which time points differ. (b) **simple main effects of treatment at each time point** — at baseline are groups equivalent? At week 12, do groups differ? Use one-way ANOVA per time point with Bonferroni correction across the time points.' },
+        { type: 'callout', tone: 'warning', title: 'Interpret the interaction FIRST',
+          body: 'As with two-way ANOVA, a significant Time × Sex interaction changes how you interpret the main effects. The "Time main effect" describes an average trajectory that may not match either sex\'s actual trajectory. Always describe the interaction pattern from the plot BEFORE generalising about main effects.' },
 
         { type: 'reveal',
-          prompt: 'Your mixed ANOVA: Mauchly\'s p = .03 (violated). Greenhouse-Geisser-corrected results: time F(1.62, 116.7) = 25.6, p < .001, partial η² = .26. Time × arm F(3.24, 116.7) = 8.4, p < .001, partial η² = .19. Treatment main F(2, 72) = 0.8, p = .44, partial η² = .02. The profile plot shows the full-programme arm dropping steeply, abbreviated dropping moderately, control essentially flat. What\'s your headline interpretation?',
-          answer: '**The headline finding is the significant time × treatment interaction (large effect, partial η² = .19): the three treatment arms had significantly different HbA1c trajectories over the 12 weeks.** The profile plot reveals that the full-programme arm declined steepest, the abbreviated arm declined moderately, and the usual-care control arm remained essentially flat — exactly the pattern intervention researchers hope to find. The significant time main effect (partial η² = .26) confirms HbA1c changed over time on average; the non-significant treatment main effect (averaged across baseline-where-groups-were-equal-and-end) is expected and not concerning. Follow up: simple-effect tests within each arm should confirm significant drops in the two intervention arms and no significant change in usual care; comparisons at each time point should show no group differences at baseline (good — randomisation worked) but significant differences by week 12 (full < abbreviated < control).' },
+          prompt: 'Mauchly p = .014. Time × Sex (Greenhouse-Geisser) F(1.68, 72.24) = 5.94, p = .006, partial η² = .12. Time main effect (Greenhouse-Geisser) F(1.68, 72.24) = 38.42, p < .001, partial η² = .47. Sex F(1, 43) = 2.18, p = .147. How do you interpret this pattern?',
+          answer: '**SBP fell substantially over time overall (large Time effect), the two sexes did not differ in overall averaged SBP, and — most importantly — the two sexes had DIFFERENT trajectories over the three time points (significant Time × Sex interaction).** (1) Sphericity was violated (Mauchly p = .014); Greenhouse-Geisser corrections applied. (2) Time × Sex interaction is significant (p = .006, medium effect) → the intervention affected men and women differently over the 12 weeks. Inspect the profile plot to describe the pattern — perhaps women showed a steeper decline than men, or one sex plateaued earlier. (3) The main Time effect (LARGE, partial η² = .47) confirms an overall drop in SBP across the sample. (4) The Sex main effect is non-significant, meaning that when you average SBP across all three time points, men and women had similar averages. (5) The bottom-line message for the write-up: the intervention worked (big time effect), BUT it did NOT work equally for both sexes (significant interaction). Follow up with sex-specific descriptive stats: e.g. women T0 = 144.1 → T2 = 132.6 (Δ = −11.5), men T0 = 140.8 → T2 = 135.9 (Δ = −4.9) — women dropped over twice as much.' },
       ],
     },
 
     /* ════════════════════ 7. WORKED EXAMPLE ════════════════════ */
     {
       id: 'worked-example',
-      title: 'Worked example — 3 treatment arms × 3 time points',
+      title: 'Worked example — Nakuru Wellness Mixed ANOVA',
       blocks: [
-        { type: 'workedExample', title: 'A Master\'s study at Kenyatta University Hospital',
+        { type: 'workedExample', title: 'A PhD study in public health at Egerton University',
           body: [
             { label: 'The research question',
-              text: 'Does a 12-week diabetes-education programme produce differential improvement in HbA1c across three arms (full programme, abbreviated, usual care) at baseline, week 6, and week 12?' },
-            { label: 'The design',
-              text: 'n = 75 patients (25 per arm). Between-subjects factor: **treatment_arm** (1 = full, 2 = abbreviated, 3 = control). Within-subjects factor: **time** (baseline, week 6, week 12), measured as three columns: hba1c_baseline, hba1c_week6, hba1c_week12 (all continuous, %).' },
-            { label: 'Step 1 — Verify data is in WIDE format',
-              text: 'One row per patient. Three time-point columns + the treatment_arm column. Confirmed.' },
-            { label: 'Step 2 — Run mixed ANOVA',
-              text: 'Analyze → General Linear Model → Repeated Measures. Within-Subject Factor Name = time, levels = 3, Add, Define. Map hba1c_baseline → (1), hba1c_week6 → (2), hba1c_week12 → (3). Between-Subjects Factor = treatment_arm. Plots: time horizontal, treatment_arm separate lines, Add. Options: Display Means for OVERALL, time, treatment_arm, time*treatment_arm; Compare main effects (Bonferroni); Descriptive statistics; Estimates of effect size; Homogeneity tests. OK.' },
-            { label: 'Step 3 — Check Mauchly\'s',
-              text: 'Mauchly\'s W = .89, χ²(2) = 8.4, p = .015. SIGNIFICANT — sphericity violated. Use Greenhouse-Geisser (ε = .81) corrected rows for the within-subjects effects.' },
-            { label: 'Step 4 — Read Tests of Within-Subjects Effects (Greenhouse-Geisser rows)',
-              text: 'time: F(1.62, 116.7) = 25.6, p < .001, partial η² = .26 (large). time × treatment_arm: F(3.24, 116.7) = 8.4, p < .001, partial η² = .19 (large). Strong interaction → trajectories differ across arms.' },
-            { label: 'Step 5 — Read Tests of Between-Subjects Effects',
-              text: 'treatment_arm: F(2, 72) = 0.8, p = .44, partial η² = .02 (small, n.s.). Expected — at baseline groups were essentially equal, so the average-across-time main effect is small.' },
-            { label: 'Step 6 — Interpret the Profile Plot',
-              text: 'Full programme: HbA1c declined from 8.4 (baseline) to 7.6 (week 6) to 7.0 (week 12). Abbreviated: declined from 8.5 to 8.0 to 7.6. Control: 8.4 to 8.3 to 8.3 (essentially flat). Clear divergence — full programme steepest, control flat.' },
-            { label: 'Step 7 — Simple-effects follow-up',
-              text: 'AT EACH TIME POINT (one-way ANOVA per time): baseline F = 0.1, p = .91 (groups equivalent, as expected from randomisation); week 6 F = 4.2, p = .019 (groups differ); week 12 F = 12.8, p < .001 (groups differ strongly). WITHIN EACH ARM (repeated-measures ANOVA per arm, Bonferroni): full programme baseline vs week 12 MD = −1.4, p < .001; abbreviated baseline vs week 12 MD = −0.9, p = .002; control baseline vs week 12 MD = −0.1, p = .58 (n.s.).' },
-            { label: 'Step 8 — APA write-up',
-              text: '*"A 3 × 3 mixed ANOVA was conducted to examine the effect of three treatment arms (Full Programme, n = 25; Abbreviated, n = 25; Usual Care, n = 25) on HbA1c across three time points (baseline, week 6, week 12) in 75 type-2 diabetic patients at Kenyatta University Hospital. Mauchly\'s test indicated a violation of sphericity, W = .89, χ²(2) = 8.4, p = .015, so Greenhouse-Geisser corrected dfs are reported (ε = .81). There was a significant main effect of time on HbA1c, F(1.62, 116.7) = 25.6, p < .001, partial η² = .26, indicating an overall reduction across the study period. The between-subjects main effect of treatment arm was non-significant, F(2, 72) = 0.8, p = .44, partial η² = .02, reflecting that arms were equivalent at baseline. CRUCIALLY, there was a significant time × treatment arm interaction, F(3.24, 116.7) = 8.4, p < .001, partial η² = .19, indicating that the three arms had significantly different HbA1c trajectories. The Full Programme arm showed the steepest decline (8.4 → 7.0; mean change −1.4, p < .001), Abbreviated showed moderate decline (8.5 → 7.6; mean change −0.9, p = .002), and Usual Care remained essentially unchanged (8.4 → 8.3; mean change −0.1, p = .58). One-way ANOVAs at each time point confirmed that arms did not differ at baseline (F = 0.1, p = .91) but diverged significantly by week 6 (F = 4.2, p = .019) and substantially by week 12 (F = 12.8, p < .001). The findings indicate that the structured 12-week diabetes-education programme produces dose-dependent improvement in glycaemic control, with the full programme delivering the largest and most durable reduction in HbA1c."*' },
+              text: 'Did a 12-week lifestyle intervention reduce systolic blood pressure equally in men and women, or do the sexes show different trajectories over T0 → T1 → T2?' },
+            { label: 'The data',
+              text: 'N = 45 adults with elevated SBP. Sex: 22 men, 23 women. Three within-subjects levels: SBP_T0 (baseline), SBP_T1 (week 6), SBP_T2 (week 12). Overall means (across both sexes): T0 = 142.4, T1 = 138.9, T2 = 134.2 mmHg.' },
+            { label: 'Step 1 — Check assumptions',
+              text: 'Mauchly\'s W = .812, p = .014 → sphericity violated → use Greenhouse-Geisser. Box\'s M p = .088 → covariance homogeneity OK. Levene per time point all p > .10.' },
+            { label: 'Step 2 — Run the Mixed ANOVA',
+              text: 'Analyze → GLM → Repeated Measures → Define Factor Time (3) → Slots SBP_T0/T1/T2 → Between-Subjects Factor: Sex → Plots: Time (Horizontal), Sex (Lines) → EM Means: Time, Sex, Time*Sex (Bonferroni) → Options: Descriptive, Effect size, Homogeneity → OK.' },
+            { label: 'Step 3 — Read the F-tests (Greenhouse-Geisser rows)',
+              text: 'Time: F(1.68, 72.24) = 38.42, p < .001, partial η² = .472 (LARGE). Time × Sex: F(1.68, 72.24) = 5.94, p = .006, partial η² = .121 (medium — the KEY result). Sex: F(1, 43) = 2.18, p = .147, partial η² = .048 (small, ns).' },
+            { label: 'Step 4 — Interpret the interaction from the plot',
+              text: 'Cell means: Women T0 = 144.1, T1 = 138.2, T2 = 132.6 (Δ = −11.5). Men T0 = 140.8, T1 = 139.5, T2 = 135.9 (Δ = −4.9). The women\'s line drops steeply; the men\'s line is much flatter. Lines diverge → clear interaction pattern.' },
+            { label: 'Step 5 — Simple-effects follow-up',
+              text: 'Within-women: RM-ANOVA F(2, 44) = 24.15, p < .001, partial η² = .52 — significant drop across time. Within-men: RM-ANOVA F(2, 42) = 6.83, p = .003, partial η² = .25 — smaller but still significant drop across time. So both sexes improved, but women improved much more.' },
+            { label: 'Step 6 — APA write-up',
+              text: '*"A 2 (Sex: male, female) × 3 (Time: T0, T1, T2) mixed-design analysis of variance was conducted to examine changes in systolic blood pressure across a 12-week lifestyle intervention among 45 adults (22 men, 23 women) in Nakuru. Mauchly\'s test indicated a violation of sphericity for the Time factor (W = .812, p = .014), so Greenhouse-Geisser corrected values are reported. There was a significant main effect of Time, F(1.68, 72.24) = 38.42, p < .001, partial η² = .47, indicating that systolic blood pressure decreased significantly across the three time points overall. The main effect of Sex was not significant, F(1, 43) = 2.18, p = .147, partial η² = .05. A significant Time × Sex interaction emerged, F(1.68, 72.24) = 5.94, p = .006, partial η² = .12, indicating that the trajectory of blood-pressure change differed between the sexes. Follow-up simple-effects analyses showed that both sexes improved significantly (women: F(2, 44) = 24.15, p < .001, partial η² = .52; men: F(2, 42) = 6.83, p = .003, partial η² = .25), but women showed a larger overall reduction (M_T0 = 144.1, M_T2 = 132.6; Δ = −11.5 mmHg) than men (M_T0 = 140.8, M_T2 = 135.9; Δ = −4.9 mmHg). These findings suggest that the lifestyle intervention was effective for both sexes but produced substantially larger blood-pressure reductions in women."*' },
           ]},
       ],
     },
@@ -275,57 +269,42 @@ export const MIXED_ANOVA_LESSON = {
     /* ════════════════════ 8. WRITING IT UP ════════════════════ */
     {
       id: 'writing',
-      title: 'Writing mixed ANOVA up for Chapter 4',
+      title: 'Writing Mixed ANOVA up for Chapter 4',
       blocks: [
         { type: 'heading', level: 2, text: 'The standard APA template' },
 
         { type: 'apa', text:
-          'A [between levels] × [within levels] mixed ANOVA was conducted to examine the effect of [between-subjects factor] on [outcome] across [within-subjects factor description] in [n] [participants]. Mauchly\'s test [confirmed sphericity / indicated a violation of sphericity, W = ..., p = ...; Greenhouse-Geisser corrected dfs are reported]. There was a [significant / non-significant] main effect of [within factor], F([df1], [df2]) = [value], p = [value], partial η² = [value]. The between-subjects main effect of [between factor] was [significant / non-significant], F([df1], [df2]) = [value], p = [value], partial η² = [value]. CRUCIALLY, there was a [significant / non-significant] [within × between] interaction, F([df1], [df2]) = [value], p = [value], partial η² = [value]. [Follow-up description: trajectory per group, simple-effect tests at each time point, simple-effect tests within each group, pairwise comparisons.] The findings suggest [substantive interpretation focused on the interaction pattern].' },
+          'A [K]-group by [T]-time-point mixed-design analysis of variance was conducted to examine changes in [OUTCOME] across [OCCASIONS] among [N] [respondents] ([n1 in group 1, n2 in group 2]). Mauchly\'s test [indicated / did not indicate] a violation of sphericity for the [within] factor (W = [.XX], p = [p]), [so Greenhouse-Geisser corrected values are reported / so sphericity-assumed values are reported]. The main effect of [WITHIN] was [significant/non-significant], F([df]) = [F], p = [p], partial η² = [.XX]. The main effect of [BETWEEN] was [significant/non-significant], F([df]) = [F], p = [p], partial η² = [.XX]. A [significant/non-significant] [WITHIN] × [BETWEEN] interaction emerged, F([df]) = [F], p = [p], partial η² = [.XX]. [If interaction significant: describe pattern from plot and pairwise / simple-effects follow-ups.]' },
 
-        { type: 'callout', tone: 'success', title: 'Nine things every mixed ANOVA write-up must include',
-          body: '**1.** Test name with design (e.g. "3 × 3 mixed ANOVA"). **2.** Sample sizes per between-subjects group. **3.** Mauchly\'s sphericity result and which correction (if any) was applied. **4.** Within-subjects main effect — F, df (with decimals if GG corrected), p, partial η². **5.** Between-subjects main effect — F, df, p, partial η². **6.** The INTERACTION effect — same statistics; this is the headline. **7.** Means per cell (per group × per time) — usually in a table or plot. **8.** Simple-effects follow-ups for a significant interaction. **9.** Substantive interpretation focused on the trajectory pattern.' },
-
-        { type: 'reviewerComments',
-          items: [
-            { q: 'Why mixed ANOVA rather than separate ANOVAs at each time point?',
-              a: 'A series of separate one-way ANOVAs at each time point would (a) inflate the family-wise Type I error rate across the multiple tests, (b) ignore the within-subjects correlation between repeated measurements on the same patients, throwing away power, and (c) fail to directly test the focal hypothesis — namely, that the three arms had DIFFERENT TRAJECTORIES over time. Mixed ANOVA models the full design in one analysis, accounts for the within-subjects correlation, and provides the treatment × time interaction that directly tests differential change — the headline question of any intervention study with repeated measurement.' },
-            { q: 'Why is the non-significant between-subjects main effect not a concern?',
-              a: 'The between-subjects main effect tests whether the three arms differ when averaged across all three time points, including baseline. Because randomisation ensured arms were equivalent at baseline (confirmed by the simple-effects test, F = 0.1, p = .91), averaging baseline equality with later differences dilutes the apparent main effect. The interpretive focus is properly on the time × treatment interaction, which directly tests differential change — and which was highly significant with a large effect size (partial η² = .19). The non-significant between-subjects main effect is in fact a desirable indicator that the randomisation worked.' },
-            { q: 'Why did you use simple-effects follow-ups rather than just reporting the interaction?',
-              a: 'A significant interaction tells us trajectories differ across arms, but does not specify where or how. Simple-effects analyses unpack the interaction in two complementary directions: (a) tests at each time point reveal that arms were equivalent at baseline but diverged significantly by week 6 and substantially by week 12 — confirming the trajectories diverged over the course of the trial; (b) tests within each arm reveal that the Full Programme and Abbreviated arms showed significant pre-post improvement while the Usual Care arm did not — confirming that the differential trajectories reflect intervention effects rather than secular trends. Both simple-effects directions are standard reporting practice for a significant mixed-ANOVA interaction.' },
-          ]},
+        { type: 'callout', tone: 'success', title: 'Six things every Mixed ANOVA write-up needs',
+          body: '**1.** The design labelled clearly as "K × T mixed-design ANOVA". **2.** Sample size overall AND per between-group. **3.** Mauchly\'s W and p, plus whether Greenhouse-Geisser was applied. **4.** F, df, p, and partial η² for ALL THREE effects (within, between, interaction). **5.** Interpretation ORDER: interaction first; main effects qualified. **6.** Cell means or the profile plot for the interaction. Six items — a reviewer will look for every single one.' },
       ],
     },
 
-    /* ════════════════════ 9. MISTAKES ════════════════════ */
+    /* ════════════════════ 9. COMMON MISTAKES ════════════════════ */
     {
       id: 'mistakes',
-      title: 'Five common mixed ANOVA mistakes',
+      title: 'Common Mixed ANOVA mistakes',
       blocks: [
         { type: 'mistake',
-          title: 'Mistake 1 — Treating it as separate one-way ANOVAs at each time point',
-          body: 'You ran three one-way ANOVAs (one at each time point) instead of one mixed ANOVA. You inflate family-wise error, ignore within-subject correlation, lose power, and fail to test the focal hypothesis (differential trajectories).',
-          fix: 'Use mixed ANOVA when you have a between-subjects factor AND a within-subjects factor measured on the same participants. The time × treatment interaction directly tests differential change. Separate ANOVAs come later, as simple-effects follow-ups to a significant interaction — never as the primary analysis.' },
+          title: 'Mistake 1 — Reporting Sphericity-Assumed rows when Mauchly is significant',
+          body: 'Mauchly p = .014 → sphericity violated. But you report the Sphericity-Assumed F, df, and p from the top row of the Within-Subjects Effects table. Your df are inflated and your p understated.',
+          fix: 'ALWAYS check Mauchly first. If p ≤ .05, read the **Greenhouse-Geisser** row (or Huynh-Feldt for larger samples). The df will be non-integer (e.g. 1.68 instead of 2). Report those corrected values. Mention the sphericity violation in the write-up.' },
 
         { type: 'mistake',
-          title: 'Mistake 2 — Reporting "Sphericity Assumed" rows when Mauchly\'s is significant',
-          body: 'Mauchly\'s p = .02 (violated) but you reported the "Sphericity Assumed" rows from the Tests of Within-Subjects Effects table. Your p-values are anti-conservative — inflated false-positive risk.',
-          fix: 'When Mauchly\'s Sig. < .05, report the **Greenhouse-Geisser** corrected rows. The dfs will look decimal (e.g. F(1.62, 116.7) = 8.4) — that is correct and expected, not a typo. Always cite Mauchly\'s result and the correction you used.' },
+          title: 'Mistake 2 — Interpreting the Time main effect without checking the interaction',
+          body: 'The Time main effect is large and highly significant. You write "SBP dropped significantly from 142 to 134 mmHg over 12 weeks" — but the Time × Sex interaction was ALSO significant. Your statement hides the fact that the drop was much bigger for women than men.',
+          fix: 'Interpret the INTERACTION first. If significant, the main effect describes an "average trajectory" that may not match any specific group. Report the main effect but qualify: "The overall time effect was significant, though a significant Time × Sex interaction indicated the pattern differed between men and women."' },
 
         { type: 'mistake',
-          title: 'Mistake 3 — Interpreting the between-subjects main effect when the interaction is significant',
-          body: 'Your interaction is significant. You then report "treatment had no overall effect, F = 0.8, p = .44". But the between-subjects main effect is averaged across time and is almost always less informative than the interaction. Highlighting it misleads the reader.',
-          fix: 'When the interaction is significant, the interaction is the headline. Report all three effects, but interpret the interaction first and most prominently. The between-subjects main effect is often non-significant in well-randomised studies precisely because randomisation makes arms equivalent at baseline — that\'s a good thing.' },
+          title: 'Mistake 3 — Confusing Mixed ANOVA with MANOVA',
+          body: 'You have one outcome measured at three time points crossed with sex. You run MANOVA thinking the multiple time points make it multivariate.',
+          fix: 'Multiple measurements of the SAME variable over time = repeated-measures / mixed ANOVA, NOT MANOVA. MANOVA is for multiple DIFFERENT outcomes measured once. In your Mixed ANOVA, SBP_T0/T1/T2 are three measurements of ONE variable (SBP), so it is a within-subjects factor, not three separate DVs.' },
 
         { type: 'mistake',
-          title: 'Mistake 4 — Skipping simple-effects follow-ups after a significant interaction',
-          body: 'You reported the significant interaction and stopped. The reader has no idea whether the divergence began at week 6 or only at week 12, whether the control arm changed at all, or whether the Full vs Abbreviated contrast was significant at the end.',
-          fix: 'Always follow a significant interaction with simple-effects analyses: (a) tests at each time point (one-way ANOVA per time, Bonferroni-corrected across time points); (b) tests within each group (repeated-measures ANOVA per group, with pairwise comparisons between time points). Report both directions of unpacking.' },
-
-        { type: 'mistake',
-          title: 'Mistake 5 — Handling missing data by listwise deletion when attrition is substantial',
-          body: 'Of 75 enrolled patients, 14 missed at least one follow-up. Mixed ANOVA dropped them all. Your effective N is 61 (81%), losing power and potentially biasing results if dropouts differed systematically (which they almost always do).',
-          fix: 'For attrition > 15%, consider a **linear mixed-effects model (LMM)** instead of standard mixed ANOVA. LMM uses all available data (does not require complete cases on every within-subjects level), handles missing data under MAR assumptions more gracefully, and is the modern standard for longitudinal trials. In SPSS: Analyze → Mixed Models → Linear. For thesis-level work, report mixed ANOVA as the primary analysis if attrition is low; mention LMM as a robustness check if attrition is meaningful.' },
+          title: 'Mistake 4 — Skipping the profile plot',
+          body: 'You report the three F-tests and stop. The reader cannot see the interaction pattern. The profile plot is the most memorable image in a Mixed ANOVA write-up and you have omitted it.',
+          fix: 'ALWAYS tick Plots and set Time (Horizontal) × Between-Factor (Lines). Include the resulting Profile Plot in Chapter 4 as a numbered figure. Describe its pattern in the narrative. Examiners often look at the plot before reading the text.' },
       ],
     },
 
@@ -335,23 +314,23 @@ export const MIXED_ANOVA_LESSON = {
       title: 'Lesson summary',
       blocks: [
         { type: 'summary', items: [
-          'Mixed ANOVA combines a BETWEEN-SUBJECTS factor (groups) with a WITHIN-SUBJECTS factor (repeated measurements on the same people) in one analysis.',
-          'Produces THREE effects: between main, within main, AND the interaction. The INTERACTION is typically the headline — it tests whether trajectories differ across groups.',
-          'Use when: 2+ independent groups + 2+ repeated measurements on the same participants on a continuous outcome.',
-          'Run via Analyze → General Linear Model → Repeated Measures → define within-factor with k levels → map within-variables in order → put between-factor in Between-Subjects Factor(s) → Plots with within on horizontal and between as separate lines → Options for adjusted means, Bonferroni pairwise, partial η², homogeneity tests → OK.',
-          'Data must be in WIDE format (one row per participant, one column per within-subjects level).',
-          'Always check Mauchly\'s sphericity for the within-subjects effect. p > .05 → Sphericity Assumed rows. p < .05 → Greenhouse-Geisser corrected rows (decimal dfs are normal).',
-          'Also check Box\'s M (lenient threshold p > .001) for between × within homogeneity of covariance matrices.',
-          'When the interaction is significant, follow up with simple-effects analyses: one-way ANOVA per time point (Bonferroni across time) AND repeated-measures ANOVA per group (Bonferroni pairwise within group).',
-          'Effect size: partial η² for all three effects. Benchmarks: .01 small, .06 medium, .14 large.',
-          'Five mistakes to avoid: separate ANOVAs per time, ignoring Mauchly, over-interpreting non-significant between effect, skipping simple-effects, listwise-deleting heavy attrition (consider LMM instead).',
+          'Mixed ANOVA = one between-subjects factor + one within-subjects factor in the same model.',
+          'Produces THREE F-tests: within main effect, between main effect, and (the KEY) within × between interaction.',
+          'The interaction tests whether the trajectory over the within-subjects factor DIFFERS across between-subjects groups — the focal hypothesis of most intervention studies.',
+          'Menu: Analyze → General Linear Model → Repeated Measures. Define the within factor first, then drop the between factor into Between-Subjects Factor(s).',
+          'Assumptions: normality per cell, sphericity for the within factor (Mauchly + Greenhouse-Geisser if violated), homogeneity of between-group variances (Box\'s M).',
+          'Interpret in ORDER: interaction first; main effects qualified by the interaction.',
+          'Always include the profile plot (Time on x-axis, between-factor as separate lines) — it visualises the interaction.',
+          'Nakuru example: Time × Sex interaction F(1.68, 72.24) = 5.94, p = .006, partial η² = .12 — women dropped 11.5 mmHg vs men only 4.9 mmHg.',
+          'Effect size = partial η² for each of the three effects (.01 small, .06 medium, .14 large).',
+          'Avoid the four mistakes: ignoring Mauchly, misreading main effects without checking the interaction, confusing Mixed with MANOVA, skipping the profile plot.',
         ]},
 
-        { type: 'callout', tone: 'gold', title: 'Course complete — Advanced ANOVA',
-          body: 'You\'ve now finished the **Advanced ANOVA** course — ANCOVA for adjusted comparisons with continuous covariates, MANOVA for multiple outcomes simultaneously, and mixed ANOVA for between × within designs. Combined with the base ANOVA course (one-way, two-way, repeated-measures, post-hoc), you now have the entire ANOVA family for nearly any postgrad design.' },
+        { type: 'callout', tone: 'gold', title: 'Course complete!',
+          body: 'You have now finished the entire ANOVA course — nine lessons from One-way ANOVA through Kruskal-Wallis, Two-way, Repeated Measures, Friedman, ANCOVA, MANOVA, and now Mixed. Together with the SPSS Basics, Data Cleaning, Descriptive Statistics, Correlation, Regression, T-Tests, Chi-Square, Reliability, and Writing Up courses, you have covered every core inferential procedure Kenyan postgraduate examiners expect to see in a well-designed thesis. Your Chapter 4 is now armed for anything.' },
 
         { type: 'paragraph', text:
-          'Before moving on, find a dataset with a between-subjects factor (2+ groups) AND a within-subjects factor (repeated measurements on the same participants). Run mixed ANOVA, check Mauchly\'s, interpret the interaction, follow up with simple-effects analyses, and write up the result in APA. Then come back for the knowledge check.' },
+          'Before moving on, find a dataset with a between-subjects factor AND a within-subjects factor. Run Mixed ANOVA in SPSS. Check Mauchly. Interpret the interaction from the profile plot. Then come back for the knowledge check.' },
       ],
     },
 
@@ -361,70 +340,70 @@ export const MIXED_ANOVA_LESSON = {
       title: 'Knowledge check',
       blocks: [
         { type: 'check',
-          question: 'Which effect in a mixed ANOVA is typically the HEADLINE finding in intervention research?',
+          question: 'What makes an ANOVA design "mixed"?',
           choices: [
-            'The between-subjects main effect',
-            'The within-subjects main effect',
-            'The between × within INTERACTION — tests whether the trajectories over time DIFFER across treatment groups',
-            'Mauchly\'s sphericity test',
-          ],
-          answer: 2,
-          explanation: 'In intervention research with repeated measurement, the central question is "do the treatment arms have different trajectories over time?". The between × within interaction directly tests this. The between-subjects main effect averages across all time points (including baseline where well-randomised groups are equal, so it\'s often non-significant in clean intervention studies). The within-subjects main effect tells you the outcome changes over time on average but not whether intervention drove the change. The interaction is the focal effect.' },
-
-        { type: 'check',
-          question: 'You have 3 treatment arms × 3 time points × 75 patients. Which test?',
-          choices: [
-            'One-way ANOVA',
-            'Repeated-measures ANOVA',
-            'Mixed ANOVA — 1 between-subjects factor (treatment arm) × 1 within-subjects factor (time)',
-            'MANOVA',
-          ],
-          answer: 2,
-          explanation: 'Treatment arm = between-subjects factor (each patient in one arm only). Time = within-subjects factor (every patient measured at every time point). The combination is mixed ANOVA. One-way ANOVA would compare arms at a single time point only. Repeated-measures ANOVA would track change within one group only. MANOVA is for multiple outcome variables at once.' },
-
-        { type: 'check',
-          question: 'Mauchly\'s test returns p = .02 (significant). What should you do?',
-          choices: [
-            'Stop the analysis',
-            'Report the "Sphericity Assumed" rows of the Tests of Within-Subjects Effects',
-            'Report the "Greenhouse-Geisser" corrected rows — the corrected dfs will look decimal (e.g. F(1.62, 116.7) = 8.4), which is correct and expected',
-            'Switch to MANOVA',
-          ],
-          answer: 2,
-          explanation: 'Mauchly\'s p < .05 means sphericity is violated. Use Greenhouse-Geisser corrected rows for ALL within-subjects effects (both the main effect and the interaction). The corrected dfs are non-integer because they\'re multiplied by the epsilon (ε) value from the sphericity test. Cite both: "Mauchly\'s indicated sphericity violated, p = .02; Greenhouse-Geisser corrected dfs are reported (ε = .81)."' },
-
-        { type: 'check',
-          question: 'Your treatment × time interaction is significant: F(3.24, 116.7) = 8.4, p < .001, partial η² = .19. What does this mean?',
-          choices: [
-            'All three arms have the same trajectory',
-            'The three arms have SIGNIFICANTLY DIFFERENT TRAJECTORIES over time — a large effect, indicating differential change. Follow up with simple-effects analyses (one-way ANOVA per time point, repeated-measures ANOVA per arm)',
-            'Mauchly\'s test failed',
-            'Sample size is too small',
+            'It uses mixed data types',
+            'It combines a BETWEEN-subjects factor (different people in each level) with a WITHIN-subjects factor (same people measured at each level)',
+            'It runs multiple analyses',
+            'It handles missing data',
           ],
           answer: 1,
-          explanation: 'A significant interaction means the within-subjects effect (time) depends on the between-subjects factor (treatment). The arms\' trajectories differ — exactly what intervention research hopes for. Partial η² = .19 (above the .14 large-effect benchmark) confirms substantial differential change. Always plot the profile to see HOW trajectories differ, then do simple-effects to unpack at which time points groups diverge and within which arms change is significant.' },
+          explanation: 'A mixed design has at least one between-subjects factor AND at least one within-subjects (repeated) factor in the same model. In Nakuru: Sex is between (each person is either male or female); Time is within (every person is measured at T0, T1, and T2). Mixed ANOVA analyses them jointly.' },
 
         { type: 'check',
-          question: 'Your between-subjects main effect is non-significant (F = 0.8, p = .44) but your interaction IS significant. Is the non-significant main effect a problem?',
+          question: 'In a Mixed ANOVA on the Nakuru data, which effect is USUALLY the most important to interpret?',
           choices: [
-            'Yes — the analysis is invalid',
-            'No — when randomisation makes arms equivalent at baseline, averaging baseline equality with later differences dilutes the main effect. A non-significant between-subjects main effect alongside a significant interaction is in fact often a DESIRABLE sign that randomisation worked. The interaction is the focal finding',
-            'Yes — you need to drop a treatment arm',
-            'No — but you should run separate ANOVAs',
+            'The Time main effect',
+            'The Sex main effect',
+            'The Time × Sex INTERACTION — does the trajectory over time DEPEND on sex?',
+            'The Mauchly test',
           ],
-          answer: 1,
-          explanation: 'The between-subjects main effect averages across all time points, including baseline where well-randomised groups are equal. This dilutes the average difference. A non-significant main effect alongside a significant interaction simply means "arms started equal but diverged over time" — exactly the intervention pattern. Report all three effects but interpret the interaction as the headline finding.' },
+          answer: 2,
+          explanation: 'The between × within interaction is the focal hypothesis of most intervention studies with repeated measurement: "Did our intervention have a DIFFERENT effect over time for different groups?" The two main effects are useful context, but the interaction is the practically interesting result — it tells you whether the intervention worked equally across your subgroups.' },
 
         { type: 'check',
-          question: 'After a significant interaction, why do you follow up with simple-effects analyses?',
+          question: 'Mauchly\'s test gives W = .812, p = .014. What do you do?',
           choices: [
-            'For decoration',
-            'To unpack WHERE the trajectories differ: (a) at which TIME POINTS the groups diverged, and (b) within which GROUPS the outcome changed significantly. Without simple-effects, the reader knows trajectories differ but cannot tell how or when',
-            'To prove the interaction was real',
-            'To get more p-values',
+            'Ignore it; Mixed ANOVA has no sphericity assumption',
+            'Report the SPHERICITY ASSUMED row of the Within-Subjects Effects table',
+            'Report the GREENHOUSE-GEISSER row (sphericity violated → correction required); df will be non-integer',
+            'Switch to a completely different test',
+          ],
+          answer: 2,
+          explanation: 'Sphericity is violated when Mauchly p ≤ .05. The fix is to read the Greenhouse-Geisser corrected row of the Within-Subjects Effects table. The df become non-integer (e.g. 1.68 instead of 2), and the correction makes the F-test more conservative. Mention the correction in your write-up.' },
+
+        { type: 'check',
+          question: 'Where do you put the between-subjects factor in the SPSS Mixed ANOVA dialog?',
+          choices: [
+            'In the Within-Subjects Variables box',
+            'In the Covariates box',
+            'In the Between-Subjects Factor(s) box in the main Repeated Measures dialog',
+            'In the Post Hoc dialog',
+          ],
+          answer: 2,
+          explanation: 'AFTER you define the within factor and fill the within-subjects variable slots, the main Repeated Measures dialog also has a "Between-Subjects Factor(s)" box on the lower right. Dropping your grouping variable there is what turns a plain repeated-measures ANOVA into a Mixed ANOVA.' },
+
+        { type: 'check',
+          question: 'You find a significant Time main effect AND a significant Time × Sex interaction. Which do you interpret first, and why?',
+          choices: [
+            'Time main effect first; it is bigger',
+            'INTERACTION first — the interaction tells you the trajectory differs across sexes, which qualifies any statement about the "average" time trend',
+            'Sex main effect first',
+            'Doesn\'t matter',
           ],
           answer: 1,
-          explanation: 'A significant interaction means trajectories differ but doesn\'t pinpoint where or how. Simple-effects unpack the interaction in two complementary directions: (1) one-way ANOVA at each time point (Bonferroni-corrected across time) — at baseline are groups equal? At end, do they differ? (2) Repeated-measures ANOVA within each group (Bonferroni pairwise) — did the outcome change significantly in each arm? Both directions are standard reporting practice and answer the substantive questions readers care about.' },
+          explanation: 'Just as in two-way ANOVA, a significant interaction changes how the main effects are interpreted. The Time main effect describes an "average trajectory" that may not match either group\'s actual pattern. Lead with the interaction; describe the main effect afterwards, qualified by the interaction.' },
+
+        { type: 'check',
+          question: 'Nakuru output: Time F(1.68, 72.24) = 38.42, p < .001, partial η² = .47. Sex F(1, 43) = 2.18, p = .147. Time × Sex F(1.68, 72.24) = 5.94, p = .006, partial η² = .12. How do you interpret?',
+          choices: [
+            '"Only the intervention worked."',
+            '"Men and women differ significantly."',
+            '"SBP dropped significantly over 12 weeks (LARGE Time effect), the sexes did not differ in overall average SBP, and — crucially — the sexes had DIFFERENT trajectories (significant Time × Sex interaction). Follow-up: describe the pattern from the profile plot."',
+            '"Nothing is significant."',
+          ],
+          answer: 2,
+          explanation: 'Option C is the correct interpretation. It reports all three effects with their correct meaning, leads with the interaction, and points to the plot for pattern description. The Time effect confirms overall improvement; the ns Sex main effect means neither sex was higher OVERALL; the significant interaction means the shape of improvement differed between the sexes — the practically interesting finding.' },
       ],
     },
   ],
