@@ -44,22 +44,23 @@ export const REPEATED_MEASURES_LESSON = {
       blocks: [
         { type: 'callout', tone: 'gold', title: 'Why this section exists',
           body: [
-            'Repeated Measures ANOVA is the standard test for tracking the same people over time. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it instead of multiple paired t-tests, (3) Where a postgraduate would use it, (4) When to CHOOSE it over independent ANOVA.',
-            'The WWWW card below answers all 4 in 3 minutes.',
+            'Before touching the SPSS dialog, understand: (1) What this test IS, (2) Why you use it, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
           ]},
 
-        { type: 'illustration', component: 'AnovaRepeatedWWWW',
-          caption: 'Figure 0. Repeated Measures ANOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you chose Repeated Measures.' },
+        { type: 'illustration', component: 'NakuruRMWWWW',
+          caption: 'Figure 0. Repeated Measures ANOVA WHAT/WHY/WHERE/WHEN reference card using Nakuru Wellness 3-timepoint SBP data (baseline → Week 6 → Week 12).' },
 
         { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
           body: [
-            '**Within-Subjects Factor** - SPSS term for the variable representing time or condition (e.g., Time: Pre, Mid, Post).',
-            '**Mauchly\'s Test of Sphericity** - The key assumption check. If significant, you must use the Greenhouse-Geisser correction.',
-            '**Greenhouse-Geisser** - A statistical correction applied to the degrees of freedom when the sphericity assumption is violated.',
-            '**Partial eta squared** - The effect size measure showing how much variance is explained by the time factor.',
-          ]
-        }
-      ]
+            '**Within-subjects factor** — a factor where the SAME people appear at every level (e.g. Time: T0, T1, T2 in Nakuru).',
+            '**Sphericity** — the assumption that variances of the differences between all pairs of time points are equal. Checked by Mauchly test.',
+            '**Mauchly test** — if p < .05, sphericity is violated. Use Greenhouse-Geisser corrected row of the main effects table.',
+            '**Greenhouse-Geisser correction** — reduces degrees of freedom to compensate for sphericity violation. SPSS applies it automatically.',
+            '**Estimated Marginal Means** — the model-based means for each time point, often used for plotting and pairwise comparisons.',
+            '**Pairwise comparisons with Bonferroni** — post-hoc test for within-subjects designs. Adjusts alpha for the number of pairs.',
+          ]},
+      ],
     },
 
     /* ════════════════════ 2. THE BIG IDEA ════════════════════ */
@@ -134,6 +135,12 @@ export const REPEATED_MEASURES_LESSON = {
 
         { type: 'callout', tone: 'info', title: 'If your data is in long format, restructure first',
           body: 'If your data has each observation as a separate row (e.g. 60 pupils × 3 time points = 180 rows with a "time" column), you need to RESTRUCTURE to wide format. SPSS: Data → Restructure → Restructured selected cases into variables. The wizard walks you through identifying the participant ID and the time-varying variable. Once in wide format, repeated-measures ANOVA can read it correctly.' },
+        { type: 'illustration', component: 'NakuruRMDialog',
+          caption: 'Figure 1. The 2-step Repeated Measures setup for Nakuru. Small Define Factor(s) dialog first: name = Time, levels = 3. Main dialog second: move SBP_T0, SBP_T1, SBP_T2 into the 3 slots in chronological order.' },
+
+        { type: 'illustration', component: 'NakuruRMOutput',
+          caption: 'Figure 2. The output. Mauchly W = .845, p = .026 → sphericity VIOLATED → use Greenhouse-Geisser row. Main effect of Time: F(1.73, 76.28) = 42.15, p < .001, partial η² = .489 (LARGE). Bonferroni pairwise: T0-T1 dropped 3.5 mmHg, T0-T2 dropped 8.2 mmHg, T1-T2 dropped 4.7 mmHg — all p ≤ .001. Progressive SBP reduction confirmed.' },
+
       ],
     },
 
@@ -164,12 +171,6 @@ export const REPEATED_MEASURES_LESSON = {
           { title: 'Click OK',
             body: 'SPSS produces several tables: Within-Subjects Factors, Descriptive Statistics, **Mauchly\'s Test of Sphericity**, **Tests of Within-Subjects Effects** (the F-test you care about), Pairwise Comparisons, and Estimated Marginal Means + Plot.' },
         ]},
-
-        { type: 'illustration', component: 'RMAnovaDefineFactor',
-          caption: 'Figure 2. Step 2: Defining the Factor. Type the name (e.g. "time") and the number of repeated measures (e.g. "3"), then click Add, then Define.' },
-
-        { type: 'illustration', component: 'RMAnovaDialog',
-          caption: 'Figure 3. The main Repeated Measures dialog. Map your columns to the slots in chronological order (1, 2, 3).' },
       ],
     },
 
