@@ -41,8 +41,11 @@ import { MANOVA_LESSON }       from './lessonContent/manova.js';
 import { MIXED_ANOVA_LESSON }  from './lessonContent/mixedAnova.js';
 import { WRITING_CHAPTER_4_LESSON } from './lessonContent/writingChapter4.js';
 import { APA7_REPORTING_LESSON }    from './lessonContent/apa7Reporting.js';
+import { FOUNDATIONAL_PRINCIPLES_LESSON } from './lessonContent/foundationalPrinciples.js';
 
 export const RICH_LESSONS = {
+  /* SPSS Basics */
+  'found-1':  FOUNDATIONAL_PRINCIPLES_LESSON,
   /* SPSS Basics */
   'basics-1': SPSS_INTERFACE_LESSON,
   'basics-2': DATA_VIEW_LESSON,
