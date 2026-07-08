@@ -37,6 +37,31 @@ export const ONE_WAY_ANOVA_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'One-Way ANOVA is the standard test for comparing three or more groups. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it instead of multiple t-tests, (3) Where a postgraduate would use it, (4) When to CHOOSE it over non-parametric alternatives.',
+            'The WWWW card below answers all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'AnovaOneWayWWWW',
+          caption: 'Figure 0. One-Way ANOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you chose ANOVA.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Factor** - SPSS term for your categorical grouping variable (e.g. teaching_method).',
+            '**Levels** - The specific groups inside your factor (e.g. Method A, Method B, Method C = 3 levels).',
+            '**F-statistic** - The main result of an ANOVA. It tests if AT LEAST ONE group differs from the rest.',
+            '**Post-Hoc tests** - The follow-up tests (like Tukey) that tell you exactly WHICH groups differ from which.',
+          ]
+        }
+      ]
+    },
+
     /* ════════════════════ 2. WHY NOT MULTIPLE T-TESTS ════════════════════ */
     {
       id: 'why-not-ttests',

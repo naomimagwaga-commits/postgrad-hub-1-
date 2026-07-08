@@ -36,6 +36,30 @@ export const TWO_WAY_ANOVA_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Two-Way ANOVA lets you test two independent variables at once. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it to find interaction effects, (3) Where a postgraduate would use it, (4) When to CHOOSE it over One-Way ANOVA.',
+            'The WWWW card below answers all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'AnovaTwoWayWWWW',
+          caption: 'Figure 0. Two-Way ANOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you chose Two-Way ANOVA.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Main Effect** - The individual effect of ONE of your factors on the outcome, ignoring the other factor.',
+            '**Interaction Effect** - When the effect of one factor DEPENDS on the level of the other factor (e.g., a teaching method works great for boys, but poorly for girls).',
+            '**Profile Plot** - A line graph that visualizes the interaction effect. Parallel lines mean no interaction; crossing lines mean a strong interaction.',
+          ]
+        }
+      ]
+    },
+
     /* ════════════════════ 2. THE BIG IDEA ════════════════════ */
     {
       id: 'big-idea',

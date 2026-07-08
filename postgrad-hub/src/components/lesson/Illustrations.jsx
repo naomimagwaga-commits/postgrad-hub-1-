@@ -2843,6 +2843,23 @@ export function AnovaLogic() {
 }
 
 /* ── One-Way ANOVA dialog ── */
+export function AnovaOneWayWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/00-oneway-wwww.jpg"
+    alt="One-Way ANOVA WHAT/WHY/WHERE/WHEN reference card. Explains comparing 3+ groups, avoiding multiple t-test error, and gives decision rules."/>;
+}
+export function AnovaTwoWayWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/00-twoway-wwww.jpg"
+    alt="Two-Way ANOVA WHAT/WHY/WHERE/WHEN reference card. Explains testing two independent variables and their interaction."/>;
+}
+export function AnovaRepeatedWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/00-repeated-wwww.jpg"
+    alt="Repeated Measures ANOVA WHAT/WHY/WHERE/WHEN reference card. Explains tracking the same subjects across 3+ time points."/>;
+}
+export function AnovaMixedWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/00-mixed-wwww.jpg"
+    alt="Mixed ANOVA WHAT/WHY/WHERE/WHEN reference card. Explains combining between-subjects groups with within-subjects time points."/>;
+}
+
 export function OneWayAnovaDialog() {
   return <ScreenshotFrame src="/lesson-images/anova/01-anova-dialog.jpg"
     alt="SPSS One-Way ANOVA dialog with red numbered click markers showing the full setup sequence. Gold callout at top lists all 6 steps"/>;
@@ -7425,6 +7442,7 @@ export const ILLUSTRATIONS = {
   ResidualsHomoVsHetero, MulticollinearityVenn, LogisticCurve,
   HierarchicalBlocks,
   /* ANOVA */
+  AnovaOneWayWWWW, AnovaTwoWayWWWW, AnovaRepeatedWWWW, AnovaMixedWWWW,
   AnovaLogic, OneWayAnovaDialog, AnovaOutput, PostHocOutput,
   InteractionPlot, InteractionPlots, RepeatedMeasuresLogic, AnovaDecisionTree,
   /* T-Tests */

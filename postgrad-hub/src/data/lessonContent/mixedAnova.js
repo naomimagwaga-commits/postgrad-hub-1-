@@ -37,6 +37,30 @@ export const MIXED_ANOVA_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Mixed ANOVA is the most powerful test for intervention studies. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it to test if an intervention actually worked, (3) Where a postgraduate would use it, (4) When to CHOOSE it over Repeated Measures ANOVA.',
+            'The WWWW card below answers all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'AnovaMixedWWWW',
+          caption: 'Figure 0. Mixed ANOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you chose Mixed ANOVA.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Between-Subjects Factor** - Your grouping variable (e.g., Treatment Group vs Control Group).',
+            '**Within-Subjects Factor** - Your time variable (e.g., Pre-test, Post-test).',
+            '**Time × Group Interaction** - The most important result. Tests whether the treatment group improved DIFFERENTLY over time compared to the control group.',
+          ]
+        }
+      ]
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',

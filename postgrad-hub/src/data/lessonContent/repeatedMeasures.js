@@ -37,6 +37,31 @@ export const REPEATED_MEASURES_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Repeated Measures ANOVA is the standard test for tracking the same people over time. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it instead of multiple paired t-tests, (3) Where a postgraduate would use it, (4) When to CHOOSE it over independent ANOVA.',
+            'The WWWW card below answers all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'AnovaRepeatedWWWW',
+          caption: 'Figure 0. Repeated Measures ANOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you chose Repeated Measures.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Within-Subjects Factor** - SPSS term for the variable representing time or condition (e.g., Time: Pre, Mid, Post).',
+            '**Mauchly\'s Test of Sphericity** - The key assumption check. If significant, you must use the Greenhouse-Geisser correction.',
+            '**Greenhouse-Geisser** - A statistical correction applied to the degrees of freedom when the sphericity assumption is violated.',
+            '**Partial eta squared** - The effect size measure showing how much variance is explained by the time factor.',
+          ]
+        }
+      ]
+    },
+
     /* ════════════════════ 2. THE BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
