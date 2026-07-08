@@ -14,10 +14,6 @@ export const SPLIT_HALF_LESSON = {
       id: 'welcome',
       title: 'A second opinion on your scale\'s reliability',
       blocks: [
-
-        { type: 'illustration', component: 'ReliabilityDecisionMap',
-          caption: 'Figure 0b (shared with the whole Reliability course). Which reliability method should you use? Cronbach Alpha for standard scales; Item-Total for per-item diagnostics; Split-Half for speed tests or as a supplementary check. This lesson covers Split-Half.' },
-
         { type: 'scene', body: [
           'You report Cronbach\'s alpha = .82 for your 10-item engagement scale. Your supervisor reads Chapter 3, nods, then writes in the margin: *"Could you also report the split-half reliability as a robustness check?"*',
           'You stare at the comment. Split-half? You vaguely remember it from a methods class — something about dividing items into halves and comparing them. You wonder why anyone needs two reliability measures when alpha is already there.',
@@ -47,18 +43,20 @@ export const SPLIT_HALF_LESSON = {
       blocks: [
         { type: 'callout', tone: 'gold', title: 'Why this section exists',
           body: [
-            'Split-Half is an older reliability method still used occasionally. Before running it, understand: (1) What Split-Half IS, (2) Why you would use it instead of Cronbach Alpha, (3) Where you would use it, (4) When to CHOOSE it.',
+            'Split-half is a niche reliability method — usually you just use Cronbach alpha. But understanding it deepens your grasp of what reliability means. Before running the SPSS dialog, understand: (1) What split-half IS, (2) Why it exists alongside Cronbach, (3) Where a Kenyan postgraduate MIGHT use it, (4) When to choose it.',
           ]},
 
-        { type: 'illustration', component: 'MombasaSplitHalfWWWW',
-          caption: 'Figure 0. Split-Half Reliability WHAT/WHY/WHERE/WHEN reference card using the Mombasa scale. Split-Half Spearman-Brown = .82 vs Cronbach Alpha = .84 - both agree the scale is reliable.' },
+        { type: 'illustration', component: 'SplitHalfWWWW',
+          caption: 'Figure 0. Split-Half Reliability WHAT/WHY/WHERE/WHEN reference card. The niche method you rarely need but should understand.' },
 
         { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
           body: [
-            '**Guttman split-half coefficient** - the RAW correlation between the two halves of your scale.',
-            '**Spearman-Brown coefficient** - the CORRECTED estimate of full-scale reliability, assuming both halves are equally reliable. This is the main split-half number to report.',
-            '**Odd-Even split** - the default in SPSS - items 1, 3, 5, 7... form Part 1; items 2, 4, 6, 8... form Part 2.',
-            '**Speed test** - a scale where later items are harder or slower to answer; requires split-half rather than Cronbach.',
+            '**Split-half correlation** — the raw correlation between 2 halves of your scale.',
+            '**Spearman-Brown correction** — mathematical adjustment that estimates what the scale reliability would be at its ORIGINAL length. Report this, not the raw correlation.',
+            '**Guttman Split-Half Coefficient** — alternative correction that does not assume equal variances between halves. Similar interpretation.',
+            '**Equal Length vs Unequal Length** — SPSS reports both versions of Spearman-Brown. Equal Length is for scales with even numbers of items; Unequal for odd.',
+            '**Parallel forms** — a related concept: 2 different but equivalent versions of the same test. Rarely used in postgrad research.',
+            '**Interpretation** — same as Cronbach: ≥ .70 acceptable, ≥ .80 good, ≥ .90 excellent.',
           ]},
       ],
     },
@@ -76,8 +74,8 @@ export const SPLIT_HALF_LESSON = {
         { type: 'analogy', title: 'Two referees scoring the same gymnast',
           body: 'In Olympic gymnastics, two referees score the same routine. If both are using the same criteria reliably, their scores should be close — a 9.4 from referee 1 and a 9.5 from referee 2. High agreement between referees means the scoring is reliable. Split-half is the same idea — two halves of your scale are like two referees scoring the same respondent. If the halves agree, the scale is reliable.' },
 
-        { type: 'illustration', component: 'SplitHalfLogic',
-          caption: 'Figure 1. How split-half reliability works. The 10-item scale is split into Half A (odd-numbered items) and Half B (even-numbered items). A total is computed for each half. The correlation between Total A and Total B — the split-half reliability — measures whether the two halves give consistent scores for the same respondents.' },
+        { type: 'illustration', component: 'SplitHalfOutput',
+          caption: 'Figure 1. SPSS Split-Half output for the Mombasa Patient Satisfaction Scale. Part 1 alpha = .782, Part 2 alpha = .741, Correlation Between Forms = .742. Spearman-Brown Equal Length = **.852** (the KEY number to report). Guttman Split-Half = .848. These converge with Cronbach alpha = .842, providing multiple reliability estimates for the same scale.' },
 
         { type: 'definition', term: 'Split-half reliability (Spearman-Brown corrected)',
           body: 'The correlation between two halves of a scale, mathematically adjusted using the Spearman-Brown formula to estimate what the reliability would be for the FULL-LENGTH scale. The Spearman-Brown correction is necessary because shorter scales are inherently less reliable than longer ones — without the correction, you would be reporting the reliability of HALF your scale, not the whole.' },
@@ -141,10 +139,6 @@ export const SPLIT_HALF_LESSON = {
             body: 'SPSS produces a Reliability Statistics table containing multiple correlation values — see the next section for how to read them.' },
         ]},
 
-        { type: 'illustration', component: 'MombasaSplitHalfDialog',
-          caption: 'Figure 3. The Reliability Analysis dialog. To run split-half, you MUST change the Model dropdown from Alpha to Split-half.' },
-
-
         { type: 'callout', tone: 'info', title: 'You do NOT need to manually split the items',
           body: 'A common beginner mistake is to manually compute two SUM variables (sa_half1 = SUM of first 5 items, sa_half2 = SUM of last 5 items) and then run Pearson correlation. SPSS does all this internally when you pick Model = Split-half. Save yourself the work — let the menu do it.' },
       ],
@@ -155,10 +149,6 @@ export const SPLIT_HALF_LESSON = {
       id: 'reading',
       title: 'Reading the split-half output — six numbers, one that matters',
       blocks: [
-
-        { type: 'illustration', component: 'MombasaSplitHalfOutput',
-          caption: 'Figure 1. Split-Half output for the Mombasa 15-item scale. Reports Part 1 alpha (.782), Part 2 alpha (.765), Correlation Between Forms (.698), Spearman-Brown Coefficient (.822 Equal Length), and Guttman Split-Half Coefficient (.818). All values converge - the scale is reliable regardless of which method you use.' },
-
         { type: 'heading', level: 2, text: 'What SPSS prints for split-half' },
 
         { type: 'paragraph', text:
