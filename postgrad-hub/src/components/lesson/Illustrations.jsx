@@ -2774,137 +2774,127 @@ export function HierarchicalBlocks() {
 
 /* ── ANOVA logic: between-groups vs within-groups variance ── */
 export function AnovaLogic() {
+  // Three groups, each a small cloud of points around its mean
   const groupMeans = [50, 70, 85];
   const groupColors = ['#0A2E5D', '#D4AF37', '#10B981'];
   const groupNames = ['Method A', 'Method B', 'Method C'];
 
   return (
-    <svg viewBox="0 0 720 300" className="w-full h-auto">
-      <rect width="720" height="300" fill="#fff"/>
-      <text x="360" y="25" fontSize="14" fill="#0A2E5D" textAnchor="middle" fontWeight="700">
+    <svg viewBox="0 0 720 280" className="w-full h-auto">
+      <rect width="720" height="280" fill="#fff"/>
+      <text x="360" y="20" fontSize="13" fill="#0A2E5D" textAnchor="middle" fontWeight="700">
         ANOVA compares BETWEEN-group variance to WITHIN-group variance
       </text>
 
       {/* Axes */}
-      <line x1="80" y1="260" x2="680" y2="260" stroke="#0A2E5D" strokeOpacity=".5"/>
-      <line x1="80" y1="60"  x2="80"  y2="260" stroke="#0A2E5D" strokeOpacity=".5"/>
-      <text x="20" y="160" fontSize="12" fill="#0A2E5D" fontWeight="600" textAnchor="middle"
-        transform="rotate(-90, 20, 160)">Exam score</text>
+      <line x1="80" y1="240" x2="640" y2="240" stroke="#0A2E5D" strokeOpacity=".5"/>
+      <line x1="80" y1="60"  x2="80"  y2="240" stroke="#0A2E5D" strokeOpacity=".5"/>
+      <text x="20" y="150" fontSize="11" fill="#0A2E5D" fontWeight="600" textAnchor="middle"
+        transform="rotate(-90, 20, 150)">Exam score</text>
 
       {/* Overall mean line */}
-      <line x1="80" y1="180" x2="680" y2="180" stroke="#94A3B8" strokeDasharray="4 4" strokeWidth="1.5"/>
-      <text x="685" y="184" fontSize="10" fill="#64748B">Overall mean (~68)</text>
-
-      {/* Annotations moved to bottom right or top left so they don't overlap */}
-      <rect x="90" y="45" width="280" height="70" fill="#F8FAFC" stroke="#E2E8F0" rx="4"/>
-      <text x="100" y="60" fontSize="11" fill="#10B981" fontWeight="700">
-        BETWEEN-group variance:
-      </text>
-      <text x="100" y="74" fontSize="10" fill="#334155">
-        How far apart are the colored lines?
-      </text>
-      
-      <text x="100" y="92" fontSize="11" fill="#DC2626" fontWeight="700">
-        WITHIN-group variance:
-      </text>
-      <text x="100" y="106" fontSize="10" fill="#334155">
-        How spread are the dots around their line?
-      </text>
+      <line x1="80" y1="170" x2="640" y2="170" stroke="#94A3B8" strokeDasharray="3 3"/>
+      <text x="650" y="172" fontSize="9" fill="#64748B">Overall mean (~68)</text>
 
       {/* For each group: cluster of dots + mean line */}
       {groupMeans.map((m, gi) => {
-        const cx = 200 + gi * 180;
-        const meanY = 260 - m * 1.8;
-        
-        // Hardcode a nice scatter cloud so it looks realistic and not a diagonal line
-        const scatter = [
-          [-25, 15], [10, -20], [-15, -10], [30, 5],
-          [-5, 25], [20, -15], [-35, 5], [5, -5]
-        ];
-
+        const cx = 180 + gi * 160;
+        const meanY = 240 - m * 1.7;
+        const points = Array.from({ length: 8 }, (_, i) => {
+          const seed = (gi * 100 + i) * 9301 % 233280 / 233280;
+          return [cx + (seed - 0.5) * 60, meanY + (seed - 0.5) * 50];
+        });
         return (
           <g key={gi}>
-            {scatter.map(([dx, dy], pi) => (
-              <circle key={pi} cx={cx + dx} cy={meanY + dy} r="4" fill={groupColors[gi]} opacity=".6"/>
+            {points.map(([x, y], pi) => (
+              <circle key={pi} cx={x} cy={y} r="4" fill={groupColors[gi]} opacity=".7"/>
             ))}
             {/* group mean line */}
-            <line x1={cx - 45} y1={meanY} x2={cx + 45} y2={meanY}
-              stroke={groupColors[gi]} strokeWidth="4"/>
-            <text x={cx} y="280" fontSize="12" fill={groupColors[gi]} textAnchor="middle" fontWeight="700">
+            <line x1={cx - 50} y1={meanY} x2={cx + 50} y2={meanY}
+              stroke={groupColors[gi]} strokeWidth="3"/>
+            <text x={cx} y="262" fontSize="10" fill={groupColors[gi]} textAnchor="middle" fontWeight="700">
               {groupNames[gi]}
             </text>
-            <text x={cx} y={meanY - 28} fontSize="11" fill={groupColors[gi]} textAnchor="middle" fontWeight="700">
+            <text x={cx} y={meanY - 50} fontSize="10" fill={groupColors[gi]} textAnchor="middle" fontWeight="700">
               M = {m}
             </text>
-            
-            {/* arrow from overall mean to group mean to show 'between' variance */}
-            <line x1={cx + 55} y1={180} x2={cx + 55} y2={meanY} stroke="#10B981" strokeWidth="2" strokeDasharray="2 2" />
-            <polygon points={`${cx+52},${meanY > 180 ? meanY - 5 : meanY + 5} ${cx+58},${meanY > 180 ? meanY - 5 : meanY + 5} ${cx+55},${meanY}`} fill="#10B981" />
           </g>
         );
       })}
+
+      {/* Annotations */}
+      <text x="120" y="100" fontSize="10" fill="#10B981" fontWeight="700">
+        BETWEEN-group variance: group means differ from overall mean
+      </text>
+      <text x="120" y="112" fontSize="10" fill="#10B981" fontWeight="700">
+        → How far apart are the colored lines?
+      </text>
+      <text x="120" y="125" fontSize="10" fill="#DC2626" fontWeight="700">
+        WITHIN-group variance: dots scatter around their group mean
+      </text>
+      <text x="120" y="137" fontSize="10" fill="#DC2626" fontWeight="700">
+        → How spread are the dots within each color?
+      </text>
+      <text x="120" y="152" fontSize="10" fill="#0A2E5D" fontStyle="italic">
+        F = Between / Within   (large F = real group differences)
+      </text>
     </svg>
   );
 }
 
 /* ── One-Way ANOVA dialog ── */
-export function AnovaOneWayWWWW() {
-  return <ScreenshotFrame src="/lesson-images/anova/00-oneway-wwww.jpg"
-    alt="One-Way ANOVA WHAT/WHY/WHERE/WHEN reference card. Explains comparing 3+ groups, avoiding multiple t-test error, and gives decision rules."/>;
-}
-export function AnovaTwoWayWWWW() {
-  return <ScreenshotFrame src="/lesson-images/anova/00-twoway-wwww.jpg"
-    alt="Two-Way ANOVA WHAT/WHY/WHERE/WHEN reference card. Explains testing two independent variables and their interaction."/>;
-}
-export function AnovaRepeatedWWWW() {
-  return <ScreenshotFrame src="/lesson-images/anova/00-repeated-wwww.jpg"
-    alt="Repeated Measures ANOVA WHAT/WHY/WHERE/WHEN reference card. Explains tracking the same subjects across 3+ time points."/>;
-}
-export function AnovaMixedWWWW() {
-  return <ScreenshotFrame src="/lesson-images/anova/00-mixed-wwww.jpg"
-    alt="Mixed ANOVA WHAT/WHY/WHERE/WHEN reference card. Explains combining between-subjects groups with within-subjects time points."/>;
-}
-export function PostHocWWWW() {
-  return <ScreenshotFrame src="/lesson-images/anova/posthoc-wwww.jpg"
-    alt="Post-Hoc Tests WHAT/WHY/WHERE/WHEN reference card. Explains running pairwise comparisons after a significant ANOVA."/>;
-}
-export function AncovaWWWW() {
-  return <ScreenshotFrame src="/lesson-images/anova/ancova-wwww.jpg"
-    alt="ANCOVA WHAT/WHY/WHERE/WHEN reference card. Explains Analysis of Covariance."/>;
-}
-export function ManovaWWWW() {
-  return <ScreenshotFrame src="/lesson-images/anova/manova-wwww.jpg"
-    alt="MANOVA WHAT/WHY/WHERE/WHEN reference card. Explains Multivariate Analysis of Variance."/>;
-}
-
-export function TwoWayAnovaDialog() {
-  return <ScreenshotFrame src="/lesson-images/anova/02-twoway-dialog.jpg"
-    alt="SPSS GLM Univariate dialog for Two-Way ANOVA with red numbered click markers showing the full setup sequence."/>;
-}
-export function TwoWayAnovaPlots() {
-  return <ScreenshotFrame src="/lesson-images/anova/03-twoway-plots.jpg"
-    alt="SPSS Profile Plots dialog for Two-Way ANOVA. Shows adding the interaction to the Plots list."/>;
-}
-export function RMAnovaDefineFactor() {
-  return <ScreenshotFrame src="/lesson-images/anova/04-repeated-define.jpg"
-    alt="SPSS Repeated Measures Define Factor(s) dialog. Shows defining the time factor with 3 levels."/>;
-}
-export function RMAnovaDialog() {
-  return <ScreenshotFrame src="/lesson-images/anova/05-repeated-dialog.jpg"
-    alt="SPSS Repeated Measures main dialog. Shows mapping the three time variables."/>;
-}
-export function MixedAnovaDialog() {
-  return <ScreenshotFrame src="/lesson-images/anova/06-mixed-dialog.jpg"
-    alt="SPSS Repeated Measures main dialog set up for Mixed ANOVA. Shows mapping time variables and the between-subjects grouping factor."/>;
-}
-export function MixedAnovaOptions() {
-  return <ScreenshotFrame src="/lesson-images/anova/07-anova-options.jpg"
-    alt="SPSS Repeated Measures Options dialog. Shows moving factors to Display Means for, and ticking Compare main effects."/>;
-}
-
 export function OneWayAnovaDialog() {
-  return <ScreenshotFrame src="/lesson-images/anova/01-anova-dialog.jpg"
-    alt="SPSS One-Way ANOVA dialog with red numbered click markers showing the full setup sequence. Gold callout at top lists all 6 steps"/>;
+  return (
+    <svg viewBox="0 0 540 380" className="w-full h-auto">
+      <rect width="540" height="380" rx="6" fill="#F4F4F5" stroke="#0A2E5D" strokeWidth="1.5"/>
+      <rect width="540" height="28" rx="6" fill="#0A2E5D"/>
+      <text x="14" y="19" fontSize="11" fill="#fff" fontWeight="700">One-Way ANOVA</text>
+
+      {/* Variables list */}
+      <text x="14" y="54" fontSize="10" fill="#0A2E5D" fontWeight="700">Variables:</text>
+      <rect x="14" y="60" width="150" height="240" fill="#fff" stroke="#94A3B8"/>
+      {['id','gender','age_yrs','teaching_method','math_score','english_score','attendance'].map((v, i) => (
+        <text key={v} x="22" y={80 + i * 22} fontSize="10" fill="#0A2E5D">📊 {v}</text>
+      ))}
+
+      {/* Dependent List */}
+      <text x="180" y="54" fontSize="10" fill="#0A2E5D" fontWeight="700">Dependent List:</text>
+      <rect x="180" y="60" width="240" height="100" fill="#fff" stroke="#94A3B8"/>
+      <text x="190" y="80" fontSize="11" fill="#0A2E5D" fontWeight="600">📊 math_score</text>
+
+      {/* Factor */}
+      <text x="180" y="186" fontSize="10" fill="#0A2E5D" fontWeight="700">Factor:</text>
+      <rect x="180" y="192" width="240" height="50" fill="#fff" stroke="#94A3B8"/>
+      <text x="190" y="212" fontSize="11" fill="#0A2E5D" fontWeight="600">📊 teaching_method</text>
+      <text x="190" y="228" fontSize="9" fill="#64748B" fontStyle="italic">(grouping variable with 3+ levels)</text>
+
+      {/* Right column - buttons */}
+      <rect x="430" y="60"  width="100" height="22" rx="3" fill="#FBF6E5" stroke="#D4AF37" strokeWidth="1.5"/>
+      <text x="480" y="74" fontSize="10" fill="#0A2E5D" textAnchor="middle" fontWeight="700">Contrasts…</text>
+
+      <rect x="430" y="86"  width="100" height="22" rx="3" fill="#FBF6E5" stroke="#D4AF37" strokeWidth="1.5"/>
+      <text x="480" y="100" fontSize="10" fill="#0A2E5D" textAnchor="middle" fontWeight="700">Post Hoc…</text>
+
+      <rect x="430" y="112" width="100" height="22" rx="3" fill="#FBF6E5" stroke="#D4AF37" strokeWidth="1.5"/>
+      <text x="480" y="126" fontSize="10" fill="#0A2E5D" textAnchor="middle" fontWeight="700">Options…</text>
+
+      {/* OK / Cancel */}
+      <rect x="380" y="338" width="50" height="26" rx="3" fill="#0A2E5D"/>
+      <text x="405" y="355" fontSize="11" fill="#fff" textAnchor="middle" fontWeight="700">OK</text>
+      <rect x="436" y="338" width="56" height="26" rx="3" fill="#E2E8F0" stroke="#94A3B8"/>
+      <text x="464" y="355" fontSize="11" fill="#0A2E5D" textAnchor="middle">Cancel</text>
+
+      {/* Annotations */}
+      <g>
+        <circle cx="425" cy="97" r="11" fill="#DC2626"/>
+        <text x="425" y="101" fontSize="11" fill="#fff" textAnchor="middle" fontWeight="700">!</text>
+        <text x="505" y="158" fontSize="9" fill="#DC2626" fontWeight="700" textAnchor="middle">Post Hoc → tick</text>
+        <text x="505" y="170" fontSize="9" fill="#DC2626" fontWeight="700" textAnchor="middle">Tukey (or</text>
+        <text x="505" y="182" fontSize="9" fill="#DC2626" fontWeight="700" textAnchor="middle">Games-Howell</text>
+        <text x="505" y="194" fontSize="9" fill="#DC2626" fontWeight="700" textAnchor="middle">if Levene\'s sig)</text>
+      </g>
+    </svg>
+  );
 }
 
 /* ── ANOVA output table ── */
@@ -6192,7 +6182,71 @@ export function MixedAnovaInteraction() {
 }
 
 /* ──── Mixed ANOVA dialog mock ──── */
-export function MixedAnovaOutput() { return (
+export function MixedAnovaDialog() {
+  return (
+    <svg viewBox="0 0 540 320" className="w-full h-auto">
+      <rect width="540" height="320" fill="#F1F5F9"/>
+      <rect x="10" y="10" width="520" height="300" rx="6" fill="#fff" stroke="#0A2E5D" strokeOpacity=".4"/>
+      <rect x="10" y="10" width="520" height="26" rx="6" fill="#0A2E5D"/>
+      <text x="20" y="28" fontSize="12" fill="#fff" fontWeight="700">Repeated Measures — set up for Mixed ANOVA</text>
+
+      <rect x="20" y="50" width="160" height="240" rx="4" fill="#FAF7EF" stroke="#0A2E5D" strokeOpacity=".25"/>
+      <text x="100" y="68" fontSize="10" fill="#0A2E5D" textAnchor="middle" fontWeight="700">Variables</text>
+      <text x="30" y="92"  fontSize="10" fill="#0A2E5D">patient_id</text>
+      <text x="30" y="110" fontSize="10" fill="#0A2E5D" fontWeight="700" fillOpacity="0.4">hba1c_baseline ✓</text>
+      <text x="30" y="128" fontSize="10" fill="#0A2E5D" fontWeight="700" fillOpacity="0.4">hba1c_week6 ✓</text>
+      <text x="30" y="146" fontSize="10" fill="#0A2E5D" fontWeight="700" fillOpacity="0.4">hba1c_week12 ✓</text>
+      <text x="30" y="164" fontSize="10" fill="#0A2E5D" fontWeight="700" fillOpacity="0.4">treatment_arm ✓</text>
+
+      {/* Within-Subjects Variables — three columns mapped */}
+      <rect x="200" y="50" width="200" height="100" rx="4" fill="#FBF6E5" stroke="#D4AF37" strokeWidth="2"/>
+      <text x="205" y="66" fontSize="10" fill="#0A2E5D" fontWeight="700">Within-Subjects Variables (time):</text>
+      {[
+        { idx: '(1)', v: 'hba1c_baseline' },
+        { idx: '(2)', v: 'hba1c_week6' },
+        { idx: '(3)', v: 'hba1c_week12' },
+      ].map((r, i) => (
+        <g key={r.idx}>
+          <text x="214" y={87 + i * 18} fontSize="9" fill="#D4AF37" fontWeight="700">{r.idx}</text>
+          <rect x="240" y={75 + i * 18} width="155" height="16" rx="2" fill="#FBF6E5" stroke="#D4AF37"/>
+          <text x="248" y={87 + i * 18} fontSize="9" fill="#0A2E5D" fontWeight="700">{r.v}</text>
+        </g>
+      ))}
+
+      {/* Between-Subjects Factor */}
+      <rect x="200" y="160" width="200" height="50" rx="4" fill="#10B981" fillOpacity=".12" stroke="#10B981" strokeWidth="2"/>
+      <text x="205" y="176" fontSize="10" fill="#10B981" fontWeight="700">Between-Subjects Factor(s): ← MIXED!</text>
+      <rect x="208" y="182" width="185" height="20" rx="3" fill="#10B981" fillOpacity=".18" stroke="#10B981"/>
+      <text x="214" y="196" fontSize="10" fill="#0A2E5D" fontWeight="700">treatment_arm</text>
+
+      <rect x="200" y="216" width="200" height="50" rx="4" fill="#fff" stroke="#0A2E5D"/>
+      <text x="205" y="232" fontSize="10" fill="#0A2E5D" fontWeight="700">Covariates:</text>
+      <text x="300" y="252" fontSize="9" fill="#94A3B8" textAnchor="middle">(optional — add for mixed ANCOVA)</text>
+
+      {/* Right side buttons */}
+      <rect x="415" y="50"  width="110" height="24" rx="3" fill="#fff" stroke="#0A2E5D"/>
+      <text x="470" y="66"  fontSize="10" fill="#0A2E5D" textAnchor="middle">Model…</text>
+      <rect x="415" y="82"  width="110" height="24" rx="3" fill="#fff" stroke="#0A2E5D"/>
+      <text x="470" y="98"  fontSize="10" fill="#0A2E5D" textAnchor="middle">Contrasts…</text>
+      <rect x="415" y="114" width="110" height="24" rx="3" fill="#10B981"/>
+      <text x="470" y="130" fontSize="10" fill="#fff" textAnchor="middle" fontWeight="700">Plots…</text>
+      <text x="415" y="148" fontSize="8" fill="#10B981" fontWeight="700">↑ time on X, arm</text>
+      <text x="415" y="158" fontSize="8" fill="#10B981" fontWeight="700">   as separate lines</text>
+      <rect x="415" y="166" width="110" height="24" rx="3" fill="#10B981"/>
+      <text x="470" y="182" fontSize="10" fill="#fff" textAnchor="middle" fontWeight="700">Options…</text>
+      <text x="415" y="200" fontSize="8" fill="#10B981" fontWeight="700">↑ EM means, partial η²</text>
+
+      <rect x="415" y="262" width="50" height="28" rx="3" fill="#10B981"/>
+      <text x="440" y="281" fontSize="11" fill="#fff" textAnchor="middle" fontWeight="700">OK</text>
+      <rect x="470" y="262" width="55" height="28" rx="3" fill="#fff" stroke="#0A2E5D"/>
+      <text x="497" y="281" fontSize="10" fill="#0A2E5D" textAnchor="middle">Paste</text>
+    </svg>
+  );
+}
+
+/* ──── Mixed ANOVA output: focused on the three effects + profile plot ──── */
+export function MixedAnovaOutput() {
+  return (
     <svg viewBox="0 0 720 400" className="w-full h-auto">
       <rect width="720" height="400" fill="#fff"/>
 
@@ -6906,50 +6960,39 @@ export function APABadVsGoodTable() {
   return <ScreenshotFrame src="/lesson-images/writing-up/05-apa-bad-vs-good.jpg"
     alt="Side-by-side comparison of raw SPSS output vs reformatted APA 7 table using the Machakos correlation matrix"/>;
 }
-/* Reliability course — Mombasa 15-item Patient Satisfaction Scale */
-export function MombasaCronbachWWWW() {
-  return <ScreenshotFrame src="/lesson-images/reliability/00-cronbach-wwww.jpg"
-    alt="Cronbach Alpha WWWW 4-quadrant reference card using Mombasa 15-item scale alpha .84. WHAT explains internal consistency and alpha range. WHY explains scale trustworthiness. WHERE lists Kenyan Likert-scale scenarios. WHEN gives decision table with reverse-coding warning"/>;
+
+/* ─── Reliability course — Cronbach + Item-Total + Split-Half ─── */
+export function MombasaCronWWWW() {
+  return <ScreenshotFrame src="/lesson-images/reliability/00-cron-wwww.jpg"
+    alt="Cronbach Alpha WWWW 4-quadrant reference card using Mombasa 15-item Patient Satisfaction Scale. WHAT explains internal consistency. WHY explains why reliability testing is required before using a composite. WHERE lists Kenyan scenarios. WHEN gives the alpha interpretation table"/>;
 }
-export function MombasaCronbachDialog() {
-  return <ScreenshotFrame src="/lesson-images/reliability/01-cronbach-dialog.jpg"
-    alt="SPSS Reliability Analysis dialog for Mombasa 15-item PSS. All 15 PSS items moved to Items box. Model dropdown Alpha selected. Statistics button highlighted gold as critical next click"/>;
+export function MombasaCronDialog() {
+  return <ScreenshotFrame src="/lesson-images/reliability/01-cron-dialog.jpg"
+    alt="SPSS Reliability Analysis dialog for the Mombasa 15-item Patient Satisfaction Scale. All 15 PSS items in the Items box. Model set to Alpha. Statistics button highlighted gold to remind ticking Scale if item deleted"/>;
 }
-export function MombasaCronbachStats() {
-  return <ScreenshotFrame src="/lesson-images/reliability/02-cronbach-stats.jpg"
-    alt="SPSS Reliability Statistics sub-dialog. Item, Scale, and Scale if item deleted checkboxes all ticked. Scale if item deleted highlighted gold as CRITICAL for item-total analysis. Correlations tick highlighted amber for inter-item matrix"/>;
+export function MombasaCronOutput() {
+  return <ScreenshotFrame src="/lesson-images/reliability/02-cron-output.jpg"
+    alt="SPSS Cronbach output. Reliability Statistics shows alpha .842 for 15 items highlighted gold. Item-Total Statistics table shows corrected item-total correlations and alpha if item deleted for each item. PSS_3 highlighted red as misfit with item-total .184 and alpha-if-deleted .851"/>;
 }
-export function MombasaCronbachOutput() {
-  return <ScreenshotFrame src="/lesson-images/reliability/03-cronbach-output.jpg"
-    alt="SPSS Reliability output for Mombasa. Reliability Statistics shows Cronbach Alpha .84 for 15 items. Item-Total Statistics table shows PSS_7 flagged red as weak with corrected r .198 and Alpha if item deleted .856. Chapter 4 write-up template in the gold callout"/>;
+export function ItemTotalWWWW() {
+  return <ScreenshotFrame src="/lesson-images/reliability/03-itemtotal-wwww.jpg"
+    alt="Item-Total Analysis WWWW 4-quadrant reference card. WHAT explains the diagnostic companion to Cronbach. WHY explains iterative item refinement. WHERE lists scenarios. WHEN gives decision table for keeping vs dropping items based on item-total correlation"/>;
 }
-export function MombasaItemTotalWWWW() {
-  return <ScreenshotFrame src="/lesson-images/reliability/04-itemtotal-wwww.jpg"
-    alt="Item-Total Analysis WWWW 4-quadrant reference card. WHAT explains the diagnostic per-item procedure. WHY explains catching problem items dragging down reliability. WHERE lists scale-purification scenarios. WHEN gives drop-vs-keep decision table"/>;
+export function ItemTotalTable() {
+  return <ScreenshotFrame src="/lesson-images/reliability/04-itemtotal-table.jpg"
+    alt="Fully annotated SPSS Item-Total Statistics table for the Mombasa 15-item scale. All 15 rows shown with corrected item-total correlations and alpha-if-deleted values. PSS_3 highlighted red as misfit, PSS_8 amber as borderline. Green/red/amber/gold callouts explain the interpretation rules"/>;
 }
-export function MombasaItemTotalAnnotated() {
-  return <ScreenshotFrame src="/lesson-images/reliability/05-itemtotal-annotated.jpg"
-    alt="Annotated Item-Total Statistics table for Mombasa scale. Four color-coded callouts explain each column. Gold Scale Mean, Green Scale Variance, Navy Corrected Item-Total Correlation as key diagnostic, Coral Cronbach Alpha if Item Deleted as the decision column. PSS_7 highlighted red as problem item"/>;
+export function SplitHalfWWWW() {
+  return <ScreenshotFrame src="/lesson-images/reliability/05-splithalf-wwww.jpg"
+    alt="Split-Half Reliability WWWW 4-quadrant reference card. WHAT explains splitting the scale into 2 halves and correlating. WHY explains when to use it vs Cronbach. WHERE lists rare scenarios. WHEN gives decision table"/>;
 }
-export function MombasaSplitHalfWWWW() {
-  return <ScreenshotFrame src="/lesson-images/reliability/06-splithalf-wwww.jpg"
-    alt="Split-Half Reliability WWWW 4-quadrant reference card. WHAT explains the two-halves-correlation approach. WHY explains when it beats Cronbach Alpha. WHERE lists speed-test and supplementary-check scenarios. WHEN advises Cronbach as default for most thesis work"/>;
-}
-export function MombasaSplitHalfDialog() {
-  return <ScreenshotFrame src="/lesson-images/reliability/06-splithalf-dialog.jpg"
-    alt="SPSS Reliability Analysis dialog configured for Split-half. Model dropdown changed from Alpha to Split-half. Red numbered click markers show the sequence."/>;
-}
-export function MombasaItemTotalDialog() {
-  return <ScreenshotFrame src="/lesson-images/reliability/05-itemtotal-dialog.jpg"
-    alt="SPSS Reliability Analysis Statistics sub-dialog. Scale if item deleted is checked, marked with a red circle to indicate it is the most critical step."/>;
-}
-export function MombasaSplitHalfOutput() {
-  return <ScreenshotFrame src="/lesson-images/reliability/07-splithalf-output.jpg"
-    alt="SPSS Split-Half Reliability output for Mombasa scale. Part 1 alpha .782, Part 2 alpha .765, Correlation Between Forms .698, Spearman-Brown Equal Length .822, Guttman Split-Half .818. Chapter 4 supplementary write-up in the gold callout"/>;
+export function SplitHalfOutput() {
+  return <ScreenshotFrame src="/lesson-images/reliability/06-splithalf-output.jpg"
+    alt="SPSS Split-Half Reliability output for Mombasa scale. Reliability Statistics shows Part 1 alpha .782 with 8 items, Part 2 alpha .741 with 7 items, Correlation Between Forms .742, Spearman-Brown Equal Length .852 highlighted gold, Guttman Split-Half .848 highlighted amber"/>;
 }
 export function ReliabilityDecisionMap() {
-  return <ScreenshotFrame src="/lesson-images/reliability/08-decision-map.jpg"
-    alt="Which reliability method should I use decision map. Cronbach Alpha for consistency of one construct. Item-Total Analysis for per-item diagnostics. Split-Half for supplementary robustness check. Standard workflow shown at bottom"/>;
+  return <ScreenshotFrame src="/lesson-images/reliability/07-decision-map.jpg"
+    alt="Reliability testing decision map showing all 3 lessons in the course. Cronbach as default first step. Item-Total analysis if alpha is borderline. Split-half only if 2 clear halves or supervisor requests. Typical workflow described in the navy banner"/>;
 }
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
@@ -7393,10 +7436,10 @@ export const ILLUSTRATIONS = {
   /* Writing Up course — Chapter 4 + APA 7 */
   Chapter4StructureCard, Chapter4ResponseRate, Chapter4GoodVsBad,
   APATemplatesReference, APATableRules, APABadVsGoodTable,
-  /* Reliability course — Mombasa 15-item scale */
-  MombasaCronbachWWWW, MombasaCronbachDialog, MombasaCronbachStats, MombasaCronbachOutput,
-  MombasaItemTotalWWWW, MombasaItemTotalAnnotated,
-  MombasaSplitHalfWWWW, MombasaSplitHalfOutput,
+  /* Reliability course — Cronbach + Item-Total + Split-Half */
+  MombasaCronWWWW, MombasaCronDialog, MombasaCronOutput,
+  ItemTotalWWWW, ItemTotalTable,
+  SplitHalfWWWW, SplitHalfOutput,
   ReliabilityDecisionMap,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
@@ -7420,8 +7463,6 @@ export const ILLUSTRATIONS = {
   ResidualsHomoVsHetero, MulticollinearityVenn, LogisticCurve,
   HierarchicalBlocks,
   /* ANOVA */
-  AnovaOneWayWWWW, AnovaTwoWayWWWW, AnovaRepeatedWWWW, AnovaMixedWWWW,
-  PostHocWWWW, AncovaWWWW, ManovaWWWW,
   AnovaLogic, OneWayAnovaDialog, AnovaOutput, PostHocOutput,
   InteractionPlot, InteractionPlots, RepeatedMeasuresLogic, AnovaDecisionTree,
   /* T-Tests */
