@@ -43,18 +43,20 @@ export const ITEM_TOTAL_LESSON = {
       blocks: [
         { type: 'callout', tone: 'gold', title: 'Why this section exists',
           body: [
-            'Item-Total Analysis is the diagnostic follow-up to Cronbach Alpha. Before diving in, understand: (1) What Item-Total analysis IS, (2) Why you use it, (3) Where it appears in Chapter 4, (4) When to drop or keep an item.',
+            'Cronbach alpha gives you ONE overall number. Item-total analysis tells you which SPECIFIC items are driving that number up or down. Before diving into the SPSS output, understand: (1) What item-total analysis IS, (2) Why alpha alone is not enough, (3) Where a Kenyan postgraduate would use it, (4) When to drop items.',
           ]},
 
-        { type: 'illustration', component: 'MombasaItemTotalWWWW',
-          caption: 'Figure 0. Item-Total Analysis WHAT/WHY/WHERE/WHEN reference card using the Mombasa Patient Satisfaction Scale (PSS_7 identified as weak item).' },
+        { type: 'illustration', component: 'ItemTotalWWWW',
+          caption: 'Figure 0. Item-Total Analysis WHAT/WHY/WHERE/WHEN reference card. The diagnostic companion to Cronbach alpha — identifies which items are hurting your scale.' },
 
         { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
           body: [
-            '**Corrected item-total correlation** - correlation between each item and the SUM of the OTHER items (excluding itself). Above .30 = good, below .30 = weak item candidate for removal.',
-            '**Alpha if item deleted** - what Cronbach alpha would become if this item were removed. If higher than current alpha, the item is HURTING reliability.',
-            '**Scale purification** - the process of identifying and removing weak items to strengthen a scale. Must be transparently reported in Chapter 4 methods.',
-            '**Item revision** - alternative to dropping - reword the item for future studies rather than delete.',
+            '**Corrected Item-Total Correlation** — the KEY column. How well an item correlates with the SUM of the OTHER items (its own contribution removed).',
+            '**Cronbach Alpha if Item Deleted** — what alpha would become without this item. Higher-than-current = item is HURTING reliability.',
+            '**Misfit item** — item-total < .20 OR alpha-if-deleted much higher than current alpha. Investigate wording, reverse-coding, or different construct.',
+            '**Scale Mean if Item Deleted** — the mean of the remaining scale without this item. Rarely interpreted substantively.',
+            '**Scale Variance if Item Deleted** — the variance of the remaining scale. Rarely reported.',
+            '**Iterative refinement** — repeatedly drop the worst item, re-run reliability, until no further gain. Report BEFORE and AFTER.',
           ]},
       ],
     },
@@ -69,8 +71,8 @@ export const ITEM_TOTAL_LESSON = {
         { type: 'paragraph', text:
           'When you tick "Scale if item deleted" in the Reliability Analysis Statistics dialog (Lesson 1), SPSS produces the Item-Total Statistics table. It has one row per item in your scale and five columns of diagnostics. Most beginners read it left to right and get lost in the first three columns. Save your attention for the last two — they are the only ones that drive decisions.' },
 
-        { type: 'illustration', component: 'MombasaItemTotalAnnotated',
-          caption: 'Figure 1. The Item-Total Statistics table for an 8-item job satisfaction scale. Item sa_04 is highlighted in red — its Corrected Item-Total Correlation is only .12 (well below .30), and Cronbach\'s α if Item Deleted is .88 (higher than the current overall α = .85). These two warning signs together say: dropping sa_04 would IMPROVE the scale.' },
+        { type: 'illustration', component: 'ItemTotalTable',
+          caption: 'Figure 1. The Item-Total Statistics table for the Mombasa 15-item Patient Satisfaction Scale, fully annotated. Green callout on PSS_4 (item-total = .61) shows a STRONG item — keep. Red callout on PSS_3 (item-total = .18) shows a MISFIT — dropping it would raise alpha from .842 to .851. Amber callout on PSS_8 (item-total = .27) shows a BORDERLINE case. Gold rules panel shows the interpretation thresholds.' },
 
         { type: 'comparison',
           headers: ['Column', 'What it shows', 'How much you care'],
@@ -108,34 +110,6 @@ export const ITEM_TOTAL_LESSON = {
 
         { type: 'callout', tone: 'gold', title: 'The combined rule for dropping an item',
           body: 'Drop an item when BOTH diagnostics agree: **CITC < .30** AND **α if Item Deleted > overall α**. If only one of those signals fires, the case is weaker — investigate the item content but consider keeping it. If both fire together, removal is clearly justified.' },
-      ],
-    },
-
-    /* ════════════════════ 2.5 GENERATING THE TABLE IN SPSS ════════════════════ */
-    {
-      id: 'spss-steps',
-      title: 'Generating the table in SPSS',
-      blocks: [
-        { type: 'heading', level: 2, text: 'A quick reminder of the clicks' },
-
-        { type: 'paragraph', text:
-          'In case you need a refresher from Lesson 1, here is how you generate the Item-Total Statistics table.' },
-
-        { type: 'steps', steps: [
-          { title: 'Open the Reliability dialog',
-            body: 'Analyze → Scale → Reliability Analysis.' },
-          { title: 'Move your items over',
-            body: 'Move all the items for your scale into the "Items" box. Remember to use reverse-coded versions if applicable.' },
-          { title: 'Click "Statistics..."',
-            body: 'This button is on the top right. Without clicking this, you will NOT get the diagnostic table.' },
-          { title: 'Tick "Scale if item deleted"',
-            body: 'Under the "Descriptives for" section, tick this box. This is the magic checkbox that produces the Item-Total Statistics table.' },
-          { title: 'Click Continue, then OK',
-            body: 'SPSS will run the analysis and produce the output.' },
-        ]},
-
-        { type: 'illustration', component: 'MombasaItemTotalDialog',
-          caption: 'Figure 1b. The Statistics sub-dialog. You MUST tick "Scale if item deleted". This is what triggers the diagnostic table we are about to read.' },
       ],
     },
 
