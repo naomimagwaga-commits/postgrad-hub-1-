@@ -36,6 +36,22 @@ export const POST_HOC_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Post-Hoc testing is the required follow-up to any significant ANOVA. Before diving into the output, understand: (1) What it IS, (2) Why you run it, (3) Where a postgraduate would use it, (4) When to CHOOSE Tukey vs Games-Howell.',
+            'The WWWW card below answers all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'PostHocWWWW',
+          caption: 'Figure 0. Post-Hoc Tests WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it explains exactly why an ANOVA F-test isn\'t enough on its own.' },
+      ]
+    },
+
     /* ════════════════════ 2. WHY POST-HOC ════════════════════ */
     {
       id: 'why-post-hoc',

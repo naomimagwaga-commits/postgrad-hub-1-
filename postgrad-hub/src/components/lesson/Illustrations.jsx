@@ -2864,6 +2864,35 @@ export function AnovaMixedWWWW() {
   return <ScreenshotFrame src="/lesson-images/anova/00-mixed-wwww.jpg"
     alt="Mixed ANOVA WHAT/WHY/WHERE/WHEN reference card. Explains combining between-subjects groups with within-subjects time points."/>;
 }
+export function PostHocWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/posthoc-wwww.jpg"
+    alt="Post-Hoc Tests WHAT/WHY/WHERE/WHEN reference card. Explains running pairwise comparisons after a significant ANOVA."/>;
+}
+
+export function TwoWayAnovaDialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/02-twoway-dialog.jpg"
+    alt="SPSS GLM Univariate dialog for Two-Way ANOVA with red numbered click markers showing the full setup sequence."/>;
+}
+export function TwoWayAnovaPlots() {
+  return <ScreenshotFrame src="/lesson-images/anova/03-twoway-plots.jpg"
+    alt="SPSS Profile Plots dialog for Two-Way ANOVA. Shows adding the interaction to the Plots list."/>;
+}
+export function RMAnovaDefineFactor() {
+  return <ScreenshotFrame src="/lesson-images/anova/04-repeated-define.jpg"
+    alt="SPSS Repeated Measures Define Factor(s) dialog. Shows defining the time factor with 3 levels."/>;
+}
+export function RMAnovaDialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/05-repeated-dialog.jpg"
+    alt="SPSS Repeated Measures main dialog. Shows mapping the three time variables."/>;
+}
+export function MixedAnovaDialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/06-mixed-dialog.jpg"
+    alt="SPSS Repeated Measures main dialog set up for Mixed ANOVA. Shows mapping time variables and the between-subjects grouping factor."/>;
+}
+export function MixedAnovaOptions() {
+  return <ScreenshotFrame src="/lesson-images/anova/07-anova-options.jpg"
+    alt="SPSS Repeated Measures Options dialog. Shows moving factors to Display Means for, and ticking Compare main effects."/>;
+}
 
 export function OneWayAnovaDialog() {
   return <ScreenshotFrame src="/lesson-images/anova/01-anova-dialog.jpg"
