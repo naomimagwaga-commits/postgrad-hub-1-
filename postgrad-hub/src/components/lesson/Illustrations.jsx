@@ -2774,70 +2774,75 @@ export function HierarchicalBlocks() {
 
 /* ── ANOVA logic: between-groups vs within-groups variance ── */
 export function AnovaLogic() {
-  // Three groups, each a small cloud of points around its mean
   const groupMeans = [50, 70, 85];
   const groupColors = ['#0A2E5D', '#D4AF37', '#10B981'];
   const groupNames = ['Method A', 'Method B', 'Method C'];
 
   return (
-    <svg viewBox="0 0 720 280" className="w-full h-auto">
-      <rect width="720" height="280" fill="#fff"/>
-      <text x="360" y="20" fontSize="13" fill="#0A2E5D" textAnchor="middle" fontWeight="700">
+    <svg viewBox="0 0 720 300" className="w-full h-auto">
+      <rect width="720" height="300" fill="#fff"/>
+      <text x="360" y="25" fontSize="14" fill="#0A2E5D" textAnchor="middle" fontWeight="700">
         ANOVA compares BETWEEN-group variance to WITHIN-group variance
       </text>
 
       {/* Axes */}
-      <line x1="80" y1="240" x2="640" y2="240" stroke="#0A2E5D" strokeOpacity=".5"/>
-      <line x1="80" y1="60"  x2="80"  y2="240" stroke="#0A2E5D" strokeOpacity=".5"/>
-      <text x="20" y="150" fontSize="11" fill="#0A2E5D" fontWeight="600" textAnchor="middle"
-        transform="rotate(-90, 20, 150)">Exam score</text>
+      <line x1="80" y1="260" x2="680" y2="260" stroke="#0A2E5D" strokeOpacity=".5"/>
+      <line x1="80" y1="60"  x2="80"  y2="260" stroke="#0A2E5D" strokeOpacity=".5"/>
+      <text x="20" y="160" fontSize="12" fill="#0A2E5D" fontWeight="600" textAnchor="middle"
+        transform="rotate(-90, 20, 160)">Exam score</text>
 
       {/* Overall mean line */}
-      <line x1="80" y1="170" x2="640" y2="170" stroke="#94A3B8" strokeDasharray="3 3"/>
-      <text x="650" y="172" fontSize="9" fill="#64748B">Overall mean (~68)</text>
+      <line x1="80" y1="180" x2="680" y2="180" stroke="#94A3B8" strokeDasharray="4 4" strokeWidth="1.5"/>
+      <text x="685" y="184" fontSize="10" fill="#64748B">Overall mean (~68)</text>
+
+      {/* Annotations moved to bottom right or top left so they don't overlap */}
+      <rect x="90" y="45" width="280" height="70" fill="#F8FAFC" stroke="#E2E8F0" rx="4"/>
+      <text x="100" y="60" fontSize="11" fill="#10B981" fontWeight="700">
+        BETWEEN-group variance:
+      </text>
+      <text x="100" y="74" fontSize="10" fill="#334155">
+        How far apart are the colored lines?
+      </text>
+      
+      <text x="100" y="92" fontSize="11" fill="#DC2626" fontWeight="700">
+        WITHIN-group variance:
+      </text>
+      <text x="100" y="106" fontSize="10" fill="#334155">
+        How spread are the dots around their line?
+      </text>
 
       {/* For each group: cluster of dots + mean line */}
       {groupMeans.map((m, gi) => {
-        const cx = 180 + gi * 160;
-        const meanY = 240 - m * 1.7;
-        const points = Array.from({ length: 8 }, (_, i) => {
-          const seed = (gi * 100 + i) * 9301 % 233280 / 233280;
-          return [cx + (seed - 0.5) * 60, meanY + (seed - 0.5) * 50];
-        });
+        const cx = 200 + gi * 180;
+        const meanY = 260 - m * 1.8;
+        
+        // Hardcode a nice scatter cloud so it looks realistic and not a diagonal line
+        const scatter = [
+          [-25, 15], [10, -20], [-15, -10], [30, 5],
+          [-5, 25], [20, -15], [-35, 5], [5, -5]
+        ];
+
         return (
           <g key={gi}>
-            {points.map(([x, y], pi) => (
-              <circle key={pi} cx={x} cy={y} r="4" fill={groupColors[gi]} opacity=".7"/>
+            {scatter.map(([dx, dy], pi) => (
+              <circle key={pi} cx={cx + dx} cy={meanY + dy} r="4" fill={groupColors[gi]} opacity=".6"/>
             ))}
             {/* group mean line */}
-            <line x1={cx - 50} y1={meanY} x2={cx + 50} y2={meanY}
-              stroke={groupColors[gi]} strokeWidth="3"/>
-            <text x={cx} y="262" fontSize="10" fill={groupColors[gi]} textAnchor="middle" fontWeight="700">
+            <line x1={cx - 45} y1={meanY} x2={cx + 45} y2={meanY}
+              stroke={groupColors[gi]} strokeWidth="4"/>
+            <text x={cx} y="280" fontSize="12" fill={groupColors[gi]} textAnchor="middle" fontWeight="700">
               {groupNames[gi]}
             </text>
-            <text x={cx} y={meanY - 50} fontSize="10" fill={groupColors[gi]} textAnchor="middle" fontWeight="700">
+            <text x={cx} y={meanY - 28} fontSize="11" fill={groupColors[gi]} textAnchor="middle" fontWeight="700">
               M = {m}
             </text>
+            
+            {/* arrow from overall mean to group mean to show 'between' variance */}
+            <line x1={cx + 55} y1={180} x2={cx + 55} y2={meanY} stroke="#10B981" strokeWidth="2" strokeDasharray="2 2" />
+            <polygon points={`${cx+52},${meanY > 180 ? meanY - 5 : meanY + 5} ${cx+58},${meanY > 180 ? meanY - 5 : meanY + 5} ${cx+55},${meanY}`} fill="#10B981" />
           </g>
         );
       })}
-
-      {/* Annotations */}
-      <text x="120" y="100" fontSize="10" fill="#10B981" fontWeight="700">
-        BETWEEN-group variance: group means differ from overall mean
-      </text>
-      <text x="120" y="112" fontSize="10" fill="#10B981" fontWeight="700">
-        → How far apart are the colored lines?
-      </text>
-      <text x="120" y="125" fontSize="10" fill="#DC2626" fontWeight="700">
-        WITHIN-group variance: dots scatter around their group mean
-      </text>
-      <text x="120" y="137" fontSize="10" fill="#DC2626" fontWeight="700">
-        → How spread are the dots within each color?
-      </text>
-      <text x="120" y="152" fontSize="10" fill="#0A2E5D" fontStyle="italic">
-        F = Between / Within   (large F = real group differences)
-      </text>
     </svg>
   );
 }
