@@ -17,10 +17,12 @@ export default function PublicNav() {
 
   const links = [
     { to: '/', label: 'Home' },
-    { to: '/#features', label: 'Services' },
-    { to: '/#about', label: 'About' },
+    { to: '/pathway', label: 'Learning Pathway' },
+    { to: '/glossary', label: 'Glossary' },
+    { to: '/datasets', label: 'Datasets' },
+    { to: '/cheatsheet', label: 'Cheat Sheet' },
+    { to: '/faq', label: 'FAQ' },
     { to: '/pricing', label: 'Pricing' },
-    { to: '/#contact', label: 'Contact' },
   ];
 
   return (
