@@ -151,13 +151,8 @@ export const ONE_WAY_ANOVA_LESSON = {
             ['Two factors (e.g. method × gender)',  'Continuous',  'Two-way ANOVA (Lesson 3)'],
           ]},
 
-        { type: 'illustration', component: 'AnovaDecisionTree',
-          caption: 'Figure 2. The ANOVA decision tree. Start with the number of factors. With ONE factor and independent groups → one-way ANOVA (this lesson). With ONE factor and repeated measures on the same people → repeated-measures ANOVA (Lesson 4). With TWO factors → two-way ANOVA (Lesson 3).' },
-        { type: 'illustration', component: 'KiambuAnovaDialog',
-          caption: 'Figure 1. The One-Way ANOVA dialog set up for Kiambu Maize. Yield_KgPerAcre goes into Dependent List. FertilizerType (which has 3 codes) goes into Factor. Two critical sub-dialogs to click: [Post Hoc...] to compare pairs, and [Options...] to enable Descriptives, Levene test, and Welch. Then OK.' },
-
-        { type: 'illustration', component: 'KiambuAnovaOutput',
-          caption: 'Figure 2. The output. Descriptives confirm the 3 groups (DAP=1840, CAN=1620, Organic=1450 kg/acre). Levene test p=.122 (NOT significant) → equal variances, use standard ANOVA row. Main ANOVA: F(2, 177) = 22.40, p < .001 → at least one group differs. Effect size η² = .20 (LARGE). Chapter-4 write-up template in the gold callout.' },
+        { type: 'illustration', component: 'ANOVADecisionMap',
+          caption: 'Figure 2. The ANOVA decision tree covering all 9 tests in this course. START with the number of IVs and the sample structure. 1 IV + independent groups + normal data → One-Way ANOVA (this lesson). Non-normal → Kruskal-Wallis. Same subjects at 3+ time points → Repeated Measures. Two IVs → Two-Way ANOVA. Bookmark this — it lives above every ANOVA lesson.' },
 
       ],
     },
