@@ -1,6 +1,7 @@
 /**
- * Advanced ANOVA · Lesson 2 — MANOVA (Multivariate ANOVA)
+ * Advanced ANOVA · Lesson 2 — MANOVA (Multivariate Analysis of Variance)
  * Comparing groups on MULTIPLE outcome variables simultaneously.
+ * Renovated to Kiambu FertilizerType → Yield_KgPerAcre + GrainQuality_Score standard.
  */
 
 export const MANOVA_LESSON = {
@@ -15,75 +16,85 @@ export const MANOVA_LESSON = {
       title: 'When you want to compare groups on SEVERAL outcomes at once',
       blocks: [
         { type: 'scene', body: [
-          'You are doing a PhD at Egerton University on cognitive-behavioural therapy (CBT) for university students with exam anxiety. You assigned 90 students to one of three conditions — CBT, Peer Support, or Wait-list Control — and measured FIVE outcomes at the end of the 8-week trial: GAD-7 anxiety, PHQ-9 depression, PSS-10 stress, study self-efficacy, and exam-avoidance behaviour.',
-          'Your first instinct: run five separate one-way ANOVAs, one per outcome. But your supervisor frowns. "If you run five tests at α = .05, your cumulative false-positive rate balloons to about 23%. AND — more interestingly — those five outcomes are clearly related. Anxiety, depression, and stress correlate strongly. By running five separate ANOVAs you ignore that structure. There\'s a better way."',
-          'That better way is **MANOVA** (Multivariate Analysis of Variance). MANOVA tests whether your groups differ on the JOINT distribution of all five outcomes simultaneously. Instead of asking "do groups differ on anxiety?" then "do groups differ on depression?" five times, it asks ONE question: "do the groups differ on the multivariate cluster of psychological outcomes?". One omnibus test. One p-value. Family-wise error preserved. And when it\'s significant, follow-up tests tell you WHICH outcomes are driving the multivariate difference.',
+          'You are extending the Kiambu Maize Study (N = 180 farms) beyond just yield. Farmers care about TWO outcomes: **Yield_KgPerAcre** (how much maize you produce) AND **GrainQuality_Score** (a 0–100 quality index based on moisture, size, and pest damage). A high-yield but low-quality harvest sells for less at Kiambu market. To recommend the right fertilizer, you need to know how DAP, CAN, and Organic perform on BOTH outcomes simultaneously.',
+          'Your first instinct: run two one-way ANOVAs — one on yield, one on quality. But your supervisor frowns. *"Two ANOVAs at α = .05 gives a family-wise error rate near 10%. AND the two outcomes are clearly correlated (r = .54) — high-quality maize also tends to come in higher yield. Running them separately ignores that structure. There is a better way."*',
+          'That better way is **MANOVA** (Multivariate Analysis of Variance). MANOVA tests whether your groups differ on the JOINT distribution of both outcomes at once. One omnibus test. One p-value. Family-wise error controlled. And when significant, follow-up univariate ANOVAs (with Bonferroni-adjusted α) tell you WHICH outcome is driving the difference. In the Kiambu case, MANOVA will confirm whether the three fertilizer types differ on the "farmer\'s bundle" of (yield, quality) — a stronger multivariate claim than two separate yield-and-quality results.',
         ]},
 
         { type: 'callout', tone: 'gold', title: 'What you will be able to do after this lesson',
           body: [
             '**Recognise** the moments in your data when MANOVA is preferable to several separate ANOVAs.',
-            '**Explain** the multivariate test statistics — Wilks\' Lambda, Pillai\'s Trace, Hotelling\'s Trace, Roy\'s Largest Root.',
+            '**Explain** the four multivariate test statistics — Pillai\'s Trace, Wilks\' Lambda, Hotelling\'s Trace, and Roy\'s Largest Root.',
             '**Run** MANOVA in SPSS via Analyze → General Linear Model → Multivariate.',
-            '**Check the multivariate assumptions** — multivariate normality and homogeneity of covariance matrices (Box\'s M test).',
+            '**Check the multivariate assumptions** — multivariate normality and homogeneity of covariance matrices (Box\'s M).',
             '**Read the output** — the multivariate tests table FIRST, then the univariate follow-ups.',
-            '**Follow up a significant MANOVA** with univariate ANOVAs (with Bonferroni-adjusted α) — and explain why.',
-            '**Compute and report partial η²** for the multivariate effect.',
+            '**Follow up a significant MANOVA** with univariate ANOVAs on each outcome (with Bonferroni-adjusted α) — and explain why.',
+            '**Report partial η²** for the multivariate effect (from Pillai\'s Trace).',
             '**Write up** the result in APA style with all the elements your reviewer will look for.',
           ]},
 
         { type: 'why', body:
-          'Many Kenyan postgrad theses — especially in psychology, education, public health, and organisational behaviour — measure several related outcomes per participant. MANOVA is the principled way to compare groups across those outcomes jointly. Running separate ANOVAs inflates Type I error AND misses the multivariate structure your outcomes share. Master MANOVA once and you have the right tool for an entire class of research designs.' },
+          'Many Kenyan postgrad theses — especially in psychology, education, public health, agriculture, and organisational behaviour — measure several related outcomes per participant. MANOVA is the principled way to compare groups across those outcomes jointly. Running separate ANOVAs inflates Type I error AND misses the multivariate structure. Master MANOVA once and you have the right tool for an entire class of research designs.' },
       ],
     },
 
-    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN ════════════════════ */
     {
       id: 'wwww',
       title: 'What / Why / Where / When — read THIS first',
       blocks: [
         { type: 'callout', tone: 'gold', title: 'Why this section exists',
           body: [
-            'MANOVA (Multivariate Analysis of Variance) is complex. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it to test multiple outcomes at once, (3) Where a postgraduate would use it, (4) When to CHOOSE it over running several separate ANOVAs.',
-            'The WWWW card below answers all 4 in 3 minutes.',
+            'Before touching the SPSS dialog, understand: (1) What MANOVA IS, (2) Why you use it, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it over multiple separate ANOVAs.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
           ]},
 
-        { type: 'illustration', component: 'ManovaWWWW',
-          caption: 'Figure 0. MANOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you chose MANOVA instead of separate ANOVAs.' },
-      ]
+        { type: 'illustration', component: 'KiambuMANOVAWWWW',
+          caption: 'Figure 0. MANOVA WHAT/WHY/WHERE/WHEN reference card using Kiambu FertilizerType predicting BOTH Yield_KgPerAcre AND GrainQuality_Score simultaneously.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Multivariate test** — one omnibus test across all outcomes jointly, instead of separate tests per outcome.',
+            '**Pillai\'s Trace** — the most robust multivariate test statistic. Use it as the headline result, especially when Box\'s M is significant or group sizes are unequal.',
+            '**Wilks\' Lambda** — the classic multivariate statistic. Reported alongside Pillai. All four statistics usually agree on significance.',
+            '**Box\'s M test** — tests homogeneity of covariance matrices across groups. Non-significant (p > .001) = assumption met.',
+            '**Univariate follow-up ANOVA** — separate one-way ANOVA on each outcome, run AFTER a significant MANOVA to identify which outcomes drive the effect. Use Bonferroni-adjusted α (0.05 / k outcomes).',
+            '**Partial eta-squared (partial η²)** — effect size for the multivariate effect. Extracted from Pillai\'s Trace. Same benchmarks: .01 small, .06 medium, .14 large.',
+          ]},
+      ],
     },
 
-    /* ════════════════════ 2. BIG IDEA ════════════════════ */
+    /* ════════════════════ 2. THE BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
-      title: 'The big idea — one multivariate omnibus test, then univariate follow-ups',
+      title: 'The big idea — testing a bundle of outcomes together',
       blocks: [
-        { type: 'heading', level: 2, text: 'A "weighted combination" of outcomes that maximises group separation' },
+        { type: 'heading', level: 2, text: 'Why not just run several ANOVAs?' },
 
         { type: 'paragraph', text:
-          'MANOVA does not literally run five separate tests behind the scenes. Instead, it mathematically constructs a NEW VARIABLE — a weighted combination of all five outcomes — that maximises the separation between groups. Then it tests whether the groups differ on that combination. The weighting is automatic; you do not specify it. SPSS reports four equivalent multivariate test statistics, of which Wilks\' Lambda and Pillai\'s Trace are most commonly reported.' },
-
-        { type: 'illustration', component: 'ManovaLogic',
-          caption: 'Figure 1. The MANOVA intuition for two outcomes. Each dot is a participant; X = anxiety, Y = depression. The three coloured clusters are the three treatment groups. A univariate ANOVA on anxiety alone could miss the cluster separation if the groups happen to overlap on anxiety; same for depression. But MANOVA finds the DIAGONAL axis (the dashed line) that maximally separates the groups in the joint space — and tests significance on THAT combination. Multivariate differences become visible even when univariate ones are weak.' },
-
-        { type: 'definition', term: 'Wilks\' Lambda (Λ)',
-          body: 'The most-reported multivariate test statistic. **Λ ranges from 0 to 1**. Λ near 1 = no group separation in multivariate space (the groups overlap fully); Λ near 0 = strong group separation. SPSS converts Λ to an approximate F via a transformation and reports the F, df, and p. Report all four: F([df1], [df2]) = value, p = value, Wilks\' Λ = value, partial η² = value.' },
+          'The temptation is obvious: two outcomes → two ANOVAs. But this approach has two serious problems that MANOVA solves.' },
 
         { type: 'comparison',
-          headers: ['Multivariate statistic', 'When to prefer it'],
+          headers: ['Problem with separate ANOVAs', 'How MANOVA solves it'],
           rows: [
-            ['**Wilks\' Lambda**',     'The default and most-reported. Use unless you have a specific reason otherwise.'],
-            ['**Pillai\'s Trace**',     'MOST ROBUST when assumptions (homogeneity of covariance, multivariate normality) are violated. Use when Box\'s M is significant.'],
-            ['**Hotelling\'s Trace**',  'Best when groups are well separated. Rarely the primary choice in social-science theses.'],
-            ['**Roy\'s Largest Root**', 'Most powerful when there is a single dominant dimension of separation, but very sensitive to violations. Cautious use.'],
+            ['**Family-wise error inflates.** With k outcomes at α = .05, false-positive rate rises toward 1 − (1 − .05)^k. For 2 outcomes ≈ 10%; for 5 outcomes ≈ 23%.', 'ONE omnibus multivariate test at α = .05. Family-wise error stays at 5% until you follow up.'],
+            ['**Ignores correlation between outcomes.** Related outcomes carry shared information; separate tests waste that structure.', 'Analyses the JOINT distribution — outcomes considered TOGETHER. Detects group differences that only appear multivariately.'],
+            ['**No unified effect-size statement.** You end up with k separate η² values.', 'ONE partial η² for the multivariate group effect.'],
+            ['**Can miss effects that ONLY appear jointly.** Two groups may barely differ on yield alone and quality alone, but differ dramatically on the (yield, quality) combination.', 'The multivariate test EXPLICITLY tests the joint pattern — sensitive to bundle-level differences.'],
           ]},
 
-        { type: 'analogy', title: 'Three KCSE classes evaluated on their full subject portfolio',
-          body: 'Three Form 4 classes are being compared. You could compare their average Maths score, then English, then Kiswahili, then Chemistry, then Biology — five separate tests. Or you could ask, "looking at the WHOLE PORTFOLIO of five subjects together, do these classes meaningfully differ?". MANOVA is the second question. It captures the FULL profile of performance, not just one subject at a time, and gives a single answer about whether classes differ overall before drilling down into which subjects are responsible.' },
+        { type: 'definition', term: 'Multivariate test',
+          body: 'A statistical test on TWO OR MORE dependent variables considered together. Where a one-way ANOVA compares means on one Y, MANOVA compares CENTROIDS — the group means on all Ys jointly — represented as a point in multivariate space. The question becomes: are the three group centroids in the same location, or do they differ?' },
+
+        { type: 'definition', term: 'Centroid',
+          body: 'A group\'s mean vector — one number per outcome. In Kiambu: DAP\'s centroid is (yield = 1840, quality = 78); CAN\'s is (1620, 72); Organic\'s is (1450, 74). MANOVA asks: are these three points meaningfully far apart in the (yield, quality) plane?' },
+
+        { type: 'analogy', title: 'Comparing towns on ONE dimension vs TWO',
+          body: 'Imagine ranking Kenyan towns by ONE measure — say, average income. Nairobi and Mombasa may look similar. Now add a second measure — cost of living. Suddenly Nairobi (high income, high cost) and Mombasa (moderate income, moderate cost) occupy very DIFFERENT positions in the two-dimensional (income, cost) plane. The multivariate view revealed a distinction the univariate view missed. MANOVA does exactly this: it uses the joint geometry of multiple outcomes to detect differences you would miss looking at each outcome one at a time.' },
 
         { type: 'reveal',
-          prompt: 'Why is running five separate ANOVAs at α = .05 worse than running one MANOVA?',
-          answer: '**Two reasons.** (1) **Type I error inflation**: with five independent tests at α = .05, the cumulative false-positive risk rises to ~23% (1 − 0.95⁵). MANOVA performs ONE omnibus test at α = .05 — family-wise error preserved. (2) **Multivariate structure ignored**: your five outcomes are correlated (anxiety, depression, stress share variance). Separate ANOVAs treat each as independent, throwing away that structure. MANOVA exploits the shared variance to find effects that may be invisible univariately — a group difference along a DIAGONAL combination of outcomes that no single ANOVA could detect. The standard workflow: MANOVA first; if significant, follow up with Bonferroni-adjusted ANOVAs.' },
+          prompt: 'You have three fertilizer groups measured on yield and quality. The univariate ANOVA on yield alone gives p = .06 (barely non-significant). The univariate ANOVA on quality alone gives p = .09 (non-significant). But your MANOVA gives Pillai\'s Trace p < .001. How can this happen?',
+          answer: '**The multivariate difference is stronger than either univariate difference alone.** Group differences on yield and quality may each be modest on their own, but if the two outcomes carry INDEPENDENT information about group membership — for example, DAP is high on yield but only moderate on quality, while Organic is moderate on yield but high on quality — the JOINT pattern of (yield, quality) discriminates the groups far more strongly than either variable alone. MANOVA is sensitive to this "diagonal" separation. This is one of the strongest arguments for MANOVA over separate ANOVAs: it can detect effects that only appear multivariately. Practically, in this scenario you would report the significant MANOVA as the primary result and note that neither outcome alone reaches significance — the effect is a genuine multivariate one.' },
       ],
     },
 
@@ -92,138 +103,190 @@ export const MANOVA_LESSON = {
       id: 'when-to-use',
       title: 'When MANOVA is the right test',
       blocks: [
-        { type: 'heading', level: 2, text: 'The four conditions' },
+        { type: 'heading', level: 2, text: 'The conditions' },
 
         { type: 'steps', steps: [
-          { title: 'You have 2+ INDEPENDENT GROUPS as the factor',
-            body: 'Same as ANOVA — categorical factor (treatment / control / placebo, three teaching methods, etc.). Can also be extended to factorial MANOVA (multiple factors).' },
-          { title: 'You have 2+ CONTINUOUS OUTCOMES that are CONCEPTUALLY RELATED',
-            body: 'The multiple outcomes should belong to a shared construct or theoretical domain — e.g. five psychological wellbeing scales, multiple subject scores, multiple physiological markers. Throwing in unrelated outcomes (anxiety + income + height) makes the multivariate test hard to interpret.' },
-          { title: 'Outcomes are MODERATELY correlated',
-            body: 'Sweet spot: outcomes correlate around r = .3 to .7 with each other. If outcomes are uncorrelated, MANOVA gains nothing over separate ANOVAs. If outcomes are extremely highly correlated (r > .9), they are essentially the same variable and multicollinearity hurts MANOVA — combine them into a single composite first.' },
-          { title: 'Adequate sample size',
-            body: 'Rule of thumb: at least 20 cases per group AND more cases per group than the number of dependent variables. With 5 DVs you need n > 5 per group at the absolute minimum; ideally 30+ per group.' },
+          { title: 'TWO OR MORE continuous outcomes',
+            body: 'All DVs must be Scale. Two is the minimum; 3–6 is typical; more than 8 becomes hard to interpret.' },
+          { title: 'Outcomes are CONCEPTUALLY related and moderately correlated',
+            body: 'MANOVA works best when the outcomes tap the same broad construct (e.g. yield + quality both = "harvest success"; anxiety + depression + stress all = "psychological distress"). Aim for correlations 0.3–0.7 between outcomes. If r > 0.9 outcomes are redundant; if r < 0.2 they may as well be analysed separately.' },
+          { title: 'One or more categorical grouping factors',
+            body: 'Typically 2–5 levels. One factor = one-way MANOVA; two factors = factorial MANOVA (same dialog).' },
+          { title: 'Sample size adequate for multivariate stability',
+            body: 'A common rule: at least 20 cases per cell, and always more cases than outcomes. For Kiambu, N = 60 per group with 2 outcomes is comfortable.' },
+          { title: 'Multivariate assumptions met',
+            body: 'Multivariate normality (approximately met if each outcome is univariately normal AND sample per cell ≥ 20 — Central Limit Theorem covers you). Homogeneity of covariance matrices (Box\'s M test). Independence of cases.' },
         ]},
 
         { type: 'comparison',
-          headers: ['Situation', 'Factor(s)', 'Outcome(s)', 'Right test'],
+          headers: ['Design', 'Right test'],
           rows: [
-            ['Compare 3 treatments on a single anxiety score',         '1 factor', '1 continuous',     'One-way ANOVA (anova-1)'],
-            ['Compare 3 treatments on a single anxiety score, controlling for baseline', '1 factor', '1 continuous + covariate', 'ANCOVA (Lesson 1)'],
-            ['Compare 3 treatments on a SET of 5 related outcomes',   '1 factor', '5 continuous',     '**One-way MANOVA (this lesson)**'],
-            ['Compare gender × treatment on a set of outcomes',       '2 factors', 'multiple continuous', '**Factorial MANOVA** (extension)'],
-            ['Compare 3 treatments on 5 outcomes, adjusting for baseline scores', '1 factor', 'multiple + covariates', 'MANCOVA (extension of MANOVA)'],
-            ['Compare same participants across 3 time points on 5 outcomes', 'within-subjects',  'multiple continuous', 'Repeated-measures MANOVA / doubly-multivariate'],
+            ['1 factor, 1 outcome',                                            'One-way ANOVA'],
+            ['1 factor, 1 outcome, 1+ covariates',                             'ANCOVA'],
+            ['**1 factor, 2+ related outcomes**',                              '**One-way MANOVA (this lesson)**'],
+            ['2 factors, 2+ related outcomes',                                 'Factorial MANOVA (same dialog, add both to Fixed Factors)'],
+            ['1 factor, 2+ outcomes + 1+ covariates',                          'MANCOVA (add to Covariates in the same dialog)'],
+            ['Outcomes measured repeatedly on same subjects',                  'Repeated-measures MANOVA (Doubly-multivariate)'],
           ]},
-
-        { type: 'callout', tone: 'warning', title: 'If outcomes are unrelated, do NOT use MANOVA',
-          body: 'MANOVA assumes the multiple outcomes belong to a shared multivariate construct. If you have a continuous outcome (anxiety score), a categorical outcome (treatment success Y/N), and a count (days off work) — those are different scales and conceptual domains. Use SEPARATE tests appropriate to each outcome\'s type, and apply Bonferroni correction to control family-wise error.' },
       ],
     },
 
-    /* ════════════════════ 4. SPSS STEPS ════════════════════ */
+    /* ════════════════════ 4. THE FOUR MULTIVARIATE STATISTICS ════════════════════ */
+    {
+      id: 'four-statistics',
+      title: 'The four multivariate test statistics — which one to report',
+      blocks: [
+        { type: 'heading', level: 2, text: 'SPSS gives four; you report one (or two)' },
+
+        { type: 'paragraph', text:
+          'The Multivariate Tests table shows four statistics — Pillai\'s Trace, Wilks\' Lambda, Hotelling\'s Trace, Roy\'s Largest Root — and their converted F-values, p-values, and partial η². For most Kenyan-postgraduate purposes they will all agree on significance. The question is which to REPORT as the headline.' },
+
+        { type: 'comparison',
+          headers: ['Statistic', 'When it is the right choice', 'Robustness note'],
+          rows: [
+            ['**Pillai\'s Trace**',      'Default headline for most write-ups. Report this one.',                'MOST ROBUST to violations of homogeneity of covariance and unequal sample sizes.'],
+            ['**Wilks\' Lambda**',       'Historically classic; report alongside Pillai for tradition.',         'Slightly less robust than Pillai when Box\'s M is significant.'],
+            ['**Hotelling\'s Trace**',   'Sometimes preferred when group sizes are equal and assumptions met.',  'Similar to Wilks in most datasets.'],
+            ['**Roy\'s Largest Root**',  'Most powerful when a single dimension dominates. Use with caution.',   'LEAST robust — sensitive to violations. Do not use as sole headline.'],
+          ]},
+
+        { type: 'callout', tone: 'gold', title: 'The rule Kenyan postgraduate examiners expect',
+          body: '**Report Pillai\'s Trace as the primary multivariate test.** It is the most robust to assumption violations, which are common with real-world data. You can (and often should) note the other three in a parenthetical for tradition, but Pillai is the one your interpretation and effect size should be based on.' },
+
+        { type: 'paragraph', text:
+          'All four statistics convert to an approximate F-value, so you report them like: *"Pillai\'s Trace = .384, F(4, 354) = 21.53, p < .001, partial η² = .196."*' },
+      ],
+    },
+
+    /* ════════════════════ 5. ASSUMPTIONS — SPECIFICALLY BOX\'S M ════════════════════ */
+    {
+      id: 'manova-assumptions',
+      title: 'MANOVA-specific assumptions — Box\'s M and multivariate normality',
+      blocks: [
+        { type: 'heading', level: 2, text: 'Two extras beyond univariate ANOVA' },
+
+        { type: 'paragraph', text:
+          'Beyond the usual normality-within-cells and independence assumptions, MANOVA adds two multivariate assumptions: (1) multivariate normality and (2) homogeneity of covariance matrices, tested by Box\'s M.' },
+
+        { type: 'steps', steps: [
+          { title: 'Multivariate normality',
+            body: 'Loosely: each outcome is approximately normal within each group, AND the outcomes are jointly normal (their bivariate/multivariate distribution has no bizarre skewness). Rarely tested formally — most postgraduates rely on: (a) univariate normality checks per outcome, and (b) adequate cell sizes (n ≥ 20) invoking the Central Limit Theorem.' },
+          { title: 'Homogeneity of covariance matrices (Box\'s M test)',
+            body: 'The covariance structure among the outcomes should be the SAME across groups. Tested by Box\'s M. INTERPRETATION: use α = .001 (Box\'s M is oversensitive at .05). If p > .001, assumption is met. If p < .001, homogeneity is violated → report Pillai\'s Trace (most robust) and mention the violation.' },
+          { title: 'Independence of cases',
+            body: 'Each case belongs to exactly one group and one row of data. Standard for between-subjects designs.' },
+        ]},
+
+        { type: 'callout', tone: 'warning', title: 'Box\'s M is oversensitive',
+          body: 'Box\'s M test almost always flags a violation with large samples because it is very sensitive. That is why the accepted convention is to use α = .001 (not .05). Even so, if it is violated, MANOVA is still usable — just switch to Pillai\'s Trace as your headline statistic, because Pillai is robust to Box\'s M violations.' },
+      ],
+    },
+
+    /* ════════════════════ 6. SPSS STEPS ════════════════════ */
     {
       id: 'spss-steps',
-      title: 'Running MANOVA in SPSS — the 7-step click path',
+      title: 'The Kiambu procedure',
       blocks: [
-        { type: 'heading', level: 2, text: 'The Multivariate dialog — first cousin of Univariate' },
+        { type: 'heading', level: 2, text: 'A different sub-menu from ANOVA and ANCOVA' },
+
+        { type: 'paragraph', text:
+          'MANOVA lives at **Analyze → General Linear Model → Multivariate**. This is a distinct dialog from Univariate — it has a Dependent VariableS box (plural) that accepts two or more outcomes. Everything else looks familiar.' },
 
         { type: 'steps', steps: [
           { title: 'Open the dialog',
-            body: 'Analyze → General Linear Model → Multivariate. (Note: NOT Univariate — that\'s for ANOVA / ANCOVA.)' },
-          { title: 'Move your MULTIPLE outcomes to Dependent Variables',
-            body: 'E.g. **gad7_anxiety, phq9_depression, pss10_stress, self_efficacy, exam_avoidance** — all five into the Dependent Variables box.' },
-          { title: 'Move your grouping variable to Fixed Factor(s)',
-            body: 'E.g. **treatment_group** (1 = CBT, 2 = Peer Support, 3 = Control).' },
-          { title: 'Click Options',
-            body: 'Move treatment_group to Display Means for. Tick **Compare main effects**, set Confidence interval adjustment to **Bonferroni**. Tick **Descriptive statistics**, **Estimates of effect size** (partial η²), **Homogeneity tests** (this gives you Box\'s M for multivariate homogeneity, and Levene\'s per outcome). Click Continue.' },
-          { title: 'Click EM Means (newer SPSS only)',
-            body: 'Confirms which factors get adjusted means.' },
+            body: 'Analyze → General Linear Model → Multivariate.' },
+          { title: 'Move BOTH outcomes to Dependent Variables',
+            body: 'Move Yield_KgPerAcre AND GrainQuality_Score into the Dependent Variables box. This is what makes it MULTIVARIATE — two or more DVs simultaneously.' },
+          { title: 'Move FertilizerType to Fixed Factor(s)',
+            body: 'Your grouping variable — three levels.' },
+          { title: 'Click Options…',
+            body: 'Tick **Descriptive statistics**, **Estimates of effect size**, **Homogeneity tests** (this gives you Box\'s M and Levene\'s per outcome). Click Continue.' },
+          { title: 'Click EM Means…',
+            body: 'Move FertilizerType into Display Means for. Tick Compare main effects with Bonferroni. Click Continue.' },
+          { title: 'Click Post Hoc…',
+            body: 'Optional: move FertilizerType into Post Hoc box, tick Tukey. This gives univariate post-hoc for each outcome. Click Continue.' },
           { title: 'Click OK',
-            body: 'SPSS produces many tables. The KEY ones in order: Box\'s Test of Equality of Covariance Matrices, Multivariate Tests (Wilks\' Λ, Pillai, etc.), Levene\'s Test of Equality of Error Variances (one per DV), Tests of Between-Subjects Effects (the univariate follow-ups, one per DV), Pairwise Comparisons.' },
-          { title: 'Read in order: Box\'s M → Multivariate Tests → Levene\'s → Univariate ANOVAs → Pairwise',
-            body: 'The hierarchy: first confirm assumptions hold; then read the multivariate omnibus to confirm "groups differ overall"; then drill down into which specific outcomes drive the difference.' },
+            body: 'SPSS produces: Between-Subjects Factors, Descriptive Statistics, Box\'s Test of Equality of Covariance Matrices, Levene\'s Test (per outcome), **Multivariate Tests** (the omnibus MANOVA — your headline), and **Tests of Between-Subjects Effects** (univariate follow-ups per outcome).' },
         ]},
 
-        { type: 'illustration', component: 'ManovaDialog',
-          caption: 'Figure 2. The Multivariate (GLM) dialog. Dependent Variables = the FIVE related outcomes simultaneously. Fixed Factor(s) = treatment_group. Options (highlighted) = where you request the homogeneity tests, adjusted means with Bonferroni pairwise, descriptives, and partial η².' },
+        { type: 'reasoning', headers: ['Setting', 'What we chose', 'Why'],
+          rows: [
+            ['Dependent Variables', 'Yield_KgPerAcre AND GrainQuality_Score', 'Two related outcomes that both matter to farmers. Correlated (r = .54) but not redundant.'],
+            ['Fixed Factor',        'FertilizerType',                          'The 3-level treatment we want to compare.'],
+            ['Options → Homogeneity', 'Ticked',                                'Gives Box\'s M for the multivariate assumption and Levene\'s per outcome.'],
+            ['Options → Effect size', 'Ticked',                                'Required for reporting partial η² on the multivariate effect.'],
+            ['EM Means → Bonferroni', 'Chosen',                                'Adjusts pairwise comparisons for the family of tests, controlling Type I error.'],
+            ['Multivariate stat to report', 'Pillai\'s Trace',                 'Most robust to Box\'s M violation and unequal N — safest headline choice.'],
+          ]},
+
+        { type: 'illustration', component: 'KiambuMANOVADialog',
+          caption: 'Figure 1. The Multivariate GLM dialog for Kiambu MANOVA. Both Yield_KgPerAcre and GrainQuality_Score in the Dependent Variables box (highlighted gold — this is what makes it MULTIVARIATE). FertilizerType as Fixed Factor. Options button highlighted for the Box\'s M homogeneity test.' },
+
+        { type: 'illustration', component: 'KiambuMANOVAOutput',
+          caption: 'Figure 2. MANOVA output. Multivariate Tests table (top): Pillai\'s Trace = .384, F(4, 354) = 21.53, p < .001, partial η² = .196 (LARGE multivariate effect) — the headline result. Wilks, Hotelling, and Roy all agree (all p < .001). Univariate follow-ups (bottom): Yield_KgPerAcre F(2, 177) = 22.40, p < .001, partial η² = .202; GrainQuality_Score F(2, 177) = 15.86, p < .001, partial η² = .152. Both outcomes contribute — use Bonferroni-adjusted α = .025 for each.' },
       ],
     },
 
-    /* ════════════════════ 5. READING OUTPUT ════════════════════ */
+    /* ════════════════════ 7. READING THE OUTPUT ════════════════════ */
     {
       id: 'reading-output',
-      title: 'Reading the MANOVA output',
+      title: 'Reading the MANOVA output in the right order',
       blocks: [
-        { type: 'heading', level: 2, text: 'Read top-down: assumptions → multivariate → univariate' },
-
-        { type: 'illustration', component: 'ManovaOutput',
-          caption: 'Figure 3. The MANOVA output flow. (1) Box\'s M tests homogeneity of covariance matrices — Sig. should be > .001 (Box\'s is sensitive; use a stricter threshold). (2) Multivariate Tests reports four equivalent statistics; Wilks\' Λ is the default to report. (3) Levene\'s Test (one row per outcome) checks univariate homogeneity. (4) Tests of Between-Subjects Effects is the univariate follow-up (one ANOVA per outcome). (5) Pairwise Comparisons gives Bonferroni-adjusted contrasts per outcome.' },
-
-        { type: 'heading', level: 3, text: 'Step 1 — Box\'s Test of Equality of Covariance Matrices' },
+        { type: 'heading', level: 2, text: 'The correct sequence' },
 
         { type: 'paragraph', text:
-          'Tests whether the variance-covariance structure of the outcomes is the same across groups (the multivariate analog of Levene\'s test). Box\'s M is extremely sensitive — use a STRICTER threshold (Sig. > .001 = assumption met, not the usual .05). If Sig. ≤ .001, the assumption is violated → report **Pillai\'s Trace** instead of Wilks\' Λ (Pillai is robust to this violation).' },
+          'MANOVA output is inherently multi-layered. Read it in a strict order to avoid mis-interpretation:' },
 
-        { type: 'heading', level: 3, text: 'Step 2 — Multivariate Tests (the omnibus)' },
+        { type: 'steps', steps: [
+          { title: 'Step 1 — Box\'s M Test of Equality of Covariance Matrices',
+            body: 'Assumption check. If Box\'s M has p > .001 → homogeneity of covariance is OK. If p < .001 → violated; make sure to report Pillai\'s Trace as your headline (it is robust to this).' },
+          { title: 'Step 2 — Multivariate Tests table (the OMNIBUS test)',
+            body: 'THE headline. Look at the FertilizerType row. Report Pillai\'s Trace with its F, df, p, and partial η². If p > .05, stop — the groups do not differ on the joint outcome bundle, and no follow-ups are needed.' },
+          { title: 'Step 3 — Levene\'s Test (per outcome)',
+            body: 'Assumption check for the univariate follow-ups. Should be non-significant (p > .05) for each outcome.' },
+          { title: 'Step 4 — Tests of Between-Subjects Effects (UNIVARIATE follow-ups)',
+            body: 'ONLY if the multivariate test in Step 2 was significant. Each row is a one-way ANOVA on one outcome. Use **Bonferroni-adjusted α = .05 / k outcomes** — for 2 outcomes, α = .025. Identify WHICH outcomes drive the multivariate effect.' },
+          { title: 'Step 5 — Estimated Marginal Means / Pairwise comparisons',
+            body: 'For each univariate outcome that is significant, look at the pairwise comparisons (Bonferroni-adjusted) to see which pairs of groups differ.' },
+        ]},
 
-        { type: 'comparison',
-          headers: ['Column', 'What it shows'],
-          rows: [
-            ['**Effect**',           'The factor (e.g. treatment_group). Intercept row usually ignored.'],
-            ['**Value**',             'The multivariate statistic — Wilks\' Λ, Pillai\'s Trace, etc. Different scales but all test the same null hypothesis.'],
-            ['**F**',                 'Approximate F derived from the statistic. Compare across rows — should be similar.'],
-            ['**Hypothesis df, Error df**', 'Degrees of freedom. Larger Hypothesis df = more outcomes × (more groups − 1).'],
-            ['**Sig.**',              'p-value. If < .05, groups differ on the multivariate combination of outcomes.'],
-            ['**Partial Eta Squared**', 'Effect size. .01 small, .06 medium, .14 large — same benchmarks as ANOVA.'],
-          ]},
-
-        { type: 'callout', tone: 'gold', title: 'Which row to report',
-          body: 'Standard practice: **Wilks\' Lambda** unless Box\'s M is significant (use Pillai\'s Trace instead). Report: "There was a significant multivariate effect of treatment on the combined outcomes, Wilks\' Λ = .73, F(10, 166) = 2.85, p = .003, partial η² = .15." All four rows should give similar p-values; large divergence indicates assumption problems.' },
-
-        { type: 'heading', level: 3, text: 'Step 3 — Univariate follow-ups (only if MANOVA is significant)' },
-
-        { type: 'paragraph', text:
-          'If the multivariate test is non-significant, STOP — there is no multivariate group effect, and looking at individual outcomes is fishing. If significant, proceed to the **Tests of Between-Subjects Effects** table, which reports one ANOVA per outcome. CRUCIAL: apply Bonferroni correction to the alpha — divide .05 by the number of outcomes (e.g. .05 / 5 = .01) and only treat outcome p-values below that threshold as significant.' },
+        { type: 'callout', tone: 'warning', title: 'Bonferroni-adjust the univariate follow-ups',
+          body: 'A significant MANOVA does NOT license you to interpret every univariate follow-up at α = .05. If you run k separate univariate ANOVAs after MANOVA, use α = .05 / k for each. For Kiambu with 2 outcomes: α = .025. Both Yield (p < .001) and Quality (p < .001) beat that stricter threshold in our example, so both are contributing to the multivariate difference.' },
 
         { type: 'reveal',
-          prompt: 'Your MANOVA shows: Wilks\' Λ = .73, F(10, 166) = 2.85, p = .003. Box\'s M Sig. = .25. The univariate Tests of Between-Subjects Effects gives: anxiety p = .003, depression p = .04, stress p = .12, self-efficacy p = .008, avoidance p = .15. With 5 outcomes, what conclusions are defensible?',
-          answer: '**Box\'s M (p = .25) confirms homogeneity of covariance matrices — Wilks\' Λ is appropriate. The multivariate effect is significant (p = .003, partial η² ≈ .15, large), so the groups differ on the joint outcome profile.** With 5 outcomes, the Bonferroni-adjusted α is .05 / 5 = .01. Outcomes that meet this stricter threshold: anxiety (p = .003 ✓) and self-efficacy (p = .008 ✓). Depression (p = .04) and stress (p = .12) and avoidance (p = .15) do NOT survive Bonferroni correction. Defensible conclusions: "the multivariate effect is driven primarily by group differences in anxiety and self-efficacy". Depression\'s univariate p < .05 is suggestive but not robust to multiple-comparison correction; mention it cautiously as exploratory.' },
+          prompt: 'You get: Box\'s M p = .045 (>.001, OK). Pillai p < .001. Yield univariate p < .001 (< .025). Quality univariate p = .06 (> .025). How do you interpret?',
+          answer: '**The multivariate effect is real, and it is driven primarily by yield rather than quality.** Report the multivariate MANOVA (Pillai) as significant — the fertilizer types differ on the joint (yield, quality) bundle. Follow-up ANOVAs indicate that YIELD is where the difference lies (p < .001, well below Bonferroni-adjusted α = .025). Quality does NOT differ significantly across groups after Bonferroni correction (p = .06 > .025). Practically, this means the three fertilizer types produce different amounts of maize, but similar levels of quality — a useful nuanced finding you would miss if you had only run a single ANOVA on yield or a single ANOVA on quality without the multivariate framework.' },
       ],
     },
 
-    /* ════════════════════ 6. WORKED EXAMPLE ════════════════════ */
+    /* ════════════════════ 8. WORKED EXAMPLE ════════════════════ */
     {
       id: 'worked-example',
-      title: 'Worked example — three treatments on five outcomes',
+      title: 'Worked example — Kiambu MANOVA',
       blocks: [
-        { type: 'workedExample', title: 'A PhD study at Egerton University',
+        { type: 'workedExample', title: 'A PhD study in agricultural science at Egerton',
           body: [
             { label: 'The research question',
-              text: 'Do three treatments (CBT, Peer Support, Control) differ in their effect on the multivariate profile of psychological outcomes (anxiety, depression, stress, self-efficacy, exam avoidance) in 90 university students with exam anxiety?' },
+              text: 'Do the three fertilizer types (DAP, CAN, Organic) differ on the JOINT combination of maize yield and grain quality?' },
             { label: 'The data',
-              text: 'n = 90 students (30 per condition). Factor: **treatment_group** (1 = CBT, 2 = Peer Support, 3 = Control). Outcomes (all continuous, post-treatment): gad7_anxiety, phq9_depression, pss10_stress, self_efficacy, exam_avoidance.' },
-            { label: 'Step 1 — Justify MANOVA over five separate ANOVAs',
-              text: 'The five outcomes are conceptually related (all psychological wellbeing measures), correlations among them range from .42 to .68 (moderate, ideal for MANOVA), and running five separate ANOVAs at α = .05 would inflate family-wise error to ~23%.' },
-            { label: 'Step 2 — Run MANOVA',
-              text: 'Analyze → General Linear Model → Multivariate. Dependent Variables = all five outcomes. Fixed Factor = treatment_group. Options tick Descriptive statistics, Estimates of effect size, Homogeneity tests; Display Means for treatment_group with Bonferroni pairwise. OK.' },
-            { label: 'Step 3 — Check Box\'s M',
-              text: 'Box\'s M = 28.6, F = 1.34, Sig. = .14. Non-significant (well above .001 threshold) — homogeneity of covariance matrices met → report Wilks\' Λ.' },
-            { label: 'Step 4 — Read the multivariate test',
-              text: 'Wilks\' Λ = .73, F(10, 166) = 2.85, p = .003, partial η² = .147 (large multivariate effect). Significant — proceed to univariate follow-ups.' },
-            { label: 'Step 5 — Check Levene\'s per outcome',
-              text: 'All five Levene\'s tests p > .15. Univariate homogeneity OK.' },
-            { label: 'Step 6 — Univariate Tests of Between-Subjects Effects (Bonferroni α = .01)',
-              text: 'anxiety F(2, 87) = 6.4, p = .003, partial η² = .128 (✓ survives Bonferroni); self-efficacy F(2, 87) = 5.1, p = .008, partial η² = .105 (✓); depression F(2, 87) = 3.4, p = .04, partial η² = .072 (× exploratory); stress F(2, 87) = 2.2, p = .12 (×); avoidance F(2, 87) = 1.9, p = .15 (×).' },
-            { label: 'Step 7 — Bonferroni pairwise on the significant outcomes',
-              text: 'For anxiety: CBT vs Control p < .001 (CBT lower); Peer vs Control p = .03 (Peer lower); CBT vs Peer p = .18 (n.s.). For self-efficacy: CBT vs Control p = .002 (CBT higher); Peer vs Control p = .09; CBT vs Peer p = .12.' },
-            { label: 'Step 8 — APA write-up',
-              text: '*"A one-way MANOVA was conducted to compare three treatments (CBT, n = 30; Peer Support, n = 30; Control, n = 30) on the multivariate profile of five psychological outcomes — GAD-7 anxiety, PHQ-9 depression, PSS-10 stress, study self-efficacy, and exam avoidance — in 90 university students with exam anxiety at Egerton University. Box\'s M test confirmed homogeneity of covariance matrices, M = 28.6, F = 1.34, p = .14. There was a significant multivariate effect of treatment on the combined outcomes, Wilks\' Λ = .73, F(10, 166) = 2.85, p = .003, partial η² = .15, indicating a large multivariate effect. With α = .05 / 5 = .01 (Bonferroni adjusted) for the univariate follow-ups, treatment significantly affected anxiety (F(2, 87) = 6.4, p = .003, partial η² = .13) and self-efficacy (F(2, 87) = 5.1, p = .008, partial η² = .11); depression showed a non-Bonferroni-significant trend (p = .04). Bonferroni-corrected pairwise comparisons indicated that CBT participants reported significantly lower anxiety than Controls (mean difference = −4.2, p < .001) and significantly higher self-efficacy than Controls (mean difference = +5.1, p = .002); CBT and Peer Support did not differ significantly on either outcome. The findings suggest CBT produces broad improvement across the anxiety-and-confidence domain, while peer support may have a narrower effect."*' },
+              text: 'N = 180 Kiambu smallholder farms. FertilizerType: DAP (n = 60), CAN (n = 60), Organic (n = 60). Outcome 1: Yield_KgPerAcre (Scale). Outcome 2: GrainQuality_Score (0–100 index). Correlation between outcomes: r = .54.' },
+            { label: 'Step 1 — Check assumptions',
+              text: 'Box\'s M = 12.34, p = .058 (> .001) → covariance homogeneity OK. Levene\'s for Yield p = .134; for Quality p = .208 → equal variances per outcome. Univariate normality checks per outcome per group OK (skewness < |1|).' },
+            { label: 'Step 2 — Run the MANOVA',
+              text: 'Analyze → GLM → Multivariate → Dependent Variables: Yield_KgPerAcre + GrainQuality_Score → Fixed Factor: FertilizerType → Options: Descriptive, Effect size, Homogeneity → EM Means: FertilizerType, Compare (Bonferroni) → OK.' },
+            { label: 'Step 3 — Multivariate omnibus test (Pillai)',
+              text: 'Pillai\'s Trace = .384, F(4, 354) = 21.53, p < .001, partial η² = .196 (LARGE). Wilks\' Λ = .624, F(4, 352) = 22.87, p < .001. Hotelling\'s Trace = .592, F(4, 350) = 24.19, p < .001. Roy\'s Largest Root = .580, F(2, 177) = 51.35, p < .001. All four statistics agree.' },
+            { label: 'Step 4 — Univariate follow-ups (Bonferroni α = .025)',
+              text: 'Yield_KgPerAcre: F(2, 177) = 22.40, p < .001, partial η² = .202 (LARGE). GrainQuality_Score: F(2, 177) = 15.86, p < .001, partial η² = .152 (LARGE). BOTH outcomes contribute significantly to the multivariate effect.' },
+            { label: 'Step 5 — Group means',
+              text: 'DAP: Yield = 1840, Quality = 78. CAN: Yield = 1620, Quality = 72. Organic: Yield = 1450, Quality = 74. Bonferroni pairwise on Yield: all three pairs differ (p < .001). Bonferroni pairwise on Quality: DAP > CAN (p < .001); DAP vs Organic (p = .028); CAN vs Organic (p = .17, ns).' },
+            { label: 'Step 6 — APA write-up',
+              text: '*"A one-way multivariate analysis of variance was conducted to examine the effect of fertilizer type (DAP, CAN, Organic) on the joint outcome of maize yield (kg/acre) and grain quality (0–100 index) among 180 Kiambu smallholder farms. Box\'s M test indicated homogeneity of covariance matrices (M = 12.34, p = .058), and Levene\'s tests indicated homogeneity of variance for both outcomes (both p > .13). There was a significant multivariate effect of fertilizer type, Pillai\'s Trace = .384, F(4, 354) = 21.53, p < .001, partial η² = .20, a large effect. Follow-up univariate ANOVAs (Bonferroni-adjusted α = .025) revealed significant effects on both outcomes: yield, F(2, 177) = 22.40, p < .001, partial η² = .20, and grain quality, F(2, 177) = 15.86, p < .001, partial η² = .15. DAP produced the highest yield (M = 1,840 kg/acre) and quality (M = 78/100), followed by CAN (1,620 kg/acre; 72/100) and Organic (1,450 kg/acre; 74/100). Bonferroni pairwise comparisons indicated that on yield, all three fertilizer types differed significantly (all p < .001); on grain quality, DAP scored significantly higher than CAN (p < .001) and Organic (p = .028), while CAN and Organic did not differ significantly (p = .17). Together, DAP was superior on both dimensions of harvest success."*' },
           ]},
       ],
     },
 
-    /* ════════════════════ 7. WRITING IT UP ════════════════════ */
+    /* ════════════════════ 9. WRITING IT UP ════════════════════ */
     {
       id: 'writing',
       title: 'Writing MANOVA up for Chapter 4',
@@ -231,151 +294,135 @@ export const MANOVA_LESSON = {
         { type: 'heading', level: 2, text: 'The standard APA template' },
 
         { type: 'apa', text:
-          'A one-way MANOVA was conducted to compare [k] [groups description] on the multivariate profile of [list outcomes] in [n] [participants]. Box\'s M test [confirmed / indicated a violation of] homogeneity of covariance matrices, M = [value], F = [value], p = [value]. There was a [significant / non-significant] multivariate effect of [factor] on the combined outcomes, [Wilks\' Λ / Pillai\'s Trace] = [value], F([df1], [df2]) = [value], p = [value], partial η² = [value], indicating a [small / medium / large] multivariate effect. [If significant:] With Bonferroni-adjusted α = .05 / [number of outcomes] = [adjusted α] for the univariate follow-ups, [list which outcomes survived correction with their F, df, p, partial η², and which did not]. Bonferroni-corrected pairwise comparisons revealed [list significant pairwise contrasts with adjusted mean differences]. The findings suggest [substantive interpretation].' },
+          'A one-way multivariate analysis of variance was conducted to examine the effect of [FACTOR] on the joint outcome of [OUTCOME 1] and [OUTCOME 2] [and OUTCOME 3…] among [N] [respondents]. Box\'s M test [was/was not] significant at α = .001, indicating [homogeneity/heterogeneity] of covariance matrices. Levene\'s tests [confirmed / did not confirm] univariate homogeneity of variance for each outcome. There was a [significant/non-significant] multivariate effect of [factor], Pillai\'s Trace = [.XX], F([df]) = [F], p = [p], partial η² = [.XX]. Follow-up univariate ANOVAs (Bonferroni-adjusted α = [.XX]) revealed [pattern per outcome, F, df, p, partial η²]. [Pairwise comparisons for significant outcomes.]' },
 
-        { type: 'callout', tone: 'success', title: 'Eight things every MANOVA write-up must include',
-          body: '**1.** Test name and the justification for multivariate over separate ANOVAs (correlated outcomes, family-wise error control). **2.** Sample sizes per group. **3.** Box\'s M test result. **4.** Multivariate test statistic (Wilks\' Λ or Pillai\'s) with F, dfs, p, partial η². **5.** Bonferroni-adjusted α for univariate follow-ups (.05 / number of outcomes). **6.** Univariate results per outcome — clearly flag which survive Bonferroni and which are exploratory. **7.** Bonferroni-corrected pairwise comparisons. **8.** Substantive interpretation of the multivariate pattern.' },
-
-        { type: 'reviewerComments',
-          items: [
-            { q: 'Why MANOVA rather than five separate one-way ANOVAs?',
-              a: 'Two reasons. First, running five independent ANOVAs at α = .05 would inflate the family-wise Type I error rate to approximately 23%. MANOVA performs ONE omnibus test at α = .05, preserving family-wise error. Second, the five outcomes were conceptually related (all psychological wellbeing measures) and moderately correlated (r = .42 to .68), so separate ANOVAs would have ignored the multivariate structure of the outcome space. MANOVA exploits that structure, producing a more powerful test of overall group difference and a clearer interpretation of the multivariate effect.' },
-            { q: 'Did you check the assumption of homogeneity of covariance matrices?',
-              a: 'Yes. Box\'s M test was non-significant, M = 28.6, F = 1.34, p = .14 (using the recommended stricter threshold of p > .001 for this notoriously sensitive test). This justified the use of Wilks\' Lambda as the multivariate test statistic. Had Box\'s M been significant, I would have reported Pillai\'s Trace instead, which is more robust to the violation.' },
-            { q: 'Why apply Bonferroni correction to the univariate follow-ups when MANOVA already controls family-wise error?',
-              a: 'MANOVA controls the family-wise error rate for the OMNIBUS test — the joint hypothesis that all groups are equal on all outcomes. Once that omnibus is rejected, the univariate follow-ups answer separate questions ("which outcomes drive the multivariate effect?") and the family-wise rate must be re-controlled across those follow-ups. The standard correction is α / number of outcomes (here .05 / 5 = .01). Without this, a significant MANOVA followed by five uncorrected ANOVAs would re-introduce the inflated false-positive rate that MANOVA was used to avoid.' },
-          ]},
+        { type: 'callout', tone: 'success', title: 'Five things every MANOVA write-up needs',
+          body: '**1.** All outcomes named, plus sample size per group. **2.** Box\'s M and Levene\'s results (assumption evidence). **3.** Multivariate test statistic (Pillai\'s Trace) with F, df, p, partial η². **4.** Univariate follow-ups per outcome with Bonferroni-adjusted α. **5.** Pairwise comparisons and group means for each significant univariate outcome. Examiners look for all five.' },
       ],
     },
 
-    /* ════════════════════ 8. MISTAKES ════════════════════ */
+    /* ════════════════════ 10. COMMON MISTAKES ════════════════════ */
     {
       id: 'mistakes',
-      title: 'Five common MANOVA mistakes',
+      title: 'Common MANOVA mistakes',
       blocks: [
         { type: 'mistake',
-          title: 'Mistake 1 — Running MANOVA on unrelated outcomes',
-          body: 'You threw anxiety, monthly income, and height-in-cm into a MANOVA. The multivariate test runs, but the result is meaningless — these outcomes do not share a multivariate construct.',
-          fix: 'MANOVA outcomes should be CONCEPTUALLY RELATED (all psychological measures, all subject scores, all physiological markers). If your outcomes belong to different domains, use SEPARATE univariate tests with Bonferroni correction across them, not MANOVA.' },
+          title: 'Mistake 1 — Interpreting univariate follow-ups at α = .05 after MANOVA',
+          body: 'You run MANOVA (Pillai p < .001), then interpret each univariate ANOVA at α = .05. But you have inflated the family-wise error rate by running multiple univariate tests.',
+          fix: 'ALWAYS Bonferroni-adjust the univariate follow-ups. For k outcomes, use α = .05 / k. For 2 outcomes, α = .025. For 5 outcomes, α = .01. Report both the omnibus MANOVA AND the adjusted α used for follow-ups.' },
 
         { type: 'mistake',
-          title: 'Mistake 2 — Skipping the multivariate test and going straight to ANOVAs',
-          body: 'You ran MANOVA but only reported the five univariate Tests of Between-Subjects Effects. You ignored Wilks\' Lambda entirely. You\'ve effectively done the bad thing (five separate ANOVAs) and pretended you used MANOVA.',
-          fix: 'Wilks\' Lambda (or Pillai\'s Trace) IS the MANOVA result. Report it FIRST as the omnibus test. Only proceed to univariate follow-ups if the multivariate test is significant. Univariate ANOVAs without the multivariate omnibus is not MANOVA.' },
+          title: 'Mistake 2 — Reporting Roy\'s Largest Root as the headline',
+          body: 'You see Roy\'s Largest Root gives the smallest p-value and reasonably think it must be the "best". You report it as your primary result.',
+          fix: 'Roy\'s Largest Root is the LEAST ROBUST of the four multivariate statistics — it is powerful only when a single dimension dominates and is easily biased by assumption violations. Report **Pillai\'s Trace** as your headline. It is the most robust and is what disciplinary journals expect.' },
 
         { type: 'mistake',
-          title: 'Mistake 3 — Ignoring Bonferroni correction in the univariate follow-ups',
-          body: 'Your MANOVA is significant. You report the five univariate ANOVAs and call any p < .05 "significant", without correcting the alpha for multiple comparisons. You\'ve re-introduced the Type I error inflation MANOVA was supposed to prevent.',
-          fix: 'For the univariate follow-ups after a significant MANOVA, use Bonferroni-adjusted α = .05 / number of outcomes. With 5 outcomes that\'s α = .01. Only treat outcome p-values below the adjusted threshold as robust; flag outcomes with .01 < p < .05 as exploratory or marginal.' },
+          title: 'Mistake 3 — Using MANOVA when outcomes are redundant',
+          body: 'You have three outcomes: KCSE_Total, KCSE_Math, and KCSE_English. But KCSE_Total = KCSE_Math + KCSE_English + other subjects, so it is redundant with the two subject scores.',
+          fix: 'Check the correlation matrix of your outcomes BEFORE running MANOVA. If any two correlate > 0.9, they measure essentially the same construct — drop one, or use factor analysis to combine them. Ideal MANOVA outcomes correlate 0.3–0.7 with each other.' },
 
         { type: 'mistake',
-          title: 'Mistake 4 — Using Wilks\' Lambda when Box\'s M is significant',
-          body: 'Box\'s M is significant (p < .001), meaning the covariance structure of your outcomes differs across groups. You reported Wilks\' Λ anyway. Wilks\' is sensitive to this violation and your p-value is biased.',
-          fix: 'When Box\'s M is significant (use p > .001 as the threshold — Box\'s M is famously over-sensitive), report **Pillai\'s Trace** instead. Pillai\'s is the most robust multivariate statistic to violations of homogeneity of covariance matrices. Report Pillai\'s value, F, df, p, partial η² in your write-up.' },
-
-        { type: 'mistake',
-          title: 'Mistake 5 — Too many outcomes per group',
-          body: 'You ran MANOVA on 12 outcomes with 15 cases per group. With more outcomes than cases-per-group, MANOVA estimates become unstable and the test loses power dramatically.',
-          fix: 'Rule of thumb: at least 20 cases per group AND more cases per group than the number of outcomes. With 12 outcomes you need at least 20 cases per group (ideally 30+). If your sample is small, reduce the outcome set to the most theoretically central 3-5 measures, or run separate univariate tests with Bonferroni instead.' },
+          title: 'Mistake 4 — Skipping Box\'s M and Levene\'s in the write-up',
+          body: 'You run MANOVA, get significant Pillai, report it and move on. But you never mention the assumption checks.',
+          fix: 'The MANOVA APA template REQUIRES assumption evidence. Report Box\'s M with its p-value (interpreted at α = .001) and Levene\'s per outcome. If either is violated, use Pillai\'s Trace (robust) and disclose the violation in your Limitations. Skipping this is one of the fastest ways to get returned by a reviewer.' },
       ],
     },
 
-    /* ════════════════════ 9. SUMMARY ════════════════════ */
+    /* ════════════════════ 11. SUMMARY ════════════════════ */
     {
       id: 'summary',
       title: 'Lesson summary',
       blocks: [
         { type: 'summary', items: [
-          'MANOVA compares groups on a SET of related continuous outcomes simultaneously — one omnibus multivariate test, then univariate follow-ups.',
-          'Use when: 2+ groups, 2+ conceptually related continuous outcomes (correlations roughly .3 to .7), adequate sample size (≥ 20 per group AND > number of outcomes).',
-          'The math: MANOVA finds the optimally weighted combination of outcomes that maximises group separation, then tests significance on that combination.',
-          'Run via Analyze → General Linear Model → Multivariate → multiple outcomes to Dependent Variables, factor to Fixed Factor(s), Options tick everything (Bonferroni pairwise, descriptives, effect size, homogeneity tests) → OK.',
-          'Read in order: Box\'s M → Multivariate Tests (Wilks\' Λ or Pillai\'s) → Levene\'s per outcome → Univariate Tests of Between-Subjects Effects → Pairwise Comparisons.',
-          'If Box\'s M Sig. > .001 → use Wilks\' Λ. If Box\'s M Sig. ≤ .001 → use Pillai\'s Trace (more robust).',
-          'If multivariate omnibus is significant → univariate ANOVAs with Bonferroni-adjusted α = .05 / number of outcomes. If non-significant → STOP (no fishing for individual outcomes).',
-          'Effect size: partial η² for both multivariate and univariate effects. Benchmarks: .01 small, .06 medium, .14 large.',
-          'Report: Box\'s M, multivariate statistic with F/df/p/partial η², Bonferroni α, univariate results clearly flagged, pairwise contrasts, substantive interpretation.',
-          'Five mistakes to avoid: unrelated outcomes, skipping multivariate test, no Bonferroni on follow-ups, ignoring Box\'s M, too many outcomes per group.',
+          'MANOVA compares groups on TWO OR MORE continuous outcomes simultaneously — one omnibus multivariate test instead of many separate ANOVAs.',
+          'Controls family-wise error, uses the joint distribution of outcomes, and can detect effects that only appear multivariately.',
+          'Menu: Analyze → General Linear Model → Multivariate. Both/all outcomes into Dependent Variables. Grouping factor into Fixed Factor(s).',
+          'Four multivariate statistics: Pillai\'s Trace (report this — most robust), Wilks\' Lambda, Hotelling\'s Trace, Roy\'s Largest Root.',
+          'Assumptions: multivariate normality, homogeneity of covariance matrices (Box\'s M at α = .001), independence.',
+          'Read the output IN ORDER: Box\'s M → Multivariate Tests (Pillai) → Levene\'s per outcome → Univariate follow-ups (Bonferroni α = .05 / k) → Pairwise for significant outcomes.',
+          'Effect size = partial η² from Pillai. Same benchmarks: .01 small, .06 medium, .14 large.',
+          'Kiambu example: FertilizerType Pillai = .384, F(4, 354) = 21.53, p < .001, partial η² = .20. Both Yield AND Quality contribute significantly after Bonferroni correction.',
+          'Avoid the four mistakes: unadjusted univariate follow-ups, reporting Roy instead of Pillai, using redundant outcomes, skipping assumption reporting.',
         ]},
 
         { type: 'callout', tone: 'gold', title: 'Up next',
-          body: 'In **Lesson 3: Mixed ANOVA** we combine between-subjects and within-subjects factors in a single analysis — e.g. comparing three treatment groups across three time points on the same participants.' },
+          body: 'In **Lesson 3: Mixed ANOVA** — combining a between-subjects factor with a within-subjects (repeated) factor in one model. The workhorse for intervention studies with repeated measurement: does the treatment group\'s trajectory over time differ from the control group\'s?' },
 
         { type: 'paragraph', text:
-          'Before moving on, find a dataset with 2-3 groups and 3+ related continuous outcomes. Run MANOVA, check Box\'s M, report Wilks\' Λ (or Pillai\'s if Box\'s M is significant), do Bonferroni-adjusted univariate follow-ups, write the APA paragraph. Then come back for the knowledge check.' },
+          'Before moving on, find a dataset with a grouping variable and two related continuous outcomes. Run MANOVA in SPSS. Check Box\'s M. Report Pillai. Follow up with Bonferroni-adjusted univariate ANOVAs. Then come back for the knowledge check.' },
       ],
     },
 
-    /* ════════════════════ 10. KNOWLEDGE CHECK ════════════════════ */
+    /* ════════════════════ 12. KNOWLEDGE CHECK ════════════════════ */
     {
       id: 'knowledge-check',
       title: 'Knowledge check',
       blocks: [
         { type: 'check',
-          question: 'When should you use MANOVA instead of running several separate one-way ANOVAs?',
+          question: 'You have 3 groups and want to compare them on 4 related outcomes. Why prefer MANOVA to running 4 separate one-way ANOVAs?',
           choices: [
-            'Whenever you have multiple outcomes',
-            'When you have 2+ groups AND 2+ CONCEPTUALLY RELATED continuous outcomes that are moderately correlated — to control family-wise error AND exploit the multivariate structure',
-            'When your sample size is small',
-            'When normality is violated',
+            'MANOVA is easier to compute',
+            'MANOVA controls family-wise Type I error AND uses the joint distribution of outcomes, potentially detecting differences invisible to separate ANOVAs',
+            'MANOVA needs fewer participants',
+            'MANOVA produces smaller p-values',
           ],
           answer: 1,
-          explanation: 'Two motivations: (1) family-wise error control — five separate ANOVAs at α = .05 inflate cumulative false-positive risk to ~23%; MANOVA performs ONE omnibus test at α = .05. (2) Multivariate structure — correlated outcomes share variance; MANOVA exploits that to find effects that may be invisible to univariate tests. Outcomes must be conceptually related (all psychological measures, all subject scores). Unrelated outcomes belong in separate univariate tests with Bonferroni correction.' },
+          explanation: '4 separate ANOVAs at α = .05 inflate the family-wise error rate to nearly 19%. MANOVA runs ONE omnibus test at α = .05, controlling family-wise error. It also analyses the joint distribution of outcomes, so it can detect group differences that are only visible multivariately.' },
 
         { type: 'check',
-          question: 'Your Box\'s M test returns Sig. = .03. Which multivariate statistic should you report?',
+          question: 'Which multivariate test statistic should you report as your headline result, and why?',
           choices: [
-            'Wilks\' Lambda — it\'s always the default',
-            'Pillai\'s Trace — Box\'s M is significant (using p < .001 as the threshold for this very sensitive test, p = .03 is actually not significant; but if it were significant Pillai\'s is the most robust)',
-            'Neither — abandon MANOVA',
-            'All four equally',
+            'Roy\'s Largest Root, because it is often the most powerful',
+            'Pillai\'s Trace, because it is the MOST ROBUST to violations of assumptions and unequal group sizes',
+            'Wilks\' Lambda, because it is the oldest',
+            'Whichever gives the smallest p-value',
           ],
           answer: 1,
-          explanation: 'Box\'s M is notoriously over-sensitive, so the convention is to use p > .001 as the threshold (NOT the usual .05). p = .03 is actually above .001, so Box\'s M is fine → Wilks\' Λ is OK. The principle stands though: when Box\'s M IS significant (p ≤ .001), switch to Pillai\'s Trace — it\'s the most robust of the four multivariate statistics to violations of covariance homogeneity. Wilks\' Λ is the default; Pillai\'s is the fallback when assumptions are violated.' },
+          explanation: 'Pillai\'s Trace is the accepted headline for MANOVA in most disciplines because it is robust to violations of Box\'s M homogeneity assumption and to unequal cell sizes. Roy\'s Largest Root is the least robust; using it as headline is a common beginner mistake. Report Pillai and (optionally) note the others in parentheses.' },
 
         { type: 'check',
-          question: 'Your MANOVA is significant: Wilks\' Λ = .73, F(10, 166) = 2.85, p = .003. You have 5 outcomes. What is the appropriate alpha threshold for the univariate follow-ups?',
+          question: 'Your MANOVA on 3 outcomes gives Pillai p < .001. You now run 3 follow-up univariate ANOVAs. What α should you use for each?',
           choices: [
-            '.05 — MANOVA already controlled error',
-            '.05 / 5 = .01 (Bonferroni-corrected) — to re-control family-wise error across the five univariate tests',
-            '.10 — relax because you used MANOVA first',
+            '.05, because MANOVA already controlled it',
+            '.05 / 3 = approximately .017 (Bonferroni-adjusted)',
             '.001',
+            '.10, to be safe',
           ],
           answer: 1,
-          explanation: 'MANOVA controls family-wise error for the JOINT omnibus null. The univariate follow-ups answer different sub-questions ("which outcomes drive the effect?") and the family-wise rate must be re-controlled across them. Bonferroni-adjusted α = .05 / number of outcomes = .05 / 5 = .01. Without this correction, you re-introduce the very inflation MANOVA was supposed to prevent.' },
+          explanation: 'After a significant MANOVA, univariate follow-ups need Bonferroni adjustment: α = .05 / k where k is the number of outcomes. For 3 outcomes, α = .017. Some references round to α = .02. Using .05 for each undoes the family-wise error control the MANOVA gave you.' },
 
         { type: 'check',
-          question: 'Your MANOVA returns Wilks\' Λ = .92, F(10, 166) = 0.71, p = .71 (non-significant). What should you do next?',
+          question: 'Box\'s M test comes back with p = .045. What do you do?',
           choices: [
-            'Run all five univariate ANOVAs anyway',
-            'STOP — the multivariate omnibus is non-significant, so there is no overall multivariate group effect. Looking at individual outcomes is fishing and inflates Type I error',
-            'Switch to Pillai\'s Trace',
-            'Increase your sample size',
+            'Panic; MANOVA cannot be used',
+            'Note that Box\'s M is oversensitive and normally interpreted at α = .001; p = .045 is well above that threshold, so assumption is met. Proceed with MANOVA as usual.',
+            'Switch to Roy\'s Largest Root',
+            'Reduce the sample size',
           ],
           answer: 1,
-          explanation: 'A non-significant multivariate omnibus means there is no detectable group effect on the joint outcome profile. Running univariate ANOVAs anyway is fishing — you\'re likely to stumble on one "significant" outcome by chance (with 5 tests at α = .05, ~23% chance of at least one false positive). The disciplined response: report the non-significant MANOVA, do not proceed to univariate follow-ups, and discuss in your limitations.' },
+          explanation: 'Box\'s M is famously oversensitive, especially with large samples. The accepted convention is to interpret it at α = .001, not .05. A p-value of .045 is comfortably above .001, so the homogeneity assumption is met. Even if it were violated (p < .001), the fix is to report Pillai\'s Trace (robust) rather than abandon MANOVA.' },
 
         { type: 'check',
-          question: 'What does partial η² = .15 for a multivariate MANOVA effect mean?',
+          question: 'When are the outcomes for MANOVA "too correlated"?',
           choices: [
-            '15% of cases are in the largest group',
-            '15% of the variance in the multivariate combination of outcomes is accounted for by group membership — a LARGE effect (above the .14 Cohen large-effect benchmark for ANOVA family)',
-            '15% chance of a Type I error',
-            'The model needs 15 more cases',
+            'Correlations above 0.3',
+            'Correlations above 0.9 — the outcomes measure essentially the same construct; drop one or combine',
+            'Any correlation at all',
+            'Correlations are irrelevant',
           ],
           answer: 1,
-          explanation: 'Partial η² is the proportion of variance in the multivariate combination of outcomes attributable to the factor, after accounting for other sources. Cohen\'s benchmarks (same as ANOVA): .01 small, .06 medium, .14 large. Partial η² = .15 is solidly in the large range — a substantively meaningful multivariate effect. Always report partial η² alongside Wilks\' Λ / F / p.' },
+          explanation: 'Ideal MANOVA outcomes correlate 0.3–0.7 — related but not redundant. If any two correlate above 0.9 they measure essentially the same construct; keeping both wastes degrees of freedom and can cause multicollinearity issues. Drop one, or combine into a composite via factor analysis before running MANOVA.' },
 
         { type: 'check',
-          question: 'Which sentence is the most professional MANOVA report?',
+          question: 'Your output shows: Pillai p < .001. Univariate: Yield p < .001, Quality p = .09. Using Bonferroni α = .025 for 2 outcomes, how do you write this up?',
           choices: [
-            '"MANOVA was significant."',
-            '"All five outcomes differed between groups."',
-            '"A one-way MANOVA showed groups differed on the combined outcomes, Wilks\' Λ = .73, F(10, 166) = 2.85, p = .003, partial η² = .15. Box\'s M was non-significant (p = .14). With Bonferroni-adjusted α = .01 for the five univariate follow-ups, treatment significantly affected anxiety (F(2, 87) = 6.4, p = .003, partial η² = .13) and self-efficacy (F(2, 87) = 5.1, p = .008, partial η² = .11); depression showed a non-Bonferroni-significant trend (p = .04)."',
-            '"There were multivariate differences across groups."',
+            '"Both outcomes are significant."',
+            '"Neither outcome is significant."',
+            '"There was a significant multivariate effect of fertilizer type (Pillai\'s Trace = X, p < .001, partial η² = Y). Follow-up univariate ANOVAs (Bonferroni-adjusted α = .025) indicated the effect was driven by yield (p < .001), while grain quality did not differ significantly across groups (p = .09)."',
+            '"MANOVA was inappropriate."',
           ],
           answer: 2,
-          explanation: 'Option C hits every required element: names the test, reports the multivariate statistic with F/df/p/partial η², confirms Box\'s M is non-significant, applies and reports the Bonferroni-corrected α for univariate follow-ups, distinguishes between outcomes that survive correction versus exploratory trends, and includes partial η² for each. The other options are vague or missing critical information.' },
+          explanation: 'Option C is the correct APA write-up. It reports the omnibus MANOVA (Pillai), then the univariate follow-ups with the CORRECT Bonferroni-adjusted α (.025), and identifies WHICH outcome carries the multivariate effect. Yield passes the .025 threshold; quality does not (p = .09 > .025). This kind of pattern is a common and useful MANOVA finding — the multivariate effect is real, and one outcome does the heavy lifting.' },
       ],
     },
   ],
