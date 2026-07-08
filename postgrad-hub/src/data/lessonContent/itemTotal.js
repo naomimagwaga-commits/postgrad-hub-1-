@@ -111,6 +111,34 @@ export const ITEM_TOTAL_LESSON = {
       ],
     },
 
+    /* ════════════════════ 2.5 GENERATING THE TABLE IN SPSS ════════════════════ */
+    {
+      id: 'spss-steps',
+      title: 'Generating the table in SPSS',
+      blocks: [
+        { type: 'heading', level: 2, text: 'A quick reminder of the clicks' },
+
+        { type: 'paragraph', text:
+          'In case you need a refresher from Lesson 1, here is how you generate the Item-Total Statistics table.' },
+
+        { type: 'steps', steps: [
+          { title: 'Open the Reliability dialog',
+            body: 'Analyze → Scale → Reliability Analysis.' },
+          { title: 'Move your items over',
+            body: 'Move all the items for your scale into the "Items" box. Remember to use reverse-coded versions if applicable.' },
+          { title: 'Click "Statistics..."',
+            body: 'This button is on the top right. Without clicking this, you will NOT get the diagnostic table.' },
+          { title: 'Tick "Scale if item deleted"',
+            body: 'Under the "Descriptives for" section, tick this box. This is the magic checkbox that produces the Item-Total Statistics table.' },
+          { title: 'Click Continue, then OK',
+            body: 'SPSS will run the analysis and produce the output.' },
+        ]},
+
+        { type: 'illustration', component: 'MombasaItemTotalDialog',
+          caption: 'Figure 1b. The Statistics sub-dialog. You MUST tick "Scale if item deleted". This is what triggers the diagnostic table we are about to read.' },
+      ],
+    },
+
     /* ════════════════════ 3. WORKED EXAMPLE ════════════════════ */
     {
       id: 'worked-example',

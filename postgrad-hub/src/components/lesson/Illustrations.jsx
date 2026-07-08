@@ -2844,57 +2844,8 @@ export function AnovaLogic() {
 
 /* ── One-Way ANOVA dialog ── */
 export function OneWayAnovaDialog() {
-  return (
-    <svg viewBox="0 0 540 380" className="w-full h-auto">
-      <rect width="540" height="380" rx="6" fill="#F4F4F5" stroke="#0A2E5D" strokeWidth="1.5"/>
-      <rect width="540" height="28" rx="6" fill="#0A2E5D"/>
-      <text x="14" y="19" fontSize="11" fill="#fff" fontWeight="700">One-Way ANOVA</text>
-
-      {/* Variables list */}
-      <text x="14" y="54" fontSize="10" fill="#0A2E5D" fontWeight="700">Variables:</text>
-      <rect x="14" y="60" width="150" height="240" fill="#fff" stroke="#94A3B8"/>
-      {['id','gender','age_yrs','teaching_method','math_score','english_score','attendance'].map((v, i) => (
-        <text key={v} x="22" y={80 + i * 22} fontSize="10" fill="#0A2E5D">📊 {v}</text>
-      ))}
-
-      {/* Dependent List */}
-      <text x="180" y="54" fontSize="10" fill="#0A2E5D" fontWeight="700">Dependent List:</text>
-      <rect x="180" y="60" width="240" height="100" fill="#fff" stroke="#94A3B8"/>
-      <text x="190" y="80" fontSize="11" fill="#0A2E5D" fontWeight="600">📊 math_score</text>
-
-      {/* Factor */}
-      <text x="180" y="186" fontSize="10" fill="#0A2E5D" fontWeight="700">Factor:</text>
-      <rect x="180" y="192" width="240" height="50" fill="#fff" stroke="#94A3B8"/>
-      <text x="190" y="212" fontSize="11" fill="#0A2E5D" fontWeight="600">📊 teaching_method</text>
-      <text x="190" y="228" fontSize="9" fill="#64748B" fontStyle="italic">(grouping variable with 3+ levels)</text>
-
-      {/* Right column - buttons */}
-      <rect x="430" y="60"  width="100" height="22" rx="3" fill="#FBF6E5" stroke="#D4AF37" strokeWidth="1.5"/>
-      <text x="480" y="74" fontSize="10" fill="#0A2E5D" textAnchor="middle" fontWeight="700">Contrasts…</text>
-
-      <rect x="430" y="86"  width="100" height="22" rx="3" fill="#FBF6E5" stroke="#D4AF37" strokeWidth="1.5"/>
-      <text x="480" y="100" fontSize="10" fill="#0A2E5D" textAnchor="middle" fontWeight="700">Post Hoc…</text>
-
-      <rect x="430" y="112" width="100" height="22" rx="3" fill="#FBF6E5" stroke="#D4AF37" strokeWidth="1.5"/>
-      <text x="480" y="126" fontSize="10" fill="#0A2E5D" textAnchor="middle" fontWeight="700">Options…</text>
-
-      {/* OK / Cancel */}
-      <rect x="380" y="338" width="50" height="26" rx="3" fill="#0A2E5D"/>
-      <text x="405" y="355" fontSize="11" fill="#fff" textAnchor="middle" fontWeight="700">OK</text>
-      <rect x="436" y="338" width="56" height="26" rx="3" fill="#E2E8F0" stroke="#94A3B8"/>
-      <text x="464" y="355" fontSize="11" fill="#0A2E5D" textAnchor="middle">Cancel</text>
-
-      {/* Annotations */}
-      <g>
-        <circle cx="425" cy="97" r="11" fill="#DC2626"/>
-        <text x="425" y="101" fontSize="11" fill="#fff" textAnchor="middle" fontWeight="700">!</text>
-        <text x="505" y="158" fontSize="9" fill="#DC2626" fontWeight="700" textAnchor="middle">Post Hoc → tick</text>
-        <text x="505" y="170" fontSize="9" fill="#DC2626" fontWeight="700" textAnchor="middle">Tukey (or</text>
-        <text x="505" y="182" fontSize="9" fill="#DC2626" fontWeight="700" textAnchor="middle">Games-Howell</text>
-        <text x="505" y="194" fontSize="9" fill="#DC2626" fontWeight="700" textAnchor="middle">if Levene\'s sig)</text>
-      </g>
-    </svg>
-  );
+  return <ScreenshotFrame src="/lesson-images/anova/01-anova-dialog.jpg"
+    alt="SPSS One-Way ANOVA dialog with red numbered click markers showing the full setup sequence. Gold callout at top lists all 6 steps"/>;
 }
 
 /* ── ANOVA output table ── */
@@ -6988,6 +6939,14 @@ export function MombasaItemTotalAnnotated() {
 export function MombasaSplitHalfWWWW() {
   return <ScreenshotFrame src="/lesson-images/reliability/06-splithalf-wwww.jpg"
     alt="Split-Half Reliability WWWW 4-quadrant reference card. WHAT explains the two-halves-correlation approach. WHY explains when it beats Cronbach Alpha. WHERE lists speed-test and supplementary-check scenarios. WHEN advises Cronbach as default for most thesis work"/>;
+}
+export function MombasaSplitHalfDialog() {
+  return <ScreenshotFrame src="/lesson-images/reliability/06-splithalf-dialog.jpg"
+    alt="SPSS Reliability Analysis dialog configured for Split-half. Model dropdown changed from Alpha to Split-half. Red numbered click markers show the sequence."/>;
+}
+export function MombasaItemTotalDialog() {
+  return <ScreenshotFrame src="/lesson-images/reliability/05-itemtotal-dialog.jpg"
+    alt="SPSS Reliability Analysis Statistics sub-dialog. Scale if item deleted is checked, marked with a red circle to indicate it is the most critical step."/>;
 }
 export function MombasaSplitHalfOutput() {
   return <ScreenshotFrame src="/lesson-images/reliability/07-splithalf-output.jpg"

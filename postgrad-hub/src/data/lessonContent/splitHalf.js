@@ -141,6 +141,10 @@ export const SPLIT_HALF_LESSON = {
             body: 'SPSS produces a Reliability Statistics table containing multiple correlation values — see the next section for how to read them.' },
         ]},
 
+        { type: 'illustration', component: 'MombasaSplitHalfDialog',
+          caption: 'Figure 3. The Reliability Analysis dialog. To run split-half, you MUST change the Model dropdown from Alpha to Split-half.' },
+
+
         { type: 'callout', tone: 'info', title: 'You do NOT need to manually split the items',
           body: 'A common beginner mistake is to manually compute two SUM variables (sa_half1 = SUM of first 5 items, sa_half2 = SUM of last 5 items) and then run Pearson correlation. SPSS does all this internally when you pick Model = Split-half. Save yourself the work — let the menu do it.' },
       ],
