@@ -2868,6 +2868,14 @@ export function PostHocWWWW() {
   return <ScreenshotFrame src="/lesson-images/anova/posthoc-wwww.jpg"
     alt="Post-Hoc Tests WHAT/WHY/WHERE/WHEN reference card. Explains running pairwise comparisons after a significant ANOVA."/>;
 }
+export function AncovaWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/ancova-wwww.jpg"
+    alt="ANCOVA WHAT/WHY/WHERE/WHEN reference card. Explains Analysis of Covariance."/>;
+}
+export function ManovaWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/manova-wwww.jpg"
+    alt="MANOVA WHAT/WHY/WHERE/WHEN reference card. Explains Multivariate Analysis of Variance."/>;
+}
 
 export function TwoWayAnovaDialog() {
   return <ScreenshotFrame src="/lesson-images/anova/02-twoway-dialog.jpg"
@@ -7413,6 +7421,7 @@ export const ILLUSTRATIONS = {
   HierarchicalBlocks,
   /* ANOVA */
   AnovaOneWayWWWW, AnovaTwoWayWWWW, AnovaRepeatedWWWW, AnovaMixedWWWW,
+  PostHocWWWW, AncovaWWWW, ManovaWWWW,
   AnovaLogic, OneWayAnovaDialog, AnovaOutput, PostHocOutput,
   InteractionPlot, InteractionPlots, RepeatedMeasuresLogic, AnovaDecisionTree,
   /* T-Tests */

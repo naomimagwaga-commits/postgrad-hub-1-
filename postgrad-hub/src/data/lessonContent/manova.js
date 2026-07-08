@@ -37,6 +37,22 @@ export const MANOVA_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'MANOVA (Multivariate Analysis of Variance) is complex. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it to test multiple outcomes at once, (3) Where a postgraduate would use it, (4) When to CHOOSE it over running several separate ANOVAs.',
+            'The WWWW card below answers all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'ManovaWWWW',
+          caption: 'Figure 0. MANOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you chose MANOVA instead of separate ANOVAs.' },
+      ]
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',

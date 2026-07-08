@@ -36,6 +36,22 @@ export const ANCOVA_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'ANCOVA (Analysis of Covariance) lets you level the playing field when your groups started off unequal. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it to control for a covariate, (3) Where a postgraduate would use it, (4) When to CHOOSE it over ANOVA.',
+            'The WWWW card below answers all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'AncovaWWWW',
+          caption: 'Figure 0. ANCOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you added a covariate.' },
+      ]
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
