@@ -36,6 +36,32 @@ export const KRUSKAL_WALLIS_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Before touching the SPSS dialog, understand: (1) What this test IS, (2) Why you use it, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'KiambuKWWWWW',
+          caption: 'Figure 0. Kruskal-Wallis H WHAT/WHY/WHERE/WHEN reference card. The non-parametric alternative to one-way ANOVA, using Kiambu Maize 3-fertilizer comparison.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**H statistic** — the Kruskal-Wallis test statistic (a modified chi-square). Bigger H = bigger group differences.',
+            '**Mean rank** — for each group, the average rank of its values when all groups are pooled together and ranked. Big gaps between mean ranks = clear group differences.',
+            '**df** — for Kruskal-Wallis: k groups minus 1. Kiambu: 3 groups → df = 2.',
+            '**Dunn-Bonferroni post-hoc** — the pairwise comparison method for Kruskal-Wallis. NOT Tukey (that is parametric only). SPSS Nonparametric Tests (modern menu) produces this automatically when H is significant.',
+            '**Median** — report medians for each group (not means) since Kruskal-Wallis is rank-based.',
+            '**Exact test** — for small samples (N < 30 total), click Exact button for exact p-value instead of asymptotic approximation.',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
@@ -120,6 +146,12 @@ export const KRUSKAL_WALLIS_LESSON = {
 
         { type: 'callout', tone: 'gold', title: 'For pairwise post-hoc, use the modern dialog',
           body: 'The Legacy K Independent Samples dialog gives you the overall test, but no built-in post-hoc. If you need automatic pairwise post-hoc with Bonferroni correction, run the test through Analyze → Nonparametric Tests → Independent Samples (the MODERN automated dialog). When the overall test is significant, double-click the output to open the Model Viewer, then choose "Pairwise Comparisons" — SPSS does the Mann-Whitney pairs and Bonferroni adjustment for you.' },
+        { type: 'illustration', component: 'KiambuKWDialog',
+          caption: 'Figure 1. The Tests for Several Independent Samples dialog for Kiambu Kruskal-Wallis. Yield_KgPerAcre in Test Variable List, FertilizerType as Grouping Variable with range 1-3 (all 3 fertilizer codes). Kruskal-Wallis H checkbox ticked. Menu: Analyze → Nonparametric Tests → Legacy Dialogs → K Independent Samples.' },
+
+        { type: 'illustration', component: 'KiambuKWOutput',
+          caption: 'Figure 2. The output. Ranks table shows DAP mean rank 128.72 (highest), CAN 92.15, Organic 50.63 (lowest). Test Statistics: H = 42.15, df = 2, Asymp. Sig. < .001. At least one group differs significantly. Report MEDIANS (not means) — Kiambu medians: DAP=1,845, CAN=1,610, Organic=1,440 kg/acre. Chapter 4 write-up in the gold callout.' },
+
       ],
     },
 
