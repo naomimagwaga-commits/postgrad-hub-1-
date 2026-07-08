@@ -139,6 +139,12 @@ export const REPEATED_MEASURES_LESSON = {
           { title: 'Click OK',
             body: 'SPSS produces several tables: Within-Subjects Factors, Descriptive Statistics, **Mauchly\'s Test of Sphericity**, **Tests of Within-Subjects Effects** (the F-test you care about), Pairwise Comparisons, and Estimated Marginal Means + Plot.' },
         ]},
+
+        { type: 'illustration', component: 'RMAnovaDefineFactor',
+          caption: 'Figure 2. Step 2: Defining the Factor. Type the name (e.g. "time") and the number of repeated measures (e.g. "3"), then click Add, then Define.' },
+
+        { type: 'illustration', component: 'RMAnovaDialog',
+          caption: 'Figure 3. The main Repeated Measures dialog. Map your columns to the slots in chronological order (1, 2, 3).' },
       ],
     },
 

@@ -132,8 +132,14 @@ export const MIXED_ANOVA_LESSON = {
             body: 'SPSS produces many tables. The KEY ones in order: Box\'s Test (multivariate equality of covariance matrices), Mauchly\'s Test of Sphericity (within-subjects assumption), Tests of Within-Subjects Effects (time main effect AND time × treatment interaction), Levene\'s per time point, Tests of Between-Subjects Effects (treatment main effect), Estimated Marginal Means, Pairwise Comparisons, and the Profile Plot.' },
         ]},
 
+        { type: 'illustration', component: 'MixedAnovaDefineFactor',
+          caption: 'Figure 1. Define Factor(s). Name the repeated measure (e.g. "time") and specify the number of levels (e.g. 3).' },
+
         { type: 'illustration', component: 'MixedAnovaDialog',
-          caption: 'Figure 2. The Repeated Measures dialog set up for mixed ANOVA. Within-Subjects Variables = the three time-point columns mapped to (1), (2), (3) in order. Between-Subjects Factor(s) = treatment_arm. Plots configured with time on horizontal axis and treatment_arm as separate lines — produces the trajectory plot. Options requests adjusted means, Bonferroni pairwise, partial η², and homogeneity tests.' },
+          caption: 'Figure 2. The main Repeated Measures dialog. Map your columns to the slots in chronological order (1, 2, 3). For Mixed ANOVA, also drag the group variable into the Between-Subjects Factor(s) box.' },
+
+        { type: 'illustration', component: 'MixedAnovaOptions',
+          caption: 'Figure 3. The Options dialog. Move your factors and interaction into "Display Means for". This is critical for getting the pairwise comparisons.' },
       ],
     },
 

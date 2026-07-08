@@ -126,6 +126,12 @@ export const TWO_WAY_ANOVA_LESSON = {
           { title: 'Click OK',
             body: 'SPSS produces several tables: Between-Subjects Factors, Descriptive Statistics, Levene\'s Test, the all-important **Tests of Between-Subjects Effects** (the three F-tests), and the Profile Plots.' },
         ]},
+
+        { type: 'illustration', component: 'TwoWayAnovaDialog',
+          caption: 'Figure 3. The GLM Univariate dialog for Two-Way ANOVA. The red numbers show the click sequence to set up the Dependent Variable, Fixed Factors, Plots, and Options.' },
+
+        { type: 'illustration', component: 'TwoWayAnovaPlots',
+          caption: 'Figure 4. The Profile Plots dialog. Move one factor to Horizontal Axis and one to Separate Lines. You MUST click Add so they appear in the Plots list below.' },
       ],
     },
 
