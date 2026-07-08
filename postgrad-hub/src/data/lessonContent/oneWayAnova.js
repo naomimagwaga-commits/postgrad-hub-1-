@@ -44,22 +44,27 @@ export const ONE_WAY_ANOVA_LESSON = {
       blocks: [
         { type: 'callout', tone: 'gold', title: 'Why this section exists',
           body: [
-            'One-Way ANOVA is the standard test for comparing three or more groups. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it instead of multiple t-tests, (3) Where a postgraduate would use it, (4) When to CHOOSE it over non-parametric alternatives.',
-            'The WWWW card below answers all 4 in 3 minutes.',
+            'Before touching the SPSS dialog, understand: (1) What this test IS, (2) Why you use it, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
           ]},
 
-        { type: 'illustration', component: 'AnovaOneWayWWWW',
-          caption: 'Figure 0. One-Way ANOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you chose ANOVA.' },
+
+        { type: 'illustration', component: 'ANOVADecisionMap',
+          caption: 'Figure 0a (shared with the whole ANOVA course). Which ANOVA test do I need? A decision map showing all 9 ANOVA-family tests in this course. One-Way ANOVA is the starting point when you have 1 IV with 3+ independent groups on a continuous outcome. Bookmark this — it sits above every ANOVA lesson.' },
+
+        { type: 'illustration', component: 'KiambuAnovaWWWW',
+          caption: 'Figure 0. One-Way ANOVA WHAT/WHY/WHERE/WHEN reference card using the Kiambu Maize 3-fertilizer comparison (DAP vs CAN vs Organic, n = 60 each).' },
 
         { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
           body: [
-            '**Factor** - SPSS term for your categorical grouping variable (e.g. teaching_method).',
-            '**Levels** - The specific groups inside your factor (e.g. Method A, Method B, Method C = 3 levels).',
-            '**F-statistic** - The main result of an ANOVA. It tests if AT LEAST ONE group differs from the rest.',
-            '**Post-Hoc tests** - The follow-up tests (like Tukey) that tell you exactly WHICH groups differ from which.',
-          ]
-        }
-      ]
+            '**F statistic** — ratio of between-group variance to within-group variance. Bigger F = clearer group difference.',
+            '**Between-groups variance** — how spread out the group MEANS are around the grand mean.',
+            '**Within-groups variance** — how spread out individual scores are around their own group mean (also called error variance).',
+            '**df (degrees of freedom)** — F test has TWO dfs: (k-1) for between (numerator), (N-k) for within (denominator). Kiambu: F(2, 177) means 3 groups, 180 farms.',
+            '**Levene test** — automatic assumption check for equal variances. Non-significant (p > .05) = equal variances = use standard ANOVA row.',
+            '**Eta-squared (eta squared)** — the effect size: proportion of variance explained by group membership. .01=small, .06=medium, .14=large.',
+          ]},
+      ],
     },
 
     /* ════════════════════ 2. WHY NOT MULTIPLE T-TESTS ════════════════════ */
@@ -148,6 +153,12 @@ export const ONE_WAY_ANOVA_LESSON = {
 
         { type: 'illustration', component: 'AnovaDecisionTree',
           caption: 'Figure 2. The ANOVA decision tree. Start with the number of factors. With ONE factor and independent groups → one-way ANOVA (this lesson). With ONE factor and repeated measures on the same people → repeated-measures ANOVA (Lesson 4). With TWO factors → two-way ANOVA (Lesson 3).' },
+        { type: 'illustration', component: 'KiambuAnovaDialog',
+          caption: 'Figure 1. The One-Way ANOVA dialog set up for Kiambu Maize. Yield_KgPerAcre goes into Dependent List. FertilizerType (which has 3 codes) goes into Factor. Two critical sub-dialogs to click: [Post Hoc...] to compare pairs, and [Options...] to enable Descriptives, Levene test, and Welch. Then OK.' },
+
+        { type: 'illustration', component: 'KiambuAnovaOutput',
+          caption: 'Figure 2. The output. Descriptives confirm the 3 groups (DAP=1840, CAN=1620, Organic=1450 kg/acre). Levene test p=.122 (NOT significant) → equal variances, use standard ANOVA row. Main ANOVA: F(2, 177) = 22.40, p < .001 → at least one group differs. Effect size η² = .20 (LARGE). Chapter-4 write-up template in the gold callout.' },
+
       ],
     },
 
