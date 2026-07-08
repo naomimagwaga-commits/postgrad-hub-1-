@@ -257,7 +257,7 @@ export const PUBLIC_PRICING = {
       id: 'questionnaire',
       name: 'Questionnaire & Interview refinement',
       price: SERVICE_PRICES.questionnaireRefinement,
-      unit: 'per instrument',
+      unit: '(applies to questionnaire and interview instruments, provided there are no more than 4 respondent groups)',
       blurb: 'Submit your draft and receive a refined, methodologically sound version — plus a digital data-collection link.',
     },
     {

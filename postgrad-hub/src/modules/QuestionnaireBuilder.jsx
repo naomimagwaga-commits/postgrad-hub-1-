@@ -64,7 +64,7 @@ export default function QuestionnaireBuilder() {
           <div className="text-right">
             <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Refinement fee</p>
             <p className="display text-3xl text-brand font-bold">{formatKES(SERVICE_PRICES.questionnaireRefinement)}</p>
-            <p className="text-[10px] text-slate-500 italic">per instrument</p>
+            <p className="text-[10px] text-slate-500 italic max-w-[200px] leading-tight">(applies to questionnaire and interview instruments, provided there are no more than 4 respondent groups)</p>
             <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200">
               <IconClock className="w-3 h-3 text-emerald-700"/>
               <span className="text-[10px] font-bold text-emerald-800">Turnaround: {SERVICE_TIMELINES.questionnaireRefinement.short}</span>
@@ -868,8 +868,8 @@ function WhyDigital({ onStart }) {
         <button onClick={onStart} className="btn-gold mt-6 inline-flex">
           Submit your draft <IconArrow className="w-4 h-4"/>
         </button>
-        <p className="mt-4 text-xs text-white/60">
-          Refinement fee: <strong className="text-gold">{formatKES(SERVICE_PRICES.questionnaireRefinement)}</strong> per instrument \u00b7 Turnaround: <strong className="text-gold">{SERVICE_TIMELINES.questionnaireRefinement.short}</strong> after payment verification
+        <p className="mt-4 text-xs text-white/60 max-w-xl">
+          Refinement fee: <strong className="text-gold">{formatKES(SERVICE_PRICES.questionnaireRefinement)}</strong> (applies to questionnaire and interview instruments, provided there are no more than 4 respondent groups) \u00b7 Turnaround: <strong className="text-gold">{SERVICE_TIMELINES.questionnaireRefinement.short}</strong> after payment verification
         </p>
       </div>
 
