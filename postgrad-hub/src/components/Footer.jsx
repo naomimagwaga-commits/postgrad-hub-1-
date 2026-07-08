@@ -38,6 +38,10 @@ export default function Footer() {
               <li><a href="/#about" className="hover:text-gold transition">About</a></li>
               <li><Link to="/pricing" className="hover:text-gold transition">Pricing</Link></li>
               <li><Link to="/faq" className="hover:text-gold transition">FAQ</Link></li>
+              <li><Link to="/glossary" className="hover:text-gold transition">Glossary</Link></li>
+              <li><Link to="/pathway" className="hover:text-gold transition">Pathway</Link></li>
+              <li><Link to="/datasets" className="hover:text-gold transition">Datasets</Link></li>
+              <li><Link to="/cheatsheet" className="hover:text-gold transition">Cheat Sheet</Link></li>
               <li><Link to="/privacy" className="hover:text-gold transition">Privacy</Link></li>
               <li><Link to="/terms" className="hover:text-gold transition">Terms</Link></li>
             </ul>
