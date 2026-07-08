@@ -6184,71 +6184,7 @@ export function MixedAnovaInteraction() {
 }
 
 /* ──── Mixed ANOVA dialog mock ──── */
-export function MixedAnovaDialog() {
-  return (
-    <svg viewBox="0 0 540 320" className="w-full h-auto">
-      <rect width="540" height="320" fill="#F1F5F9"/>
-      <rect x="10" y="10" width="520" height="300" rx="6" fill="#fff" stroke="#0A2E5D" strokeOpacity=".4"/>
-      <rect x="10" y="10" width="520" height="26" rx="6" fill="#0A2E5D"/>
-      <text x="20" y="28" fontSize="12" fill="#fff" fontWeight="700">Repeated Measures — set up for Mixed ANOVA</text>
-
-      <rect x="20" y="50" width="160" height="240" rx="4" fill="#FAF7EF" stroke="#0A2E5D" strokeOpacity=".25"/>
-      <text x="100" y="68" fontSize="10" fill="#0A2E5D" textAnchor="middle" fontWeight="700">Variables</text>
-      <text x="30" y="92"  fontSize="10" fill="#0A2E5D">patient_id</text>
-      <text x="30" y="110" fontSize="10" fill="#0A2E5D" fontWeight="700" fillOpacity="0.4">hba1c_baseline ✓</text>
-      <text x="30" y="128" fontSize="10" fill="#0A2E5D" fontWeight="700" fillOpacity="0.4">hba1c_week6 ✓</text>
-      <text x="30" y="146" fontSize="10" fill="#0A2E5D" fontWeight="700" fillOpacity="0.4">hba1c_week12 ✓</text>
-      <text x="30" y="164" fontSize="10" fill="#0A2E5D" fontWeight="700" fillOpacity="0.4">treatment_arm ✓</text>
-
-      {/* Within-Subjects Variables — three columns mapped */}
-      <rect x="200" y="50" width="200" height="100" rx="4" fill="#FBF6E5" stroke="#D4AF37" strokeWidth="2"/>
-      <text x="205" y="66" fontSize="10" fill="#0A2E5D" fontWeight="700">Within-Subjects Variables (time):</text>
-      {[
-        { idx: '(1)', v: 'hba1c_baseline' },
-        { idx: '(2)', v: 'hba1c_week6' },
-        { idx: '(3)', v: 'hba1c_week12' },
-      ].map((r, i) => (
-        <g key={r.idx}>
-          <text x="214" y={87 + i * 18} fontSize="9" fill="#D4AF37" fontWeight="700">{r.idx}</text>
-          <rect x="240" y={75 + i * 18} width="155" height="16" rx="2" fill="#FBF6E5" stroke="#D4AF37"/>
-          <text x="248" y={87 + i * 18} fontSize="9" fill="#0A2E5D" fontWeight="700">{r.v}</text>
-        </g>
-      ))}
-
-      {/* Between-Subjects Factor */}
-      <rect x="200" y="160" width="200" height="50" rx="4" fill="#10B981" fillOpacity=".12" stroke="#10B981" strokeWidth="2"/>
-      <text x="205" y="176" fontSize="10" fill="#10B981" fontWeight="700">Between-Subjects Factor(s): ← MIXED!</text>
-      <rect x="208" y="182" width="185" height="20" rx="3" fill="#10B981" fillOpacity=".18" stroke="#10B981"/>
-      <text x="214" y="196" fontSize="10" fill="#0A2E5D" fontWeight="700">treatment_arm</text>
-
-      <rect x="200" y="216" width="200" height="50" rx="4" fill="#fff" stroke="#0A2E5D"/>
-      <text x="205" y="232" fontSize="10" fill="#0A2E5D" fontWeight="700">Covariates:</text>
-      <text x="300" y="252" fontSize="9" fill="#94A3B8" textAnchor="middle">(optional — add for mixed ANCOVA)</text>
-
-      {/* Right side buttons */}
-      <rect x="415" y="50"  width="110" height="24" rx="3" fill="#fff" stroke="#0A2E5D"/>
-      <text x="470" y="66"  fontSize="10" fill="#0A2E5D" textAnchor="middle">Model…</text>
-      <rect x="415" y="82"  width="110" height="24" rx="3" fill="#fff" stroke="#0A2E5D"/>
-      <text x="470" y="98"  fontSize="10" fill="#0A2E5D" textAnchor="middle">Contrasts…</text>
-      <rect x="415" y="114" width="110" height="24" rx="3" fill="#10B981"/>
-      <text x="470" y="130" fontSize="10" fill="#fff" textAnchor="middle" fontWeight="700">Plots…</text>
-      <text x="415" y="148" fontSize="8" fill="#10B981" fontWeight="700">↑ time on X, arm</text>
-      <text x="415" y="158" fontSize="8" fill="#10B981" fontWeight="700">   as separate lines</text>
-      <rect x="415" y="166" width="110" height="24" rx="3" fill="#10B981"/>
-      <text x="470" y="182" fontSize="10" fill="#fff" textAnchor="middle" fontWeight="700">Options…</text>
-      <text x="415" y="200" fontSize="8" fill="#10B981" fontWeight="700">↑ EM means, partial η²</text>
-
-      <rect x="415" y="262" width="50" height="28" rx="3" fill="#10B981"/>
-      <text x="440" y="281" fontSize="11" fill="#fff" textAnchor="middle" fontWeight="700">OK</text>
-      <rect x="470" y="262" width="55" height="28" rx="3" fill="#fff" stroke="#0A2E5D"/>
-      <text x="497" y="281" fontSize="10" fill="#0A2E5D" textAnchor="middle">Paste</text>
-    </svg>
-  );
-}
-
-/* ──── Mixed ANOVA output: focused on the three effects + profile plot ──── */
-export function MixedAnovaOutput() {
-  return (
+export function MixedAnovaOutput() { return (
     <svg viewBox="0 0 720 400" className="w-full h-auto">
       <rect width="720" height="400" fill="#fff"/>
 
