@@ -7,12 +7,13 @@ const TRACKS = [
   {
     id: 'beginner',
     title: 'Beginner Track',
-    subtitle: 'Never opened SPSS? Start here.',
+    subtitle: 'Never opened SPSS? Start here. (Begin with the FREE Foundational Principles lesson.)',
     color: 'emerald',
     emoji: '🌱',
-    time: '2–3 weeks',
+    time: '3–4 weeks',
     outcome: 'You can describe your data, run basic tests, and write up simple results.',
     steps: [
+      { lesson: 'Foundational Principles', desc: 'START HERE: Understand variable types, IV vs DV, and how to choose the right test.', id: 'found-1', free: true },
       { lesson: 'SPSS Interface', desc: 'Learn the layout — where everything is. The "cockpit" of SPSS.', id: 'spss-interface' },
       { lesson: 'Data View', desc: 'See your data as rows and columns. Enter values, spot problems.', id: 'data-view' },
       { lesson: 'Defining Variables', desc: 'Name your columns, set their types (text, number, scale).', id: 'defining-variables' },
@@ -31,8 +32,8 @@ const TRACKS = [
     subtitle: 'Know the basics? Now find relationships & compare groups.',
     color: 'amber',
     emoji: '🔬',
-    time: '3–4 weeks',
-    outcome: 'You can test hypotheses, run correlations, t-tests, and chi-square — the most common analyses in a Master\'s project.',
+    time: '3-4 weeks',
+    outcome: 'You can test hypotheses, run correlations, t-tests, and chi-square — the most common analyses in a postgraduate project.',
     steps: [
       { lesson: 'Pearson Correlation', desc: 'Are two variables related? How strongly?', id: 'pearson' },
       { lesson: 'Spearman Correlation', desc: 'Same idea, but for ranked or non-normal data.', id: 'spearman' },
