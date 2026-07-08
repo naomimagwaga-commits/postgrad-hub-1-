@@ -38,6 +38,32 @@ export const FRIEDMAN_LESSON = {
       ],
     },
 
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    {
+      id: 'wwww',
+      title: 'What / Why / Where / When — read THIS first',
+      blocks: [
+        { type: 'callout', tone: 'gold', title: 'Why this section exists',
+          body: [
+            'Before touching the SPSS dialog, understand: (1) What this test IS, (2) Why you use it, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
+          ]},
+
+        { type: 'illustration', component: 'NakuruFriedmanWWWW',
+          caption: 'Figure 0. Friedman Test WHAT/WHY/WHERE/WHEN reference card. The non-parametric alternative to Repeated Measures ANOVA, using Nakuru SBP data when normality/sphericity fails.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Chi-Square statistic** — the Friedman test statistic. Approximates chi-square distribution when N is not tiny.',
+            '**Mean Rank** — for each time point/condition, the average of the WITHIN-PERSON ranks. Big gaps between mean ranks = clear differences across time.',
+            '**df** — for Friedman: k time points minus 1. Nakuru: 3 time points → df = 2.',
+            '**Kendall W (coefficient of concordance)** — related test used for rater agreement rather than within-subject changes.',
+            '**Cochran Q** — Friedman equivalent for BINARY outcomes (yes/no at 3+ time points).',
+            '**Post-hoc for Friedman** — Wilcoxon Signed-Rank pairwise tests with Bonferroni-adjusted alpha (α/k for k pairs).',
+          ]},
+      ],
+    },
+
     /* ════════════════════ 2. BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
@@ -117,6 +143,12 @@ export const FRIEDMAN_LESSON = {
 
         { type: 'illustration', component: 'FriedmanDialog',
           caption: 'Figure 2. The K Related Samples dialog. Drag every repeated-measurement variable into the Test Variables box (one for each time point or condition). Make sure Friedman is ticked under Test Type. Click Statistics → tick Descriptive and Quartiles to get medians and IQRs for free.' },
+        { type: 'illustration', component: 'NakuruFriedmanDialog',
+          caption: 'Figure 1. The Tests for Several Related Samples dialog. All 3 time-point variables (SBP_T0, SBP_T1, SBP_T2) moved to Test Variables. Friedman ticked. Menu: Analyze → Nonparametric Tests → Legacy Dialogs → K Related Samples.' },
+
+        { type: 'illustration', component: 'NakuruFriedmanOutput',
+          caption: 'Figure 2. The output. Ranks: T0 mean rank 2.71 (highest), T1 = 2.02, T2 = 1.27 (lowest) — clear downward trend. Test Statistics: χ²(2, N=45) = 71.24, p < .001. Report medians (T0=141, T1=138, T2=133 mmHg). Follow-up: Wilcoxon Signed-Rank pairwise tests with Bonferroni α = .0167 — all three pairs significant.' },
+
       ],
     },
 
