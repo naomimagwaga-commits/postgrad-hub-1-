@@ -43,13 +43,23 @@ export const POST_HOC_LESSON = {
       blocks: [
         { type: 'callout', tone: 'gold', title: 'Why this section exists',
           body: [
-            'Post-Hoc testing is the required follow-up to any significant ANOVA. Before diving into the output, understand: (1) What it IS, (2) Why you run it, (3) Where a postgraduate would use it, (4) When to CHOOSE Tukey vs Games-Howell.',
-            'The WWWW card below answers all 4 in 3 minutes.',
+            'Before touching the SPSS dialog, understand: (1) What this test IS, (2) Why you use it, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
           ]},
 
-        { type: 'illustration', component: 'PostHocWWWW',
-          caption: 'Figure 0. Post-Hoc Tests WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it explains exactly why an ANOVA F-test isn\'t enough on its own.' },
-      ]
+        { type: 'illustration', component: 'KiambuPostHocWWWW',
+          caption: 'Figure 0. Post-Hoc Tests WHAT/WHY/WHERE/WHEN reference card. The essential follow-up to any significant ANOVA — finds WHICH specific pairs of groups differ.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Post-hoc** — Latin for "after this" — tests run AFTER a significant ANOVA to find WHICH specific groups differ.',
+            '**Tukey HSD** — the default post-hoc. Balanced, handles equal group sizes well, appropriate for most thesis work.',
+            '**Bonferroni** — conservative correction. Divide alpha by number of comparisons. Use when comparing to a small set of pre-planned hypotheses.',
+            '**Games-Howell** — post-hoc for when Levene test failed (unequal variances). Use INSTEAD of Tukey in that case.',
+            '**Multiple comparisons problem** — running many pairwise tests inflates Type I error. Post-hoc tests correct for this automatically.',
+            '**Homogeneous Subsets** — output table grouping means that DO NOT differ significantly. Each column is one subset. All groups in same column are statistically indistinguishable.',
+          ]},
+      ],
     },
 
     /* ════════════════════ 2. WHY POST-HOC ════════════════════ */
@@ -132,6 +142,12 @@ export const POST_HOC_LESSON = {
 
         { type: 'callout', tone: 'info', title: 'Tick both Tukey and Games-Howell every time',
           body: 'You only know which is appropriate AFTER seeing Levene\'s test result. Save yourself a second run by ticking BOTH every time. The output has both tables; you simply read the one that matches your variance situation. Two extra clicks = a complete analysis in one go.' },
+        { type: 'illustration', component: 'KiambuPostHocDialog',
+          caption: 'Figure 1. The Post Hoc Multiple Comparisons sub-dialog. Tick Tukey (highlighted gold) as the default. Games-Howell (amber) is the alternative when Levene test failed. AVOID LSD entirely — it does not correct for multiple comparisons.' },
+
+        { type: 'illustration', component: 'KiambuPostHocOutput',
+          caption: 'Figure 2. Tukey HSD output for Kiambu. Multiple Comparisons table shows all 3 pairwise comparisons significant: DAP > CAN by 220 kg/acre (p = .001), DAP > Organic by 390 (p < .001), CAN > Organic by 170 (p = .012). Homogeneous Subsets table places each group in its own column — confirming all three differ. Complete ordering: DAP > CAN > Organic.' },
+
       ],
     },
 
