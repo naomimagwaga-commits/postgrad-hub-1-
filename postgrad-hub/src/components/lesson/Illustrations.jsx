@@ -7035,6 +7035,47 @@ export function ANOVADecisionMap() {
   return <ScreenshotFrame src="/lesson-images/anova/09-decision-map.jpg"
     alt="Which ANOVA test do I need decision map showing all 9 ANOVA-family tests. One-way ANOVA + Post-hoc, Two-way ANOVA, Repeated Measures ANOVA, Mixed ANOVA, ANCOVA, MANOVA, Kruskal-Wallis, and Friedman. Branches show which to choose based on IVs, subjects, normality, and covariates"/>;
 }
+/* ANOVA Part 2 — Two-way + Repeated Measures + Friedman */
+export function KiambuTwoWayWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/10-2way-wwww.jpg"
+    alt="Two-Way ANOVA WWWW 4-quadrant reference card using Kiambu 2-factor example FertilizerType x Ward. WHAT explains main effects and interactions. WHY emphasises interaction as the key finding. WHERE lists Kenyan scenarios. WHEN gives decision table"/>;
+}
+export function KiambuTwoWayDialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/11-2way-dialog.jpg"
+    alt="SPSS Univariate GLM dialog for Kiambu 2-factor ANOVA. Yield_KgPerAcre as Dependent, FertilizerType and Ward as Fixed Factors. Plots and Post Hoc buttons highlighted gold as critical steps"/>;
+}
+export function KiambuTwoWayOutput() {
+  return <ScreenshotFrame src="/lesson-images/anova/12-2way-output.jpg"
+    alt="SPSS Two-Way ANOVA Tests of Between-Subjects Effects output. FertilizerType main effect F(2,171) equals 34.58 p less than .001 partial eta squared .29. Ward main effect F(2,171) equals 13.82 p less than .001. FertilizerType by Ward interaction F(4,171) equals 6.64 p less than .001 partial eta squared .134. R squared .418"/>;
+}
+export function KiambuInteractionPlot() {
+  return <ScreenshotFrame src="/lesson-images/anova/13-interaction-plot.jpg"
+    alt="SPSS interaction plot for Kiambu FertilizerType by Ward on yield. Three colored lines DAP blue CAN red Organic green connecting 3 wards on the x-axis. Non-parallel lines with Organic winning in Lari but DAP winning in Githunguri clearly showing the interaction pattern"/>;
+}
+export function NakuruRMWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/14-rm-wwww.jpg"
+    alt="Repeated Measures ANOVA WWWW 4-quadrant reference card using Nakuru Wellness 3-timepoint SBP data. WHAT explains within-subjects design. WHY explains statistical power over separate paired t-tests. WHERE lists longitudinal scenarios. WHEN emphasises sphericity assumption"/>;
+}
+export function NakuruRMDialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/15-rm-dialog.jpg"
+    alt="SPSS Repeated Measures 2-step setup for Nakuru Wellness. Small Define Factors dialog first with Within-Subject Factor Name Time and Number of Levels 3. Main dialog second with 3 slots filled by SBP_T0, SBP_T1, SBP_T2"/>;
+}
+export function NakuruRMOutput() {
+  return <ScreenshotFrame src="/lesson-images/anova/16-rm-output.jpg"
+    alt="SPSS Repeated Measures ANOVA output for Nakuru Wellness. Mauchly test W .845 p .026 sphericity violated. Greenhouse-Geisser corrected F(1.73, 76.28) equals 42.15 p less than .001 partial eta squared .489 large effect. Pairwise Comparisons Bonferroni-adjusted showing T0 vs T1 3.5 mmHg p .001, T0 vs T2 8.2 mmHg p less than .001, T1 vs T2 4.7 mmHg p less than .001 all three significant"/>;
+}
+export function NakuruFriedmanWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/17-friedman-wwww.jpg"
+    alt="Friedman Test WWWW 4-quadrant reference card using Nakuru SBP data. WHAT explains rank-based comparison across 3+ related samples. WHY explains it as non-parametric alternative to Repeated Measures ANOVA. WHERE lists ordinal and small-N scenarios. WHEN gives decision table with Wilcoxon Bonferroni post-hoc"/>;
+}
+export function NakuruFriedmanDialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/18-friedman-dialog.jpg"
+    alt="SPSS Tests for Several Related Samples dialog for Nakuru Friedman. All 3 time-point variables SBP_T0 SBP_T1 SBP_T2 in the Test Variables box. Friedman checkbox ticked highlighted gold"/>;
+}
+export function NakuruFriedmanOutput() {
+  return <ScreenshotFrame src="/lesson-images/anova/19-friedman-output.jpg"
+    alt="SPSS Friedman output for Nakuru SBP. Ranks table shows SBP_T0 mean rank 2.71 (highest), SBP_T1 2.02, SBP_T2 1.27 (lowest). Test Statistics N 45, Chi-Square 71.24, df 2, Asymp Sig less than .001. Progressive downward trend"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7487,6 +7528,10 @@ export const ILLUSTRATIONS = {
   KiambuPostHocWWWW, KiambuPostHocDialog, KiambuPostHocOutput,
   KiambuKWWWWW, KiambuKWDialog, KiambuKWOutput,
   ANOVADecisionMap,
+  /* ANOVA course Part 2 — Two-way + Repeated Measures + Friedman */
+  KiambuTwoWayWWWW, KiambuTwoWayDialog, KiambuTwoWayOutput, KiambuInteractionPlot,
+  NakuruRMWWWW, NakuruRMDialog, NakuruRMOutput,
+  NakuruFriedmanWWWW, NakuruFriedmanDialog, NakuruFriedmanOutput,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
