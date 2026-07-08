@@ -1,0 +1,241 @@
+Patient_ID,Age,Gender,Visit_Type,WaitTime_Minutes,Facility,PSS_1,PSS_2,PSS_3,PSS_4,PSS_5,PSS_6,PSS_7,PSS_8,PSS_9,PSS_10,PSS_11,PSS_12,PSS_13,PSS_14,PSS_15
+MBS-001,56,Male,Outpatient,23,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-002,61,Female,Outpatient,129,Coast General,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-003,19,Female,Outpatient,132,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-004,57,Male,Outpatient,127,Mzizi Memorial,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-005,70,Male,Outpatient,32,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-006,75,Female,Outpatient,178,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-007,72,Male,Inpatient,61,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-008,49,Female,Outpatient,102,Liwatons,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-009,46,Female,Outpatient,8,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-010,32,Female,Outpatient,65,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-011,60,Male,Outpatient,115,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-012,73,Female,Outpatient,176,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-013,36,Female,Emergency,179,Coast General,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-014,30,Male,Inpatient,115,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-015,65,Male,Outpatient,21,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-016,35,Female,Emergency,75,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-017,43,Male,Emergency,116,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-018,34,Female,Emergency,156,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-019,60,Male,Outpatient,67,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-020,63,Female,Emergency,167,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-021,29,Male,Outpatient,156,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-022,74,Female,Inpatient,164,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-023,41,Female,Inpatient,141,Liwatons,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-024,58,Female,Outpatient,155,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-025,23,Female,Outpatient,55,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-026,68,Female,Emergency,101,Mzizi Memorial,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-027,33,Female,Emergency,143,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-028,34,Female,Inpatient,69,Mombasa Hospital,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-029,73,Female,Emergency,171,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-030,49,Female,Inpatient,142,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-031,61,Female,Outpatient,107,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-032,26,Male,Inpatient,89,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-033,23,Male,Outpatient,45,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-034,59,Male,Emergency,166,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-035,67,Female,Inpatient,19,Liwatons,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-036,44,Female,Outpatient,7,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-037,72,Male,Outpatient,152,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-038,39,Male,Outpatient,14,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-039,65,Male,Inpatient,84,Mzizi Memorial,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-040,49,Male,Inpatient,6,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-041,63,Female,Emergency,86,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-042,42,Female,Emergency,53,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-043,69,Female,Emergency,71,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-044,64,Female,Emergency,139,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-045,70,Male,Emergency,104,Mzizi Memorial,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-046,69,Male,Inpatient,157,Liwatons,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-047,60,Male,Inpatient,70,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-048,55,Female,Inpatient,91,Coast General,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-049,71,Female,Inpatient,10,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-050,35,Female,Inpatient,169,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-051,23,Male,Emergency,180,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-052,61,Male,Emergency,53,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-053,21,Female,Outpatient,180,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-054,61,Male,Outpatient,168,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-055,41,Female,Inpatient,55,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-056,44,Male,Outpatient,160,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-057,32,Male,Emergency,83,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-058,26,Female,Inpatient,115,Coast General,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-059,66,Female,Inpatient,166,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-060,54,Male,Outpatient,37,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-061,30,Male,Inpatient,168,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-062,34,Male,Inpatient,55,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-063,29,Female,Inpatient,65,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-064,40,Female,Emergency,166,Liwatons,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-065,25,Female,Emergency,69,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-066,65,Male,Inpatient,69,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-067,47,Male,Inpatient,22,Coast General,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-068,74,Male,Inpatient,58,Mzizi Memorial,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-069,44,Male,Emergency,144,Coast General,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-070,32,Male,Outpatient,30,Liwatons,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-071,31,Female,Inpatient,48,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-072,55,Male,Outpatient,130,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-073,23,Male,Outpatient,177,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-074,24,Female,Emergency,111,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-075,36,Male,Emergency,63,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-076,22,Male,Emergency,60,Mzizi Memorial,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-077,22,Female,Inpatient,128,Mombasa Hospital,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-078,50,Female,Emergency,121,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-079,24,Female,Outpatient,5,Liwatons,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-080,46,Male,Outpatient,44,Mzizi Memorial,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-081,24,Female,Inpatient,157,Mombasa Hospital,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-082,20,Male,Emergency,132,Liwatons,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-083,40,Female,Inpatient,8,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-084,47,Female,Emergency,40,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-085,32,Female,Outpatient,39,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-086,30,Male,Emergency,125,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-087,47,Female,Outpatient,99,Liwatons,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-088,71,Female,Inpatient,55,Coast General,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-089,60,Female,Outpatient,130,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-090,43,Male,Inpatient,18,Coast General,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-091,31,Female,Inpatient,178,Coast General,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-092,65,Female,Outpatient,78,Mombasa Hospital,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-093,34,Male,Inpatient,152,Mzizi Memorial,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-094,45,Female,Inpatient,44,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-095,64,Female,Emergency,101,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-096,45,Female,Inpatient,158,Mzizi Memorial,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-097,64,Male,Inpatient,9,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-098,34,Male,Outpatient,147,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-099,56,Male,Inpatient,94,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-100,66,Male,Emergency,140,Mombasa Hospital,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-101,42,Male,Emergency,122,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-102,26,Female,Inpatient,134,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-103,71,Female,Emergency,161,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-104,42,Male,Outpatient,143,Mombasa Hospital,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-105,21,Female,Emergency,132,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-106,48,Male,Outpatient,102,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-107,65,Male,Outpatient,72,Mombasa Hospital,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-108,55,Male,Outpatient,172,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-109,64,Male,Inpatient,89,Mzizi Memorial,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-110,24,Male,Outpatient,170,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-111,33,Male,Inpatient,24,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-112,62,Female,Outpatient,133,Coast General,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-113,73,Female,Inpatient,155,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-114,74,Male,Outpatient,90,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-115,70,Male,Outpatient,131,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-116,66,Male,Outpatient,75,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-117,73,Male,Inpatient,20,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-118,37,Male,Outpatient,174,Liwatons,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-119,58,Male,Outpatient,136,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-120,41,Male,Inpatient,122,Mombasa Hospital,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-121,27,Female,Inpatient,135,Mzizi Memorial,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-122,56,Female,Emergency,150,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-123,34,Male,Emergency,33,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-124,41,Male,Emergency,148,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-125,74,Female,Inpatient,68,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-126,20,Female,Outpatient,145,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-127,41,Female,Inpatient,106,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-128,44,Female,Inpatient,150,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-129,50,Male,Outpatient,17,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-130,53,Male,Inpatient,148,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-131,65,Male,Outpatient,109,Liwatons,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-132,21,Female,Inpatient,64,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-133,64,Female,Inpatient,93,Liwatons,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-134,34,Male,Emergency,154,Mzizi Memorial,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-135,65,Male,Emergency,136,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-136,46,Female,Emergency,80,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-137,58,Female,Emergency,23,Mombasa Hospital,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-138,42,Female,Emergency,125,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-139,43,Female,Outpatient,7,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-140,34,Male,Emergency,74,Mzizi Memorial,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-141,68,Female,Emergency,90,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-142,19,Male,Inpatient,9,Mzizi Memorial,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-143,34,Female,Outpatient,96,Liwatons,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-144,34,Male,Outpatient,30,Mzizi Memorial,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-145,29,Female,Emergency,150,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-146,70,Male,Outpatient,105,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-147,23,Male,Emergency,70,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-148,28,Female,Emergency,100,Coast General,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-149,46,Female,Outpatient,124,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-150,45,Female,Outpatient,31,Liwatons,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-151,40,Female,Emergency,49,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-152,21,Female,Outpatient,75,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-153,26,Female,Emergency,29,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-154,49,Female,Inpatient,59,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-155,54,Male,Inpatient,98,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-156,35,Female,Inpatient,77,Mombasa Hospital,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-157,49,Male,Inpatient,84,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-158,64,Male,Outpatient,125,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-159,72,Male,Outpatient,101,Mzizi Memorial,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-160,64,Female,Emergency,124,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-161,29,Female,Emergency,158,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-162,24,Female,Inpatient,65,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-163,74,Female,Outpatient,137,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-164,57,Male,Outpatient,63,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-165,48,Male,Inpatient,137,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-166,43,Female,Emergency,81,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-167,58,Male,Emergency,7,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-168,42,Male,Outpatient,47,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-169,69,Female,Emergency,155,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-170,48,Female,Emergency,6,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-171,32,Female,Emergency,158,Mzizi Memorial,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-172,49,Male,Emergency,105,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-173,64,Male,Inpatient,132,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-174,61,Male,Outpatient,60,Liwatons,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-175,69,Female,Inpatient,51,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-176,58,Male,Inpatient,34,Mzizi Memorial,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-177,39,Male,Outpatient,163,Mzizi Memorial,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-178,39,Female,Inpatient,45,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-179,50,Male,Outpatient,156,Coast General,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-180,22,Female,Emergency,28,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-181,49,Female,Emergency,128,Coast General,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-182,69,Female,Inpatient,116,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-183,61,Male,Inpatient,15,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-184,21,Male,Emergency,150,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-185,29,Female,Emergency,147,Mzizi Memorial,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-186,52,Male,Emergency,9,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-187,21,Female,Emergency,159,Liwatons,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-188,34,Female,Inpatient,168,Mzizi Memorial,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-189,57,Female,Outpatient,173,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-190,62,Male,Emergency,162,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-191,18,Male,Emergency,140,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-192,30,Male,Emergency,79,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-193,49,Male,Inpatient,34,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-194,63,Male,Outpatient,174,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-195,26,Male,Inpatient,113,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-196,56,Male,Outpatient,163,Mzizi Memorial,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-197,44,Female,Emergency,68,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-198,37,Male,Inpatient,41,Mzizi Memorial,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-199,70,Male,Emergency,149,Liwatons,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-200,74,Male,Emergency,27,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-201,18,Male,Outpatient,108,Coast General,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-202,72,Male,Inpatient,172,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-203,37,Male,Emergency,9,Mzizi Memorial,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-204,41,Female,Inpatient,83,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-205,36,Female,Emergency,168,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-206,20,Female,Inpatient,180,Liwatons,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-207,72,Female,Outpatient,133,Mzizi Memorial,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-208,51,Female,Outpatient,65,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-209,21,Male,Outpatient,93,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-210,58,Male,Outpatient,67,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-211,32,Male,Outpatient,76,Mzizi Memorial,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-212,50,Male,Emergency,135,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-213,49,Male,Inpatient,154,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-214,27,Female,Emergency,173,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-215,44,Female,Emergency,42,Coast General,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-216,24,Male,Inpatient,36,Liwatons,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-217,18,Male,Inpatient,110,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-218,58,Male,Inpatient,40,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-219,21,Male,Outpatient,151,Coast General,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-220,60,Male,Emergency,155,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-221,46,Male,Emergency,40,Mombasa Hospital,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-222,20,Female,Inpatient,83,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-223,64,Female,Inpatient,29,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-224,42,Male,Inpatient,177,Mombasa Hospital,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-225,55,Female,Outpatient,53,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-226,27,Male,Outpatient,109,Liwatons,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-227,65,Female,Outpatient,161,Mzizi Memorial,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-228,62,Male,Inpatient,35,Mombasa Hospital,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-229,27,Male,Emergency,44,Mzizi Memorial,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-230,65,Male,Outpatient,113,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-231,42,Female,Outpatient,30,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-232,72,Male,Emergency,175,Mombasa Hospital,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-233,31,Female,Outpatient,80,Mzizi Memorial,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-234,61,Male,Inpatient,147,Mombasa Hospital,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-235,42,Male,Emergency,9,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-236,24,Female,Outpatient,16,Liwatons,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-237,36,Female,Outpatient,39,Coast General,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-238,28,Female,Outpatient,174,Coast General,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-239,27,Female,Emergency,177,Mzizi Memorial,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1
+MBS-240,61,Male,Emergency,14,Coast General,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1
