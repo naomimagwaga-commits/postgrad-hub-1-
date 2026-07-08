@@ -312,6 +312,42 @@ export default function Home() {
       </section>
 
       {/* ─────────────────────────  CTA  ───────────────────────── */}
+
+      {/* Free Resources */}
+      <section className="py-16 lg:py-20 bg-parchment">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <span className="eyebrow">— Free resources</span>
+            <h2 className="display text-3xl lg:text-4xl text-brand mt-3">
+              Everything you need to <span className="italic font-light">get started.</span>
+            </h2>
+            <p className="mt-3 text-slate-600 max-w-2xl mx-auto">Free tools to help you learn SPSS, choose the right test, and practice with real Kenyan data — no payment required.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <a href="/pathway" className="group bg-white/70 backdrop-blur rounded-xl border border-slate-200 p-6 hover:border-gold transition block">
+              <span className="text-3xl">🗺️</span>
+              <h3 className="display text-lg text-brand mt-3 group-hover:text-gold-700 transition">Learning Pathway</h3>
+              <p className="text-sm text-slate-600 mt-2">3-track roadmap: Beginner → Intermediate → Advanced. Know exactly which lesson to do next.</p>
+            </a>
+            <a href="/glossary" className="group bg-white/70 backdrop-blur rounded-xl border border-slate-200 p-6 hover:border-gold transition block">
+              <span className="text-3xl">📖</span>
+              <h3 className="display text-lg text-brand mt-3 group-hover:text-gold-700 transition">Glossary</h3>
+              <p className="text-sm text-slate-600 mt-2">Every statistical term explained like you're 15. Searchable, filterable, bookmarkable.</p>
+            </a>
+            <a href="/datasets" className="group bg-white/70 backdrop-blur rounded-xl border border-slate-200 p-6 hover:border-gold transition block">
+              <span className="text-3xl">📊</span>
+              <h3 className="display text-lg text-brand mt-3 group-hover:text-gold-700 transition">Practice Datasets</h3>
+              <p className="text-sm text-slate-600 mt-2">5 free Kenyan datasets ready for SPSS. Download, open, and practice with real data.</p>
+            </a>
+            <a href="/cheatsheet" className="group bg-white/70 backdrop-blur rounded-xl border border-slate-200 p-6 hover:border-gold transition block">
+              <span className="text-3xl">📋</span>
+              <h3 className="display text-lg text-brand mt-3 group-hover:text-gold-700 transition">Cheat Sheet</h3>
+              <p className="text-sm text-slate-600 mt-2">One-page flowchart: which test, which template, which benchmarks. Print or save as PDF.</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section className="py-16 lg:py-24">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl bg-gradient-to-br from-brand-700 via-brand to-brand-600 text-white p-10 lg:p-16 overflow-hidden">
