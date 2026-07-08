@@ -6994,6 +6994,47 @@ export function ReliabilityDecisionMap() {
   return <ScreenshotFrame src="/lesson-images/reliability/07-decision-map.jpg"
     alt="Reliability testing decision map showing all 3 lessons in the course. Cronbach as default first step. Item-Total analysis if alpha is borderline. Split-half only if 2 clear halves or supervisor requests. Typical workflow described in the navy banner"/>;
 }
+/* ─── ANOVA course — One-way + Post-hoc + Kruskal-Wallis + decision map ─── */
+export function KiambuAnovaWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/00-anova-wwww.jpg"
+    alt="One-Way ANOVA WWWW 4-quadrant reference card using Kiambu Maize 3-fertilizer comparison. WHAT explains comparing 3+ group means. WHY explains why 3 t-tests inflates Type I error. WHERE lists Kenyan scenarios. WHEN gives decision table"/>;
+}
+export function KiambuAnovaDialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/01-anova-dialog.jpg"
+    alt="SPSS One-Way ANOVA dialog for Kiambu. Yield_KgPerAcre in Dependent List, FertilizerType in Factor. Post Hoc and Options buttons highlighted gold as critical setup steps"/>;
+}
+export function KiambuAnovaOutput() {
+  return <ScreenshotFrame src="/lesson-images/anova/02-anova-output.jpg"
+    alt="SPSS One-Way ANOVA output for Kiambu Maize. Descriptives shows DAP mean 1840, CAN 1620, Organic 1450 across 60 farms each. Levene not significant p=.122. ANOVA F(2,177) equals 22.40, p less than .001. Eta squared calculation shown as .20 large effect"/>;
+}
+export function KiambuPostHocWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/03-posthoc-wwww.jpg"
+    alt="Post-Hoc Tests WWWW 4-quadrant reference card. WHAT explains follow-up tests after significant ANOVA. WHY explains why not just multiple t-tests. WHERE and WHEN cover choosing Tukey vs Bonferroni vs Games-Howell vs Dunnett. Warning against LSD"/>;
+}
+export function KiambuPostHocDialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/04-posthoc-dialog.jpg"
+    alt="SPSS Post Hoc Multiple Comparisons sub-dialog. Tukey checked highlighted gold as default. Games-Howell highlighted amber as alternative for unequal variances. Full grid of options shown with LSD, Bonferroni, Scheffe, Sidak, Dunnett etc"/>;
+}
+export function KiambuPostHocOutput() {
+  return <ScreenshotFrame src="/lesson-images/anova/05-posthoc-output.jpg"
+    alt="SPSS Tukey HSD Post-Hoc output for Kiambu 3-fertilizer comparison. Multiple Comparisons table shows all 3 pairwise comparisons significant: DAP vs CAN mean diff 220 p=.001, DAP vs Organic 390 p<.001, CAN vs Organic 170 p=.012. Homogeneous Subsets table places each group in own subset showing all differ"/>;
+}
+export function KiambuKWWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/06-kw-wwww.jpg"
+    alt="Kruskal-Wallis H WWWW 4-quadrant reference card using Kiambu Maize. WHAT explains rank-based comparison of 3+ groups. WHY explains it as non-parametric alternative to one-way ANOVA. WHERE lists ordinal and non-normal scenarios. WHEN gives decision table with Dunn-Bonferroni for post-hoc"/>;
+}
+export function KiambuKWDialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/07-kw-dialog.jpg"
+    alt="SPSS Tests for Several Independent Samples dialog for Kiambu Kruskal-Wallis. Yield_KgPerAcre in Test Variable List, FertilizerType (1 3) as Grouping Variable with Define Range button. Kruskal-Wallis H checkbox ticked highlighted gold"/>;
+}
+export function KiambuKWOutput() {
+  return <ScreenshotFrame src="/lesson-images/anova/08-kw-output.jpg"
+    alt="SPSS Kruskal-Wallis output for Kiambu. Ranks table shows DAP mean rank 128.72, CAN 92.15, Organic 50.63. Test Statistics shows H equals 42.15, df 2, Sig less than .001. Chapter 4 write-up explains reporting medians and Dunn-Bonferroni post-hoc"/>;
+}
+export function ANOVADecisionMap() {
+  return <ScreenshotFrame src="/lesson-images/anova/09-decision-map.jpg"
+    alt="Which ANOVA test do I need decision map showing all 9 ANOVA-family tests. One-way ANOVA + Post-hoc, Two-way ANOVA, Repeated Measures ANOVA, Mixed ANOVA, ANCOVA, MANOVA, Kruskal-Wallis, and Friedman. Branches show which to choose based on IVs, subjects, normality, and covariates"/>;
+}
 
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
@@ -7441,6 +7482,11 @@ export const ILLUSTRATIONS = {
   ItemTotalWWWW, ItemTotalTable,
   SplitHalfWWWW, SplitHalfOutput,
   ReliabilityDecisionMap,
+  /* ANOVA course Part 1 — One-way + Post-hoc + Kruskal-Wallis + decision map */
+  KiambuAnovaWWWW, KiambuAnovaDialog, KiambuAnovaOutput,
+  KiambuPostHocWWWW, KiambuPostHocDialog, KiambuPostHocOutput,
+  KiambuKWWWWW, KiambuKWDialog, KiambuKWOutput,
+  ANOVADecisionMap,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
