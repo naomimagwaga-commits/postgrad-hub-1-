@@ -7077,6 +7077,44 @@ export function NakuruFriedmanOutput() {
     alt="SPSS Friedman output for Nakuru SBP. Ranks table shows SBP_T0 mean rank 2.71 (highest), SBP_T1 2.02, SBP_T2 1.27 (lowest). Test Statistics N 45, Chi-Square 71.24, df 2, Asymp Sig less than .001. Progressive downward trend"/>;
 }
 
+/* ANOVA course Part 3 — Mixed + ANCOVA + MANOVA */
+export function KiambuANCOVAWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/20-ancova-wwww.jpg"
+    alt="ANCOVA WWWW 4-quadrant reference card using Kiambu FertilizerType with FarmSizeAcres as covariate. WHAT explains ANCOVA is ANOVA plus continuous covariates statistically controlled. WHY explains adjusted means and power gain. WHERE gives the Kiambu example. WHEN lists the three ANCOVA-specific assumptions"/>;
+}
+export function KiambuANCOVADialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/21-ancova-dialog.jpg"
+    alt="SPSS Univariate GLM dialog for Kiambu ANCOVA. Yield_KgPerAcre as Dependent Variable, FertilizerType as Fixed Factor, FarmSizeAcres in the Covariates box highlighted gold. EM Means button also highlighted for adjusted means"/>;
+}
+export function KiambuANCOVAOutput() {
+  return <ScreenshotFrame src="/lesson-images/anova/22-ancova-output.jpg"
+    alt="SPSS ANCOVA output for Kiambu. Tests of Between-Subjects Effects shows FarmSizeAcres covariate F(1,176) equals 24.83 p less than .001 partial eta squared .124 significant covariate. FertilizerType F(2,176) equals 21.69 p less than .001 partial eta squared .198 large effect after adjustment. Estimated Marginal Means table showing DAP 1832.4, CAN 1618.7, Organic 1452.9, all adjusted for average FarmSizeAcres of 2.34 acres"/>;
+}
+export function KiambuMANOVAWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/23-manova-wwww.jpg"
+    alt="MANOVA WWWW 4-quadrant reference card using Kiambu FertilizerType predicting two outcomes Yield_KgPerAcre and GrainQuality_Score. WHAT explains multivariate simultaneous comparison. WHY explains family-wise error control and joint distribution. WHERE gives the Kiambu multi-outcome example. WHEN lists Box M and multivariate normality assumptions"/>;
+}
+export function KiambuMANOVADialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/24-manova-dialog.jpg"
+    alt="SPSS Multivariate GLM dialog for Kiambu MANOVA. Two outcomes Yield_KgPerAcre and GrainQuality_Score stacked in Dependent Variables box highlighted gold. FertilizerType as Fixed Factor. Options button highlighted for Box M homogeneity test"/>;
+}
+export function KiambuMANOVAOutput() {
+  return <ScreenshotFrame src="/lesson-images/anova/25-manova-output.jpg"
+    alt="SPSS MANOVA output for Kiambu. Multivariate Tests table shows Pillai Trace .384 F(4,354) equals 21.53 p less than .001 partial eta squared .196 highlighted as the main result. Wilks Lambda .624, Hotelling Trace .592, Roy Largest Root .580 all significant. Univariate follow-ups show Yield F(2,177) equals 22.40 partial eta squared .202 and GrainQuality F(2,177) equals 15.86 partial eta squared .152, use Bonferroni-adjusted alpha equals .025"/>;
+}
+export function NakuruMixedWWWW() {
+  return <ScreenshotFrame src="/lesson-images/anova/26-mixed-wwww.jpg"
+    alt="Mixed ANOVA WWWW 4-quadrant reference card using Nakuru Wellness SBP over 3 time points crossed with Sex as between-subjects factor. WHAT explains combined between and within design. WHY emphasises the interaction as the key result for intervention studies. WHERE gives the Nakuru example. WHEN lists sphericity and between-group homogeneity assumptions"/>;
+}
+export function NakuruMixedDialog() {
+  return <ScreenshotFrame src="/lesson-images/anova/27-mixed-dialog.jpg"
+    alt="SPSS Repeated Measures 2-dialog setup for Nakuru Mixed ANOVA. Define Factors dialog first with Time factor 3 levels. Main dialog second with SBP_T0, SBP_T1, SBP_T2 in Within-Subjects Variables and Sex in Between-Subjects Factors box highlighted gold. Plots button highlighted for Time by Sex profile plot"/>;
+}
+export function NakuruMixedOutput() {
+  return <ScreenshotFrame src="/lesson-images/anova/28-mixed-output.jpg"
+    alt="SPSS Mixed ANOVA output for Nakuru. Mauchly Test W .812 p .014 sphericity violated so use Greenhouse-Geisser. Within-Subjects Time effect Greenhouse-Geisser F(1.68, 72.24) equals 38.42 p less than .001 partial eta squared .472 large. Time by Sex interaction F(1.68, 72.24) equals 5.94 p equals .006 partial eta squared .121 medium significant. Between-Subjects Sex main effect F(1,43) equals 2.18 p equals .147 not significant"/>;
+}
+
 /* ─── Data Cleaning · Recoding + Reverse-coding ─── */
 export function MachakosCleanRecodeMain() {
   return <ScreenshotFrame
@@ -7532,6 +7570,9 @@ export const ILLUSTRATIONS = {
   KiambuTwoWayWWWW, KiambuTwoWayDialog, KiambuTwoWayOutput, KiambuInteractionPlot,
   NakuruRMWWWW, NakuruRMDialog, NakuruRMOutput,
   NakuruFriedmanWWWW, NakuruFriedmanDialog, NakuruFriedmanOutput,
+  KiambuANCOVAWWWW, KiambuANCOVADialog, KiambuANCOVAOutput,
+  KiambuMANOVAWWWW, KiambuMANOVADialog, KiambuMANOVAOutput,
+  NakuruMixedWWWW, NakuruMixedDialog, NakuruMixedOutput,
   Scatter4, BivariateDialog, CorrelationOutput, PearsonFormula,
   HowRWorks, OutlierImpact, CurvilinearWarning, ScatterAnnotated,
   /* SPSS Basics 1-2 */
