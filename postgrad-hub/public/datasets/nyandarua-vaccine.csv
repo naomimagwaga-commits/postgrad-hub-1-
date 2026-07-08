@@ -1,0 +1,321 @@
+Respondent_ID,Age,Gender,Education,Vaccine_Acceptance,Religion,Location,HealthWorker_Contact,Distance_km
+NYV-001,21,Female,Secondary,No,Muslim,Ol Kalou,No,11.8
+NYV-002,44,Female,Secondary,No,Christian,Kipipiri,Yes,6.9
+NYV-003,60,Male,Secondary,Yes,Christian,Kipipiri,Yes,11.0
+NYV-004,51,Male,Secondary,Yes,Other,Ol Joro Orok,No,15.2
+NYV-005,22,Male,Diploma,No,Muslim,Ndaragwa,Yes,18.8
+NYV-006,49,Male,Primary,No,Other,Ndaragwa,No,12.3
+NYV-007,31,Female,Primary,Yes,Muslim,Ndaragwa,Yes,6.4
+NYV-008,29,Female,Diploma,No,Muslim,Kipipiri,Yes,7.8
+NYV-009,46,Female,Degree,Yes,Christian,Kinangop,Yes,0.8
+NYV-010,70,Female,Degree,Yes,Christian,Ol Kalou,No,11.0
+NYV-011,25,Female,Degree,Yes,Christian,Ol Kalou,Yes,22.0
+NYV-012,28,Female,Primary,Yes,Other,Kipipiri,Yes,6.3
+NYV-013,46,Female,Primary,No,Muslim,Kinangop,No,16.3
+NYV-014,64,Male,Secondary,No,Other,Kinangop,Yes,13.6
+NYV-015,39,Female,Diploma,Yes,Other,Kipipiri,Yes,12.5
+NYV-016,46,Male,Secondary,Yes,Christian,Ndaragwa,Yes,2.5
+NYV-017,42,Female,Diploma,Yes,Muslim,Kipipiri,No,12.4
+NYV-018,33,Female,Diploma,Yes,Christian,Ol Kalou,Yes,8.3
+NYV-019,53,Female,Degree,Yes,Christian,Ndaragwa,No,1.8
+NYV-020,21,Male,Degree,Yes,Other,Ndaragwa,No,2.2
+NYV-021,53,Male,Secondary,Yes,Muslim,Kipipiri,No,8.6
+NYV-022,34,Female,Degree,Yes,Muslim,Kinangop,Yes,16.1
+NYV-023,35,Female,Degree,Yes,Other,Ndaragwa,No,19.1
+NYV-024,53,Female,Degree,No,Other,Kipipiri,Yes,16.7
+NYV-025,51,Male,Primary,No,Other,Ol Joro Orok,Yes,24.1
+NYV-026,29,Female,Diploma,No,Other,Kipipiri,No,13.6
+NYV-027,42,Female,Postgrad,Yes,Christian,Ol Kalou,Yes,10.3
+NYV-028,43,Female,Secondary,No,Christian,Ol Kalou,No,24.4
+NYV-029,41,Male,Primary,Yes,Other,Ol Kalou,Yes,10.7
+NYV-030,61,Female,Diploma,Yes,Muslim,Ol Joro Orok,Yes,5.1
+NYV-031,68,Female,Secondary,Yes,Other,Ol Joro Orok,Yes,23.0
+NYV-032,33,Male,Degree,Yes,Muslim,Kipipiri,Yes,19.6
+NYV-033,62,Male,Degree,Yes,Christian,Kipipiri,No,16.7
+NYV-034,22,Male,Secondary,No,Muslim,Ol Joro Orok,Yes,17.4
+NYV-035,45,Female,Degree,No,Christian,Ndaragwa,Yes,1.3
+NYV-036,38,Male,Degree,Yes,Muslim,Ndaragwa,Yes,1.0
+NYV-037,23,Female,Secondary,Yes,Christian,Ol Joro Orok,Yes,1.8
+NYV-038,60,Female,Diploma,No,Christian,Ol Kalou,No,23.6
+NYV-039,21,Female,Diploma,No,Christian,Kipipiri,No,4.0
+NYV-040,34,Male,Primary,Yes,Other,Ol Joro Orok,No,15.4
+NYV-041,59,Male,Diploma,Yes,Christian,Kinangop,Yes,20.0
+NYV-042,58,Male,Primary,No,Christian,Ol Kalou,Yes,10.3
+NYV-043,49,Female,Primary,Yes,Other,Kipipiri,Yes,22.3
+NYV-044,48,Female,Degree,Yes,Muslim,Ndaragwa,Yes,0.8
+NYV-045,25,Male,Diploma,Yes,Other,Ndaragwa,Yes,20.3
+NYV-046,70,Female,Degree,Yes,Muslim,Kipipiri,No,8.8
+NYV-047,58,Male,Postgrad,Yes,Other,Ol Joro Orok,No,17.1
+NYV-048,47,Male,Secondary,Yes,Christian,Ol Kalou,Yes,5.4
+NYV-049,23,Male,Diploma,Yes,Muslim,Ol Joro Orok,No,17.8
+NYV-050,38,Male,Secondary,Yes,Christian,Ol Joro Orok,No,2.9
+NYV-051,43,Male,Degree,Yes,Other,Ndaragwa,No,24.5
+NYV-052,58,Male,Secondary,No,Muslim,Ol Joro Orok,No,22.2
+NYV-053,60,Male,Secondary,Yes,Muslim,Ol Kalou,Yes,11.3
+NYV-054,43,Male,Secondary,No,Muslim,Ol Joro Orok,No,1.1
+NYV-055,18,Male,Secondary,Yes,Other,Ndaragwa,No,2.5
+NYV-056,29,Male,Degree,Yes,Other,Kinangop,Yes,14.6
+NYV-057,44,Female,Degree,Yes,Other,Kipipiri,No,16.0
+NYV-058,56,Male,Secondary,No,Muslim,Ol Kalou,Yes,22.0
+NYV-059,55,Male,Primary,Yes,Other,Kinangop,No,4.8
+NYV-060,36,Male,Secondary,Yes,Christian,Ol Joro Orok,Yes,19.4
+NYV-061,20,Male,Degree,Yes,Other,Ol Kalou,No,18.4
+NYV-062,18,Male,Secondary,Yes,Christian,Ol Joro Orok,Yes,17.2
+NYV-063,49,Male,Diploma,No,Christian,Ol Joro Orok,Yes,19.4
+NYV-064,62,Male,Secondary,Yes,Muslim,Kinangop,No,15.1
+NYV-065,18,Female,Primary,No,Other,Ol Joro Orok,Yes,20.5
+NYV-066,51,Female,Degree,Yes,Muslim,Kinangop,Yes,12.6
+NYV-067,40,Female,Secondary,Yes,Christian,Ndaragwa,No,6.3
+NYV-068,49,Female,Primary,No,Christian,Ol Joro Orok,No,3.9
+NYV-069,42,Female,Diploma,Yes,Muslim,Kipipiri,Yes,6.2
+NYV-070,18,Male,Diploma,Yes,Muslim,Kinangop,No,15.6
+NYV-071,33,Male,Secondary,No,Muslim,Ol Kalou,Yes,6.2
+NYV-072,53,Female,Diploma,Yes,Christian,Kipipiri,No,6.4
+NYV-073,47,Male,Degree,Yes,Other,Kipipiri,No,22.2
+NYV-074,36,Male,Degree,Yes,Other,Kipipiri,No,10.6
+NYV-075,60,Female,Secondary,Yes,Christian,Ol Kalou,Yes,19.1
+NYV-076,23,Female,Primary,Yes,Muslim,Kipipiri,No,17.9
+NYV-077,54,Female,Degree,Yes,Muslim,Kipipiri,No,20.8
+NYV-078,25,Female,Secondary,No,Christian,Ol Joro Orok,No,18.3
+NYV-079,53,Female,Diploma,Yes,Christian,Ol Joro Orok,No,15.6
+NYV-080,22,Female,Primary,No,Other,Kipipiri,Yes,22.7
+NYV-081,58,Female,Diploma,Yes,Christian,Ndaragwa,Yes,4.0
+NYV-082,29,Female,Diploma,Yes,Muslim,Kinangop,No,3.5
+NYV-083,26,Male,Diploma,Yes,Muslim,Kinangop,Yes,24.4
+NYV-084,62,Female,Primary,Yes,Muslim,Kipipiri,Yes,11.9
+NYV-085,34,Female,Degree,Yes,Muslim,Ol Kalou,No,6.0
+NYV-086,63,Female,Secondary,Yes,Muslim,Ndaragwa,Yes,10.8
+NYV-087,56,Male,Diploma,Yes,Other,Ol Joro Orok,No,1.2
+NYV-088,58,Male,Diploma,Yes,Christian,Ndaragwa,Yes,3.1
+NYV-089,21,Male,Secondary,Yes,Christian,Ol Joro Orok,No,17.0
+NYV-090,69,Male,Diploma,Yes,Christian,Kipipiri,Yes,7.5
+NYV-091,37,Female,Secondary,No,Other,Kinangop,No,2.3
+NYV-092,63,Male,Primary,Yes,Christian,Kipipiri,No,24.8
+NYV-093,23,Male,Primary,No,Other,Ol Joro Orok,Yes,12.1
+NYV-094,38,Male,Secondary,No,Other,Ol Kalou,No,11.0
+NYV-095,69,Female,Diploma,Yes,Muslim,Kinangop,No,18.1
+NYV-096,36,Female,Secondary,Yes,Christian,Ndaragwa,No,20.7
+NYV-097,55,Female,Diploma,Yes,Christian,Ol Kalou,No,17.5
+NYV-098,25,Female,Secondary,Yes,Christian,Ndaragwa,Yes,5.8
+NYV-099,34,Female,Diploma,No,Christian,Ndaragwa,No,18.2
+NYV-100,51,Male,Secondary,Yes,Christian,Ndaragwa,Yes,8.8
+NYV-101,43,Female,Diploma,Yes,Christian,Ndaragwa,No,3.8
+NYV-102,29,Male,Diploma,Yes,Other,Ol Kalou,No,8.0
+NYV-103,38,Female,Postgrad,No,Christian,Kinangop,Yes,16.2
+NYV-104,39,Male,Degree,Yes,Other,Ol Joro Orok,Yes,17.1
+NYV-105,23,Female,Primary,No,Christian,Ol Kalou,No,13.3
+NYV-106,67,Female,Secondary,No,Other,Ol Kalou,No,5.9
+NYV-107,40,Male,Secondary,No,Christian,Kipipiri,No,23.7
+NYV-108,26,Male,Diploma,No,Muslim,Ol Kalou,Yes,5.2
+NYV-109,55,Female,Diploma,Yes,Other,Ol Joro Orok,Yes,7.4
+NYV-110,40,Male,Secondary,Yes,Muslim,Ol Kalou,No,0.8
+NYV-111,22,Female,Secondary,No,Other,Ndaragwa,No,7.6
+NYV-112,24,Female,Secondary,No,Other,Ol Kalou,Yes,19.6
+NYV-113,32,Female,Primary,Yes,Christian,Ndaragwa,No,14.9
+NYV-114,66,Male,Diploma,No,Other,Ol Kalou,No,2.0
+NYV-115,57,Female,Secondary,Yes,Christian,Kipipiri,Yes,2.8
+NYV-116,48,Male,Degree,No,Christian,Kipipiri,No,22.7
+NYV-117,59,Female,Secondary,No,Christian,Ol Kalou,No,4.7
+NYV-118,70,Female,Primary,No,Christian,Ndaragwa,No,18.2
+NYV-119,43,Male,Secondary,No,Muslim,Ndaragwa,Yes,10.9
+NYV-120,60,Female,Diploma,Yes,Other,Kinangop,Yes,7.5
+NYV-121,18,Female,Secondary,No,Christian,Kipipiri,No,6.1
+NYV-122,60,Female,Postgrad,Yes,Muslim,Kipipiri,Yes,14.2
+NYV-123,48,Male,Degree,Yes,Christian,Ol Joro Orok,No,6.2
+NYV-124,25,Male,Degree,Yes,Christian,Ol Kalou,Yes,17.5
+NYV-125,21,Female,Diploma,Yes,Other,Kinangop,No,8.1
+NYV-126,31,Male,Degree,Yes,Muslim,Kipipiri,No,15.4
+NYV-127,64,Male,Primary,Yes,Christian,Ndaragwa,Yes,10.4
+NYV-128,18,Male,Postgrad,Yes,Other,Ndaragwa,No,11.3
+NYV-129,18,Male,Degree,Yes,Christian,Kinangop,No,11.3
+NYV-130,36,Male,Degree,Yes,Muslim,Kipipiri,Yes,10.1
+NYV-131,53,Female,Primary,Yes,Christian,Kinangop,No,7.4
+NYV-132,60,Female,Degree,Yes,Christian,Ndaragwa,No,7.0
+NYV-133,66,Male,Secondary,Yes,Muslim,Kipipiri,Yes,18.1
+NYV-134,27,Female,Degree,Yes,Christian,Ndaragwa,Yes,6.5
+NYV-135,42,Male,Degree,No,Muslim,Ndaragwa,Yes,7.4
+NYV-136,23,Male,Degree,Yes,Christian,Ndaragwa,Yes,3.1
+NYV-137,65,Female,Secondary,No,Christian,Ndaragwa,No,3.5
+NYV-138,45,Female,Primary,Yes,Christian,Ndaragwa,Yes,12.3
+NYV-139,32,Male,Degree,No,Christian,Ol Kalou,Yes,1.8
+NYV-140,56,Male,Diploma,Yes,Christian,Ndaragwa,No,22.1
+NYV-141,50,Female,Diploma,No,Muslim,Kipipiri,Yes,15.5
+NYV-142,42,Female,Degree,Yes,Muslim,Kipipiri,Yes,15.9
+NYV-143,57,Female,Secondary,Yes,Christian,Ol Joro Orok,Yes,13.2
+NYV-144,27,Male,Secondary,No,Other,Ol Joro Orok,Yes,6.4
+NYV-145,61,Female,Secondary,Yes,Christian,Ndaragwa,Yes,8.7
+NYV-146,19,Male,Primary,No,Other,Kipipiri,No,4.2
+NYV-147,67,Female,Secondary,Yes,Muslim,Ndaragwa,No,23.6
+NYV-148,68,Female,Degree,Yes,Christian,Ol Joro Orok,Yes,13.1
+NYV-149,31,Female,Secondary,No,Christian,Ol Kalou,Yes,10.1
+NYV-150,39,Female,Secondary,Yes,Other,Kipipiri,No,9.2
+NYV-151,55,Male,Secondary,No,Muslim,Ndaragwa,Yes,11.1
+NYV-152,65,Female,Primary,No,Muslim,Ol Kalou,Yes,5.8
+NYV-153,37,Male,Primary,No,Muslim,Ol Joro Orok,Yes,2.7
+NYV-154,18,Male,Degree,Yes,Muslim,Kipipiri,Yes,9.6
+NYV-155,38,Female,Secondary,No,Christian,Kinangop,No,10.2
+NYV-156,22,Female,Secondary,No,Other,Kinangop,Yes,22.1
+NYV-157,19,Male,Degree,Yes,Other,Ol Joro Orok,Yes,19.6
+NYV-158,25,Female,Secondary,No,Other,Kinangop,Yes,16.3
+NYV-159,64,Female,Secondary,Yes,Other,Ol Joro Orok,No,1.8
+NYV-160,54,Male,Degree,Yes,Muslim,Ol Kalou,Yes,15.6
+NYV-161,38,Male,Secondary,No,Other,Kipipiri,No,6.3
+NYV-162,37,Female,Secondary,No,Muslim,Kinangop,Yes,8.1
+NYV-163,58,Male,Secondary,No,Christian,Ol Joro Orok,No,19.1
+NYV-164,63,Male,Secondary,No,Other,Kipipiri,Yes,3.0
+NYV-165,42,Female,Primary,Yes,Christian,Ol Kalou,Yes,1.5
+NYV-166,20,Male,Secondary,Yes,Christian,Ol Joro Orok,No,21.3
+NYV-167,37,Female,Secondary,No,Christian,Kinangop,Yes,4.1
+NYV-168,19,Male,Degree,Yes,Muslim,Kipipiri,No,12.9
+NYV-169,70,Female,Diploma,No,Muslim,Ol Joro Orok,Yes,15.3
+NYV-170,43,Male,Secondary,No,Other,Kinangop,No,1.6
+NYV-171,66,Female,Postgrad,Yes,Other,Kipipiri,Yes,7.0
+NYV-172,33,Female,Diploma,No,Christian,Kipipiri,No,23.7
+NYV-173,25,Female,Degree,Yes,Christian,Ol Kalou,No,2.0
+NYV-174,53,Male,Secondary,Yes,Muslim,Ol Joro Orok,No,5.9
+NYV-175,59,Male,Degree,Yes,Muslim,Ndaragwa,Yes,12.0
+NYV-176,23,Male,Diploma,No,Other,Kinangop,No,13.9
+NYV-177,40,Male,Diploma,No,Other,Ol Kalou,No,7.6
+NYV-178,28,Female,Diploma,Yes,Muslim,Kipipiri,No,13.0
+NYV-179,25,Male,Secondary,Yes,Christian,Ol Joro Orok,Yes,21.7
+NYV-180,66,Male,Primary,Yes,Other,Kinangop,No,1.5
+NYV-181,30,Female,Degree,Yes,Christian,Ol Kalou,No,7.3
+NYV-182,47,Female,Degree,No,Other,Ol Kalou,No,23.4
+NYV-183,30,Female,Diploma,No,Christian,Kipipiri,No,9.2
+NYV-184,26,Male,Degree,Yes,Other,Kinangop,No,8.4
+NYV-185,69,Male,Diploma,Yes,Christian,Ol Joro Orok,Yes,19.9
+NYV-186,40,Male,Secondary,No,Other,Kinangop,Yes,2.4
+NYV-187,56,Female,Degree,Yes,Other,Kinangop,Yes,21.2
+NYV-188,20,Male,Secondary,No,Muslim,Ol Joro Orok,Yes,8.4
+NYV-189,46,Female,Degree,Yes,Muslim,Kipipiri,Yes,11.9
+NYV-190,55,Male,Secondary,Yes,Other,Ol Joro Orok,Yes,21.3
+NYV-191,19,Female,Degree,Yes,Other,Kinangop,No,0.9
+NYV-192,19,Female,Postgrad,Yes,Muslim,Ol Kalou,No,12.6
+NYV-193,48,Male,Secondary,Yes,Other,Kipipiri,Yes,24.2
+NYV-194,38,Male,Diploma,Yes,Christian,Ol Kalou,No,19.9
+NYV-195,61,Female,Primary,No,Other,Kinangop,No,8.9
+NYV-196,23,Male,Secondary,No,Muslim,Ol Kalou,Yes,6.9
+NYV-197,56,Female,Degree,Yes,Other,Kinangop,Yes,3.5
+NYV-198,26,Female,Diploma,No,Other,Kinangop,Yes,14.3
+NYV-199,25,Male,Degree,Yes,Other,Ndaragwa,No,7.3
+NYV-200,19,Female,Diploma,No,Christian,Ol Kalou,No,20.1
+NYV-201,39,Female,Diploma,Yes,Christian,Ndaragwa,Yes,9.2
+NYV-202,30,Male,Degree,No,Other,Ol Joro Orok,Yes,4.1
+NYV-203,29,Male,Degree,Yes,Christian,Kinangop,Yes,19.7
+NYV-204,68,Male,Postgrad,Yes,Other,Ol Kalou,Yes,6.6
+NYV-205,70,Female,Secondary,Yes,Muslim,Ol Joro Orok,Yes,4.0
+NYV-206,31,Male,Secondary,No,Christian,Ol Kalou,No,4.7
+NYV-207,20,Male,Degree,Yes,Muslim,Kinangop,Yes,6.4
+NYV-208,55,Female,Degree,Yes,Christian,Kipipiri,No,4.9
+NYV-209,36,Female,Degree,No,Muslim,Ol Kalou,No,1.0
+NYV-210,22,Female,Secondary,Yes,Muslim,Kinangop,Yes,12.4
+NYV-211,25,Female,Secondary,No,Other,Ol Kalou,No,19.1
+NYV-212,37,Male,Secondary,No,Other,Kipipiri,Yes,6.6
+NYV-213,45,Female,Secondary,No,Muslim,Ndaragwa,Yes,15.4
+NYV-214,50,Female,Secondary,No,Muslim,Ndaragwa,Yes,23.2
+NYV-215,46,Male,Diploma,No,Christian,Ndaragwa,No,15.5
+NYV-216,18,Male,Degree,Yes,Muslim,Ol Kalou,Yes,4.2
+NYV-217,41,Female,Primary,Yes,Muslim,Ndaragwa,No,21.6
+NYV-218,44,Male,Secondary,Yes,Muslim,Kipipiri,Yes,15.8
+NYV-219,67,Female,Diploma,Yes,Christian,Ndaragwa,No,24.6
+NYV-220,50,Male,Secondary,Yes,Muslim,Kinangop,Yes,15.8
+NYV-221,41,Male,Diploma,Yes,Muslim,Ol Joro Orok,No,23.2
+NYV-222,36,Male,Diploma,Yes,Christian,Ol Kalou,Yes,0.5
+NYV-223,48,Male,Secondary,No,Muslim,Ol Kalou,Yes,3.1
+NYV-224,29,Male,Secondary,No,Christian,Kipipiri,Yes,19.1
+NYV-225,34,Male,Primary,No,Muslim,Kipipiri,Yes,18.1
+NYV-226,30,Male,Secondary,Yes,Muslim,Ol Kalou,No,10.6
+NYV-227,63,Female,Primary,Yes,Christian,Kinangop,Yes,16.5
+NYV-228,24,Male,Secondary,Yes,Other,Ol Joro Orok,No,18.6
+NYV-229,48,Male,Degree,Yes,Other,Ol Kalou,No,5.4
+NYV-230,66,Female,Primary,No,Muslim,Ndaragwa,Yes,23.4
+NYV-231,52,Male,Diploma,Yes,Muslim,Ol Joro Orok,Yes,19.8
+NYV-232,50,Male,Diploma,No,Christian,Ol Kalou,Yes,13.3
+NYV-233,35,Male,Degree,Yes,Muslim,Ol Joro Orok,No,0.7
+NYV-234,40,Female,Secondary,No,Christian,Kinangop,No,15.7
+NYV-235,29,Male,Secondary,No,Other,Kipipiri,Yes,4.5
+NYV-236,22,Male,Degree,Yes,Muslim,Ndaragwa,Yes,2.5
+NYV-237,49,Female,Degree,Yes,Other,Ol Kalou,No,15.0
+NYV-238,58,Female,Secondary,Yes,Muslim,Ndaragwa,Yes,4.3
+NYV-239,65,Female,Diploma,Yes,Other,Kinangop,No,3.2
+NYV-240,36,Male,Degree,Yes,Muslim,Kinangop,Yes,7.7
+NYV-241,52,Male,Diploma,Yes,Other,Ol Kalou,Yes,24.0
+NYV-242,50,Female,Diploma,Yes,Other,Kinangop,No,11.5
+NYV-243,34,Male,Secondary,Yes,Muslim,Ol Kalou,No,21.3
+NYV-244,24,Male,Degree,Yes,Muslim,Ndaragwa,No,4.0
+NYV-245,34,Female,Secondary,No,Muslim,Kinangop,No,7.4
+NYV-246,54,Male,Secondary,No,Christian,Kipipiri,Yes,10.8
+NYV-247,34,Female,Primary,No,Christian,Kipipiri,Yes,10.4
+NYV-248,59,Male,Secondary,Yes,Other,Kinangop,Yes,2.2
+NYV-249,70,Male,Degree,Yes,Other,Ol Joro Orok,Yes,4.3
+NYV-250,24,Female,Diploma,No,Other,Kinangop,Yes,9.0
+NYV-251,52,Female,Primary,No,Other,Kinangop,Yes,4.4
+NYV-252,31,Male,Primary,Yes,Other,Ol Joro Orok,Yes,15.8
+NYV-253,36,Male,Secondary,Yes,Other,Ndaragwa,Yes,18.4
+NYV-254,70,Female,Degree,Yes,Muslim,Ol Joro Orok,No,4.1
+NYV-255,35,Male,Degree,No,Other,Ndaragwa,Yes,3.3
+NYV-256,38,Male,Diploma,No,Other,Ndaragwa,No,7.6
+NYV-257,59,Female,Degree,Yes,Other,Kinangop,Yes,15.0
+NYV-258,60,Female,Secondary,Yes,Other,Kipipiri,No,20.9
+NYV-259,36,Male,Primary,No,Other,Kipipiri,Yes,20.8
+NYV-260,25,Female,Primary,No,Christian,Ol Kalou,Yes,13.0
+NYV-261,24,Female,Primary,Yes,Christian,Kinangop,Yes,7.6
+NYV-262,60,Female,Degree,Yes,Christian,Ndaragwa,No,13.0
+NYV-263,61,Female,Secondary,Yes,Other,Ol Kalou,Yes,1.6
+NYV-264,48,Male,Degree,Yes,Other,Ol Kalou,No,17.1
+NYV-265,55,Female,Postgrad,Yes,Other,Ol Kalou,Yes,20.8
+NYV-266,43,Female,Secondary,Yes,Muslim,Ndaragwa,No,2.1
+NYV-267,21,Female,Secondary,No,Muslim,Kipipiri,No,21.9
+NYV-268,66,Female,Postgrad,Yes,Other,Kinangop,No,16.8
+NYV-269,35,Female,Secondary,Yes,Muslim,Kinangop,Yes,12.8
+NYV-270,36,Female,Diploma,No,Christian,Ol Joro Orok,No,8.6
+NYV-271,44,Female,Secondary,No,Christian,Ol Kalou,No,9.5
+NYV-272,62,Female,Secondary,Yes,Other,Ol Joro Orok,Yes,2.7
+NYV-273,24,Female,Secondary,No,Other,Kinangop,Yes,21.3
+NYV-274,51,Female,Secondary,Yes,Muslim,Kipipiri,No,23.0
+NYV-275,59,Female,Primary,Yes,Other,Kipipiri,Yes,11.1
+NYV-276,70,Female,Diploma,Yes,Christian,Ol Joro Orok,No,15.6
+NYV-277,48,Male,Diploma,Yes,Christian,Kinangop,Yes,9.1
+NYV-278,48,Male,Degree,Yes,Muslim,Kipipiri,No,3.4
+NYV-279,34,Male,Secondary,Yes,Other,Kipipiri,No,24.2
+NYV-280,27,Female,Diploma,Yes,Christian,Kinangop,No,12.0
+NYV-281,64,Female,Degree,Yes,Christian,Ndaragwa,No,11.6
+NYV-282,29,Male,Secondary,No,Christian,Ndaragwa,Yes,3.3
+NYV-283,32,Female,Diploma,Yes,Other,Kipipiri,No,23.4
+NYV-284,48,Female,Diploma,Yes,Other,Ol Kalou,Yes,21.7
+NYV-285,40,Male,Secondary,No,Christian,Kinangop,No,17.2
+NYV-286,53,Male,Diploma,Yes,Other,Kipipiri,No,10.1
+NYV-287,22,Female,Secondary,No,Other,Kipipiri,Yes,8.3
+NYV-288,68,Female,Secondary,Yes,Other,Ol Kalou,No,12.1
+NYV-289,58,Male,Secondary,No,Muslim,Ol Joro Orok,No,19.9
+NYV-290,43,Female,Secondary,No,Other,Kipipiri,Yes,5.4
+NYV-291,23,Female,Degree,Yes,Muslim,Kipipiri,No,5.2
+NYV-292,55,Female,Degree,No,Christian,Kipipiri,No,18.7
+NYV-293,57,Female,Secondary,Yes,Christian,Kipipiri,Yes,15.7
+NYV-294,65,Male,Primary,No,Muslim,Ol Kalou,Yes,23.7
+NYV-295,34,Male,Diploma,No,Other,Ndaragwa,Yes,23.9
+NYV-296,51,Female,Secondary,Yes,Muslim,Kinangop,Yes,7.1
+NYV-297,42,Female,Secondary,No,Christian,Ol Kalou,Yes,3.2
+NYV-298,67,Female,Diploma,Yes,Muslim,Kipipiri,No,3.8
+NYV-299,59,Male,Diploma,No,Christian,Kinangop,No,19.8
+NYV-300,24,Female,Secondary,Yes,Other,Kipipiri,No,4.1
+NYV-301,20,Male,Postgrad,No,Muslim,Ndaragwa,Yes,22.2
+NYV-302,69,Female,Diploma,Yes,Christian,Ol Joro Orok,No,2.0
+NYV-303,42,Male,Primary,No,Other,Kipipiri,No,18.5
+NYV-304,58,Male,Degree,No,Muslim,Kinangop,No,5.0
+NYV-305,21,Female,Secondary,No,Muslim,Kinangop,Yes,2.3
+NYV-306,43,Female,Primary,No,Christian,Ol Joro Orok,No,13.7
+NYV-307,36,Female,Degree,Yes,Muslim,Ol Kalou,Yes,20.4
+NYV-308,35,Female,Primary,Yes,Christian,Ol Kalou,No,14.7
+NYV-309,48,Female,Diploma,Yes,Other,Kinangop,No,7.1
+NYV-310,27,Female,Degree,Yes,Muslim,Kipipiri,Yes,6.5
+NYV-311,54,Female,Diploma,Yes,Muslim,Ndaragwa,Yes,0.6
+NYV-312,57,Female,Secondary,Yes,Muslim,Kinangop,No,9.4
+NYV-313,60,Female,Primary,No,Other,Kipipiri,No,14.4
+NYV-314,48,Female,Primary,No,Christian,Ol Joro Orok,Yes,7.9
+NYV-315,27,Male,Diploma,No,Muslim,Ol Joro Orok,No,1.1
+NYV-316,57,Female,Secondary,Yes,Other,Kinangop,No,9.2
+NYV-317,59,Male,Degree,Yes,Christian,Kipipiri,No,9.8
+NYV-318,26,Female,Degree,Yes,Muslim,Ndaragwa,Yes,9.7
+NYV-319,51,Male,Secondary,Yes,Christian,Ndaragwa,Yes,19.4
+NYV-320,69,Female,Primary,Yes,Muslim,Kinangop,Yes,21.6
