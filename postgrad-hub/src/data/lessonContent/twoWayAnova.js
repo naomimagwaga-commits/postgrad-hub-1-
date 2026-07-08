@@ -43,21 +43,23 @@ export const TWO_WAY_ANOVA_LESSON = {
       blocks: [
         { type: 'callout', tone: 'gold', title: 'Why this section exists',
           body: [
-            'Two-Way ANOVA lets you test two independent variables at once. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it to find interaction effects, (3) Where a postgraduate would use it, (4) When to CHOOSE it over One-Way ANOVA.',
-            'The WWWW card below answers all 4 in 3 minutes.',
+            'Before touching the SPSS dialog, understand: (1) What this test IS, (2) Why you use it, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
           ]},
 
-        { type: 'illustration', component: 'AnovaTwoWayWWWW',
-          caption: 'Figure 0. Two-Way ANOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you chose Two-Way ANOVA.' },
+        { type: 'illustration', component: 'KiambuTwoWayWWWW',
+          caption: 'Figure 0. Two-Way ANOVA WHAT/WHY/WHERE/WHEN reference card using Kiambu FertilizerType × Ward on maize yield.' },
 
         { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
           body: [
-            '**Main Effect** - The individual effect of ONE of your factors on the outcome, ignoring the other factor.',
-            '**Interaction Effect** - When the effect of one factor DEPENDS on the level of the other factor (e.g., a teaching method works great for boys, but poorly for girls).',
-            '**Profile Plot** - A line graph that visualizes the interaction effect. Parallel lines mean no interaction; crossing lines mean a strong interaction.',
-          ]
-        }
-      ]
+            '**Main effect** — the average effect of one factor across all levels of the other factor.',
+            '**Interaction** — when the effect of one factor DEPENDS on the level of another. Non-parallel lines in the plot.',
+            '**Fixed Factor** — a categorical predictor with specific levels YOU chose to study (as opposed to random samples from a population of levels).',
+            '**Partial eta-squared (partial η²)** — effect size for factorial designs. Interpretation: .01=small, .06=medium, .14=large.',
+            '**Type III Sum of Squares** — SPSS default. Handles unequal cell sizes correctly.',
+            '**Levene test** — automatic homogeneity-of-variance check. Non-significant = OK to interpret.',
+          ]},
+      ],
     },
 
     /* ════════════════════ 2. THE BIG IDEA ════════════════════ */
@@ -150,12 +152,15 @@ export const TWO_WAY_ANOVA_LESSON = {
           { title: 'Click OK',
             body: 'SPSS produces several tables: Between-Subjects Factors, Descriptive Statistics, Levene\'s Test, the all-important **Tests of Between-Subjects Effects** (the three F-tests), and the Profile Plots.' },
         ]},
+        { type: 'illustration', component: 'KiambuTwoWayDialog',
+          caption: 'Figure 1. The Univariate GLM dialog for 2-way ANOVA. Yield_KgPerAcre as Dependent Variable, BOTH FertilizerType and Ward moved to Fixed Factor(s). Plots and Post Hoc buttons highlighted gold as critical for interpreting interactions.' },
 
-        { type: 'illustration', component: 'TwoWayAnovaDialog',
-          caption: 'Figure 3. The GLM Univariate dialog for Two-Way ANOVA. The red numbers show the click sequence to set up the Dependent Variable, Fixed Factors, Plots, and Options.' },
+        { type: 'illustration', component: 'KiambuTwoWayOutput',
+          caption: 'Figure 2. The output. Main effect of FertilizerType: F(2, 171) = 34.58, p < .001, partial η² = .29 (LARGE). Main effect of Ward: F(2, 171) = 13.82, p < .001, partial η² = .14 (LARGE). CRUCIALLY the interaction FertilizerType × Ward: F(4, 171) = 6.64, p < .001, partial η² = .13 (MEDIUM). Interaction significant → main effects must be interpreted with caution.' },
 
-        { type: 'illustration', component: 'TwoWayAnovaPlots',
-          caption: 'Figure 4. The Profile Plots dialog. Move one factor to Horizontal Axis and one to Separate Lines. You MUST click Add so they appear in the Plots list below.' },
+        { type: 'illustration', component: 'KiambuInteractionPlot',
+          caption: 'Figure 3. The INTERACTION PLOT — the visual proof. Three fertilizer lines (DAP blue, CAN red, Organic green) shown across 3 wards (Githunguri, Lari, Limuru). Non-parallel and crossing lines confirm the interaction. Practical implication: fertilizer recommendations should DIFFER BY WARD, not be blanket "use DAP for all farmers".' },
+
       ],
     },
 
