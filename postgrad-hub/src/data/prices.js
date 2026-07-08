@@ -12,6 +12,9 @@
 /* ─────────── Per-lesson notes-pack prices ─────────── */
 // Any lesson not listed here falls back to DEFAULT_LESSON_PRICE (below).
 export const LESSON_PRICES = {
+  /* Foundational Principles — FREE prerequisite */
+  'found-1': 0,
+
   /* SPSS Basics — foundational, cheap */
   'basics-1': 350,
   'basics-2': 350,
