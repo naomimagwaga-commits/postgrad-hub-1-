@@ -87,7 +87,7 @@ export const LESSON_PACKAGES = {
     id: 'writing-up',
     name: 'Writing Up (Chapter 4 + APA 7 reporting)',
     lessonIds: ['write-1', 'write-2'],
-    price: 1500,
+    price: 1000,
     courseSlug: 'writing',
     description: 'Both Writing Up lessons unlock together as a package. Better value than buying individually.',
   },
@@ -312,7 +312,7 @@ export const PUBLIC_PRICING = {
     { course: 'Non-parametric tests',  priceLabel: 'KES 1,750 each', lessons: 4 },
     { course: 'Chi-square',            priceLabel: 'KES 1,750',      lessons: 1 },
     { course: 'Reliability Testing',   priceLabel: 'KES 650 each',   lessons: 3 },
-    { course: 'Writing Up (PACKAGE)',  priceLabel: 'KES 1,500 for both lessons together', lessons: 2 },
+    { course: 'Writing Up (PACKAGE)',  priceLabel: 'KES 1,000 for both lessons together', lessons: 2 },
   ],
 
   testSelector: {
