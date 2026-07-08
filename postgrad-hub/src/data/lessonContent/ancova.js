@@ -1,6 +1,7 @@
 /**
  * Advanced ANOVA · Lesson 1 — ANCOVA (Analysis of Covariance)
  * One-way ANOVA with one or more continuous covariates statistically controlled.
+ * Renovated to Kiambu FertilizerType × FarmSizeAcres covariate standard.
  */
 
 export const ANCOVA_LESSON = {
@@ -15,9 +16,9 @@ export const ANCOVA_LESSON = {
       title: 'When you want to compare groups AFTER controlling for something',
       blocks: [
         { type: 'scene', body: [
-          'You are doing a Master\'s study at Maseno University on three teaching methods (Traditional / Discussion / Flipped) and their effect on KCSE mock scores in 120 Form 4 pupils across three classes. You ran a one-way ANOVA and found F(2, 117) = 5.8, p = .004. The Flipped group scored highest. Done?',
-          'Your supervisor frowns. "But the three classes had DIFFERENT BASELINE ability — their KCPE entry scores ranged from 220 to 410, and the Flipped class happened to have a higher entry-score average to begin with. Are you sure the Flipped class scored higher BECAUSE of the method, or because they were already better students?" Good question. And exactly the question **ANCOVA** answers.',
-          'ANCOVA (Analysis of Covariance) is essentially one-way ANOVA with one or more continuous COVARIATES — extra variables you didn\'t manipulate but want to STATISTICALLY CONTROL FOR. Add KCPE entry score as a covariate; ANCOVA adjusts the three group means as if every group had the same average KCPE entry score, then compares those ADJUSTED MEANS. If the Flipped group still wins after adjustment, the method effect is real. If they don\'t, the original ANOVA result was just baseline difference dressed up as a teaching effect.',
+          'You are analysing the Kiambu Maize Study (N = 180 farms) comparing three fertilizer types on maize yield. Your one-way ANOVA already showed a significant effect: DAP = 1840, CAN = 1620, Organic = 1450 kg/acre, F(2, 177) = 22.40, p < .001. Done, right?',
+          'Your supervisor frowns. *"But the farms weren\'t the same size. The DAP farms averaged 3.1 acres, the CAN farms 2.4 acres, and the Organic farms only 1.8 acres. Bigger farms may naturally yield more per acre because owners can afford better preparation. Are you sure DAP wins because of the fertilizer, or because DAP-using farmers already had bigger, better-managed plots?"* Excellent question — and exactly what **ANCOVA** answers.',
+          'ANCOVA (Analysis of Covariance) is one-way ANOVA plus one or more continuous COVARIATES — extra variables you did not manipulate but want to STATISTICALLY CONTROL. Add FarmSizeAcres as a covariate; ANCOVA adjusts the three fertilizer means AS IF every group had the same average farm size (2.34 acres), then compares those ADJUSTED means. If DAP still wins after adjustment, the fertilizer effect is real. If it doesn\'t, the original ANOVA was just farm-size differences dressed up as a fertilizer effect.',
         ]},
 
         { type: 'callout', tone: 'gold', title: 'What you will be able to do after this lesson',
@@ -28,7 +29,7 @@ export const ANCOVA_LESSON = {
             '**Check the three extra ANCOVA-specific assumptions** — linearity of covariate–outcome relationship, homogeneity of regression slopes, and covariate measured BEFORE the treatment.',
             '**Read the output** — the COVARIATE row, the FACTOR row, and the Estimated Marginal Means table.',
             '**Report partial η²** as the effect size.',
-            '**Defend your choice of covariate** in front of an examiner — "I included KCPE entry score because…".',
+            '**Defend your choice of covariate** in front of an examiner — "I included FarmSizeAcres because…".',
           ]},
 
         { type: 'why', body:
@@ -36,44 +37,63 @@ export const ANCOVA_LESSON = {
       ],
     },
 
-    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN — beginner-first primer ════════════════════ */
+    /* ════════════════════ 1.5 WHAT/WHY/WHERE/WHEN ════════════════════ */
     {
       id: 'wwww',
       title: 'What / Why / Where / When — read THIS first',
       blocks: [
         { type: 'callout', tone: 'gold', title: 'Why this section exists',
           body: [
-            'ANCOVA (Analysis of Covariance) lets you level the playing field when your groups started off unequal. Before touching the SPSS dialog, understand: (1) What it IS, (2) Why you use it to control for a covariate, (3) Where a postgraduate would use it, (4) When to CHOOSE it over ANOVA.',
-            'The WWWW card below answers all 4 in 3 minutes.',
+            'Before touching the SPSS dialog, understand: (1) What ANCOVA IS, (2) Why you use it, (3) Where a Kenyan postgraduate would use it, (4) When to CHOOSE it over regular ANOVA.',
+            'The WWWW card and key-terms callout below answer all 4 in 3 minutes.',
           ]},
 
-        { type: 'illustration', component: 'AncovaWWWW',
-          caption: 'Figure 0. ANCOVA WHAT/WHY/WHERE/WHEN reference card. Bookmark this — it answers the questions examiners ask about why you added a covariate.' },
-      ]
+        { type: 'illustration', component: 'KiambuANCOVAWWWW',
+          caption: 'Figure 0. ANCOVA WHAT/WHY/WHERE/WHEN reference card using the Kiambu FertilizerType comparison with FarmSizeAcres as a covariate.' },
+
+        { type: 'callout', tone: 'brand', title: 'Key terms you will meet in the walkthrough',
+          body: [
+            '**Covariate** — a continuous variable you did NOT manipulate but want to control for (e.g. FarmSizeAcres, KCPE entry score, baseline blood pressure).',
+            '**Adjusted mean** (also **estimated marginal mean / EMM**) — group mean adjusted as if every group had the same average value on the covariate.',
+            '**Observed mean** — the raw group mean from your data before any adjustment.',
+            '**Homogeneity of regression slopes** — the covariate must relate to the outcome IN THE SAME WAY within each group. Tested by looking at the Group × Covariate interaction.',
+            '**Partial eta-squared (partial η²)** — effect size for ANCOVA. Same benchmarks: .01 small, .06 medium, .14 large.',
+            '**Type III Sum of Squares** — SPSS default; correctly handles the adjustment for covariate and unequal group sizes.',
+          ]},
+      ],
     },
 
-    /* ════════════════════ 2. BIG IDEA ════════════════════ */
+    /* ════════════════════ 2. THE BIG IDEA ════════════════════ */
     {
       id: 'big-idea',
-      title: 'The big idea — adjust the means, then compare',
+      title: 'The big idea — adjusting group means for a nuisance variable',
       blocks: [
-        { type: 'heading', level: 2, text: 'A regression and an ANOVA, simultaneously' },
+        { type: 'heading', level: 2, text: 'What ANCOVA actually does under the hood' },
 
         { type: 'paragraph', text:
-          'ANCOVA fits a SINGLE model that does two things at once: (1) a regression of the outcome on the covariate, and (2) an ANOVA on the residuals (the part of the outcome NOT predicted by the covariate). The result is a comparison of group means after their differences on the covariate have been mathematically removed.' },
+          'Regular ANOVA compares raw group means. ANCOVA does something cleverer: it fits a regression line of outcome-on-covariate WITHIN each group, then slides all groups to the same covariate value (the grand mean of the covariate) and compares them THERE. The result: differences that remain after removing whatever the covariate could explain.' },
 
-        { type: 'illustration', component: 'AncovaLogic',
-          caption: 'Figure 1. ANCOVA visualised. LEFT — the unadjusted means: Flipped scored highest (320), but the three groups also had different baseline KCPE entry scores. MIDDLE — the regression line of mock score on KCPE entry, drawn through the pooled data. RIGHT — the adjusted means: each group\'s mean is recomputed AS IF every group had the same average KCPE entry. The gap between groups shrinks (or grows, or changes order) once baseline ability is controlled. ANCOVA tests whether the adjusted means still differ significantly.' },
+        { type: 'comparison',
+          headers: ['Question', 'One-way ANOVA answers', 'ANCOVA answers'],
+          rows: [
+            ['Do the groups differ on Y?', 'Yes/no — using RAW means.', 'Yes/no — using ADJUSTED means (after equalising on the covariate).'],
+            ['Does a nuisance variable affect the answer?', 'You cannot tell — it is baked in.', 'It is REMOVED. The group effect is the effect that remains AFTER accounting for the covariate.'],
+            ['What effect size does it report?', 'Eta² or partial η² for group.', 'Partial η² for group AND partial η² for the covariate separately.'],
+            ['What are the reported means?', 'Observed means only.', 'Both observed AND estimated marginal means (adjusted).'],
+          ]},
 
-        { type: 'definition', term: 'Estimated marginal means (EMMs / adjusted means)',
-          body: 'The group means PREDICTED by the ANCOVA model at the GRAND MEAN of the covariate(s). I.e. "what would each group\'s mean look like if every group had identical average KCPE entry scores?". These are the means you report in your write-up — NOT the raw observed means. SPSS prints them in the "Estimated Marginal Means" table when you click Options → Display Means for.' },
+        { type: 'definition', term: 'Covariate',
+          body: 'A continuous variable you did NOT manipulate but that you suspect affects the outcome and may differ across your groups. Adding it to the model "cleans" the group comparison by removing the covariate\'s share of the variance. In Kiambu: FarmSizeAcres is a covariate because farm size affects yield AND differs across fertilizer groups.' },
 
-        { type: 'analogy', title: 'Comparing matatu Sacco performance after adjusting for route length',
-          body: 'Three matatu Saccos report average daily takings: Sacco A = KES 5,200; Sacco B = KES 4,800; Sacco C = KES 4,400. Sacco A looks best — but Sacco A runs the longest, busiest route (CBD ↔ Kibera), while Sacco C runs short estate routes. The raw comparison is unfair. ANCOVA would treat route length as a covariate, ADJUST each Sacco\'s takings to what they would earn on an average-length route, and ask "after accounting for route length, which Sacco is actually most efficient?" The answer might be C, not A.' },
+        { type: 'definition', term: 'Adjusted (estimated marginal) mean',
+          body: 'The group mean AS IF every group had the same average value on the covariate. For Kiambu: what the DAP yield would look like if DAP farmers had the average farm size of 2.34 acres instead of their actual 3.1-acre average. Adjusted means are the ones you report in an ANCOVA write-up — NOT the raw observed means.' },
+
+        { type: 'analogy', title: 'Two runners, one uphill and one flat — who is faster?',
+          body: 'Two runners finish a 5 km race: Runner A in 22 min running uphill, Runner B in 24 min on flat ground. Raw comparison: A wins. But that ignores the terrain (the covariate). If you STATISTICALLY REMOVE the effect of terrain — imagine both ran the same course — Runner B might actually be faster. ANCOVA does exactly this for group comparisons: strips out the nuisance variable (terrain / farm size / baseline score) so the group comparison is FAIR.' },
 
         { type: 'reveal',
-          prompt: 'You run a one-way ANOVA: F(2, 117) = 5.8, p = .004 (significant). You then add KCPE entry score as a covariate (ANCOVA) and the factor row becomes F(2, 116) = 1.2, p = .31 (not significant). What does this mean?',
-          answer: '**The "teaching method effect" was almost entirely explained by pre-existing baseline differences between the three classes.** Once you adjust for KCPE entry score, the apparent group differences shrink so much that they disappear into noise. Substantively: the Flipped class scored higher because they STARTED higher, not because of the teaching method. This is a critically important finding and a major risk of skipping ANCOVA in quasi-experimental research. You must report both the unadjusted ANOVA and the covariate-adjusted ANCOVA, and explicitly state that the apparent method effect was confounded by baseline ability.' },
+          prompt: 'Raw yield means: DAP 1840, CAN 1620, Organic 1450. After adjusting for FarmSizeAcres, ANCOVA gives adjusted means: DAP 1832, CAN 1619, Organic 1453. The adjustments barely changed anything. What does this tell you?',
+          answer: '**Farm size was NOT the confounder your supervisor feared it would be.** Even after ANCOVA equalised the three groups on farm size, DAP still leads by a large margin. The original ANOVA conclusion holds up: DAP genuinely outperforms CAN and Organic, not just because DAP farmers happened to have bigger farms. This is a "credibility-boosting" ANCOVA finding — you can now defend the original ANOVA against the "but the farms were different sizes" objection with a specific number and a citation to your ANCOVA table. Note also that the COVARIATE itself (FarmSizeAcres) IS significant in the model (p < .001, partial η² = .12) — larger farms do yield more — but that effect is now separated from the fertilizer effect, which is what we care about.' },
       ],
     },
 
@@ -82,163 +102,157 @@ export const ANCOVA_LESSON = {
       id: 'when-to-use',
       title: 'When ANCOVA is the right test',
       blocks: [
-        { type: 'heading', level: 2, text: 'The five conditions' },
+        { type: 'heading', level: 2, text: 'The conditions' },
 
         { type: 'steps', steps: [
-          { title: 'You have one or more CATEGORICAL factors (groups)',
-            body: '2+ independent groups, just like one-way ANOVA. Can also be extended to two-way / factorial designs (two factors + covariates).' },
-          { title: 'Your outcome is CONTINUOUS',
-            body: 'Y must be Scale — exam score, BP, income, weight, etc. For binary outcomes use binary logistic regression with covariates.' },
-          { title: 'You have one or more CONTINUOUS COVARIATES to control for',
-            body: 'A continuous nuisance variable that is correlated with the outcome but is NOT the focus of your research — baseline scores, age, income, prior achievement.' },
-          { title: 'The covariate is MEASURED BEFORE the treatment / independently of the factor',
-            body: 'CRITICAL. If the covariate could have been INFLUENCED by the factor (e.g. you measured "motivation" AFTER teaching), then "controlling" for it removes part of the treatment effect itself. Covariates must be pre-existing or measured before any intervention.' },
-          { title: 'Homogeneity of regression slopes',
-            body: 'The relationship between covariate and outcome must have the same SLOPE in every group. If the slopes differ, your ANCOVA is invalid and you must use an alternative (covered in the Mistakes section).' },
+          { title: 'Outcome variable is CONTINUOUS',
+            body: 'Y must be Scale (yield in kg, exam score, blood pressure, income).' },
+          { title: 'Grouping variable is CATEGORICAL',
+            body: 'Two or more groups. Independent cases — each participant belongs to one group only.' },
+          { title: 'You have at least ONE continuous COVARIATE',
+            body: 'A variable that (a) is correlated with the outcome, and (b) plausibly differs across groups. Multiple covariates are allowed but keep it to 1–3 to preserve interpretability and degrees of freedom.' },
+          { title: 'Covariate measured BEFORE the treatment',
+            body: 'Critical. If the covariate is measured AFTER the treatment (or is affected by it), ANCOVA gives biased results. In Kiambu, FarmSizeAcres is fine — farm size does not change because of fertilizer choice. But "farmer satisfaction" measured post-harvest would NOT be a valid covariate.' },
+          { title: 'Standard ANOVA assumptions apply',
+            body: 'Continuous Y, normality within each group, homogeneity of variance across groups, independence of cases. PLUS two ANCOVA-specific assumptions covered in the next section.' },
         ]},
 
         { type: 'comparison',
-          headers: ['Situation', 'Factor(s)', 'Covariate(s)', 'Right test'],
+          headers: ['Design', 'Right test'],
           rows: [
-            ['Compare 3 teaching methods adjusting for KCPE entry score', '1 factor', '1 covariate', '**ANCOVA (this lesson)**'],
-            ['Compare 3 teaching methods on raw mock score',              '1 factor', 'none',         'One-way ANOVA (anova-1)'],
-            ['Compare 2 hospitals on stress score',                       '1 factor (2 levels)', 'none', 'Independent-samples t-test'],
-            ['Compare gender × method on score, adjusting for age',       '2 factors', '1 covariate',  '**Factorial ANCOVA** (extension of this lesson)'],
-            ['Compare 3 methods on FIVE outcome variables jointly',       '1 factor', 'multiple Ys',   'MANOVA (Lesson 2)'],
-            ['Compare same patients across 3 time points',                'within-subjects', 'none',    'Repeated-measures ANOVA (anova-4)'],
+            ['One factor (2+ groups), continuous outcome, NO covariate', 'One-way ANOVA'],
+            ['**One factor + one or more continuous covariates**',        '**ANCOVA (this lesson)**'],
+            ['Two categorical factors, no covariate',                      'Two-way ANOVA'],
+            ['Two categorical factors + a covariate',                      'Factorial ANCOVA (advanced — same dialog, just add both to Fixed Factor(s))'],
+            ['Continuous outcome, purely continuous predictors',           'Multiple regression'],
           ]},
-
-        { type: 'callout', tone: 'warning', title: 'Choose covariates BEFORE looking at the data',
-          body: 'Examiners are deeply suspicious of "the kitchen-sink covariate". Pick your covariates from theory and prior literature BEFORE you run the analysis. Document them in your methods chapter ("KCPE entry score was included as a covariate because prior research has established it as a strong predictor of KCSE outcomes (Smith, 2018; Otieno, 2021)."). Adding covariates one by one until your significance result appears is data-dredging.' },
       ],
     },
 
-    /* ════════════════════ 4. SPSS STEPS ════════════════════ */
+    /* ════════════════════ 4. THE THREE EXTRA ASSUMPTIONS ════════════════════ */
     {
-      id: 'spss-steps',
-      title: 'Running ANCOVA in SPSS — the 8-step click path',
+      id: 'ancova-assumptions',
+      title: 'The three ANCOVA-specific assumptions',
       blocks: [
-        { type: 'heading', level: 2, text: 'It is two-way ANOVA\'s dialog — with the Covariate(s) box used' },
-
-        { type: 'steps', steps: [
-          { title: 'Open the Univariate dialog',
-            body: 'Analyze → General Linear Model → Univariate. (Same dialog you use for two-way ANOVA — just with the Covariate(s) slot active.)' },
-          { title: 'Move your outcome to Dependent Variable',
-            body: 'E.g. **mock_score**.' },
-          { title: 'Move your grouping variable(s) to Fixed Factor(s)',
-            body: 'E.g. **teaching_method** (coded 1 = Traditional, 2 = Discussion, 3 = Flipped). For factorial ANCOVA add a second factor here too.' },
-          { title: 'Move your covariate(s) to Covariate(s)',
-            body: 'E.g. **kcpe_entry_score**. You can add multiple covariates.' },
-          { title: 'Click Model — confirm "Full factorial" (the default)',
-            body: 'For standard ANCOVA, leave on Full factorial — SPSS will fit the factor main effect(s) AND the covariate, but NOT a factor × covariate interaction (which would test the homogeneity-of-slopes assumption).' },
-          { title: 'Click Options',
-            body: 'Move your factor into "Display Means for" — this gives you the ESTIMATED MARGINAL MEANS (adjusted means). Tick **Compare main effects**, set Confidence interval adjustment to **Bonferroni** for pairwise comparisons. Also tick **Descriptive statistics**, **Estimates of effect size** (partial η²), **Homogeneity tests** (Levene\'s). Click Continue.' },
-          { title: 'Click EM Means (newer SPSS) or skip if already done',
-            body: 'Confirms which factors you want adjusted means for — should already include your factor.' },
-          { title: 'Click OK',
-            body: 'SPSS produces several tables. The KEY ones are Tests of Between-Subjects Effects (covariate row + factor row + error), Estimated Marginal Means (the adjusted means with SEs), and Pairwise Comparisons (Bonferroni-adjusted contrasts between adjusted group means).' },
-        ]},
-
-        { type: 'illustration', component: 'AncovaDialog',
-          caption: 'Figure 2. The Univariate (GLM) dialog set up for ANCOVA. Dependent Variable = mock_score. Fixed Factor(s) = teaching_method (the grouping variable). Covariate(s) = kcpe_entry_score (the variable being statistically controlled for). The Options button (highlighted) is where you request adjusted means, Bonferroni pairwise comparisons, partial η², and Levene\'s test.' },
-      ],
-    },
-
-    /* ════════════════════ 5. ASSUMPTION — HOMOGENEITY OF SLOPES ════════════════════ */
-    {
-      id: 'homogeneity-slopes',
-      title: 'The critical ANCOVA-specific assumption — homogeneity of regression slopes',
-      blocks: [
-        { type: 'heading', level: 2, text: 'The single assumption ANCOVA adds beyond ANOVA' },
+        { type: 'heading', level: 2, text: 'Beyond the usual ANOVA checks' },
 
         { type: 'paragraph', text:
-          'Standard ANCOVA assumes the relationship between covariate and outcome (the regression slope) is THE SAME in every group. Geometrically: if you plotted three regression lines — one per group — they should be roughly PARALLEL. If they are not (e.g. the covariate predicts the outcome strongly in one group but weakly in another), the assumption is violated and standard ANCOVA gives misleading results.' },
-
-        { type: 'illustration', component: 'HomogeneitySlopesCheck',
-          caption: 'Figure 3. Homogeneity of regression slopes. LEFT — assumption MET: the three within-group regression lines (covariate → outcome) are roughly parallel. ANCOVA is valid; you can report group differences in adjusted means meaningfully. RIGHT — assumption VIOLATED: slopes diverge across groups, meaning the covariate has a different effect in different groups. Standard ANCOVA hides this; report the interaction instead and either describe it or use a moderation analysis.' },
-
-        { type: 'heading', level: 3, text: 'How to test the assumption' },
+          'ANCOVA inherits all the assumptions of one-way ANOVA (normality, homogeneity of variance, independence). It ALSO adds three assumptions specific to the covariate. If you skip these checks, your ANCOVA can produce misleading results — and any half-decent examiner will ask about them.' },
 
         { type: 'steps', steps: [
-          { title: 'Re-run with the factor × covariate interaction added',
-            body: 'Analyze → General Linear Model → Univariate → set up exactly as before, but click Model → choose Custom → add the factor MAIN effect, the covariate MAIN effect, AND the factor × covariate INTERACTION (e.g. teaching_method, kcpe_entry_score, teaching_method × kcpe_entry_score). OK.' },
-          { title: 'Read the interaction p-value in Tests of Between-Subjects Effects',
-            body: 'If the factor × covariate INTERACTION is NON-significant (p > .05), the slopes are homogeneous → assumption met → proceed with standard ANCOVA (re-run without the interaction term).' },
-          { title: 'If interaction IS significant (p < .05) → assumption VIOLATED',
-            body: 'Standard ANCOVA results are misleading. Options: (1) report the interaction itself — it means the covariate effect differs across groups, which is an interesting finding in its own right; (2) use Johnson-Neyman analysis to identify the range of covariate values where groups differ; (3) report adjusted means with a strong caveat. For thesis work, option 1 is usually the cleanest defensible response.' },
+          { title: 'Assumption 1 — Covariate measured BEFORE the treatment (or independent of it)',
+            body: 'The covariate must be logically PRIOR to the treatment. Otherwise the treatment may have changed the covariate, and adjusting for it distorts the effect estimate. Check: was this variable collected before assignment/treatment? For Kiambu, FarmSizeAcres was measured at recruitment — safe.' },
+          { title: 'Assumption 2 — Linear relationship between covariate and outcome',
+            body: 'ANCOVA fits a straight line of Y on the covariate. If the relationship is curved (e.g. yield rises with farm size up to 5 acres then plateaus), a straight-line adjustment is wrong. Check: make a scatterplot of covariate vs outcome — should look roughly linear.' },
+          { title: 'Assumption 3 — Homogeneity of regression slopes',
+            body: 'The relationship between covariate and outcome must be the SAME across groups. If DAP has a steep yield-vs-farmsize slope but Organic has a flat slope, one-adjustment-fits-all is wrong. TEST: add a Group × Covariate interaction term to the model. It should be NON-significant (p > .05). If significant → homogeneity of slopes is violated → use a moderation analysis or Johnson-Neyman procedure instead.' },
         ]},
 
-        { type: 'callout', tone: 'warning', title: 'Always test the assumption — and report the result',
-          body: 'A common student mistake is running ANCOVA without ever checking homogeneity of slopes. Examiners ask. Run the interaction model FIRST, confirm the interaction is non-significant, then re-run without it for your main results. Report both: "A preliminary test showed the factor × covariate interaction was non-significant, F(2, 114) = 0.42, p = .66, confirming homogeneity of regression slopes." Then the main ANCOVA results follow.' },
+        { type: 'callout', tone: 'warning', title: 'How to test homogeneity of slopes in SPSS',
+          body: 'Analyze → General Linear Model → Univariate. Set up as normal (DV, Fixed Factor, Covariate). Then click **Model…** → select **Build terms** → move BOTH FertilizerType and FarmSizeAcres AND the FertilizerType*FarmSizeAcres interaction into the model → Continue → OK. Look at the Tests of Between-Subjects Effects: if FertilizerType*FarmSizeAcres has p > .05, slopes are equal → proceed with ANCOVA. If p < .05, slopes differ → do not report a simple ANCOVA.' },
       ],
     },
 
-    /* ════════════════════ 6. READING OUTPUT ════════════════════ */
+    /* ════════════════════ 5. SPSS STEPS ════════════════════ */
+    {
+      id: 'spss-steps',
+      title: 'The Kiambu procedure',
+      blocks: [
+        { type: 'heading', level: 2, text: 'Same GLM Univariate menu as two-way ANOVA, one extra slot' },
+
+        { type: 'paragraph', text:
+          'ANCOVA uses the SAME menu as two-way ANOVA: **Analyze → General Linear Model → Univariate**. The only new element is the Covariate(s) box on the right. Move FertilizerType to Fixed Factor(s), FarmSizeAcres to Covariate(s), Yield_KgPerAcre to Dependent Variable. That single extra assignment turns your one-way ANOVA into an ANCOVA.' },
+
+        { type: 'steps', steps: [
+          { title: 'Open the dialog',
+            body: 'Analyze → General Linear Model → Univariate.' },
+          { title: 'Move Yield_KgPerAcre to Dependent Variable',
+            body: 'The continuous outcome.' },
+          { title: 'Move FertilizerType to Fixed Factor(s)',
+            body: 'Your grouping variable — three levels (DAP, CAN, Organic).' },
+          { title: 'Move FarmSizeAcres to Covariate(s)',
+            body: 'The nuisance variable you want to statistically control. THIS is the step that makes it ANCOVA rather than ANOVA.' },
+          { title: 'Click EM Means…',
+            body: 'Move FertilizerType into the "Display Means for" box. Tick "Compare main effects" and choose Bonferroni from the confidence-interval adjustment dropdown. Click Continue. This gives you the ADJUSTED means and pairwise comparisons between them.' },
+          { title: 'Click Options…',
+            body: 'Tick **Descriptive statistics**, **Estimates of effect size**, and **Homogeneity tests**. Click Continue.' },
+          { title: 'Click OK',
+            body: 'SPSS produces: Between-Subjects Factors, Descriptive Statistics, Levene\'s Test, the **Tests of Between-Subjects Effects** table (the covariate row + the factor row), and the **Estimated Marginal Means** table.' },
+        ]},
+
+        { type: 'reasoning', headers: ['Setting', 'What we chose', 'Why'],
+          rows: [
+            ['Dependent Variable', 'Yield_KgPerAcre', 'The continuous outcome we want to compare across fertilizer groups.'],
+            ['Fixed Factor', 'FertilizerType', 'The treatment we care about (DAP vs CAN vs Organic).'],
+            ['Covariate', 'FarmSizeAcres', 'Larger farms tend to yield more per acre. Groups differ on farm size. Controlling for it strengthens the treatment comparison.'],
+            ['EM Means → Compare main effects', 'Bonferroni', 'Gives adjusted pairwise comparisons with family-wise error control — safer than LSD.'],
+            ['Options → Effect size', 'Ticked', 'ANCOVA reporting requires partial η² for BOTH covariate and factor.'],
+            ['Options → Homogeneity tests', 'Ticked', 'Levene\'s test verifies equal variance across groups (a background ANOVA assumption).'],
+          ]},
+
+        { type: 'illustration', component: 'KiambuANCOVADialog',
+          caption: 'Figure 1. The Univariate GLM dialog set up for ANCOVA. Yield_KgPerAcre as Dependent Variable, FertilizerType as Fixed Factor, FarmSizeAcres in the Covariate(s) box (highlighted gold — this is what makes it ANCOVA). The EM Means button is highlighted because that is where you request adjusted means and pairwise comparisons.' },
+
+        { type: 'illustration', component: 'KiambuANCOVAOutput',
+          caption: 'Figure 2. ANCOVA output. Covariate FarmSizeAcres F(1, 176) = 24.83, p < .001, partial η² = .124 → farm size significantly predicts yield (the covariate is "doing its job"). FertilizerType F(2, 176) = 21.69, p < .001, partial η² = .198 (LARGE) → treatment effect remains after adjustment. The Estimated Marginal Means table gives ADJUSTED means: DAP 1832, CAN 1619, Organic 1453 (all evaluated at FarmSizeAcres = 2.34, the sample average).' },
+      ],
+    },
+
+    /* ════════════════════ 6. READING THE OUTPUT ════════════════════ */
     {
       id: 'reading-output',
       title: 'Reading the ANCOVA output',
       blocks: [
-        { type: 'heading', level: 2, text: 'Three tables you must report' },
+        { type: 'heading', level: 2, text: 'The two key tables' },
 
-        { type: 'illustration', component: 'AncovaOutput',
-          caption: 'Figure 4. The ANCOVA output. TOP — Tests of Between-Subjects Effects: the covariate row (kcpe_entry_score) shows whether the covariate significantly predicts the outcome (it usually does). The factor row (teaching_method) shows whether GROUP DIFFERENCES remain significant AFTER adjusting for the covariate. MIDDLE — Estimated Marginal Means: the ADJUSTED group means with standard errors and 95% CIs. BOTTOM — Pairwise Comparisons (Bonferroni-adjusted): which specific adjusted group means differ significantly.' },
-
-        { type: 'heading', level: 3, text: 'Table 1 — Tests of Between-Subjects Effects' },
+        { type: 'paragraph', text:
+          'ANCOVA output has two headline tables: (1) **Tests of Between-Subjects Effects** — the F-tests for the covariate and the factor; (2) **Estimated Marginal Means** — the adjusted group means and their pairwise comparisons.' },
 
         { type: 'comparison',
-          headers: ['Row', 'What it shows', 'What to do'],
+          headers: ['Row', 'What it tests', 'What to look at'],
           rows: [
-            ['**Corrected Model**', 'Whether the model as a whole (covariate + factor) explains variance.',                                  'Should be significant. If not, neither covariate nor factor matters.'],
-            ['**Intercept**',        'Tests whether the overall mean differs from zero.',                                                    'Usually significant; rarely interpreted.'],
-            ['**[Covariate name]**', 'Tests whether the covariate significantly predicts the outcome AFTER accounting for the factor.',       'Usually significant — confirms the covariate is doing useful work. Report partial η².'],
-            ['**[Factor name]**',    'THE KEY ROW: tests whether group means differ AFTER adjusting for the covariate.',                      'The hero result. Report F, df, p, partial η². Compare to the unadjusted one-way ANOVA F to see how much the covariate adjustment changed things.'],
-            ['**Error**',            'The within-groups variance left after the model has done its work.',                                    'Provides the error df. Lower error than ANOVA = ANCOVA more powerful when covariate is well-chosen.'],
+            ['**Corrected Model**', 'Does the whole model (covariate + factor) explain variance in Y?', 'Should be significant if any effect is present. R² tells overall model fit.'],
+            ['**Intercept**',       'Nuisance row — just the grand mean.',                              'Ignore.'],
+            ['**FarmSizeAcres**',   'Does the COVARIATE predict Y, holding group constant?',           'Sig. and partial η². If NOT significant, the covariate may not be worth including — but still report it.'],
+            ['**FertilizerType**',  'Do the ADJUSTED group means differ (after controlling for covariate)?', 'THE headline result. Sig. + partial η² for the treatment effect.'],
+            ['**Error**',           'Residual variance.',                                                'Informational.'],
+            ['**Corrected Total**', 'Total variance in Y.',                                              'Informational.'],
           ]},
 
-        { type: 'heading', level: 3, text: 'Table 2 — Estimated Marginal Means (the ADJUSTED means)' },
+        { type: 'heading', level: 3, text: 'Compare raw means vs adjusted means' },
 
         { type: 'paragraph', text:
-          'Lists each group\'s ADJUSTED mean (what the mean would be if every group had the GRAND MEAN value of the covariate), with standard error and 95% CI. **These are the means you report in your write-up — NOT the observed/raw descriptive means.** The descriptive means should also be reported separately for transparency, but interpretation centres on the adjusted means.' },
-
-        { type: 'heading', level: 3, text: 'Table 3 — Pairwise Comparisons (Bonferroni)' },
-
-        { type: 'paragraph', text:
-          'Lists every pairwise difference between adjusted group means, with the Bonferroni-adjusted p-value. This replaces Tukey HSD / Games-Howell from standard ANOVA. Reports which adjusted means differ from which.' },
-
-        { type: 'callout', tone: 'gold', title: 'Partial η² is the effect size',
-          body: 'For ANCOVA, the standard effect size is **partial η²** (NOT plain η²). Partial η² = SS_factor / (SS_factor + SS_error) — i.e. the proportion of variance in the outcome explained by the factor AFTER removing variance explained by the covariate. Benchmarks (Cohen): **.01 small, .06 medium, .14 large** — same as ANOVA. SPSS prints it in the Tests of Between-Subjects Effects table when you tick "Estimates of effect size" under Options.' },
+          'Always inspect both tables. Descriptive Statistics gives OBSERVED means (raw, unadjusted). Estimated Marginal Means gives ADJUSTED means (equalised on the covariate). If they are close → the covariate was not confounding the group comparison. If they differ substantially → the raw ANOVA was misleading, and the adjusted means are the ones you report.' },
 
         { type: 'reveal',
-          prompt: 'Your ANCOVA shows: KCPE entry score F(1, 116) = 89.2, p < .001, partial η² = .43; teaching method F(2, 116) = 4.1, p = .019, partial η² = .066. The original ANOVA (no covariate) had teaching method F(2, 117) = 5.8, p = .004. What do you conclude?',
-          answer: '**Teaching method remains a significant predictor of mock score even after adjusting for KCPE entry — but the effect is smaller than the unadjusted ANOVA suggested.** The unadjusted ANOVA reported F = 5.8, p = .004; once KCPE entry is controlled, the factor effect drops to F = 4.1, p = .019. Both are still significant, but partial η² = .066 indicates a medium effect rather than the larger apparent effect of the raw ANOVA. Substantively, some of the original "method effect" was driven by baseline differences in ability, but a genuine method effect remains. The covariate itself is highly significant (F = 89.2, p < .001, partial η² = .43) — KCPE entry score is a strong predictor of mock outcomes, which is unsurprising. Report both the unadjusted and adjusted analyses and emphasise the adjusted means as your main finding.' },
+          prompt: 'Your ANCOVA output shows: Covariate FarmSizeAcres F(1, 176) = 24.83, p < .001, partial η² = .12. FertilizerType F(2, 176) = 21.69, p < .001, partial η² = .20. Observed means DAP = 1840, CAN = 1620, Organic = 1450. Adjusted means DAP = 1832, CAN = 1619, Organic = 1453. What is the correct interpretation?',
+          answer: '**The fertilizer effect is real AND large, even after controlling for farm size.** (1) The covariate FarmSizeAcres significantly predicts yield (larger farms → more yield per acre), with a medium effect (η² = .12). (2) After removing the variance attributable to farm size, FertilizerType STILL has a large effect on yield (partial η² = .20, well above the .14 large-effect threshold). (3) The observed and adjusted means are almost identical (differences of 1–8 kg out of ~1500), meaning farm size was NOT a serious confounder — the raw ANOVA result holds up. (4) Report the ADJUSTED means (DAP 1832, CAN 1619, Organic 1453) in your Chapter 4 with a note that they are estimated marginal means adjusted for average farm size (2.34 acres). This is a "credibility-boosting" ANCOVA: your supervisor\'s concern was legitimate, you addressed it rigorously, and the conclusion survives.' },
       ],
     },
 
     /* ════════════════════ 7. WORKED EXAMPLE ════════════════════ */
     {
       id: 'worked-example',
-      title: 'Worked example — three teaching methods, KCPE as covariate',
+      title: 'Worked example — Kiambu ANCOVA',
       blocks: [
-        { type: 'workedExample', title: 'A Master\'s study at Maseno University',
+        { type: 'workedExample', title: 'A Master\'s study in agricultural economics at JKUAT',
           body: [
             { label: 'The research question',
-              text: 'Do three teaching methods (Traditional / Discussion / Flipped) produce different KCSE mock scores AFTER controlling for pupils\' baseline ability (KCPE entry score)?' },
+              text: 'Does maize yield differ significantly across three fertilizer types (DAP, CAN, Organic), AFTER controlling for the confounding effect of farm size?' },
             { label: 'The data',
-              text: 'n = 120 Form 4 pupils across three classes (40 per method). Outcome: **mock_score** (continuous, 0-500). Factor: **teaching_method** (1 = Traditional, 2 = Discussion, 3 = Flipped). Covariate: **kcpe_entry_score** (continuous, 100-500).' },
-            { label: 'Step 1 — Inspect descriptives',
-              text: 'Traditional: M_mock = 280, SD = 45, M_kcpe = 295. Discussion: M_mock = 310, SD = 42, M_kcpe = 315. Flipped: M_mock = 335, SD = 48, M_kcpe = 340. The Flipped class scored highest on the mock AND highest on KCPE entry — exactly the confound ANCOVA is designed to disentangle.' },
-            { label: 'Step 2 — Test homogeneity of regression slopes',
-              text: 'Univariate → Model → Custom → include teaching_method, kcpe_entry_score, teaching_method × kcpe_entry_score → OK. Interaction F(2, 114) = 0.42, p = .66 — non-significant. Slopes are homogeneous; standard ANCOVA is valid.' },
-            { label: 'Step 3 — Run the main ANCOVA',
-              text: 'Univariate → Model → Full factorial. Dependent = mock_score. Fixed Factor = teaching_method. Covariate = kcpe_entry_score. Options → Display Means for teaching_method, Compare main effects, Bonferroni, Descriptive statistics, Estimates of effect size, Homogeneity tests. OK.' },
-            { label: 'Step 4 — Check Levene\'s and read the main table',
-              text: 'Levene\'s F = 0.32, p = .73 — homogeneity of error variances met. Tests of Between-Subjects Effects: covariate F(1, 116) = 89.2, p < .001, partial η² = .43; teaching method F(2, 116) = 4.1, p = .019, partial η² = .066.' },
-            { label: 'Step 5 — Read the Estimated Marginal Means',
-              text: 'Adjusted means (at grand mean KCPE = 317): Traditional adjusted = 291, SE = 5.2. Discussion adjusted = 309, SE = 5.1. Flipped adjusted = 325, SE = 5.3. The gap between Flipped and Traditional shrank from 55 raw points to 34 adjusted points — but Flipped is still significantly higher.' },
-            { label: 'Step 6 — Read Pairwise Comparisons (Bonferroni)',
-              text: 'Traditional vs Discussion: adjusted MD = −18, p = .057 (n.s. after Bonferroni). Traditional vs Flipped: MD = −34, p = .009 (significant). Discussion vs Flipped: MD = −16, p = .12 (n.s.). The Flipped method significantly outperforms Traditional even after baseline adjustment; the Discussion-Flipped contrast is not significant after controlling for ability.' },
-            { label: 'Step 7 — APA write-up',
-              text: '*"A one-way ANCOVA was conducted to compare KCSE mock scores across three teaching methods (Traditional, n = 40; Discussion, n = 40; Flipped, n = 40), with KCPE entry score included as a covariate to control for pre-existing baseline ability. A preliminary test confirmed homogeneity of regression slopes, F(2, 114) = 0.42, p = .66, and Levene\'s test indicated homogeneity of error variances, F(2, 117) = 0.32, p = .73. KCPE entry score significantly predicted mock score, F(1, 116) = 89.2, p < .001, partial η² = .43. After adjusting for the covariate, teaching method remained a significant predictor of mock score, F(2, 116) = 4.1, p = .019, partial η² = .066, indicating a medium-sized effect. Adjusted (estimated marginal) means were: Traditional M_adj = 291 (SE = 5.2), Discussion M_adj = 309 (SE = 5.1), Flipped M_adj = 325 (SE = 5.3). Bonferroni-adjusted pairwise comparisons revealed that pupils taught by the Flipped method scored significantly higher than those taught by the Traditional method (adjusted MD = 34, p = .009); the Traditional-Discussion and Discussion-Flipped contrasts did not reach significance after adjustment. The findings suggest a genuine method effect — Flipped > Traditional — even when baseline ability is statistically held constant, although a substantial portion of the raw group differences in mock score was attributable to pre-existing KCPE entry-score differences across classes."*' },
+              text: 'N = 180 smallholder farms in Kiambu County. Fertilizer type: DAP (n = 60), CAN (n = 60), Organic (n = 60). Outcome: Yield_KgPerAcre (continuous). Covariate: FarmSizeAcres (continuous, range 0.5–6.2, mean 2.34).' },
+            { label: 'Step 1 — Check assumptions',
+              text: 'Homogeneity of slopes: Group × Covariate interaction F(2, 174) = 1.42, p = .246 → slopes equal, safe to proceed. Levene\'s p = .134 → equal variances. Scatterplot of FarmSize vs Yield roughly linear across all three groups. All ANCOVA assumptions met.' },
+            { label: 'Step 2 — Run the ANCOVA',
+              text: 'Analyze → GLM → Univariate → Yield_KgPerAcre Dependent, FertilizerType Fixed Factor, FarmSizeAcres Covariate → EM Means: FertilizerType, Compare main effects (Bonferroni) → Options: Descriptive, Effect size, Homogeneity → OK.' },
+            { label: 'Step 3 — Read the F-tests',
+              text: 'FarmSizeAcres (covariate): F(1, 176) = 24.83, p < .001, partial η² = .124 (medium — farm size predicts yield). FertilizerType (factor): F(2, 176) = 21.69, p < .001, partial η² = .198 (LARGE — fertilizer effect after adjustment).' },
+            { label: 'Step 4 — Compare observed vs adjusted means',
+              text: 'Observed: DAP 1840, CAN 1620, Organic 1450. Adjusted (at FarmSize = 2.34 acres): DAP 1832, CAN 1619, Organic 1453. Almost identical → farm size was not a serious confounder.' },
+            { label: 'Step 5 — Pairwise comparisons (Bonferroni)',
+              text: 'DAP vs CAN: adjusted mean difference = 213 kg/acre, p < .001. DAP vs Organic: 379 kg/acre, p < .001. CAN vs Organic: 166 kg/acre, p = .002. All three pairwise differences remain significant after covariate adjustment.' },
+            { label: 'Step 6 — APA write-up',
+              text: '*"A one-way analysis of covariance was conducted to examine differences in maize yield across three fertilizer types (DAP, CAN, Organic) among 180 smallholder farms in Kiambu County, controlling for farm size (acres) as a covariate. Assumption checks confirmed homogeneity of regression slopes (F(2, 174) = 1.42, p = .246) and homogeneity of variance (Levene\'s p = .134). The covariate was significantly related to yield, F(1, 176) = 24.83, p < .001, partial η² = .12, with larger farms producing higher yield per acre. After controlling for farm size, there was a significant effect of fertilizer type on yield, F(2, 176) = 21.69, p < .001, partial η² = .20, a large effect. Estimated marginal means (adjusted to the mean farm size of 2.34 acres) were 1,832 kg/acre for DAP, 1,619 kg/acre for CAN, and 1,453 kg/acre for Organic. Bonferroni-adjusted pairwise comparisons showed all three fertilizer types differed significantly from one another (all p < .01), with DAP producing the highest adjusted yield. The pattern of results was consistent with the unadjusted one-way ANOVA, confirming that the fertilizer effect is not attributable to farm-size differences across groups."*' },
           ]},
       ],
     },
@@ -251,52 +265,37 @@ export const ANCOVA_LESSON = {
         { type: 'heading', level: 2, text: 'The standard APA template' },
 
         { type: 'apa', text:
-          'A one-way ANCOVA was conducted to compare [OUTCOME] across [k] [groups description], with [COVARIATE] included as a covariate to control for [rationale for the covariate]. A preliminary test confirmed homogeneity of regression slopes, F([df1], [df2]) = [value], p = [value], and Levene\'s test indicated homogeneity of error variances, F([df1], [df2]) = [value], p = [value]. [Covariate] significantly predicted [outcome], F([df1], [df2]) = [value], p = [value], partial η² = [value]. After adjusting for the covariate, [factor] [was / was not] a significant predictor of [outcome], F([df1], [df2]) = [value], p = [value], partial η² = [value], indicating a [small / medium / large] effect. Adjusted means were: [Group 1] M_adj = [value] (SE = [value]), [Group 2] M_adj = [value] (SE = [value]), [Group 3] M_adj = [value] (SE = [value]). Bonferroni-adjusted pairwise comparisons revealed [list significant pairs with adjusted mean differences]. The findings suggest [substantive interpretation, contrasting with what the raw ANOVA would have shown].' },
+          'A one-way analysis of covariance was conducted to examine differences in [OUTCOME] across [K] levels of [FACTOR] among [N] [respondents], controlling for [COVARIATE] as a covariate. Homogeneity of regression slopes was [confirmed / violated]. Levene\'s test [was / was not] significant, indicating [equal / unequal] variances. The covariate was [significantly / non-significantly] related to [outcome], F([df]) = [F], p = [p], partial η² = [.XX]. After controlling for [covariate], there was a [significant / non-significant] effect of [factor] on [outcome], F([df]) = [F], p = [p], partial η² = [.XX]. Estimated marginal means (adjusted to the mean [covariate] of [X.XX]) were [group 1: MM], [group 2: MM], and [group 3: MM]. Bonferroni-adjusted pairwise comparisons showed [pattern].' },
 
-        { type: 'callout', tone: 'success', title: 'Eight things every ANCOVA write-up must include',
-          body: '**1.** Test name and rationale for the covariate. **2.** Homogeneity-of-slopes test result. **3.** Levene\'s test result. **4.** Covariate F, df, p, partial η². **5.** Factor F, df, p, partial η². **6.** ADJUSTED means with SEs per group (NOT raw means as the primary report). **7.** Pairwise comparison results (Bonferroni). **8.** Substantive interpretation noting how adjustment changed the picture from a raw ANOVA.' },
-
-        { type: 'reviewerComments',
-          items: [
-            { q: 'Why ANCOVA rather than one-way ANOVA?',
-              a: 'The three teaching-method groups were intact classes with markedly different baseline ability (KCPE entry-score means of 295, 315, and 340). A simple one-way ANOVA on mock scores would have confounded any genuine teaching-method effect with pre-existing differences in pupil ability. ANCOVA includes KCPE entry score as a continuous covariate, statistically equates the three groups on baseline ability, and tests whether group differences in mock scores remain after that adjustment. The result is a fairer comparison of methods.' },
-            { q: 'Did you check the homogeneity-of-regression-slopes assumption?',
-              a: 'Yes. A preliminary model was fitted with the teaching method × KCPE entry interaction included. The interaction was non-significant, F(2, 114) = 0.42, p = .66, confirming that the relationship between KCPE entry score and mock score was comparable across the three teaching-method groups. The standard ANCOVA model (without the interaction) was therefore appropriate.' },
-            { q: 'Why report ADJUSTED means rather than raw observed means?',
-              a: 'The adjusted (estimated marginal) means are the group means PREDICTED by the ANCOVA model at the grand mean of the covariate — i.e. they answer "what would each group\'s mean be if every group had identical baseline KCPE entry scores?". This is the central comparison ANCOVA is designed to make. Raw observed means confound the teaching-method effect with the baseline-ability differences that ANCOVA was used to control for. Both are reported (raw in the descriptive table; adjusted in the main results) so the reader can see how adjustment changed the picture.' },
-          ]},
+        { type: 'callout', tone: 'success', title: 'Five things every ANCOVA write-up needs',
+          body: '**1.** State the factor, covariate, and sample size. **2.** Report homogeneity-of-slopes and Levene\'s test results (assumption evidence). **3.** F, df, p, and partial η² for BOTH the covariate and the factor. **4.** ADJUSTED means (not observed means) plus the value of the covariate at which they are evaluated. **5.** Bonferroni-adjusted pairwise comparisons for the factor. Examiners look for all five.' },
       ],
     },
 
-    /* ════════════════════ 9. MISTAKES ════════════════════ */
+    /* ════════════════════ 9. COMMON MISTAKES ════════════════════ */
     {
       id: 'mistakes',
-      title: 'Five common ANCOVA mistakes',
+      title: 'Common ANCOVA mistakes',
       blocks: [
         { type: 'mistake',
-          title: 'Mistake 1 — Reporting the raw group means instead of the adjusted means',
-          body: 'You ran ANCOVA but in your Chapter 4 you put the raw observed means in the main results table. The reader cannot tell whether your "group differences" survived the covariate adjustment. ANCOVA was effectively decorative.',
-          fix: 'Always report the ADJUSTED (estimated marginal) means as the main result, with their SEs and 95% CIs. Raw means can appear in the descriptive table for context, but the interpretation must be based on adjusted means. The whole point of ANCOVA is the adjustment.' },
+          title: 'Mistake 1 — Reporting observed means instead of adjusted means',
+          body: 'You run ANCOVA, then report DAP 1840 / CAN 1620 / Organic 1450 in your results — the same numbers a one-way ANOVA would produce. But those are OBSERVED means, ignoring the covariate adjustment. The whole point of ANCOVA was to report the ADJUSTED numbers.',
+          fix: 'Always report the ESTIMATED MARGINAL MEANS from the EM Means table (DAP 1832 / CAN 1619 / Organic 1453 in the Kiambu example), and always state the covariate value they are adjusted to ("at the mean farm size of 2.34 acres"). Otherwise the reader cannot tell you actually ran ANCOVA.' },
 
         { type: 'mistake',
-          title: 'Mistake 2 — Using a covariate measured AFTER the treatment',
-          body: 'You ran an intervention and measured motivation BOTH before and after. You used the POST-treatment motivation score as a covariate when comparing intervention vs control groups on the outcome. But motivation may have been INFLUENCED by the intervention itself. Controlling for it removes part of the treatment effect — biasing your result toward null.',
-          fix: 'Covariates must be measured BEFORE the treatment or be variables the treatment cannot affect (age, gender, baseline ability). Post-treatment covariates contaminate the analysis. If you only have a post-treatment measure of a relevant nuisance variable, do not use it as a covariate.' },
+          title: 'Mistake 2 — Skipping the homogeneity of regression slopes check',
+          body: 'You go straight to the ANCOVA without testing whether the covariate–outcome relationship is the same across groups. If slopes differ, the ANCOVA F-test for the factor is biased and the adjusted means are misleading.',
+          fix: 'ALWAYS check the Group × Covariate interaction FIRST (Model → Build terms → add the interaction). If p > .05, remove the interaction and run the ANCOVA properly. If p < .05, do not use ANCOVA — consider moderation analysis or the Johnson-Neyman procedure. Report the test either way as evidence you checked.' },
 
         { type: 'mistake',
-          title: 'Mistake 3 — Skipping the homogeneity-of-slopes assumption test',
-          body: 'You ran ANCOVA, reported the adjusted means and the factor p-value, and never tested whether the covariate-outcome slope was the same in each group. The assumption may have been violated and your adjusted means may be misleading.',
-          fix: 'Always run the assumption test FIRST: include the factor × covariate interaction in a preliminary model. Confirm the interaction is non-significant. Report the test result, then re-run without the interaction for your main ANCOVA. If the interaction IS significant, report it as a moderation finding instead of standard ANCOVA.' },
+          title: 'Mistake 3 — Using a POST-treatment covariate',
+          body: 'You have a fertilizer study and someone suggests adding "Farmer_Satisfaction_Rating" (measured after harvest) as a covariate to "control for farmer effort". But satisfaction was influenced BY the harvest — it is post-treatment. Adjusting for it removes some of the treatment effect itself.',
+          fix: 'Covariates must be measured BEFORE the treatment or be logically independent of it (age, gender, baseline scores, farm size, KCPE entry score). Anything measured after the treatment, or that could plausibly have been affected by the treatment, cannot be a valid covariate.' },
 
         { type: 'mistake',
-          title: 'Mistake 4 — Adding too many covariates ("kitchen-sink ANCOVA")',
-          body: 'You added every variable that seemed relevant — age, gender, family income, distance from school, baseline score, etc. — until your significance result appeared. This is data-dredging and your reviewer will spot the inflated Type I error risk.',
-          fix: 'Pick covariates from theory and prior literature BEFORE running the analysis. Cite the rationale in your methods chapter. Two or three well-justified covariates is the norm; more than that needs strong justification. Pre-register your covariate list if possible.' },
-
-        { type: 'mistake',
-          title: 'Mistake 5 — Using ANCOVA on a covariate that is poorly correlated with the outcome',
-          body: 'You added a covariate that correlated r = .08 with the outcome. The covariate row is non-significant, the error df drops by 1, your power decreases, and you gained nothing.',
-          fix: 'A useful covariate should correlate at least r = .3 with the outcome (preferably more). Otherwise it just wastes a degree of freedom without removing meaningful nuisance variance. Check the covariate-outcome correlation before adding it — and drop covariates that contribute nothing.' },
+          title: 'Mistake 4 — Including too many covariates',
+          body: 'You add five covariates "just to be safe": farm size, rainfall, soil pH, farmer age, years of schooling. But now interpretation is a mess, degrees of freedom drain, and each covariate steals variance from the model in unpredictable ways.',
+          fix: 'Include 1–3 covariates that (a) are strongly justified by theory or prior evidence, and (b) actually correlate with the outcome. Report a Pearson r between each candidate covariate and Y before including it. Prefer parsimony — a clean ANCOVA with one well-chosen covariate is more publishable than a bloated one with five.' },
       ],
     },
 
@@ -307,22 +306,21 @@ export const ANCOVA_LESSON = {
       blocks: [
         { type: 'summary', items: [
           'ANCOVA = one-way ANOVA + one or more continuous covariates statistically controlled.',
-          'Conceptually: regress outcome on covariate first, then ANOVA the residuals. Reports ADJUSTED group means (as if every group had the same average covariate value).',
-          'Use when: comparing groups + a continuous nuisance variable that correlates with the outcome (baseline ability, age, income).',
-          'Critical: the covariate must be measured BEFORE the treatment or be unaffected by it. Pick covariates from theory before running.',
-          'Run via Analyze → General Linear Model → Univariate → outcome to Dependent, factor to Fixed Factor(s), covariate to Covariate(s) → Options tick Display Means, Compare main effects (Bonferroni), Descriptive statistics, Estimates of effect size, Homogeneity tests → OK.',
-          'TEST the homogeneity-of-regression-slopes assumption FIRST by including factor × covariate interaction. p > .05 = met; proceed with standard ANCOVA.',
-          'Report: covariate F/p/partial η²; factor F/p/partial η²; ADJUSTED means with SEs; Bonferroni pairwise comparisons.',
-          'Effect size: partial η² (.01 small, .06 medium, .14 large).',
-          'Always report BOTH the unadjusted and adjusted findings — readers want to see how much the adjustment changed things.',
-          'Five mistakes to avoid: reporting raw means, post-treatment covariates, skipping homogeneity test, kitchen-sink covariates, useless covariates (r < .3).',
+          'Answers: "Do the groups differ AFTER equalising them on the covariate?"',
+          'Reports two effects: the COVARIATE (does it predict Y?) and the FACTOR (does the treatment matter after adjustment?).',
+          'Report ADJUSTED (estimated marginal) means — NOT observed means — plus the covariate value they are evaluated at.',
+          'Three ANCOVA-specific assumptions: covariate measured pre-treatment, linear covariate–outcome relationship, homogeneity of regression slopes (Group × Covariate interaction NON-significant).',
+          'Menu: Analyze → General Linear Model → Univariate. Fixed Factor = grouping variable. Covariate(s) = the continuous nuisance variable. EM Means for adjusted means and Bonferroni pairwise.',
+          'Effect size = partial η² (.01 small, .06 medium, .14 large) for BOTH covariate and factor.',
+          'Kiambu example: FertilizerType partial η² = .198 (large) after adjusting for FarmSizeAcres — fertilizer effect is real, not confounded by farm size.',
+          'Avoid the four mistakes: reporting observed instead of adjusted means, skipping the slopes check, using post-treatment covariates, including too many covariates.',
         ]},
 
         { type: 'callout', tone: 'gold', title: 'Up next',
-          body: 'In **Lesson 2: MANOVA** we extend the comparison to MULTIPLE outcome variables at once — when you want to compare groups on a SET of related outcomes (e.g. three teaching methods on five different subject scores) jointly.' },
+          body: 'In **Lesson 2: MANOVA** — compare groups on MULTIPLE outcomes simultaneously. When you have several correlated outcomes (yield AND grain quality; anxiety AND depression AND stress), running separate ANOVAs inflates Type I error. MANOVA is the principled multivariate alternative.' },
 
         { type: 'paragraph', text:
-          'Before moving on, find a dataset with a factor (3+ groups), a continuous outcome, and a continuous nuisance variable. Test homogeneity of slopes, run ANCOVA, report the adjusted means and Bonferroni pairwise comparisons in APA. Compare with the unadjusted ANOVA result. Then come back for the knowledge check.' },
+          'Before moving on, take a dataset with a grouping variable and one continuous covariate. Run ANCOVA in SPSS. Check the homogeneity-of-slopes assumption. Compare observed vs adjusted means. Then come back for the knowledge check.' },
       ],
     },
 
@@ -332,70 +330,70 @@ export const ANCOVA_LESSON = {
       title: 'Knowledge check',
       blocks: [
         { type: 'check',
-          question: 'What does ANCOVA do that one-way ANOVA does not?',
+          question: 'What is the main purpose of adding a covariate to an ANOVA (i.e. running ANCOVA)?',
           choices: [
-            'Tests interactions between two factors',
-            'Statistically controls for one or more continuous nuisance variables (covariates) and reports group means ADJUSTED to a common covariate value',
-            'Handles repeated measures',
-            'Computes Cronbach\'s alpha',
+            'To make the analysis more complicated',
+            'To statistically REMOVE the effect of a nuisance variable so the group comparison is fairer',
+            'To increase the number of groups',
+            'To replace one-way ANOVA when you have too many participants',
           ],
           answer: 1,
-          explanation: 'ANCOVA = ANOVA + covariate(s). It fits a regression of outcome on the covariate AND an ANOVA on the residuals simultaneously. Output reports group differences AFTER adjusting for the covariate — i.e. "what would the group means look like if every group had identical covariate values?". This is exactly the right tool when groups have pre-existing baseline differences on a nuisance variable.' },
+          explanation: 'ANCOVA adjusts group means as if every group had the same average value on the covariate, then compares those ADJUSTED means. This removes the covariate\'s share of the variance from the group comparison — critical when groups differ on the covariate in ways that could confound your treatment effect.' },
 
         { type: 'check',
-          question: 'You ran ANCOVA. Which means should you report as your main result?',
+          question: 'In the Kiambu ANCOVA, observed means were DAP 1840, CAN 1620, Organic 1450. Adjusted means were DAP 1832, CAN 1619, Organic 1453. What does the near-identity of these two sets tell you?',
           choices: [
-            'The raw observed group means from the descriptive statistics',
-            'The ADJUSTED (estimated marginal) means — the model-predicted means at the grand mean of the covariate',
-            'Both — but interpret based on whichever supports your hypothesis',
-            'Neither — only report the p-value',
+            'The ANCOVA was run incorrectly',
+            'FarmSizeAcres was not a serious confounder — the fertilizer effect holds up after controlling for it',
+            'You should remove the covariate',
+            'The three groups do not really differ',
           ],
           answer: 1,
-          explanation: 'The whole point of ANCOVA is the adjustment. The adjusted (estimated marginal) means represent each group AS IF every group had the same average covariate value — answering the central ANCOVA question fairly. Raw means confound the group effect with baseline differences. Always report adjusted means with SEs as the primary result; raw means can appear in the descriptive table for context.' },
+          explanation: 'When observed and adjusted means are nearly identical, the covariate was not confounding the group comparison. The original one-way ANOVA conclusion (DAP wins) is credible — it was not driven by DAP farms happening to be bigger. This is a "credibility-boosting" ANCOVA finding: you addressed the concern rigorously and the answer survived.' },
 
         { type: 'check',
-          question: 'Why must the homogeneity-of-regression-slopes assumption be checked BEFORE the main ANCOVA?',
+          question: 'What is the "homogeneity of regression slopes" assumption in ANCOVA, and how do you test it?',
           choices: [
-            'It is just a formality',
-            'If the covariate-outcome slope differs across groups (interaction is significant), standard ANCOVA is invalid — the adjusted means become misleading because the covariate adjustment is doing different things in different groups',
-            'It saves computation time',
-            'SPSS won\'t run ANCOVA without it',
+            'That variances are equal across groups; test with Levene\'s',
+            'That the covariate-outcome relationship is the SAME across groups; test by adding a Group × Covariate interaction — it should be NON-significant',
+            'That the outcome is normally distributed',
+            'That sample sizes are equal',
           ],
           answer: 1,
-          explanation: 'ANCOVA assumes the covariate-outcome relationship has the same slope in every group. If slopes differ markedly (factor × covariate interaction is significant), the very concept of "adjusting" each group\'s mean by the covariate becomes incoherent — the adjustment varies by group. Run a preliminary model with the interaction included; if non-significant, proceed with standard ANCOVA. If significant, report the interaction as a moderation finding.' },
+          explanation: 'ANCOVA assumes the slope of Y-on-covariate is the same in every group (so one adjustment fits all). Test by fitting a preliminary model with the Group × Covariate interaction term. If p > .05, slopes are equal and ANCOVA is valid. If p < .05, slopes differ and simple ANCOVA is inappropriate — consider moderation analysis instead.' },
 
         { type: 'check',
-          question: 'You used post-treatment motivation as a covariate when comparing intervention vs control on the outcome. Why is this problematic?',
+          question: 'Which of the following is NOT a valid covariate for a study comparing three teaching methods on end-of-term exam scores?',
           choices: [
-            'It is not problematic',
-            'Motivation may have been INFLUENCED by the intervention. Controlling for it removes part of the treatment effect itself, biasing your result toward null',
-            'Motivation is too easy to measure',
-            'SPSS does not accept post-treatment covariates',
+            'KCPE entry score (measured on admission, before treatment)',
+            'Pupil age (measured at study start)',
+            'Family income (measured at study start)',
+            'Pupil satisfaction with the teaching method (measured at end of term)',
           ],
-          answer: 1,
-          explanation: 'Covariates must be measured BEFORE the treatment or be variables the treatment cannot affect (e.g. age, gender, baseline ability). A post-treatment covariate that the treatment itself may have changed acts as a "mediator-in-disguise" — adjusting for it removes part of the very effect you are trying to measure. This is one of the most common ANCOVA misuses in applied research.' },
+          answer: 3,
+          explanation: 'Covariates must be measured BEFORE the treatment (or be logically independent of it). Pupil satisfaction was measured AFTER the treatment and was almost certainly influenced by it — treating it as a covariate would remove some of the treatment effect itself, biasing the results. The other three are pre-treatment variables and are valid.' },
 
         { type: 'check',
-          question: 'Your unadjusted ANOVA: F(2, 117) = 5.8, p = .004. ANCOVA with KCPE entry as covariate: F(2, 116) = 4.1, p = .019, partial η² = .07. What changed and what do you conclude?',
+          question: 'When you write up ANCOVA results, which means should you report as the primary result?',
           choices: [
-            'The teaching method effect disappeared after adjustment',
-            'The teaching method effect remains significant but is SMALLER than the unadjusted ANOVA suggested. Some of the raw "method effect" was driven by pre-existing baseline differences in KCPE entry score, but a genuine, medium-sized method effect remains after adjustment',
-            'The covariate did all the work',
-            'You should switch to MANOVA',
+            'Observed (raw) means',
+            'Estimated marginal means (adjusted means), together with the value of the covariate at which they are evaluated',
+            'Both, but observed means first',
+            'Only the group with the highest mean',
           ],
           answer: 1,
-          explanation: 'Both are significant but F dropped from 5.8 to 4.1 and partial η² of .07 indicates a medium effect, not the larger apparent effect of the raw ANOVA. Substantively: some of the unadjusted group difference was confounded with baseline ability, but a genuine teaching-method effect survives the adjustment. Always report BOTH analyses and explain how adjustment changed the picture — that contrast is often the most informative part of an ANCOVA result.' },
+          explanation: 'The whole point of ANCOVA is to compare ADJUSTED (estimated marginal) means. Report those, together with the value of the covariate at which they are computed (e.g. "adjusted to the mean farm size of 2.34 acres"). You can mention observed means for context, but the ADJUSTED means are the ones your F-test refers to and the ones your interpretation must reflect.' },
 
         { type: 'check',
-          question: 'You added 6 covariates to your ANCOVA, including some you hadn\'t pre-specified, because the model "looked better" with them. What\'s the problem?',
+          question: 'Your ANCOVA shows: FarmSize covariate F(1, 176) = 24.83, p < .001, partial η² = .12. FertilizerType F(2, 176) = 21.69, p < .001, partial η² = .20. How do you interpret?',
           choices: [
-            'Nothing — more covariates means more control',
-            'Adding covariates post-hoc to make results "look better" is DATA DREDGING. It inflates Type I error and your p-values are no longer trustworthy. Pre-specify covariates based on theory and prior literature; document the list in your methods chapter',
-            'Six covariates is too few',
-            'You needed to run MANOVA instead',
+            '"Only farm size matters."',
+            '"Only fertilizer matters."',
+            '"Both farm size and fertilizer independently predict yield. Larger farms yield more, AND after removing that effect, fertilizer type still has a LARGE effect on yield (partial η² = .20)."',
+            '"Nothing is significant."',
           ],
-          answer: 1,
-          explanation: 'Selecting covariates after seeing what makes the result significant is data-dredging — it inflates Type I error and undermines the entire inferential framework. Pick covariates from theory before running, document them with citations in your methods chapter, and stick to that list. 2-3 well-justified covariates is the norm; more requires strong justification.' },
+          answer: 2,
+          explanation: 'Option C hits both effects and their interpretation correctly. The covariate (farm size) is significant AND the factor (fertilizer) is significant even after removing farm-size variance. This is exactly what a well-designed ANCOVA hopes to show: the treatment effect survives adjustment for a plausible confounder, strengthening the causal argument.' },
       ],
     },
   ],
