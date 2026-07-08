@@ -127,7 +127,7 @@ export default function Pricing() {
         <p className="mt-4 text-xs text-slate-500 italic">
           Notes on discounted pricing: <strong>Master Decision Tree</strong> unlocks free once you've paid for 2 lessons.
           <strong> Data Cleaning Basics</strong> is KES 500, but drops to KES 250 once you own 3 or more paid lessons.
-          <strong> Writing Up</strong> is sold as a package — both lessons together for KES 1,500.
+          <strong> Writing Up</strong> is sold as a package — both lessons together for KES 1,250.
         </p>
       </section>
 
